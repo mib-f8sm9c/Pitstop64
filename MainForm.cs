@@ -12,6 +12,7 @@ using System.IO;
 using MK64Pitstop.Services;
 using MK64Pitstop.Modules;
 using System.Reflection;
+using Cereal64.Common.Utils;
 
 namespace MK64Pitstop
 {
@@ -104,7 +105,8 @@ namespace MK64Pitstop
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
-                File.WriteAllBytes(saveFileDialog.FileName, newRomData);
+                if(N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
+                    File.WriteAllBytes(saveFileDialog.FileName, newRomData);
             }
         }
 
@@ -148,6 +150,11 @@ namespace MK64Pitstop
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SelectedModule = ModuleFactory.Modules.About;
+        }
+
+        private void kartsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedModule = ModuleFactory.Modules.Karts;
         }
     }
 }

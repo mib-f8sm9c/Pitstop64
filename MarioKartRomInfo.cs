@@ -101,13 +101,13 @@ namespace MK64Pitstop
 
         public enum OriginalCharacters
         {
+            Mario = 0,
             Luigi,
-            Mario,
-            Yoshi,
             Peach,
-            Wario,
             Toad,
+            Yoshi,
             DK,
+            Wario,
             Bowser
         }
 

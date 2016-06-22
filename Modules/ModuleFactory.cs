@@ -11,6 +11,7 @@ namespace MK64Pitstop.Modules
         public enum Modules
         {
             Textures,
+            Karts,
             About
         }
 
@@ -26,6 +27,9 @@ namespace MK64Pitstop.Modules
             {
                 case Modules.Textures:
                     newModule = new Textures.TexturesModule();
+                    break;
+                case Modules.Karts:
+                    newModule = new Karts.KartModule();
                     break;
                 case Modules.About:
                     newModule = new About.AboutModule();
