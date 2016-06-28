@@ -14,22 +14,7 @@ namespace MK64Pitstop.Modules.Karts
 
         public void UpdateRomData()
         {
-            _block = null;
-
-            //Load the kart info here
-            if (RomProject.Instance.Files.Count > 0)
-            {
-                foreach (N64DataElement element in RomProject.Instance.Files[0].Elements)
-                {
-                    if (element is KartGraphicsReferenceBlock)
-                    {
-                        _block = (KartGraphicsReferenceBlock)element;
-                    }
-                }
-            }
-
-            if (_block != null)
-                _control.UpdateReferences(_block);
+            _control.UpdateReferences();
         }
 
         public System.Windows.Forms.Control Control

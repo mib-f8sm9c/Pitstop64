@@ -46,12 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\TextBankBlock.cs" />
     <Compile Include="Data\CourseDataReferenceEntry.cs" />
     <Compile Include="Data\ImageMIO0Block.cs" />
     <Compile Include="Data\KartGraphicsReferenceBlock.cs" />
     <Compile Include="Data\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
-    <Compile Include="Data\TextBankBlock.cs" />
+    <Compile Include="Data\TextReferenceBlock.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -61,6 +62,18 @@
     </Compile>
     <Compile Include="MarioKart64Loader.cs" />
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Karts\AddImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\AddImageForm.Designer.cs">
+      <DependentUpon>AddImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\NewAnimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\NewAnimForm.Designer.cs">
+      <DependentUpon>NewAnimForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Karts\KartControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -102,6 +115,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\AddImageForm.resx">
+      <DependentUpon>AddImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\NewAnimForm.resx">
+      <DependentUpon>NewAnimForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\KartControl.resx">
       <DependentUpon>KartControl.cs</DependentUpon>

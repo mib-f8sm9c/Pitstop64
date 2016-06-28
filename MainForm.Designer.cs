@@ -42,12 +42,12 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlCurrentView = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -155,9 +155,16 @@
             // texturesToolStripMenuItem
             // 
             this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
-            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.texturesToolStripMenuItem.Text = "Textures";
             this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            // 
+            // kartsToolStripMenuItem
+            // 
+            this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
+            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.kartsToolStripMenuItem.Text = "Karts";
+            this.kartsToolStripMenuItem.Click += new System.EventHandler(this.kartsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -187,12 +194,10 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // kartsToolStripMenuItem
+            // saveProjectDialog
             // 
-            this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
-            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.kartsToolStripMenuItem.Text = "Karts";
-            this.kartsToolStripMenuItem.Click += new System.EventHandler(this.kartsToolStripMenuItem_Click);
+            this.saveProjectDialog.FileName = "newProject";
+            this.saveProjectDialog.Filter = "Rom Project|*.romproj";
             // 
             // MainForm
             // 

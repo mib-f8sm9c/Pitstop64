@@ -47,5 +47,10 @@ namespace MK64Pitstop.Data
             xml.Add(new XAttribute(IMAGE_NAME, ImageName));
             return xml;
         }
+
+        public override string ToString()
+        {
+            return ImageName;
+        }
     }
 }
