@@ -138,13 +138,19 @@ namespace MK64Pitstop.Data
 
         public KartImagePool(XElement xml)
         {
-            int paletteOffset = int.Parse(xml.Attribute(PALETTE_OFFSET).Value);
+            int paletteOffset;
+            if (xml.Attribute(PALETTE_OFFSET) != null)
+                paletteOffset = int.Parse(xml.Attribute(PALETTE_OFFSET).Value);
+            else
+                paletteOffset = -2;
             N64DataElement existingPalette;
             if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
                 (existingPalette = RomProject.Instance.Files[0].GetElementAt(paletteOffset)) is Palette)
             {
                 ImagePalette = (Palette)existingPalette;
             }
+            else
+                ImagePalette = null;
             //else //This should never be necessary, I'd prefer this to break than to have this use-case
             //{
             //    byte[] paletteData = new byte[0x200]; //256 2-byte color values
@@ -193,7 +199,8 @@ namespace MK64Pitstop.Data
         {
             XElement xml = new XElement(KART_IMAGE_POOL); //Can derive actual type from name with N64DataElementFactory
 
-            xml.Add(new XAttribute(PALETTE_OFFSET, ImagePalette.FileOffset));
+            if(ImagePalette != null)
+                xml.Add(new XAttribute(PALETTE_OFFSET, ImagePalette.FileOffset));
 
             XElement xmlImages = new XElement(IMAGES);
             foreach (string key in Images.Keys)

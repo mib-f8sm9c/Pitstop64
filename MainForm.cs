@@ -75,6 +75,8 @@ namespace MK64Pitstop
                 statusBarFile.Text = "New Project";
 
                 MarioKart64Reader.ReadRom();
+
+                UpdateSelectedModule();
             }
         }
 
@@ -88,6 +90,8 @@ namespace MK64Pitstop
                 statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
 
                 MarioKart64Reader.ReadRom();
+
+                UpdateSelectedModule();
             }
         }
 

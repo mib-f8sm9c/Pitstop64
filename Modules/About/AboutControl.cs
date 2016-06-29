@@ -15,11 +15,22 @@ namespace MK64Pitstop.Modules.About
         public AboutControl()
         {
             InitializeComponent();
+
+            UpdateControl();
         }
 
         public void UpdateControl()
         {
-
+            if (RomProject.Instance.Files.Count > 0)
+            {
+                btnResizeRom.Enabled = true;
+                txt.Enabled = true;
+            }
+            else
+            {
+                btnResizeRom.Enabled = false;
+                txt.Enabled = false;
+            }
         }
 
         private void btnResizeRom_Click(object sender, EventArgs e)

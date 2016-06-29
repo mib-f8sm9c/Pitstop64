@@ -202,6 +202,9 @@ namespace MK64Pitstop.Modules.Karts
             lbKarts.Items.Clear();
             cbKartList.Items.Clear();
 
+            if (MarioKart64ElementHub.Instance.Karts.Count == 0)
+                return;
+
             foreach (KartInfo kart in MarioKart64ElementHub.Instance.SelectedKarts)
             {
                 lbKarts.Items.Add(kart);
@@ -267,11 +270,18 @@ namespace MK64Pitstop.Modules.Karts
 
             if (lbAnimations.Items.Count > 0)
                 lbAnimations.SelectedIndex = 0;
+            else
+            {
+                lbAnimImages.Items.Clear();
+                SetImageButtonsEnabled();
+            }
         }
 
         private void lbAnimations_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Populate the animation edit group
+            SetImageButtonsEnabled();
+
             PopulateAnimationWindow();
         }
 
@@ -322,6 +332,9 @@ namespace MK64Pitstop.Modules.Karts
             cbCurrentKart.Items.Clear();
             KartInfoCopies.Clear();
 
+            if (MarioKart64ElementHub.Instance.Karts.Count == 0)
+                return;
+
             foreach (KartInfo kart in MarioKart64ElementHub.Instance.Karts)
             {
                 //MarioKart used for overlay
@@ -365,6 +378,34 @@ namespace MK64Pitstop.Modules.Karts
         #endregion
 
         #region AnimationWindow
+        
+        private void SetImageButtonsEnabled()
+        {
+            if(lbAnimations.SelectedIndex == -1)
+            {
+                pbImage.Image = null;
+                pbOverlay.Image = null;
+                btnAnimImageAdd.Enabled = false;
+                btnAnimImageRemove.Enabled = false;
+                btnAnimationsDelete.Enabled = false;
+                btnAnimImageUp.Enabled = false;
+                btnAnimImageDown.Enabled = false;
+                btnAnimImageDuplicate.Enabled = false;
+                cbOverlayKart.Enabled = false;
+                gbAnimationType.Enabled = false;
+            }
+            else
+            {
+                btnAnimImageAdd.Enabled = true;
+                btnAnimImageRemove.Enabled = true;
+                btnAnimationsDelete.Enabled = true;
+                btnAnimImageUp.Enabled = true;
+                btnAnimImageDown.Enabled = true;
+                btnAnimImageDuplicate.Enabled = true;
+                cbOverlayKart.Enabled = true;
+                gbAnimationType.Enabled = true;
+            }
+        }
 
         private KartImage SelectedImage
         {
@@ -486,6 +527,11 @@ namespace MK64Pitstop.Modules.Karts
                 else
                     lbAnimImages.SelectedIndex = 0;
             }
+            else
+            {
+                pbImage.Image = null;
+                pbOverlay.Image = null;
+            }
         }
 
         private void lbAnimImages_SelectedIndexChanged(object sender, EventArgs e)
@@ -579,7 +625,11 @@ namespace MK64Pitstop.Modules.Karts
             if (form.ShowDialog() == DialogResult.OK)
             {
                 //Get the form.ImageName image
-                int newIndexToAdd = lbAnimImages.SelectedIndex + 1;
+                int newIndexToAdd;
+                if (lbAnimImages.SelectedIndex == -1)
+                    newIndexToAdd = lbAnimImages.Items.Count;
+                else
+                    newIndexToAdd = lbAnimImages.SelectedIndex + 1;
                 lbAnimImages.Items.Insert(newIndexToAdd, form.SelectedImage);
                 SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, form.SelectedImage.Name);
 

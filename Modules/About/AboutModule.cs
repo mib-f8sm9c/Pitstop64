@@ -9,7 +9,7 @@ namespace MK64Pitstop.Modules.About
     {
         public void UpdateRomData()
         {
-
+            _control.UpdateControl();
         }
 
         public System.Windows.Forms.Control Control

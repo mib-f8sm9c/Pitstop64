@@ -58,14 +58,18 @@
             this.openProjectDialog.FileName = "openFileDialog";
             this.openProjectDialog.Filter = "Rom Project|*.romproj";
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "ROM file|*.z64";
+            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarFile});
-            this.statusStrip.Location = new System.Drawing.Point(0, 357);
+            this.statusStrip.Location = new System.Drawing.Point(0, 498);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip.Size = new System.Drawing.Size(842, 22);
+            this.statusStrip.Size = new System.Drawing.Size(684, 22);
             this.statusStrip.TabIndex = 0;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -84,7 +88,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(842, 24);
+            this.menuStrip.Size = new System.Drawing.Size(684, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -187,12 +191,13 @@
             this.pnlCurrentView.Location = new System.Drawing.Point(0, 24);
             this.pnlCurrentView.Margin = new System.Windows.Forms.Padding(4);
             this.pnlCurrentView.Name = "pnlCurrentView";
-            this.pnlCurrentView.Size = new System.Drawing.Size(842, 333);
+            this.pnlCurrentView.Size = new System.Drawing.Size(684, 474);
             this.pnlCurrentView.TabIndex = 2;
             // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "ROM file|*.z64";
             // 
             // saveProjectDialog
             // 
@@ -203,7 +208,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 379);
+            this.ClientSize = new System.Drawing.Size(684, 520);
             this.Controls.Add(this.pnlCurrentView);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
