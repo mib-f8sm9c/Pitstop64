@@ -31,6 +31,7 @@
             this.openProjectDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusBarFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,14 +40,14 @@
             this.saveProjectAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlCurrentView = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.statusBarFile = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -57,16 +58,26 @@
             this.openProjectDialog.FileName = "openFileDialog";
             this.openProjectDialog.Filter = "Rom Project|*.romproj";
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "ROM file|*.z64";
+            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarFile});
-            this.statusStrip.Location = new System.Drawing.Point(0, 357);
+            this.statusStrip.Location = new System.Drawing.Point(0, 498);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip.Size = new System.Drawing.Size(842, 22);
+            this.statusStrip.Size = new System.Drawing.Size(684, 22);
             this.statusStrip.TabIndex = 0;
             this.statusStrip.Text = "statusStrip";
+            // 
+            // statusBarFile
+            // 
+            this.statusBarFile.Name = "statusBarFile";
+            this.statusBarFile.Size = new System.Drawing.Size(71, 17);
+            this.statusBarFile.Text = "New Project";
             // 
             // menuStrip
             // 
@@ -77,7 +88,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(842, 24);
+            this.menuStrip.Size = new System.Drawing.Size(684, 24);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -136,6 +147,29 @@
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.texturesToolStripMenuItem,
+            this.kartsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // texturesToolStripMenuItem
+            // 
+            this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
+            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.texturesToolStripMenuItem.Text = "Textures";
+            this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            // 
+            // kartsToolStripMenuItem
+            // 
+            this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
+            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.kartsToolStripMenuItem.Text = "Karts";
+            this.kartsToolStripMenuItem.Click += new System.EventHandler(this.kartsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -147,7 +181,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -157,39 +191,24 @@
             this.pnlCurrentView.Location = new System.Drawing.Point(0, 24);
             this.pnlCurrentView.Margin = new System.Windows.Forms.Padding(4);
             this.pnlCurrentView.Name = "pnlCurrentView";
-            this.pnlCurrentView.Size = new System.Drawing.Size(842, 333);
+            this.pnlCurrentView.Size = new System.Drawing.Size(684, 474);
             this.pnlCurrentView.TabIndex = 2;
             // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "ROM file|*.z64";
             // 
-            // statusBarFile
+            // saveProjectDialog
             // 
-            this.statusBarFile.Name = "statusBarFile";
-            this.statusBarFile.Size = new System.Drawing.Size(71, 17);
-            this.statusBarFile.Text = "New Project";
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.texturesToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // texturesToolStripMenuItem
-            // 
-            this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
-            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.texturesToolStripMenuItem.Text = "Textures";
-            this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            this.saveProjectDialog.FileName = "newProject";
+            this.saveProjectDialog.Filter = "Rom Project|*.romproj";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 379);
+            this.ClientSize = new System.Drawing.Size(684, 520);
             this.Controls.Add(this.pnlCurrentView);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
@@ -228,6 +247,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statusBarFile;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem texturesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kartsToolStripMenuItem;
     }
 }
 

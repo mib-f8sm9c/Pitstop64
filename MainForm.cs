@@ -12,6 +12,8 @@ using System.IO;
 using MK64Pitstop.Services;
 using MK64Pitstop.Modules;
 using System.Reflection;
+using Cereal64.Common.Utils;
+using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 
 namespace MK64Pitstop
 {
@@ -42,6 +44,7 @@ namespace MK64Pitstop
             pnlCurrentView.Controls.Clear();
             IModule module = ModuleFactory.GetModule(SelectedModule);
             pnlCurrentView.Controls.Add(module.Control);
+            module.Control.Dock = DockStyle.Fill;
             module.UpdateRomData();
         }
 
@@ -50,6 +53,13 @@ namespace MK64Pitstop
             InitializeComponent();
             SelectedModule = ModuleFactory.Modules.About;
             N64DataElementFactory.AddN64ElementsFromAssembly(Assembly.GetExecutingAssembly());
+            N64DataElementFactory.AddN64ElementsFromAssembly(Assembly.GetAssembly(typeof(F3DEXCommand)));
+            RomItemFactory.AddRomItemsFromAssembly(Assembly.GetExecutingAssembly());
+            RomItemFactory.AddRomItemsFromAssembly(Assembly.GetAssembly(typeof(F3DEXCommand)));
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            this.Text = string.Format("Mario Kart 64 Pitstop V{0}", fvi.ProductVersion);
         }
 
         public void NewProject()
@@ -65,6 +75,8 @@ namespace MK64Pitstop
                 statusBarFile.Text = "New Project";
 
                 MarioKart64Reader.ReadRom();
+
+                UpdateSelectedModule();
             }
         }
 
@@ -78,6 +90,8 @@ namespace MK64Pitstop
                 statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
 
                 MarioKart64Reader.ReadRom();
+
+                UpdateSelectedModule();
             }
         }
 
@@ -104,7 +118,8 @@ namespace MK64Pitstop
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
-                File.WriteAllBytes(saveFileDialog.FileName, newRomData);
+                if(N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
+                    File.WriteAllBytes(saveFileDialog.FileName, newRomData);
             }
         }
 
@@ -148,6 +163,11 @@ namespace MK64Pitstop
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SelectedModule = ModuleFactory.Modules.About;
+        }
+
+        private void kartsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedModule = ModuleFactory.Modules.Karts;
         }
     }
 }

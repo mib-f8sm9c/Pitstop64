@@ -46,9 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\TextBankBlock.cs" />
     <Compile Include="Data\CourseDataReferenceEntry.cs" />
+    <Compile Include="Data\ImageMIO0Block.cs" />
+    <Compile Include="Data\KartGraphicsReferenceBlock.cs" />
+    <Compile Include="Data\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
-    <Compile Include="Data\TextureMIORef.cs" />
+    <Compile Include="Data\TextReferenceBlock.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -58,6 +62,25 @@
     </Compile>
     <Compile Include="MarioKart64Loader.cs" />
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Karts\AddImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\AddImageForm.Designer.cs">
+      <DependentUpon>AddImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\NewAnimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\NewAnimForm.Designer.cs">
+      <DependentUpon>NewAnimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\KartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\KartControl.Designer.cs">
+      <DependentUpon>KartControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\KartModule.cs" />
     <Compile Include="Modules\ModuleFactory.cs" />
     <Compile Include="Modules\About\AboutControl.cs">
       <SubType>UserControl</SubType>
@@ -79,6 +102,7 @@
     <Compile Include="Services\F3DEXPacker.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\MarioKart64ElementHub.cs" />
     <Compile Include="Services\MarioKart64Reader.cs" />
     <Compile Include="Services\TKMK00Encoder.cs">
       <SubType>Code</SubType>
@@ -91,6 +115,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\AddImageForm.resx">
+      <DependentUpon>AddImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\NewAnimForm.resx">
+      <DependentUpon>NewAnimForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\KartControl.resx">
+      <DependentUpon>KartControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\TexturesControl.resx">
       <DependentUpon>TexturesControl.cs</DependentUpon>
