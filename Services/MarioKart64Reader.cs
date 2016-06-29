@@ -21,7 +21,8 @@ namespace MK64Pitstop.Services
             //Now read the different data bits here, if they haven't been read in yet
             for (int i = 0; i < MarioKartRomInfo.TKMK00TextureLocations.Length; i++)
             {
-                if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset))
+                N64DataElement preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
+                if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
                 {
                     ushort alpha = MarioKartRomInfo.TKMK00TextureLocations[i].AlphaColor;
                     int offset = MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset;
