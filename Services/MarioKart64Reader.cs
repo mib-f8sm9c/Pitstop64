@@ -21,7 +21,8 @@ namespace MK64Pitstop.Services
             //Now read the different data bits here, if they haven't been read in yet
             for (int i = 0; i < MarioKartRomInfo.TKMK00TextureLocations.Length; i++)
             {
-                if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset))
+                N64DataElement preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
+                if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
                 {
                     ushort alpha = MarioKartRomInfo.TKMK00TextureLocations[i].AlphaColor;
                     int offset = MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset;
@@ -34,8 +35,11 @@ namespace MK64Pitstop.Services
 
                     tkmk = new TKMK00Block(offset, bytes, alpha);
 
-                    RomProject.Instance.Files[0].AddElement(tkmk);
-                    MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.Add(tkmk);
+                    if (MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.SingleOrDefault(t => t.FileOffset == tkmk.FileOffset) != null)
+                    {
+                        RomProject.Instance.Files[0].AddElement(tkmk);
+                        MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.Add(tkmk);
+                    }
                 }
             }
 
@@ -57,7 +61,8 @@ namespace MK64Pitstop.Services
 
             MarioKart64ElementHub.Instance.KartGraphicsBlock = block;
 
-            RomProject.Instance.AddRomItem(MarioKart64ElementHub.Instance);
+            if (!RomProject.Instance.Items.Contains(MarioKart64ElementHub.Instance))
+                RomProject.Instance.AddRomItem(MarioKart64ElementHub.Instance);
             
         }
     }

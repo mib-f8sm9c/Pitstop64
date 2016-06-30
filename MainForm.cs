@@ -88,6 +88,7 @@ namespace MK64Pitstop
 
                 //If successful, mark flags and put the filename in the status bar
                 statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
+                _loadedFilePath = openProjectDialog.FileName;
 
                 MarioKart64Reader.ReadRom();
 

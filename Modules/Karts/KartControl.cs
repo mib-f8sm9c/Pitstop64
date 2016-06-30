@@ -105,17 +105,21 @@ namespace MK64Pitstop.Modules.Karts
 
         private void btnKartsCancel_Click(object sender, EventArgs e)
         {
-            //Reset the selected karts ordering
-            int selectedIndex = lbKarts.SelectedIndex;
-            lbKarts.Items.Clear();
+            ////Reset the selected karts ordering
+            //int selectedIndex = lbKarts.SelectedIndex;
+            //lbKarts.Items.Clear();
 
-            foreach (KartInfo kart in MarioKart64ElementHub.Instance.SelectedKarts)
-                lbKarts.Items.Add(kart);
+            //foreach (KartInfo kart in MarioKart64ElementHub.Instance.SelectedKarts)
+            //    lbKarts.Items.Add(kart);
 
-            lbKarts.SelectedIndex = selectedIndex;
+            //lbKarts.SelectedIndex = selectedIndex;
+
+            //SettingsChanged = false;
+            //UpdateSelectedKartButtons();
+
+            UpdateCurrentTab();
 
             SettingsChanged = false;
-            UpdateSelectedKartButtons();
         }
 
         private void btnKartUp_Click(object sender, EventArgs e)
@@ -280,9 +284,9 @@ namespace MK64Pitstop.Modules.Karts
         private void lbAnimations_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Populate the animation edit group
-            SetImageButtonsEnabled();
-
             PopulateAnimationWindow();
+
+            SetImageButtonsEnabled();
         }
 
         private void btnAnimationsAdd_Click(object sender, EventArgs e)
@@ -397,11 +401,11 @@ namespace MK64Pitstop.Modules.Karts
             else
             {
                 btnAnimImageAdd.Enabled = true;
-                btnAnimImageRemove.Enabled = true;
+                btnAnimImageRemove.Enabled = (lbAnimImages.SelectedIndex != -1);
                 btnAnimationsDelete.Enabled = true;
-                btnAnimImageUp.Enabled = true;
-                btnAnimImageDown.Enabled = true;
-                btnAnimImageDuplicate.Enabled = true;
+                btnAnimImageUp.Enabled = (lbAnimImages.SelectedIndex != -1);
+                btnAnimImageDown.Enabled = (lbAnimImages.SelectedIndex != -1);
+                btnAnimImageDuplicate.Enabled = (lbAnimImages.SelectedIndex != -1);
                 cbOverlayKart.Enabled = true;
                 gbAnimationType.Enabled = true;
             }
@@ -538,6 +542,8 @@ namespace MK64Pitstop.Modules.Karts
         {
             //Update the image in the preview
             UpdateImage();
+
+            SetImageButtonsEnabled();
         }
 
         private void UpdateImage()
@@ -630,8 +636,20 @@ namespace MK64Pitstop.Modules.Karts
                     newIndexToAdd = lbAnimImages.Items.Count;
                 else
                     newIndexToAdd = lbAnimImages.SelectedIndex + 1;
-                lbAnimImages.Items.Insert(newIndexToAdd, form.SelectedImage);
-                SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, form.SelectedImage.Name);
+                if(!form.HasMultipleSelectedImages)
+                {
+                    lbAnimImages.Items.Insert(newIndexToAdd, form.SelectedImage);
+                    SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, form.SelectedImage.Name);
+                }
+                else
+                {
+                    for (int i = form.SelectedImages.Length - 1; i >= 0; i--)
+                    {
+                        KartImage image = form.SelectedImages[i];
+                        lbAnimImages.Items.Insert(newIndexToAdd, image);
+                        SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, image.Name);
+                    }
+                }
 
                 SettingsChanged = true;
             }
@@ -653,6 +671,8 @@ namespace MK64Pitstop.Modules.Karts
                 else
                     lbAnimImages.SelectedIndex = selectedIndex;
             }
+
+            SetImageButtonsEnabled();
             SettingsChanged = true;
         }
 
@@ -1011,9 +1031,9 @@ namespace MK64Pitstop.Modules.Karts
 
         private void txtKartName_Validating(object sender, CancelEventArgs e)
         {
-            foreach (object obj in lbAllKarts.Items)
+            for(int i = 0; i < lbAllKarts.Items.Count; i++)
             {
-                KartInfo kart = (KartInfo)obj;
+                KartInfo kart = (KartInfo)lbAllKarts.Items[i];
                 if (kart != SelectedKartInfo && txtKartName.Text == kart.KartName)
                 {
                     MessageBox.Show("Kart name already exists!");
