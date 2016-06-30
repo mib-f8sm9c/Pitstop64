@@ -186,7 +186,6 @@
             // btnKartsCancel
             // 
             this.btnKartsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnKartsCancel.Enabled = false;
             this.btnKartsCancel.Location = new System.Drawing.Point(567, 4);
             this.btnKartsCancel.Name = "btnKartsCancel";
             this.btnKartsCancel.Size = new System.Drawing.Size(112, 49);

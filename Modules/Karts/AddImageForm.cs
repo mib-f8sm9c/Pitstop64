@@ -76,6 +76,28 @@ namespace MK64Pitstop.Modules.Karts
             }
         }
 
+        public bool HasMultipleSelectedImages
+        {
+            get { return lbAdded.SelectedIndices.Count > 1; }
+        }
+
+        public KartImage[] SelectedImages
+        {
+            get
+            {
+                if (lbAdded.SelectedIndices.Count > 0)
+                {
+                    List<KartImage> images = new List<KartImage>();
+                    foreach (int selectedIndex in lbAdded.SelectedIndices)
+                    {
+                        images.Add((KartImage)lbAdded.Items[selectedIndex]);
+                    }
+                    return images.ToArray();
+                }
+                return null;
+            }
+        }
+
         private void lbAdded_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SelectedImage != null)
@@ -170,6 +192,15 @@ namespace MK64Pitstop.Modules.Karts
             {
                 SelectedImage.Image.Save(saveImageDialog.FileName);
             }
+        }
+
+        private void cbMultiSelect_CheckedChanged(object sender, EventArgs e)
+        {
+            lbAdded.SelectedIndex = -1;
+            if (cbMultiSelect.Checked)
+                lbAdded.SelectionMode = SelectionMode.MultiSimple;
+            else
+                lbAdded.SelectionMode = SelectionMode.One;
         }
     }
 }

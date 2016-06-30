@@ -39,6 +39,7 @@
             this.btnExport = new System.Windows.Forms.Button();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.openImagesDialog = new System.Windows.Forms.OpenFileDialog();
+            this.cbMultiSelect = new System.Windows.Forms.CheckBox();
             this.pnlKartImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             this.SuspendLayout();
@@ -158,11 +159,23 @@
             this.openImagesDialog.Filter = "BMP/PNG files|*.bmp;*.png|All files|*.*";
             this.openImagesDialog.Multiselect = true;
             // 
+            // cbMultiSelect
+            // 
+            this.cbMultiSelect.AutoSize = true;
+            this.cbMultiSelect.Location = new System.Drawing.Point(362, 21);
+            this.cbMultiSelect.Name = "cbMultiSelect";
+            this.cbMultiSelect.Size = new System.Drawing.Size(65, 36);
+            this.cbMultiSelect.TabIndex = 13;
+            this.cbMultiSelect.Text = "Multi-\r\nSelect";
+            this.cbMultiSelect.UseVisualStyleBackColor = true;
+            this.cbMultiSelect.CheckedChanged += new System.EventHandler(this.cbMultiSelect_CheckedChanged);
+            // 
             // AddImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 388);
+            this.Controls.Add(this.cbMultiSelect);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.pnlKartImage);
             this.Controls.Add(this.btnReset);
@@ -177,6 +190,7 @@
             this.pnlKartImage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -193,5 +207,6 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.SaveFileDialog saveImageDialog;
         private System.Windows.Forms.OpenFileDialog openImagesDialog;
+        private System.Windows.Forms.CheckBox cbMultiSelect;
     }
 }

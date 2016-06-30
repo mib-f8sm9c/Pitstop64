@@ -31,11 +31,14 @@
             this.btnResizeRom = new System.Windows.Forms.Button();
             this.txt = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.gbDebug = new System.Windows.Forms.GroupBox();
+            this.txtAbout = new System.Windows.Forms.RichTextBox();
+            this.gbDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnResizeRom
             // 
-            this.btnResizeRom.Location = new System.Drawing.Point(30, 71);
+            this.btnResizeRom.Location = new System.Drawing.Point(20, 79);
             this.btnResizeRom.Margin = new System.Windows.Forms.Padding(4);
             this.btnResizeRom.Name = "btnResizeRom";
             this.btnResizeRom.Size = new System.Drawing.Size(137, 28);
@@ -46,7 +49,7 @@
             // 
             // txt
             // 
-            this.txt.Location = new System.Drawing.Point(51, 42);
+            this.txt.Location = new System.Drawing.Point(41, 50);
             this.txt.Name = "txt";
             this.txt.Size = new System.Drawing.Size(100, 23);
             this.txt.TabIndex = 1;
@@ -55,25 +58,46 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 21);
+            this.label1.Location = new System.Drawing.Point(30, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "Resize ROM (MB)";
             // 
+            // gbDebug
+            // 
+            this.gbDebug.Controls.Add(this.btnResizeRom);
+            this.gbDebug.Controls.Add(this.label1);
+            this.gbDebug.Controls.Add(this.txt);
+            this.gbDebug.Location = new System.Drawing.Point(319, 3);
+            this.gbDebug.Name = "gbDebug";
+            this.gbDebug.Size = new System.Drawing.Size(179, 126);
+            this.gbDebug.TabIndex = 3;
+            this.gbDebug.TabStop = false;
+            this.gbDebug.Text = "Debug Tools";
+            // 
+            // txtAbout
+            // 
+            this.txtAbout.Location = new System.Drawing.Point(3, 3);
+            this.txtAbout.Name = "txtAbout";
+            this.txtAbout.ReadOnly = true;
+            this.txtAbout.Size = new System.Drawing.Size(310, 210);
+            this.txtAbout.TabIndex = 6;
+            this.txtAbout.Text = "";
+            // 
             // AboutControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txt);
-            this.Controls.Add(this.btnResizeRom);
+            this.Controls.Add(this.txtAbout);
+            this.Controls.Add(this.gbDebug);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AboutControl";
             this.Size = new System.Drawing.Size(501, 216);
+            this.gbDebug.ResumeLayout(false);
+            this.gbDebug.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -82,6 +106,8 @@
         private System.Windows.Forms.Button btnResizeRom;
         private System.Windows.Forms.TextBox txt;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox gbDebug;
+        private System.Windows.Forms.RichTextBox txtAbout;
 
     }
 }
