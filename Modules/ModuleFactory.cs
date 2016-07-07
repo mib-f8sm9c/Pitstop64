@@ -10,8 +10,10 @@ namespace MK64Pitstop.Modules
     {
         public enum Modules
         {
-            Textures,
+            Info,
+            Courses,
             Karts,
+            Textures,
             About
         }
 
@@ -25,11 +27,17 @@ namespace MK64Pitstop.Modules
             IModule newModule;
             switch(module)
             {
-                case Modules.Textures:
-                    newModule = new Textures.TexturesModule();
+                case Modules.Info:
+                    newModule = new Info.RomInfoModule();
+                    break;
+                case Modules.Courses:
+                    newModule = new Courses.CourseModule();
                     break;
                 case Modules.Karts:
                     newModule = new Karts.KartModule();
+                    break;
+                case Modules.Textures:
+                    newModule = new Textures.TexturesModule();
                     break;
                 case Modules.About:
                     newModule = new About.AboutModule();

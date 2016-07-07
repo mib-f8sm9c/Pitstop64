@@ -62,6 +62,26 @@
     </Compile>
     <Compile Include="MarioKart64Loader.cs" />
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Courses\CourseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Courses\CourseControl.Designer.cs">
+      <DependentUpon>CourseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Courses\CourseModule.cs" />
+    <Compile Include="Modules\Courses\CourseViewerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Courses\CourseViewerControl.Designer.cs">
+      <DependentUpon>CourseViewerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Info\RomInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Info\RomInfoControl.Designer.cs">
+      <DependentUpon>RomInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Info\RomInfoModule.cs" />
     <Compile Include="Modules\Karts\AddImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +135,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Courses\CourseControl.resx">
+      <DependentUpon>CourseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Courses\CourseViewerControl.resx">
+      <DependentUpon>CourseViewerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Info\RomInfoControl.resx">
+      <DependentUpon>RomInfoControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\AddImageForm.resx">
       <DependentUpon>AddImageForm.cs</DependentUpon>

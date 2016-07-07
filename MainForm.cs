@@ -170,5 +170,15 @@ namespace MK64Pitstop
         {
             SelectedModule = ModuleFactory.Modules.Karts;
         }
+
+        private void coursesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedModule = ModuleFactory.Modules.Courses;
+        }
+
+        private void romInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedModule = ModuleFactory.Modules.Info;
+        }
     }
 }
