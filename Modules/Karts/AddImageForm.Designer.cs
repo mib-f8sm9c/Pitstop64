@@ -101,7 +101,6 @@
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Enabled = false;
             this.btnReset.Location = new System.Drawing.Point(18, 278);
             this.btnReset.Margin = new System.Windows.Forms.Padding(5);
             this.btnReset.Name = "btnReset";

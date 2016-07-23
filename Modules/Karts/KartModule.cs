@@ -5,13 +5,12 @@ using System.Text;
 using MK64Pitstop.Data;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
+using MK64Pitstop.Data.Karts;
 
 namespace MK64Pitstop.Modules.Karts
 {
     public class KartModule : IModule
     {
-        KartGraphicsReferenceBlock _block;
-
         public void UpdateRomData()
         {
             _control.UpdateReferences();

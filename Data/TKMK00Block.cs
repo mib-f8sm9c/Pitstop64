@@ -43,6 +43,9 @@ namespace MK64Pitstop.Data
 
         public bool SetImage(Bitmap image)
         {
+            //Force it to render the image if it hasn't already
+            Bitmap img = this.Image;
+
             byte[] imgData = Cereal64.Microcodes.F3DEX.DataElements.TextureConversion.RGBA16ToBinary(image);
             byte[] compressedData = TKMK00Encoder.Encode(imgData, _tkmk00Header.Width, _tkmk00Header.Height, ImageAlphaColor);
 

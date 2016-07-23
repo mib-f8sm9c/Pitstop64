@@ -10,5 +10,7 @@ namespace MK64Pitstop.Data
     {
         public const string MarioKartHeader = "MARIOKART64";
 
+
+        //NOTE TO SELF: Use #define to set the region type such that MarioKartRomInfo will be easy to design
     }
 }

@@ -79,6 +79,19 @@
             this.tabKartModule = new System.Windows.Forms.TabControl();
             this.tabKarts = new System.Windows.Forms.TabPage();
             this.gbKartInfo = new System.Windows.Forms.GroupBox();
+            this.gbNamePlate = new System.Windows.Forms.GroupBox();
+            this.btnImportNamePlate = new System.Windows.Forms.Button();
+            this.btnExportNamePlate = new System.Windows.Forms.Button();
+            this.pbNamePlate = new System.Windows.Forms.PictureBox();
+            this.gbKartPortraits = new System.Windows.Forms.GroupBox();
+            this.btnImportPortrait = new System.Windows.Forms.Button();
+            this.btnExportPortrait = new System.Windows.Forms.Button();
+            this.pnlPortrait = new System.Windows.Forms.Panel();
+            this.pbPortrait = new System.Windows.Forms.PictureBox();
+            this.btnBGColor2 = new System.Windows.Forms.Button();
+            this.txtPortraitNum = new System.Windows.Forms.TextBox();
+            this.btnNextPortrait = new System.Windows.Forms.Button();
+            this.btnPrevPortrait = new System.Windows.Forms.Button();
             this.txtKartName = new System.Windows.Forms.TextBox();
             this.lblKartName = new System.Windows.Forms.Label();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -87,6 +100,10 @@
             this.tabSelectedKarts = new System.Windows.Forms.TabPage();
             this.tabKartAnim = new System.Windows.Forms.TabPage();
             this.pnlSharedControls = new System.Windows.Forms.Panel();
+            this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnDuplicateKart = new System.Windows.Forms.Button();
+            this.lblOrig = new System.Windows.Forms.Label();
             this.gbSelectedKarts.SuspendLayout();
             this.gbAnimInfo.SuspendLayout();
             this.pnlKartAnimation.SuspendLayout();
@@ -98,6 +115,11 @@
             this.tabKartModule.SuspendLayout();
             this.tabKarts.SuspendLayout();
             this.gbKartInfo.SuspendLayout();
+            this.gbNamePlate.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbNamePlate)).BeginInit();
+            this.gbKartPortraits.SuspendLayout();
+            this.pnlPortrait.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPortrait)).BeginInit();
             this.tabSelectedKarts.SuspendLayout();
             this.tabKartAnim.SuspendLayout();
             this.pnlSharedControls.SuspendLayout();
@@ -664,6 +686,7 @@
             // tabKarts
             // 
             this.tabKarts.BackColor = System.Drawing.SystemColors.Control;
+            this.tabKarts.Controls.Add(this.btnDuplicateKart);
             this.tabKarts.Controls.Add(this.gbKartInfo);
             this.tabKarts.Controls.Add(this.btnRemove);
             this.tabKarts.Controls.Add(this.btnAddKart);
@@ -677,14 +700,149 @@
             // 
             // gbKartInfo
             // 
+            this.gbKartInfo.Controls.Add(this.gbNamePlate);
+            this.gbKartInfo.Controls.Add(this.gbKartPortraits);
             this.gbKartInfo.Controls.Add(this.txtKartName);
             this.gbKartInfo.Controls.Add(this.lblKartName);
             this.gbKartInfo.Location = new System.Drawing.Point(159, 23);
             this.gbKartInfo.Name = "gbKartInfo";
-            this.gbKartInfo.Size = new System.Drawing.Size(381, 271);
+            this.gbKartInfo.Size = new System.Drawing.Size(381, 284);
             this.gbKartInfo.TabIndex = 4;
             this.gbKartInfo.TabStop = false;
             this.gbKartInfo.Text = "Kart Info";
+            // 
+            // gbNamePlate
+            // 
+            this.gbNamePlate.Controls.Add(this.btnImportNamePlate);
+            this.gbNamePlate.Controls.Add(this.btnExportNamePlate);
+            this.gbNamePlate.Controls.Add(this.pbNamePlate);
+            this.gbNamePlate.Location = new System.Drawing.Point(6, 80);
+            this.gbNamePlate.Name = "gbNamePlate";
+            this.gbNamePlate.Size = new System.Drawing.Size(120, 191);
+            this.gbNamePlate.TabIndex = 5;
+            this.gbNamePlate.TabStop = false;
+            this.gbNamePlate.Text = "Nameplate";
+            // 
+            // btnImportNamePlate
+            // 
+            this.btnImportNamePlate.Location = new System.Drawing.Point(24, 129);
+            this.btnImportNamePlate.Name = "btnImportNamePlate";
+            this.btnImportNamePlate.Size = new System.Drawing.Size(78, 34);
+            this.btnImportNamePlate.TabIndex = 23;
+            this.btnImportNamePlate.Text = "Import";
+            this.btnImportNamePlate.UseVisualStyleBackColor = true;
+            this.btnImportNamePlate.Click += new System.EventHandler(this.btnImportNamePlate_Click);
+            // 
+            // btnExportNamePlate
+            // 
+            this.btnExportNamePlate.Location = new System.Drawing.Point(24, 80);
+            this.btnExportNamePlate.Name = "btnExportNamePlate";
+            this.btnExportNamePlate.Size = new System.Drawing.Size(78, 34);
+            this.btnExportNamePlate.TabIndex = 23;
+            this.btnExportNamePlate.Text = "Export";
+            this.btnExportNamePlate.UseVisualStyleBackColor = true;
+            this.btnExportNamePlate.Click += new System.EventHandler(this.btnExportNamePlate_Click);
+            // 
+            // pbNamePlate
+            // 
+            this.pbNamePlate.Location = new System.Drawing.Point(28, 31);
+            this.pbNamePlate.Name = "pbNamePlate";
+            this.pbNamePlate.Size = new System.Drawing.Size(70, 20);
+            this.pbNamePlate.TabIndex = 1;
+            this.pbNamePlate.TabStop = false;
+            // 
+            // gbKartPortraits
+            // 
+            this.gbKartPortraits.Controls.Add(this.btnImportPortrait);
+            this.gbKartPortraits.Controls.Add(this.btnExportPortrait);
+            this.gbKartPortraits.Controls.Add(this.pnlPortrait);
+            this.gbKartPortraits.Controls.Add(this.btnBGColor2);
+            this.gbKartPortraits.Controls.Add(this.txtPortraitNum);
+            this.gbKartPortraits.Controls.Add(this.btnNextPortrait);
+            this.gbKartPortraits.Controls.Add(this.btnPrevPortrait);
+            this.gbKartPortraits.Location = new System.Drawing.Point(132, 22);
+            this.gbKartPortraits.Name = "gbKartPortraits";
+            this.gbKartPortraits.Size = new System.Drawing.Size(243, 256);
+            this.gbKartPortraits.TabIndex = 2;
+            this.gbKartPortraits.TabStop = false;
+            this.gbKartPortraits.Text = "Portraits";
+            // 
+            // btnImportPortrait
+            // 
+            this.btnImportPortrait.Location = new System.Drawing.Point(146, 171);
+            this.btnImportPortrait.Name = "btnImportPortrait";
+            this.btnImportPortrait.Size = new System.Drawing.Size(78, 34);
+            this.btnImportPortrait.TabIndex = 22;
+            this.btnImportPortrait.Text = "Import";
+            this.btnImportPortrait.UseVisualStyleBackColor = true;
+            this.btnImportPortrait.Click += new System.EventHandler(this.btnImportPortrait_Click);
+            // 
+            // btnExportPortrait
+            // 
+            this.btnExportPortrait.Location = new System.Drawing.Point(21, 171);
+            this.btnExportPortrait.Name = "btnExportPortrait";
+            this.btnExportPortrait.Size = new System.Drawing.Size(78, 34);
+            this.btnExportPortrait.TabIndex = 21;
+            this.btnExportPortrait.Text = "Export";
+            this.btnExportPortrait.UseVisualStyleBackColor = true;
+            this.btnExportPortrait.Click += new System.EventHandler(this.btnExportPortrait_Click);
+            // 
+            // pnlPortrait
+            // 
+            this.pnlPortrait.BackColor = System.Drawing.SystemColors.ControlText;
+            this.pnlPortrait.Controls.Add(this.pbPortrait);
+            this.pnlPortrait.Location = new System.Drawing.Point(62, 29);
+            this.pnlPortrait.Name = "pnlPortrait";
+            this.pnlPortrait.Size = new System.Drawing.Size(130, 130);
+            this.pnlPortrait.TabIndex = 20;
+            // 
+            // pbPortrait
+            // 
+            this.pbPortrait.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbPortrait.Location = new System.Drawing.Point(0, 0);
+            this.pbPortrait.Name = "pbPortrait";
+            this.pbPortrait.Size = new System.Drawing.Size(130, 130);
+            this.pbPortrait.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPortrait.TabIndex = 0;
+            this.pbPortrait.TabStop = false;
+            // 
+            // btnBGColor2
+            // 
+            this.btnBGColor2.BackColor = System.Drawing.SystemColors.ControlText;
+            this.btnBGColor2.Location = new System.Drawing.Point(18, 40);
+            this.btnBGColor2.Name = "btnBGColor2";
+            this.btnBGColor2.Size = new System.Drawing.Size(24, 24);
+            this.btnBGColor2.TabIndex = 19;
+            this.btnBGColor2.UseVisualStyleBackColor = false;
+            this.btnBGColor2.Click += new System.EventHandler(this.btnBGColor2_Click);
+            // 
+            // txtPortraitNum
+            // 
+            this.txtPortraitNum.Location = new System.Drawing.Point(102, 217);
+            this.txtPortraitNum.Name = "txtPortraitNum";
+            this.txtPortraitNum.ReadOnly = true;
+            this.txtPortraitNum.Size = new System.Drawing.Size(38, 23);
+            this.txtPortraitNum.TabIndex = 3;
+            // 
+            // btnNextPortrait
+            // 
+            this.btnNextPortrait.Location = new System.Drawing.Point(146, 216);
+            this.btnNextPortrait.Name = "btnNextPortrait";
+            this.btnNextPortrait.Size = new System.Drawing.Size(23, 24);
+            this.btnNextPortrait.TabIndex = 2;
+            this.btnNextPortrait.Text = ">";
+            this.btnNextPortrait.UseVisualStyleBackColor = true;
+            this.btnNextPortrait.Click += new System.EventHandler(this.btnNextPortrait_Click);
+            // 
+            // btnPrevPortrait
+            // 
+            this.btnPrevPortrait.Location = new System.Drawing.Point(73, 216);
+            this.btnPrevPortrait.Name = "btnPrevPortrait";
+            this.btnPrevPortrait.Size = new System.Drawing.Size(23, 24);
+            this.btnPrevPortrait.TabIndex = 1;
+            this.btnPrevPortrait.Text = "<";
+            this.btnPrevPortrait.UseVisualStyleBackColor = true;
+            this.btnPrevPortrait.Click += new System.EventHandler(this.btnPrevPortrait_Click);
             // 
             // txtKartName
             // 
@@ -710,7 +868,7 @@
             // btnRemove
             // 
             this.btnRemove.Enabled = false;
-            this.btnRemove.Location = new System.Drawing.Point(28, 261);
+            this.btnRemove.Location = new System.Drawing.Point(28, 300);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(93, 33);
             this.btnRemove.TabIndex = 3;
@@ -763,6 +921,7 @@
             // 
             // pnlSharedControls
             // 
+            this.pnlSharedControls.Controls.Add(this.lblOrig);
             this.pnlSharedControls.Controls.Add(this.btnKartsCancel);
             this.pnlSharedControls.Controls.Add(this.btnKartsApply);
             this.pnlSharedControls.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -770,6 +929,34 @@
             this.pnlSharedControls.Name = "pnlSharedControls";
             this.pnlSharedControls.Size = new System.Drawing.Size(682, 56);
             this.pnlSharedControls.TabIndex = 11;
+            // 
+            // saveImageDialog
+            // 
+            this.saveImageDialog.Filter = "BMP/PNG files|*.bmp;*.png|All files|*.*";
+            // 
+            // openImageDialog
+            // 
+            this.openImageDialog.FileName = "openFileDialog1";
+            // 
+            // btnDuplicateKart
+            // 
+            this.btnDuplicateKart.Location = new System.Drawing.Point(28, 261);
+            this.btnDuplicateKart.Name = "btnDuplicateKart";
+            this.btnDuplicateKart.Size = new System.Drawing.Size(93, 33);
+            this.btnDuplicateKart.TabIndex = 5;
+            this.btnDuplicateKart.Text = "Duplicate";
+            this.btnDuplicateKart.UseVisualStyleBackColor = true;
+            this.btnDuplicateKart.Click += new System.EventHandler(this.btnDuplicateKart_Click);
+            // 
+            // lblOrig
+            // 
+            this.lblOrig.AutoSize = true;
+            this.lblOrig.Location = new System.Drawing.Point(27, 20);
+            this.lblOrig.Name = "lblOrig";
+            this.lblOrig.Size = new System.Drawing.Size(174, 17);
+            this.lblOrig.TabIndex = 8;
+            this.lblOrig.Text = "*Original Kart (Read-Only)";
+            this.lblOrig.Visible = false;
             // 
             // KartControl
             // 
@@ -796,9 +983,16 @@
             this.tabKarts.ResumeLayout(false);
             this.gbKartInfo.ResumeLayout(false);
             this.gbKartInfo.PerformLayout();
+            this.gbNamePlate.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbNamePlate)).EndInit();
+            this.gbKartPortraits.ResumeLayout(false);
+            this.gbKartPortraits.PerformLayout();
+            this.pnlPortrait.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbPortrait)).EndInit();
             this.tabSelectedKarts.ResumeLayout(false);
             this.tabKartAnim.ResumeLayout(false);
             this.pnlSharedControls.ResumeLayout(false);
+            this.pnlSharedControls.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -864,5 +1058,22 @@
         private System.Windows.Forms.GroupBox gbKartInfo;
         private System.Windows.Forms.Label lblKartName;
         private System.Windows.Forms.TextBox txtKartName;
+        private System.Windows.Forms.GroupBox gbKartPortraits;
+        private System.Windows.Forms.PictureBox pbPortrait;
+        private System.Windows.Forms.TextBox txtPortraitNum;
+        private System.Windows.Forms.Button btnNextPortrait;
+        private System.Windows.Forms.Button btnPrevPortrait;
+        private System.Windows.Forms.Button btnBGColor2;
+        private System.Windows.Forms.Panel pnlPortrait;
+        private System.Windows.Forms.Button btnImportPortrait;
+        private System.Windows.Forms.Button btnExportPortrait;
+        private System.Windows.Forms.SaveFileDialog saveImageDialog;
+        private System.Windows.Forms.OpenFileDialog openImageDialog;
+        private System.Windows.Forms.GroupBox gbNamePlate;
+        private System.Windows.Forms.PictureBox pbNamePlate;
+        private System.Windows.Forms.Button btnImportNamePlate;
+        private System.Windows.Forms.Button btnExportNamePlate;
+        private System.Windows.Forms.Button btnDuplicateKart;
+        private System.Windows.Forms.Label lblOrig;
     }
 }

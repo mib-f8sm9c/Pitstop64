@@ -8,7 +8,7 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 
 //Source: https://github.com/RenaKunisaki/mariokart64/wiki/Compressed-Display-Lists
 
-namespace MarioKartTestingTool
+namespace MK64Pitstop.Services
 {
     public static class F3DEXPacker
     {
@@ -354,7 +354,7 @@ namespace MarioKartTestingTool
             {
                 switch (commands[currentCommandIndex].CommandID)
                 {
-
+                    //Implement this please : )
                 }
 
                 currentCommandIndex++;

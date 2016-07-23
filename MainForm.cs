@@ -14,6 +14,8 @@ using MK64Pitstop.Modules;
 using System.Reflection;
 using Cereal64.Common.Utils;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
+using MK64Pitstop.Services.Readers;
+using MK64Pitstop.Services.Hub;
 
 namespace MK64Pitstop
 {
@@ -59,7 +61,7 @@ namespace MK64Pitstop
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            this.Text = string.Format("Mario Kart 64 Pitstop V{0}", fvi.ProductVersion);
+            this.Text = string.Format("{0} V.{1}.{2}.{3}", fvi.ProductName, fvi.ProductMajorPart, fvi.ProductMinorPart, fvi.ProductBuildPart);
         }
 
         public void NewProject()
@@ -118,6 +120,9 @@ namespace MK64Pitstop
             saveFileDialog.FileName = Path.GetFileName(RomProject.Instance.Files[0].FileName);
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                //Apply changes here
+                MarioKart64ElementHub.Instance.SaveKartInfo();
+
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
                 if(N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
                     File.WriteAllBytes(saveFileDialog.FileName, newRomData);
