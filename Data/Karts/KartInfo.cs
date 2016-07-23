@@ -9,7 +9,7 @@ using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 
-namespace MK64Pitstop.Data
+namespace MK64Pitstop.Data.Karts
 {
     /// <summary>
     /// Stores information about a specific kart character
@@ -26,26 +26,60 @@ namespace MK64Pitstop.Data
         private const string IMAGE = "image";
         private const string IMAGE_NAME = "name";
 
+        private const string PORTRAITS = "portraits";
+        private const string PORTRAIT = "portrait";
+        private const string IMAGE_OFFSET = "imageOffset";
+
+        private const string NAME_PLATE = "namePlate";
+
         public string KartName { get; set; }
 
         public List<KartAnimationSeries> KartAnimations { get; private set; }
 
-        public KartImagePool KartImages { get; set; } 
+        public KartImagePool KartImages { get; set; }
+
+        public List<ImageMIO0Block> KartPortraits { get; set; }
+        public TKMK00Block KartNamePlate { get; set; }
 
         //True if the kart is one of the original 8
         public bool OriginalKart { get; private set; }
 
-        public KartInfo()
-            : this("NewChar", null)
-        {
-        }
-
-        public KartInfo(string kartName, Palette palette, bool original = false)
+        public KartInfo(string kartName, Palette palette, bool original)
         {
             KartName = kartName;
             KartImages = new KartImagePool(palette);
             KartAnimations = new List<KartAnimationSeries>();
+            KartPortraits = new List<ImageMIO0Block>();
             OriginalKart = original;
+        }
+
+        //Direct copy
+        public KartInfo(KartInfo kart)
+            : this(kart.KartName, kart)
+        {
+            OriginalKart = kart.OriginalKart;
+        }
+
+        //Duplicate copy
+        public KartInfo(string kartName, KartInfo baseKart)
+        {
+            KartName = kartName;
+            KartImages = new KartImagePool(baseKart.KartImages.ImagePalette);
+            foreach (string key in baseKart.KartImages.Images.Keys)
+                KartImages.Images.Add(key, baseKart.KartImages.Images[key]);
+            KartAnimations = new List<KartAnimationSeries>();
+            foreach (KartAnimationSeries anim in baseKart.KartAnimations)
+            {
+                KartAnimationSeries newAnim = new KartAnimationSeries(anim.Name);
+                newAnim.KartAnimationType = anim.KartAnimationType;
+                newAnim.OrderedImageNames.AddRange(anim.OrderedImageNames);
+                KartAnimations.Add(newAnim);
+            }
+            KartPortraits = new List<ImageMIO0Block>();
+            foreach (ImageMIO0Block block in baseKart.KartPortraits)
+                KartPortraits.Add(block);
+            KartNamePlate = baseKart.KartNamePlate;
+            OriginalKart = false;
         }
 
         public KartInfo(XElement xml)
@@ -58,6 +92,7 @@ namespace MK64Pitstop.Data
             else
                 KartImages = new KartImagePool();
             KartAnimations = new List<KartAnimationSeries>();
+            KartPortraits = new List<ImageMIO0Block>();
 
             XElement animations = xml.Element(ANIMATIONS);
             foreach (XElement animation in animations.Elements())
@@ -71,6 +106,38 @@ namespace MK64Pitstop.Data
                     newAnim.OrderedImageNames.Add(image.Attribute(IMAGE_NAME).Value);
                 }
                 KartAnimations.Add(newAnim);
+            }
+
+            XElement portraits = xml.Element(PORTRAITS);
+            foreach (XElement portrait in portraits.Elements())
+            {
+                int offset = int.Parse(portrait.Attribute(IMAGE_OFFSET).Value);
+
+                //Load the ImageMIO0Block here
+                if (RomProject.Instance.Files[0].HasElementExactlyAt(offset))
+                {
+                    N64DataElement element = RomProject.Instance.Files[0].GetElementAt(offset);
+                    if (element is ImageMIO0Block)
+                    {
+                        if (((ImageMIO0Block)element).DecodedN64DataElement == null)
+                        {
+                            Texture newTexture = new Texture(0, ((ImageMIO0Block)element).DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                            ((ImageMIO0Block)element).DecodedN64DataElement = newTexture;
+                        }
+                        KartPortraits.Add((ImageMIO0Block)element);
+                    }
+                }
+            }
+
+            XElement namePlate = xml.Element(NAME_PLATE);
+            int namePlateOffset = int.Parse(namePlate.Value);
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(namePlateOffset))
+            {
+                N64DataElement element = RomProject.Instance.Files[0].GetElementAt(namePlateOffset);
+                if (element is TKMK00Block)
+                {
+                    KartNamePlate = (TKMK00Block)element;
+                }
             }
         }
 
@@ -96,6 +163,22 @@ namespace MK64Pitstop.Data
                 xmlAnimations.Add(xmlAnim);
             }
             xml.Add(xmlAnimations);
+
+            XElement xmlPortraits = new XElement(PORTRAITS);
+            foreach (ImageMIO0Block block in KartPortraits)
+            {
+                if (block.DecodedN64DataElement != null)
+                {
+                    XElement xmlPortrait = new XElement(PORTRAIT);
+                    xmlPortrait.Add(new XAttribute(IMAGE_OFFSET, block.FileOffset));
+                    xmlPortraits.Add(xmlPortrait);
+                }
+            }
+            xml.Add(xmlPortraits);
+
+            XElement xmlNamePlate = new XElement(NAME_PLATE);
+            xmlNamePlate.Value = KartNamePlate.FileOffset.ToString();
+            xml.Add(xmlNamePlate);
 
             return xml;
         }

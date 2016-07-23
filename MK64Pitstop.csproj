@@ -46,13 +46,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Courses\CourseData.cs" />
+    <Compile Include="Data\Courses\CourseDataReferenceBlock.cs" />
+    <Compile Include="Data\Courses\CourseTextureRef.cs" />
+    <Compile Include="Data\DmaAddressBlock.cs" />
+    <Compile Include="Data\Karts\KartPortraitTable.cs" />
+    <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
     <Compile Include="Data\TextBankBlock.cs" />
-    <Compile Include="Data\CourseDataReferenceEntry.cs" />
+    <Compile Include="Data\Courses\CourseDataReferenceEntry.cs" />
     <Compile Include="Data\ImageMIO0Block.cs" />
-    <Compile Include="Data\KartGraphicsReferenceBlock.cs" />
-    <Compile Include="Data\KartInfo.cs" />
+    <Compile Include="Data\Karts\KartGraphicsReferenceBlock.cs" />
+    <Compile Include="Data\Karts\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
     <Compile Include="Data\TextReferenceBlock.cs" />
+    <Compile Include="Data\TextureBankRef.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -60,8 +67,21 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MarioKart64Loader.cs" />
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Courses\CourseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Courses\CourseControl.Designer.cs">
+      <DependentUpon>CourseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Courses\CourseModule.cs" />
+    <Compile Include="Modules\Info\RomInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Info\RomInfoControl.Designer.cs">
+      <DependentUpon>RomInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Info\RomInfoModule.cs" />
     <Compile Include="Modules\Karts\AddImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,8 +122,18 @@
     <Compile Include="Services\F3DEXPacker.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\MarioKart64ElementHub.cs" />
-    <Compile Include="Services\MarioKart64Reader.cs" />
+    <Compile Include="Services\Hub\KartHub.cs" />
+    <Compile Include="Services\Hub\MarioKart64ElementHub.cs" />
+    <Compile Include="Services\Readers\CourseReader.cs" />
+    <Compile Include="Services\Readers\KartReader.cs" />
+    <Compile Include="Services\Readers\MarioKart64Reader.cs" />
+    <Compile Include="Services\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\TKMK00Encoder.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Courses\CourseControl.resx">
+      <DependentUpon>CourseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Info\RomInfoControl.resx">
+      <DependentUpon>RomInfoControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\AddImageForm.resx">
       <DependentUpon>AddImageForm.cs</DependentUpon>
@@ -137,6 +173,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Services\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

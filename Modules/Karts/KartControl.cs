@@ -10,6 +10,9 @@ using MK64Pitstop.Data;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using MK64Pitstop.Services;
+using MK64Pitstop.Data.Karts;
+using MK64Pitstop.Services.Hub;
+using Cereal64.Common.Rom;
 
 namespace MK64Pitstop.Modules.Karts
 {
@@ -25,6 +28,8 @@ namespace MK64Pitstop.Modules.Karts
 
         public void UpdateCurrentTab()
         {
+            DisplayOriginalStatus(null);
+
             if (tabKartModule.SelectedTab == tabKarts)
             {
                 UpdateKartInfo();
@@ -99,6 +104,11 @@ namespace MK64Pitstop.Modules.Karts
         private void btnKartsApply_Click(object sender, EventArgs e)
         {
             SaveTabChanges();
+        }
+
+        private void DisplayOriginalStatus(KartInfo kart)
+        {
+            lblOrig.Visible = (kart != null && kart.OriginalKart);
         }
 
         #region SelectedKarts
@@ -279,6 +289,8 @@ namespace MK64Pitstop.Modules.Karts
                 lbAnimImages.Items.Clear();
                 SetImageButtonsEnabled();
             }
+
+            DisplayOriginalStatus(SelectedKart);
         }
 
         private void lbAnimations_SelectedIndexChanged(object sender, EventArgs e)
@@ -345,16 +357,7 @@ namespace MK64Pitstop.Modules.Karts
                 if (kart.KartName == "Mario")
                     MarioKart = kart;
 
-                KartInfo newKart = new KartInfo(kart.KartName, kart.KartImages.ImagePalette, kart.OriginalKart);
-                foreach (KartAnimationSeries anim in kart.KartAnimations)
-                {
-                    KartAnimationSeries newAnim = new KartAnimationSeries(anim.Name);
-                    newAnim.KartAnimationType = anim.KartAnimationType;
-                    newAnim.OrderedImageNames.AddRange(anim.OrderedImageNames);
-                    newKart.KartAnimations.Add(newAnim);
-                }
-                foreach (string key in kart.KartImages.Images.Keys)
-                    newKart.KartImages.Images.Add(key, kart.KartImages.Images[key]);
+                KartInfo newKart = new KartInfo(kart);
                 cbCurrentKart.Items.Add(newKart);
                 KartInfoCopies.Add(newKart, kart);
             }
@@ -400,14 +403,15 @@ namespace MK64Pitstop.Modules.Karts
             }
             else
             {
-                btnAnimImageAdd.Enabled = true;
-                btnAnimImageRemove.Enabled = (lbAnimImages.SelectedIndex != -1);
-                btnAnimationsDelete.Enabled = true;
-                btnAnimImageUp.Enabled = (lbAnimImages.SelectedIndex != -1);
-                btnAnimImageDown.Enabled = (lbAnimImages.SelectedIndex != -1);
-                btnAnimImageDuplicate.Enabled = (lbAnimImages.SelectedIndex != -1);
+                btnAnimImageAdd.Enabled = !SelectedKart.OriginalKart;
+                btnAnimImageRemove.Enabled = (lbAnimImages.SelectedIndex != -1 && !SelectedKart.OriginalKart);
+                btnAnimationsAdd.Enabled = !SelectedKart.OriginalKart;
+                btnAnimationsDelete.Enabled = !SelectedKart.OriginalKart;
+                btnAnimImageUp.Enabled = (lbAnimImages.SelectedIndex != -1 && !SelectedKart.OriginalKart);
+                btnAnimImageDown.Enabled = (lbAnimImages.SelectedIndex != -1 && !SelectedKart.OriginalKart);
+                btnAnimImageDuplicate.Enabled = (lbAnimImages.SelectedIndex != -1 && !SelectedKart.OriginalKart);
                 cbOverlayKart.Enabled = true;
-                gbAnimationType.Enabled = true;
+                gbAnimationType.Enabled = !SelectedKart.OriginalKart;
             }
         }
 
@@ -628,7 +632,12 @@ namespace MK64Pitstop.Modules.Karts
         {
             //Add an existing image to the list
             AddImageForm form = new AddImageForm(SelectedKart);
-            if (form.ShowDialog() == DialogResult.OK)
+            DialogResult hasAddedImage = form.ShowDialog();
+
+            if (form.Reset)
+                lbAnimImages.Items.Clear();
+
+            if (hasAddedImage == DialogResult.OK)
             {
                 //Get the form.ImageName image
                 int newIndexToAdd;
@@ -921,6 +930,7 @@ namespace MK64Pitstop.Modules.Karts
         #region KartInfo
 
         private Dictionary<KartInfo, KartInfo> KartInfoCopies = new Dictionary<KartInfo,KartInfo>();
+        private int _selectedPortraitIndex = -1;
 
         private void UpdateKartInfo()
         {
@@ -929,7 +939,7 @@ namespace MK64Pitstop.Modules.Karts
 
             foreach (KartInfo kart in MarioKart64ElementHub.Instance.Karts)
             {
-                KartInfo newKart = new KartInfo(kart.KartName, kart.KartImages.ImagePalette, kart.OriginalKart);
+                KartInfo newKart = new KartInfo(kart);
                 lbAllKarts.Items.Add(newKart);
                 KartInfoCopies.Add(newKart, kart);
             }
@@ -947,7 +957,15 @@ namespace MK64Pitstop.Modules.Karts
                 KartInfo kart = (KartInfo)lbAllKarts.Items[i];
 
                 if (KartInfoCopies.ContainsKey(kart))
+                {
+                    //Change the portraits/nameplate
+                    KartInfoCopies[kart].KartName = kart.KartName;
+                    KartInfoCopies[kart].KartPortraits.Clear();
+                    KartInfoCopies[kart].KartPortraits.AddRange(kart.KartPortraits);
+                    KartInfoCopies[kart].KartNamePlate = kart.KartNamePlate;
+
                     newKarts.Add(KartInfoCopies[kart]);
+                }
                 else
                     newKarts.Add(kart);
             }
@@ -990,8 +1008,34 @@ namespace MK64Pitstop.Modules.Karts
 
                 newKartName += newCount;
             }
-            KartInfo kart = new KartInfo(newKartName, null);
-            //MarioKart64ElementHub.Instance.Karts.Add(kart);
+            KartInfo kart = new KartInfo(newKartName, null, false);
+            //Add in some portraits
+            kart.KartPortraits.AddRange(MarioKart.KartPortraits);
+            kart.KartNamePlate = MarioKart.KartNamePlate;
+
+            lbAllKarts.Items.Add(kart);
+            lbAllKarts.SelectedIndex = lbAllKarts.Items.Count - 1;
+
+            SettingsChanged = true;
+        }
+
+        private void btnDuplicateKart_Click(object sender, EventArgs e)
+        {
+            if (SelectedKartInfo == null)
+                return;
+
+            string newKartName = "new" + SelectedKartInfo.KartName;
+
+            if (HasKartName(newKartName))
+            {
+                int newCount = 2;
+                while (HasKartName(newKartName + newCount))
+                    newCount++;
+
+                newKartName += newCount;
+            }
+            KartInfo kart = new KartInfo(newKartName, SelectedKartInfo);
+            
             lbAllKarts.Items.Add(kart);
             lbAllKarts.SelectedIndex = lbAllKarts.Items.Count - 1;
 
@@ -1008,6 +1052,18 @@ namespace MK64Pitstop.Modules.Karts
             //Disable changing name/removing for the original karts
             txtKartName.Enabled = !SelectedKartInfo.OriginalKart;
             btnRemove.Enabled = !SelectedKartInfo.OriginalKart;
+            btnImportNamePlate.Enabled = !SelectedKartInfo.OriginalKart;
+            btnImportPortrait.Enabled = !SelectedKartInfo.OriginalKart;
+
+            //Portrait stuff
+            if (SelectedKartInfo.KartPortraits.Count > 0)
+                SetPortraitImage(0);
+            else
+                SetPortraitImage(-1);
+
+            SetNamePlate();
+
+            DisplayOriginalStatus(SelectedKartInfo);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -1056,6 +1112,157 @@ namespace MK64Pitstop.Modules.Karts
             if (e.KeyChar == (char)Keys.Enter)
             {
                 (sender as TextBox).Parent.Focus();
+            }
+        }
+
+        private void SetPortraitImage(int portraitIndex)
+        {
+            _selectedPortraitIndex = portraitIndex;
+
+            if (SelectedKartInfo == null || SelectedPortrait == null) //No images
+            {
+                txtPortraitNum.Text = "X";
+                btnPrevPortrait.Enabled = false;
+                btnNextPortrait.Enabled = false;
+                pbPortrait.Image = null;
+            }
+            else
+            {
+                txtPortraitNum.Text = portraitIndex.ToString();
+                btnPrevPortrait.Enabled = (portraitIndex > 0);
+                btnNextPortrait.Enabled = (portraitIndex < SelectedKartInfo.KartPortraits.Count - 1);
+
+                pbPortrait.Image = ((Texture)SelectedPortrait.DecodedN64DataElement).Image;
+            }
+        }
+
+        private ImageMIO0Block SelectedPortrait
+        {
+            get
+            {
+                if (_selectedPortraitIndex < 0 || _selectedPortraitIndex >= SelectedKartInfo.KartPortraits.Count)
+                    return null;
+                return SelectedKartInfo.KartPortraits[_selectedPortraitIndex];
+            }
+        }
+
+        private void btnNextPortrait_Click(object sender, EventArgs e)
+        {
+            SetPortraitImage(_selectedPortraitIndex + 1);
+        }
+
+        private void btnPrevPortrait_Click(object sender, EventArgs e)
+        {
+            SetPortraitImage(_selectedPortraitIndex - 1);
+        }
+
+        private void btnBGColor2_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                btnBGColor2.BackColor = colorDialog.Color;
+                pnlPortrait.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void btnExportPortrait_Click(object sender, EventArgs e)
+        {
+            if (SelectedPortrait != null && saveImageDialog.ShowDialog() == DialogResult.OK)
+            {
+                ((Texture)SelectedPortrait.DecodedN64DataElement).Image.Save(saveImageDialog.FileName);
+            }
+        }
+
+        private void btnImportPortrait_Click(object sender, EventArgs e)
+        {
+            if (SelectedPortrait != null && openImageDialog.ShowDialog() == DialogResult.OK)
+            {
+                Image img = Bitmap.FromFile(openImageDialog.FileName);
+                if (img.Width != 64 || img.Height != 64)
+                {
+                    MessageBox.Show("Image must be 64x64!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (img != null)
+                {
+                    //Create the new KartImage here
+                    byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
+                    Texture texture = new Texture(-1, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                    ImageMIO0Block block = new ImageMIO0Block(MarioKart64ElementHub.Instance.NewElementOffset, imgData);
+                    block.ImageName = block.FileOffset.ToString("X8");
+                    block.DecodedN64DataElement = texture;
+                    MarioKart64ElementHub.Instance.AdvanceNewElementOffset(block);
+                    RomProject.Instance.Files[0].AddElement(block);
+                    SelectedKartInfo.KartPortraits[_selectedPortraitIndex] = block;
+
+                    SetPortraitImage(_selectedPortraitIndex);
+
+                    SettingsChanged = true;
+                }
+            }
+        }
+
+        private void SetNamePlate()
+        {
+            if (SelectedKartInfo == null || SelectedNamePlate == null || SelectedNamePlate.Image == null)
+            {
+                btnImportNamePlate.Enabled = false;
+                btnExportNamePlate.Enabled = false;
+                pbNamePlate.Image = null;
+            }
+            else
+            {
+                btnImportNamePlate.Enabled = !SelectedKartInfo.OriginalKart;
+                btnExportNamePlate.Enabled = true;
+                pbNamePlate.Image = SelectedNamePlate.Image;
+            }
+        }
+
+        private TKMK00Block SelectedNamePlate
+        {
+            get
+            {
+                if (SelectedKartInfo.KartNamePlate == null || SelectedKartInfo.KartNamePlate.Image == null)
+                    return null;
+                return SelectedKartInfo.KartNamePlate;
+            }
+        }
+
+        private void btnExportNamePlate_Click(object sender, EventArgs e)
+        {
+            if (SelectedNamePlate != null && SelectedNamePlate.Image != null && saveImageDialog.ShowDialog() == DialogResult.OK)
+            {
+                SelectedNamePlate.Image.Save(saveImageDialog.FileName);
+            }
+        }
+
+        private void btnImportNamePlate_Click(object sender, EventArgs e)
+        {
+            if (SelectedNamePlate != null && SelectedNamePlate.Image != null && openImageDialog.ShowDialog() == DialogResult.OK)
+            {
+                Image img = Bitmap.FromFile(openImageDialog.FileName);
+                if (img.Width != 64 || img.Height != 12)
+                {
+                    MessageBox.Show("Image must be 64x12!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (img != null)
+                {
+                    //Copy the old name plate to make the new one
+                    TKMK00Block tkmk = new TKMK00Block(MarioKart64ElementHub.Instance.NewElementOffset, SelectedNamePlate.RawData, SelectedNamePlate.ImageAlphaColor);
+                    tkmk.SetImage(new Bitmap(img));
+
+                    MarioKart64ElementHub.Instance.AdvanceNewElementOffset(tkmk);
+                    RomProject.Instance.Files[0].AddElement(tkmk);
+                   // MarioKart64ElementHub.Instance.AddedTKMK00Blocks.Add(tkmk);
+                    SelectedKartInfo.KartNamePlate = tkmk;
+
+                    SetNamePlate();
+
+                    SettingsChanged = true;
+                }
             }
         }
 

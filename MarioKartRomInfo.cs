@@ -21,6 +21,55 @@ namespace MK64Pitstop
             }
         }
 
+        public enum OriginalCharacters
+        {
+            Mario = 0,
+            Luigi,
+            Peach,
+            Toad,
+            Yoshi,
+            DK,
+            Wario,
+            Bowser
+        }
+
+        public enum OriginalCourses
+        {
+            MarioRaceway = 0x0,
+            ChocoMountain,
+            BowsersCastle,
+            BansheeBoardwalk,
+            YoshiValley,
+            FrappeSnowland,
+            KoopaTroopaBeach,
+            RoyalRaceway,
+            LuigiRaceway,
+            MooMooFarm,
+            ToadsTurnpike,
+            KalimariDesert,
+            SherbertLand,
+            RainbowRoad,
+            WarioStadium,
+            BlockFort,
+            Skyscraper,
+            DoubleDeck,
+            DKsJungleParkway,
+            BigDonut
+        }
+      
+        //Here, define the different pointers for the different regions. In the MarioKartHeader class (or MarioKart64Reader) we'll 
+        // actually #def these values
+#if EU
+
+#elif EUA
+
+#elif JP
+
+#elif JPA
+
+#else //USA or non-defined
+
+        //Pretty sure this info is held elsewhere, once we decipher that table we can ignore this : )
         public static TKMK00RomLocation[] TKMK00TextureLocations = new TKMK00RomLocation[]
         {
             new TKMK00RomLocation(0x7FA3C0, 0xC00, 0x01), //0
@@ -99,24 +148,30 @@ namespace MK64Pitstop
             0x000E2F5C
         };
 
-        public enum OriginalCharacters
+        public static int[] CharacterNameplateReference = new int[]
         {
-            Mario = 0,
-            Luigi,
-            Peach,
-            Toad,
-            Yoshi,
-            DK,
-            Wario,
-            Bowser
-        }
+            0x007FC0C0,
+            0x007FBEC0,
+            0x007FC2C0,
+            0x007FBAC0,
+            0x007FC6C0,
+            0x007FB8C0,
+            0x007FC4C0,
+            0x007FBCC0,
+        };
 
         public static int CourseReferenceDataTableLocation { get { return 0x122390; } }
         public static int CourseCount { get { return 0x13; } }
-        public static int TextureBankOffset { get { return 0x641F70; } }
+        public static int TextureBankOffset { get { return 0x641F70; } } //Ends 966260?
         public static int KartTexturePaletteBank { get { return 0x145470; } }
 
-        public static int CharacterFaceMIO0Bank { get { return 0x729A30 ; } }
+        public static int CharacterFaceTableOffset { get { return 0x12FCA8; } }
+        public static int CharacterFaceTableLength { get { return 0x1540; } }
+
+        public static int CharacterFaceMIO0Offset { get { return 0x729A30; } }
         public static int TKMK00Block { get { return 0x7FA3C0; } }
+
+#endif
+
     }
 }

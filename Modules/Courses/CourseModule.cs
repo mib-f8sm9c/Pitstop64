@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data;
-using Cereal64.Common.Rom;
-using Cereal64.Common.DataElements;
-using MK64Pitstop.Data.Karts;
 
-namespace MK64Pitstop.Modules.Karts
+namespace MK64Pitstop.Modules.Courses
 {
-    public class KartModule : IModule
+    public class CourseModule : IModule
     {
+        //In the future, we'll need to keep track of all the course data,
+        // but for now a viewer will suffice
+
         public void UpdateRomData()
         {
-            _control.UpdateReferences();
+            _control.UpdateControl();
         }
 
         public System.Windows.Forms.Control Control
@@ -22,11 +21,11 @@ namespace MK64Pitstop.Modules.Karts
             {
                 if (_control == null)
                 {
-                    _control = new KartControl();
+                    _control = new CourseControl();
                 }
                 return _control;
             }
         }
-        private KartControl _control;
+        private CourseControl _control;
     }
 }

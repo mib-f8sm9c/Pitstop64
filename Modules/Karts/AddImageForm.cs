@@ -12,23 +12,29 @@ using MK64Pitstop.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Rom;
 using System.IO;
+using MK64Pitstop.Data.Karts;
+using MK64Pitstop.Services.Hub;
 
 namespace MK64Pitstop.Modules.Karts
 {
     public partial class AddImageForm : Form
     {
         private KartInfo _kart;
+        private bool _reset;
 
         public AddImageForm(KartInfo kart)
         {
             InitializeComponent();
 
             _kart = kart;
+            _reset = false;
 
             PopulateImages();
 
             UpdateEnabledButtons();
         }
+
+        public bool Reset { get { return _reset; } }
 
         public void PopulateImages()
         {
@@ -45,12 +51,10 @@ namespace MK64Pitstop.Modules.Karts
             if (_kart.KartImages.ImagePalette != null)
             {
                 btnAddNewImage.Enabled = true;
-                btnReset.Enabled = false;
             }
             else
             {
                 btnAddNewImage.Enabled = false;
-                btnReset.Enabled = true;
             }
 
             if (SelectedImage != null && SelectedImage.Image != null)
@@ -143,20 +147,16 @@ namespace MK64Pitstop.Modules.Karts
         private void btnAddNewImage_Click(object sender, EventArgs e)
         {
             //Import a new image
-            if (openImageDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openImagesDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                CreateNewKartImage(openImageDialog.FileName, true);
+                foreach(string file in openImagesDialog.FileNames)
+                    CreateNewKartImage(file, true);
             }
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            //Reset _kart.KartImages to what you need. Only for new karts
-            if (_kart.KartImages.ImagePalette != null)
-            {
-                UpdateEnabledButtons();
-                return;
-            }
+            //Reset _kart.KartImages to what you need. Resets the image palette
 
             if (openImagesDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -178,11 +178,18 @@ namespace MK64Pitstop.Modules.Karts
                 Palette palette = new Palette(MarioKart64ElementHub.Instance.NewElementOffset, paletteData);
                 MarioKart64ElementHub.Instance.AdvanceNewElementOffset(palette);
                 RomProject.Instance.Files[0].AddElement(palette);
+                _kart.KartImages.Images.Clear();
                 _kart.KartImages.SetPalette(palette);
+                foreach (KartAnimationSeries animation in _kart.KartAnimations)
+                    animation.OrderedImageNames.Clear();
+
+                lbAdded.Items.Clear();
                 foreach (string file in openImagesDialog.FileNames)
                 {
                     CreateNewKartImage(file);
                 }
+
+                _reset = true;
             }
         }
 

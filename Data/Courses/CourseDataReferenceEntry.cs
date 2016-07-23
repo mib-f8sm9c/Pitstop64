@@ -5,35 +5,12 @@ using System.Text;
 using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
+using MK64Pitstop;
 
-namespace MarioKartTestingTool
+namespace MK64Pitstop.Data.Courses
 {
     public class CourseDataReferenceEntry : N64DataElement
     {
-        public enum CourseDataID
-        {
-            MarioRaceway = 0x0,
-            ChocoMountain,
-            BowsersCastle,
-            BansheeBoardwalk,
-            YoshiValley,
-            FrappeSnowland,
-            KoopaTroopaBeach,
-            RoyalRaceway,
-            LuigiRaceway,
-            MooMooFarm,
-            ToadsTurnpike,
-            KalimariDesert,
-            SherbertLand,
-            RainbowRoad,
-            WarioStadium,
-            BlockFort,
-            Skyscraper,
-            DoubleDeck,
-            DKsJungleParkway,
-            BigDonut
-        }
-
         [CategoryAttribute("Course Data"),
         DescriptionAttribute("Start of the display list MIO0 block (segment 6)")]
         public int DisplayListBlockStart { get { return _displayListBlockStart; } set { _displayListBlockStart = value; } }
@@ -95,12 +72,12 @@ namespace MarioKartTestingTool
         public ushort Unknown2 { get { return _unknown2; } set { _unknown2 = value; } }
         private ushort _unknown2;
 
-        public CourseDataID CourseID;
+        public MarioKartRomInfo.OriginalCourses CourseID;
 
         public CourseDataReferenceEntry(int offset, byte[] data, int courseID)
             : base(offset, data)
         {
-            CourseID = (CourseDataID)courseID;
+            CourseID = (MarioKartRomInfo.OriginalCourses)courseID;
         }
 
         public override byte[] RawData

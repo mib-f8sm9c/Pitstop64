@@ -5,7 +5,7 @@ using System.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Utils;
 
-namespace MarioKartTestingTool
+namespace MK64Pitstop.Services
 {
     public static class VertexPacker
     {

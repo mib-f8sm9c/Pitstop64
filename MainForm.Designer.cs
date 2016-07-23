@@ -41,8 +41,10 @@
             this.exportROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.romInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.coursesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlCurrentView = new System.Windows.Forms.Panel();
@@ -150,25 +152,41 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.texturesToolStripMenuItem,
-            this.kartsToolStripMenuItem});
+            this.romInfoToolStripMenuItem,
+            this.coursesToolStripMenuItem,
+            this.kartsToolStripMenuItem,
+            this.texturesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // texturesToolStripMenuItem
+            // romInfoToolStripMenuItem
             // 
-            this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
-            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.texturesToolStripMenuItem.Text = "Textures";
-            this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            this.romInfoToolStripMenuItem.Name = "romInfoToolStripMenuItem";
+            this.romInfoToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.romInfoToolStripMenuItem.Text = "Rom Info";
+            this.romInfoToolStripMenuItem.Click += new System.EventHandler(this.romInfoToolStripMenuItem_Click);
+            // 
+            // coursesToolStripMenuItem
+            // 
+            this.coursesToolStripMenuItem.Name = "coursesToolStripMenuItem";
+            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.coursesToolStripMenuItem.Text = "Courses";
+            this.coursesToolStripMenuItem.Click += new System.EventHandler(this.coursesToolStripMenuItem_Click);
             // 
             // kartsToolStripMenuItem
             // 
             this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
-            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.kartsToolStripMenuItem.Text = "Karts";
             this.kartsToolStripMenuItem.Click += new System.EventHandler(this.kartsToolStripMenuItem_Click);
+            // 
+            // texturesToolStripMenuItem
+            // 
+            this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
+            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.texturesToolStripMenuItem.Text = "Textures";
+            this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -216,7 +234,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
-            this.Text = "Mario Kart 64 Pitstop V.0.0.0.0";
+            this.Text = "Pitstop 64 V.0.0.0";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.menuStrip.ResumeLayout(false);
@@ -248,6 +266,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem texturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kartsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem romInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem coursesToolStripMenuItem;
     }
 }
 
