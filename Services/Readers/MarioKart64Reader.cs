@@ -12,6 +12,7 @@ using System.ComponentModel;
 using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Services.Hub;
 using MK64Pitstop.Data.Courses;
+using MK64Pitstop.Data.Text;
 
 namespace MK64Pitstop.Services.Readers
 {
@@ -51,10 +52,13 @@ namespace MK64Pitstop.Services.Readers
             //}
 
             ProgressService.SetMessage("Reading TKMK00 Textures");
+
+            N64DataElement preExistingElement;
+
             //Now read the different data bits here, if they haven't been read in yet
             for (int i = 0; i < MarioKartRomInfo.TKMK00TextureLocations.Length; i++)
             {
-                N64DataElement preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
+                preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
                 if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
                 {
                     ushort alpha = MarioKartRomInfo.TKMK00TextureLocations[i].AlphaColor;
@@ -83,8 +87,50 @@ namespace MK64Pitstop.Services.Readers
                 }
             }
 
-            //Load in the kart graphics MIO0 references
-            //TO DO: MOVE THIS All TO EITHER A SEPARATE FUNCTION OR TO A SEPARATE CLASS
+            //Text bank!
+            TextBankBlock textBankBlock = null;
+            TextReferenceBlock textReferenceBlock = null;
+            bool previouslyLoadedText = false;
+
+            //To do: add a function to automate this pre-existing check, like
+            //        bool hasExistingElement<T:N64DataElement> (offset, out T)
+            preExistingElement = RomProject.Instance.Files[0].GetElementAt(TextBankBlock.TEXT_BLOCK_START);
+            if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
+            {
+                byte[] bytes = new byte[TextBankBlock.TEXT_BLOCK_LENGTH];
+                Array.Copy(rawData, TextBankBlock.TEXT_BLOCK_START, bytes, 0, bytes.Length);
+
+                textBankBlock = new TextBankBlock(TextBankBlock.TEXT_BLOCK_START, bytes);
+                results.NewElements.Add(textBankBlock);
+            }
+            else if (preExistingElement.GetType() == typeof(TextBankBlock))
+            {
+                previouslyLoadedText = true;
+                textBankBlock = (TextBankBlock)preExistingElement;
+            }
+
+            preExistingElement = RomProject.Instance.Files[0].GetElementAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1);
+            if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
+            {
+
+                byte[] bytes = new byte[TextReferenceBlock.TEXT_REFERENCE_END - TextReferenceBlock.TEXT_REFERENCE_SECTION_1];
+                Array.Copy(rawData, TextReferenceBlock.TEXT_REFERENCE_SECTION_1, bytes, 0, bytes.Length);
+
+                textReferenceBlock = new TextReferenceBlock(TextReferenceBlock.TEXT_REFERENCE_SECTION_1, bytes);
+                results.NewElements.Add(textReferenceBlock);
+            }
+            else if (preExistingElement.GetType() == typeof(TextReferenceBlock))
+            {
+                previouslyLoadedText = true;
+                textReferenceBlock = (TextReferenceBlock)preExistingElement;
+            }
+
+            if (textBankBlock != null && textReferenceBlock != null)
+            {
+                TextBank textBank = new TextBank(textBankBlock, textReferenceBlock, !previouslyLoadedText);
+                results.TextBank = textBank;
+            }
+
             KartReader.ReadRom(worker, rawData, results);
 
             CourseReader.ReadRom(worker, rawData, results);
@@ -129,6 +175,9 @@ namespace MK64Pitstop.Services.Readers
             if (results.CourseResults != null)
                 CourseReader.ApplyResults(results.CourseResults);
 
+            if(results.TextBank != null)
+                MarioKart64ElementHub.Instance.TextBank = results.TextBank;
+
             //Does this really belong here?
             if (!RomProject.Instance.Items.Contains(MarioKart64ElementHub.Instance))
                 RomProject.Instance.AddRomItem(MarioKart64ElementHub.Instance);
@@ -141,6 +190,7 @@ namespace MK64Pitstop.Services.Readers
         public List<TKMK00Block> OriginalTKMK00Blocks;
         public KartReaderResults KartResults;
         public CourseReaderResults CourseResults;
+        public TextBank TextBank;
 
         public MarioKart64ReaderResults()
         {

@@ -33,6 +33,7 @@ namespace MK64Pitstop
             Bowser
         }
 
+        //NOTE: THIS IS THE WRONG ORDER, but it's how the game stores it in order
         public enum OriginalCourses
         {
             MarioRaceway = 0x0,
@@ -134,18 +135,6 @@ namespace MK64Pitstop
             new TKMK00RomLocation(0x8209C0, 0x100,0x01),
             new TKMK00RomLocation(0x820AC0, 0x500, 0x01),
             new TKMK00RomLocation(0x820FC0, 0xD50, 0x01) //WHERE DOES THIS ONE END???
-        };
-
-        public static int[] CharacterPaletteReference = new int[]
-        {
-            0x000E2F44,
-            0x000E2F40,
-            0x000E2F48,
-            0x000E2F58,
-            0x000E2F54,
-            0x000E2F4C,
-            0x000E2F50,
-            0x000E2F5C
         };
 
         public static int[] CharacterNameplateReference = new int[]

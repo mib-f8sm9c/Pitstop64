@@ -50,6 +50,7 @@
             this.pnlCurrentView = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
+            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -155,7 +156,8 @@
             this.romInfoToolStripMenuItem,
             this.coursesToolStripMenuItem,
             this.kartsToolStripMenuItem,
-            this.texturesToolStripMenuItem});
+            this.texturesToolStripMenuItem,
+            this.textToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -163,28 +165,28 @@
             // romInfoToolStripMenuItem
             // 
             this.romInfoToolStripMenuItem.Name = "romInfoToolStripMenuItem";
-            this.romInfoToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.romInfoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.romInfoToolStripMenuItem.Text = "Rom Info";
             this.romInfoToolStripMenuItem.Click += new System.EventHandler(this.romInfoToolStripMenuItem_Click);
             // 
             // coursesToolStripMenuItem
             // 
             this.coursesToolStripMenuItem.Name = "coursesToolStripMenuItem";
-            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.coursesToolStripMenuItem.Text = "Courses";
             this.coursesToolStripMenuItem.Click += new System.EventHandler(this.coursesToolStripMenuItem_Click);
             // 
             // kartsToolStripMenuItem
             // 
             this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
-            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.kartsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kartsToolStripMenuItem.Text = "Karts";
             this.kartsToolStripMenuItem.Click += new System.EventHandler(this.kartsToolStripMenuItem_Click);
             // 
             // texturesToolStripMenuItem
             // 
             this.texturesToolStripMenuItem.Name = "texturesToolStripMenuItem";
-            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.texturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.texturesToolStripMenuItem.Text = "Textures";
             this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
             // 
@@ -221,6 +223,13 @@
             // 
             this.saveProjectDialog.FileName = "newProject";
             this.saveProjectDialog.Filter = "Rom Project|*.romproj";
+            // 
+            // textToolStripMenuItem
+            // 
+            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.textToolStripMenuItem.Text = "Text";
+            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -268,6 +277,7 @@
         private System.Windows.Forms.ToolStripMenuItem kartsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem romInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem coursesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
     }
 }
 

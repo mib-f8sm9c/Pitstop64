@@ -52,13 +52,14 @@
     <Compile Include="Data\DmaAddressBlock.cs" />
     <Compile Include="Data\Karts\KartPortraitTable.cs" />
     <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
-    <Compile Include="Data\TextBankBlock.cs" />
+    <Compile Include="Data\Text\TextBank.cs" />
+    <Compile Include="Data\Text\TextBankBlock.cs" />
     <Compile Include="Data\Courses\CourseDataReferenceEntry.cs" />
     <Compile Include="Data\ImageMIO0Block.cs" />
     <Compile Include="Data\Karts\KartGraphicsReferenceBlock.cs" />
     <Compile Include="Data\Karts\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
-    <Compile Include="Data\TextReferenceBlock.cs" />
+    <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="MainForm.cs">
@@ -101,6 +102,13 @@
       <DependentUpon>KartControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Karts\KartModule.cs" />
+    <Compile Include="Modules\Text\TextControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Text\TextControl.Designer.cs">
+      <DependentUpon>TextControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Text\TextModule.cs" />
     <Compile Include="Modules\ModuleFactory.cs" />
     <Compile Include="Modules\About\AboutControl.cs">
       <SubType>UserControl</SubType>
@@ -160,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\KartControl.resx">
       <DependentUpon>KartControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Text\TextControl.resx">
+      <DependentUpon>TextControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\TexturesControl.resx">
       <DependentUpon>TexturesControl.cs</DependentUpon>

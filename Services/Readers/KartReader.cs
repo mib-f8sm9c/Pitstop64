@@ -42,9 +42,9 @@ namespace MK64Pitstop.Services.Readers
             {
                 ProgressService.SetMessage("Loading Kart Resources");
                 byte[] refBlock = new byte[KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength];
-                Array.Copy(rawData, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock1Location, refBlock, 0, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength);
+                Array.Copy(rawData, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, refBlock, 0, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength);
 
-                block = new KartGraphicsReferenceBlock(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock1Location, refBlock);
+                block = new KartGraphicsReferenceBlock(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, refBlock);
                 results.NewElements.Add(block);
                 //RomProject.Instance.Files[0].AddElement(block);
             }
@@ -68,12 +68,6 @@ namespace MK64Pitstop.Services.Readers
         private static void LoadKartGraphicDmaReferences(KartGraphicsReferenceBlock block, byte[] rawData, KartReaderResults results, BackgroundWorker worker)
         {
             int mioOffset;
-
-            ImageMIO0Block newblock = ImageMIO0Block.ReadImageMIO0BlockFrom(rawData, 0x145964);
-            Texture newtexture = new Texture(0, newblock.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 32);
-            newtexture.Image.Save("test.bmp");
-            newblock.FileOffset = -1;
-
 
             for (int i = 0; i < KartGraphicsReferenceBlock.CHARACTER_COUNT; i++)
             {
@@ -237,18 +231,18 @@ namespace MK64Pitstop.Services.Readers
 
                 KartInfo newKart = new KartInfo(kartName, (Palette)block.CharacterPaletteReferences[i].ReferenceElement, true);
 
-                KartAnimationSeries[] turnAnims = new KartAnimationSeries[KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT];
-                KartAnimationSeries[] spinAnims = new KartAnimationSeries[KartGraphicsReferenceBlock.FULL_SPIN_ANGLE_COUNT];
+                KartAnimationSeries[] turnAnims = new KartAnimationSeries[KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT];
+                KartAnimationSeries[] spinAnims = new KartAnimationSeries[KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT];
                 KartAnimationSeries crashAnim;
 
-                ImageMIO0Block[][] turnBlocks = new ImageMIO0Block[KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT][];
-                for (int k = 0; k < KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT; k++)
+                ImageMIO0Block[][] turnBlocks = new ImageMIO0Block[KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT][];
+                for (int k = 0; k < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT; k++)
                 {
                     turnBlocks[k] = new ImageMIO0Block[KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT];
                 }
 
-                ImageMIO0Block[][] spinBlocks = new ImageMIO0Block[KartGraphicsReferenceBlock.FULL_SPIN_ANGLE_COUNT][];
-                for (int k = 0; k < KartGraphicsReferenceBlock.FULL_SPIN_ANGLE_COUNT; k++)
+                ImageMIO0Block[][] spinBlocks = new ImageMIO0Block[KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT][];
+                for (int k = 0; k < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT; k++)
                 {
                     spinBlocks[k] = new ImageMIO0Block[KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT];
                 }
@@ -295,16 +289,16 @@ namespace MK64Pitstop.Services.Readers
                 crashAnim.KartAnimationType = (int)KartAnimationSeries.KartAnimationTypeFlag.Crash;
 
                 //Work backwards, to help with image naming
-                for (short j = 0; j < KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT + KartGraphicsReferenceBlock.FULL_SPIN_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT; j++)
+                for (short j = 0; j < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT; j++)
                 {
                     ImageMIO0Block imageBlock = (ImageMIO0Block)block.CharacterTurnReferences[i][j].ReferenceElement;
 
                     //Determine which animation block the current image belongs in
-                    if (j >= KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
+                    if (j >= KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
                     {
                         //Full spin
-                        int spinAnim = (j - KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
-                        int spinIndex = (j - KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) - spinAnim * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
+                        int spinAnim = (j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
+                        int spinIndex = (j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) - spinAnim * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
 
                         imageBlock.ImageName = kartName[0] + " " + Enum.GetName(typeof(KartAnimationSeries.KartAnimationTypeFlag),
                             spinAnims[spinAnim].KartAnimationType) + "-" + spinIndex;

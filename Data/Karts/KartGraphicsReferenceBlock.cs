@@ -15,21 +15,22 @@ namespace MK64Pitstop.Data.Karts
 {
     public class KartGraphicsReferenceBlock : N64DataElement
     {
+        public static int DefaultKartGraphicsReferenceBlock0Location = 0x0DE7F4;
         public static int DefaultKartGraphicsReferenceBlock1Location = 0x0DEAC0;
         public static int DefaultKartGraphicsReferenceBlock2Location = 0x0E2B20;
         public static int DefaultKartGraphicsReferenceBlock3Location = 0x0E2F40;
-        public static int DefaultKartGraphicsReferenceLength = 0x44A0;
+        public static int DefaultKartGraphicsReferenceLength = 0x476C;
 
         public const int TURN_REF_TOTAL_COUNT = 0x1EF;
         public const int HALF_TURN_REF_COUNT = 0x23;
-        public const int HALF_TURN_ANGLE_COUNT = 9;
+        public const int ANIMATION_ANGLE_COUNT = 9;
         public const int FULL_SPIN_REF_COUNT = 0x14;
-        public const int FULL_SPIN_ANGLE_COUNT = 9;
         public const int CRASH_REF_COUNT = 0x20;
         public const int CHARACTER_COUNT = 8;
 
         public const int DMA_SEGMENT_OFFSET = 0x145470;
 
+        public const int FILLER_0_LENGTH = 35;
         public const int FILLER_1_LENGTH = 0xA0;
         public const int FILLER_2_LENGTH = 0x8;
 
@@ -58,6 +59,10 @@ namespace MK64Pitstop.Data.Karts
         //    232, 233, 234, 249, 250, 251, 252, 253, 254, 269, 270, 271, 272, 273, 274, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302,
         //    303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, };
 #endregion
+
+        public List<DmaAddress[]> WheelPaletteReferences;
+
+        public DmaAddress[] Filler0 = new DmaAddress[FILLER_0_LENGTH];
 
         public List<DmaAddress[]> CharacterTurnReferences;
 
@@ -92,13 +97,14 @@ namespace MK64Pitstop.Data.Karts
             {
                 CharacterTurnReferences = new List<DmaAddress[]>(CHARACTER_COUNT);
                 CharacterCrashReferences = new List<DmaAddress[]>(CHARACTER_COUNT);
+                WheelPaletteReferences = new List<DmaAddress[]>(CHARACTER_COUNT);
                 for (int i = 0; i < CHARACTER_COUNT; i++)
                 {
                     CharacterTurnReferences.Add(new DmaAddress[TURN_REF_TOTAL_COUNT]);
                     CharacterCrashReferences.Add(new DmaAddress[CRASH_REF_COUNT]);
+                    WheelPaletteReferences.Add(new DmaAddress[ANIMATION_ANGLE_COUNT * 2]);
                 }
                 CharacterPaletteReferences = new DmaAddress[CHARACTER_COUNT];
-
             }
         }
 
@@ -109,6 +115,15 @@ namespace MK64Pitstop.Data.Karts
                 //SaveKartInfo();
 
                 return ByteHelper.CombineIntoBytes(
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Mario], //NOTE: CHECK THIS ORDER FOR CORRECTNESS LATER
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Luigi],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Bowser],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Toad],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Yoshi],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.DK],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Peach],
+                    WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Wario],
+                    Filler0,
                     CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Mario],
                     CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Toad],
                     CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Luigi],
@@ -143,8 +158,36 @@ namespace MK64Pitstop.Data.Karts
                 int offset = 0; //0xDEAC0
                 int address;
 
-                //Block 1
+                //Block 2
                 List<DmaAddress[]> blockReferencesInOrder = new List<DmaAddress[]>(8);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Mario]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Luigi]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Bowser]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Toad]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Yoshi]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.DK]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Peach]);
+                blockReferencesInOrder.Add(WheelPaletteReferences[(int)MarioKartRomInfo.OriginalCharacters.Wario]);
+
+                for (int character = 0; character < 8; character++)
+                {
+                    for (int i = 0; i < ANIMATION_ANGLE_COUNT * 2; i++)
+                    {
+                        address = ByteHelper.ReadInt(value, offset);
+                        blockReferencesInOrder[character][i] = new DmaAddress(address);
+                        offset += 4;
+                    }
+                }
+
+                //Filler
+                for (int i = 0; i < Filler0.Length; i++)
+                {
+                    Filler0[i] = new DmaAddress(ByteHelper.ReadInt(value, offset));
+                    offset += 4;
+                }
+
+                //Block 1
+                blockReferencesInOrder.Clear();
                 blockReferencesInOrder.Add(CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Mario]);
                 blockReferencesInOrder.Add(CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Toad]);
                 blockReferencesInOrder.Add(CharacterTurnReferences[(int)MarioKartRomInfo.OriginalCharacters.Luigi]);

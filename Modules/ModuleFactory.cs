@@ -14,6 +14,7 @@ namespace MK64Pitstop.Modules
             Courses,
             Karts,
             Textures,
+            Text,
             About
         }
 
@@ -38,6 +39,9 @@ namespace MK64Pitstop.Modules
                     break;
                 case Modules.Textures:
                     newModule = new Textures.TexturesModule();
+                    break;
+                case Modules.Text:
+                    newModule = new Text.TextModule();
                     break;
                 case Modules.About:
                     newModule = new About.AboutModule();

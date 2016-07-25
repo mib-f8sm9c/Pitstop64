@@ -10,6 +10,7 @@ using Cereal64.Common.DataElements;
 using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Data.Courses;
 using MK64Pitstop.Services.Readers;
+using MK64Pitstop.Data.Text;
 
 namespace MK64Pitstop.Services.Hub
 {
@@ -78,11 +79,13 @@ namespace MK64Pitstop.Services.Hub
         public List<TKMK00Block> OriginalTKMK00Blocks { get; private set; }
 
         //public CourseGraphicsReferenceBlock CourseGraphicsBlock { get; set; }
+
         public KartGraphicsReferenceBlock KartGraphicsBlock { get; set; }
         public KartPortraitTable KartPortraitsTable { get; set; }
         public CourseDataReferenceBlock CourseDataBlock { get; set; }
-        //public TextBankBlock TextBank { get; set; }
-        //public TextReferenceBlock TextReference { get; set; }
+
+        //NOTE: THIS GUY ISN"T GETTING SAVED OR LOADED~!!!
+        public TextBank TextBank { get; set; }
 
         public int NewElementOffset { get; private set; }
 
@@ -351,15 +354,15 @@ namespace MK64Pitstop.Services.Hub
                 {
                     int animFlag;
                     int animIndex;
-                    if (j < KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
+                    if (j < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
                     {
                         animFlag = (int)Math.Round(Math.Pow(2, j / KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT));
                         animIndex = j - (j / KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT;
                     }
                     else
                     {
-                        animFlag = (int)Math.Round(Math.Pow(2, (j - KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT + KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT));
-                        animIndex = j - (KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT * KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT) - ((j - KartGraphicsReferenceBlock.HALF_TURN_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
+                        animFlag = (int)Math.Round(Math.Pow(2, (j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT));
+                        animIndex = j - (KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT * KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT) - ((j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
                     }
 
                     KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & animFlag) != 0);

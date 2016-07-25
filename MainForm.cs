@@ -185,5 +185,10 @@ namespace MK64Pitstop
         {
             SelectedModule = ModuleFactory.Modules.Info;
         }
+
+        private void textToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedModule = ModuleFactory.Modules.Text;
+        }
     }
 }
