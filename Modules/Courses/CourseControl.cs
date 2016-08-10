@@ -53,6 +53,7 @@ namespace MK64Pitstop.Modules.Courses
             if (cbCourse.SelectedIndex != -1)
             {
                 //This is still in the old format, so we'll just 
+                openGLControl.ClearGraphics();
                 PortedLoadingCode();
             }
         }

@@ -50,6 +50,7 @@
     <Compile Include="Data\Courses\CourseDataReferenceBlock.cs" />
     <Compile Include="Data\Courses\CourseTextureRef.cs" />
     <Compile Include="Data\DmaAddressBlock.cs" />
+    <Compile Include="Data\Karts\KartPaletteBlock.cs" />
     <Compile Include="Data\Karts\KartPortraitTable.cs" />
     <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
     <Compile Include="Data\Text\TextBank.cs" />

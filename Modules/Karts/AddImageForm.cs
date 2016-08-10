@@ -137,7 +137,7 @@ namespace MK64Pitstop.Modules.Karts
                 block.DecodedN64DataElement = texture;
                 MarioKart64ElementHub.Instance.AdvanceNewElementOffset(block);
                 RomProject.Instance.Files[0].AddElement(block);
-                KartImage newImage = new KartImage(block);
+                KartImage newImage = new KartImage(block, _kart.KartImages.ImagePalette);
                 _kart.KartImages.Images.Add(imageName, newImage);
 
                 lbAdded.Items.Add(newImage);

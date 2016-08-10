@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cereal64.Common.DataElements;
+using System.Xml.Linq;
 
 namespace MK64Pitstop.Data.Text
 {
@@ -23,6 +24,12 @@ namespace MK64Pitstop.Data.Text
 
         public TextBankBlock(int fileOffset, byte[] data)
             : base(fileOffset, data)
+        {
+
+        }
+
+        public TextBankBlock(XElement xml, byte[] data)
+            : base(xml, data)
         {
 
         }
