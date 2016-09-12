@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Cereal64\Common\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChompShopFloor.cs" />
     <Compile Include="ChompShopForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +80,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Cereal64\Common\Common.csproj">
+      <Project>{B6A46BAF-D012-40F7-8213-EE361B1BC75E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cereal64\Microcodes\Microcodes.csproj">
+      <Project>{F4DBB616-9F71-4593-AD2C-4BBE38561AF1}</Project>
+      <Name>Microcodes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MK64Pitstop.csproj">
+      <Project>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</Project>
+      <Name>MK64Pitstop</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

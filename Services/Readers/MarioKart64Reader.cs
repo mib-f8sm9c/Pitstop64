@@ -51,6 +51,17 @@ namespace MK64Pitstop.Services.Readers
             //    return;
             //}
 
+            //Image testing code
+            //ImageMIO0Block block = ImageMIO0Block.ReadImageMIO0BlockFrom(rawData, 8000536);//new ImageMIO0Block(8000536, rawData);
+            //if(block.DecodedData != null)
+            //{
+            //    //block.DecodedN64DataElement = null;
+            //    Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 128, 78);
+
+            //    newTexture.Image.Save("testing.png");
+            //    //kartPortraits[i].ImageReference.DecodedN64DataElement = newTexture;
+            //}
+
             ProgressService.SetMessage("Reading TKMK00 Textures");
 
             N64DataElement preExistingElement;

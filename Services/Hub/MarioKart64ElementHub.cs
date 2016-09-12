@@ -19,14 +19,6 @@ namespace MK64Pitstop.Services.Hub
     // been externally added in to help keep track of them.
     public class MarioKart64ElementHub : RomItem
     {
-        private const string KARTS = "karts";
-        private const string KART = "kart";
-        private const string KART_NAME = "kartName";
-        private const string KART_PALETTE = "kartPalette";
-        private const string KART_IMAGE_POOL = "kartImagePool";
-        private const string KART_ANIMATIONS = "kartAnimations";
-        private const string KART_ANIMATION_TYPE = "kartAnimationType";
-
         private const string SELECTED_KARTS = "selectedKarts";
 
         private const string COURSES = "courses";
@@ -95,10 +87,11 @@ namespace MK64Pitstop.Services.Hub
 
         public int NewElementOffset { get; private set; }
 
+        private XElement _loadedXml;
+
         private const int BASE_FILE_END_OFFSET = 0xBF3C70;
 
         private MarioKart64ElementHub()
-            : base(null)
         {
             Karts = new List<KartInfo>();
             SelectedKarts = new KartInfo[8];
@@ -114,7 +107,6 @@ namespace MK64Pitstop.Services.Hub
         }
 
         public MarioKart64ElementHub(XElement xml)
-            : base(xml)
         {
             Karts = new List<KartInfo>();
             SelectedKarts = new KartInfo[8];
@@ -129,7 +121,7 @@ namespace MK64Pitstop.Services.Hub
 
             _instance = this;
 
-            LoadFromXML(xml);
+            _loadedXml = xml; //Actually load the xml data at a later date
         }
 
         public void AdvanceNewElementOffset(N64DataElement element)
@@ -137,20 +129,21 @@ namespace MK64Pitstop.Services.Hub
             NewElementOffset += element.RawDataSize;
         }
 
-        public void LoadFromXML(XElement xml)
+        public void LoadFromXML()
         {
             //TextBank/TextReferences - Only use the offset currently being used
             //KartReference - Only use the names of the karts selected
             //MIOBlocks/TKMK00Bocks - Offsets for each one
             //Karts - Full listing of information
 
-            ClearElements();
+            //Elements should already have been cleared
+            //ClearElements();
 
-            NewElementOffset = int.Parse(xml.Attribute(NEW_ELEMENT_OFFSET).Value);
+            NewElementOffset = int.Parse(_loadedXml.Attribute(NEW_ELEMENT_OFFSET).Value);
 
             int offset;
 
-            foreach (XElement element in xml.Elements())
+            foreach (XElement element in _loadedXml.Elements())
             {
                 switch (element.Name.ToString())
                 {
@@ -284,13 +277,13 @@ namespace MK64Pitstop.Services.Hub
                             }
                         }
                         break;
-                    case KARTS:
-                        foreach (XElement kart in element.Elements())
-                        {
-                            KartInfo newKart = new KartInfo(kart);
-                            Karts.Add(newKart);
-                        }
-                        break;
+                    //case KARTS:
+                    //    foreach (XElement kart in element.Elements())
+                    //    {
+                    //        KartInfo newKart = new KartInfo(kart);
+                    //        Karts.Add(newKart);
+                    //    }
+                    //    break;
                     case SELECTED_KARTS:
                         int kartIndex = 0;
                         foreach(XElement selKart in element.Elements())
@@ -356,14 +349,6 @@ namespace MK64Pitstop.Services.Hub
             newElement = new XElement(SPIN_PALETTE_BLOCK);
             foreach (KartPaletteBlock block in SpinKartPaletteBlocks)
                 newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
-            xml.Add(newElement);
-
-
-            newElement = new XElement(KARTS);
-            foreach (KartInfo kart in Karts)
-            {
-                newElement.Add(kart.GetAsXML());
-            }
             xml.Add(newElement);
 
             //And finally, the selected karts
@@ -513,6 +498,7 @@ namespace MK64Pitstop.Services.Hub
                             imageName = anim.OrderedImageNames[anim.GetImageIndexForTurnFrame(frameIndex)];
                         else //if (anim.IsSpinAnim)
                             imageName = anim.OrderedImageNames[anim.GetImageIndexForSpinFrame(frameIndex)];
+
                         ImageMIO0Block block = kart.KartImages.Images[imageName].GetEncodedData(kart.KartImages.ImagePalette);
                         DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
                         address.ReferenceElement = block;
@@ -559,6 +545,13 @@ namespace MK64Pitstop.Services.Hub
 
                 for (int j = 0; j < kart.KartPortraits.Count; j++)
                 {
+                    if (kart.KartPortraits[j].FileOffset == -1)
+                    {
+                        kart.KartPortraits[j].FileOffset = MarioKart64ElementHub.Instance.NewElementOffset;
+                        MarioKart64ElementHub.Instance.AdvanceNewElementOffset(kart.KartPortraits[j]);
+                        RomProject.Instance.Files[0].AddElement(kart.KartPortraits[j]);
+                    }
+
                     KartPortraitTableEntry entry = new KartPortraitTableEntry(kart.KartPortraits[j].FileOffset, kart.KartPortraits[j]);
                     KartPortraitsTable.Entries[i][j] = entry;
                 }
@@ -574,6 +567,9 @@ namespace MK64Pitstop.Services.Hub
             }
         }
 
-
+        public override string GetXMLPath()
+        {
+            return "MarioKartElementHub";
+        }
     }
 }

@@ -13,6 +13,9 @@ using MK64Pitstop.Services;
 using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Services.Hub;
 using Cereal64.Common.Rom;
+using System.Xml.Linq;
+using System.IO;
+using Ionic.Zip;
 
 namespace MK64Pitstop.Modules.Karts
 {
@@ -1262,6 +1265,25 @@ namespace MK64Pitstop.Modules.Karts
                     SetNamePlate();
 
                     SettingsChanged = true;
+                }
+            }
+        }
+
+        private void btnExportKart_Click(object sender, EventArgs e)
+        {
+            //Export the kart to an external file here!
+            XElement kartXML = SelectedKartInfo.GetAsXML();
+
+            if(saveKartDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (var fs = File.Create(saveKartDialog.FileName))
+                {
+                    using (ZipOutputStream s = new ZipOutputStream(fs))
+                    {
+                        s.PutNextEntry("Kart");
+                        byte[] bytes = Encoding.ASCII.GetBytes(kartXML.ToString());
+                        s.Write(bytes, 0, bytes.Length);
+                    }
                 }
             }
         }

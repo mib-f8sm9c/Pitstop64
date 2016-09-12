@@ -15,6 +15,8 @@ namespace MK64Pitstop.Data.Karts
 {
     public class KartGraphicsReferenceBlock : N64DataElement
     {
+        //NOTE: SCALE FACTOR STARTS AT 0xDE7D4 AND GOES Mario,Luigi,Yoshi,Toad,DK,Wario,Peach,Bowser
+
         public static int DefaultKartGraphicsReferenceBlock0Location = 0x0DE7F4;
         public static int DefaultKartGraphicsReferenceBlock1Location = 0x0DEAC0;
         public static int DefaultKartGraphicsReferenceBlock2Location = 0x0E2B20;

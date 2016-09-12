@@ -14,7 +14,7 @@ namespace MK64Pitstop.Data.Karts
     /// <summary>
     /// Stores information about a specific kart character
     /// </summary>
-    public class KartInfo
+    public class KartInfo : RomItem
     {
         private const string NAME = "name";
         private const string ORIGINAL = "original";
@@ -25,12 +25,15 @@ namespace MK64Pitstop.Data.Karts
 
         private const string IMAGE = "image";
         private const string IMAGE_NAME = "name";
+        private const string IMAGE_DATA = "data";
 
         private const string PORTRAITS = "portraits";
         private const string PORTRAIT = "portrait";
-        private const string IMAGE_OFFSET = "imageOffset";
 
         private const string NAME_PLATE = "namePlate";
+        private const string NAME_PLATE_ALPHA = "alpha";
+
+        private const string OFFSET = "offset";
 
         public string KartName { get; set; }
 
@@ -111,37 +114,40 @@ namespace MK64Pitstop.Data.Karts
             XElement portraits = xml.Element(PORTRAITS);
             foreach (XElement portrait in portraits.Elements())
             {
-                int offset = int.Parse(portrait.Attribute(IMAGE_OFFSET).Value);
-
-                //Load the ImageMIO0Block here
-                if (RomProject.Instance.Files[0].HasElementExactlyAt(offset))
+                int offset = int.Parse(portrait.Attribute(OFFSET).Value);
+                ImageMIO0Block block;
+                if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is ImageMIO0Block)
                 {
-                    N64DataElement element = RomProject.Instance.Files[0].GetElementAt(offset);
-                    if (element is ImageMIO0Block)
-                    {
-                        if (((ImageMIO0Block)element).DecodedN64DataElement == null)
-                        {
-                            Texture newTexture = new Texture(0, ((ImageMIO0Block)element).DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                            ((ImageMIO0Block)element).DecodedN64DataElement = newTexture;
-                        }
-                        KartPortraits.Add((ImageMIO0Block)element);
-                    }
+                    block = (ImageMIO0Block)RomProject.Instance.Files[0].GetElementAt(offset);
                 }
+                else
+                {
+                    byte[] data = Convert.FromBase64String(portrait.Element(IMAGE_DATA).Value);
+                    block = new ImageMIO0Block(-1, data);
+                }
+
+                Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                block.DecodedN64DataElement = newTexture;
+                KartPortraits.Add(block);
             }
 
             XElement namePlate = xml.Element(NAME_PLATE);
-            int namePlateOffset = int.Parse(namePlate.Value);
-            if (RomProject.Instance.Files[0].HasElementExactlyAt(namePlateOffset))
-            {
-                N64DataElement element = RomProject.Instance.Files[0].GetElementAt(namePlateOffset);
-                if (element is TKMK00Block)
-                {
-                    KartNamePlate = (TKMK00Block)element;
-                }
-            }
+            byte[] namePlateData = Convert.FromBase64String(namePlate.Value);
+            ushort namePlateAlpha = ushort.Parse(namePlate.Attribute(NAME_PLATE_ALPHA).Value);
+
+            KartNamePlate = new TKMK00Block(-1, namePlateData, namePlateAlpha);
+
+            //if (RomProject.Instance.Files[0].HasElementExactlyAt(namePlateOffset))
+            //{
+            //    N64DataElement element = RomProject.Instance.Files[0].GetElementAt(namePlateOffset);
+            //    if (element is TKMK00Block)
+            //    {
+            //        KartNamePlate = (TKMK00Block)element;
+            //    }
+            //}
         }
 
-        public XElement GetAsXML()
+        public override XElement GetAsXML()
         {
             XElement xml = new XElement(this.GetType().ToString()); //Can derive actual type from name with N64DataElementFactory
 
@@ -170,15 +176,23 @@ namespace MK64Pitstop.Data.Karts
                 if (block.DecodedN64DataElement != null)
                 {
                     XElement xmlPortrait = new XElement(PORTRAIT);
-                    xmlPortrait.Add(new XAttribute(IMAGE_OFFSET, block.FileOffset));
+                    xmlPortrait.Add(new XAttribute(OFFSET, block.FileOffset));
+                    xmlPortrait.Add(new XElement(IMAGE_DATA, Convert.ToBase64String(block.RawData)));
                     xmlPortraits.Add(xmlPortrait);
                 }
             }
             xml.Add(xmlPortraits);
 
+            //For the nameplate we need to temporarily set the index to -1
+            int namePlateOffset = KartNamePlate.FileOffset;
+            KartNamePlate.FileOffset = -1;
+
             XElement xmlNamePlate = new XElement(NAME_PLATE);
-            xmlNamePlate.Value = KartNamePlate.FileOffset.ToString();
+            xmlNamePlate.Value = Convert.ToBase64String(KartNamePlate.RawData);
+            xmlNamePlate.Add(new XAttribute(NAME_PLATE_ALPHA, KartNamePlate.ImageAlphaColor));
             xml.Add(xmlNamePlate);
+
+            KartNamePlate.FileOffset = namePlateOffset;
 
             return xml;
         }
@@ -197,6 +211,11 @@ namespace MK64Pitstop.Data.Karts
         public override string ToString()
         {
             return KartName;
+        }
+
+        public override string GetXMLPath()
+        {
+            return "Karts/" + KartName;
         }
     }
 
@@ -219,6 +238,8 @@ namespace MK64Pitstop.Data.Karts
 
         private const string PALETTE = "palette";
 
+        private const string OFFSET = "offset";
+
         public KartImagePool()
         {
             Images = new Dictionary<string, KartImage>();
@@ -233,8 +254,22 @@ namespace MK64Pitstop.Data.Karts
 
         public KartImagePool(XElement xml)
         {
-            if(xml.Element(PALETTE) != null)
-                ImagePalette = new Palette(-1, Convert.FromBase64String(xml.Element(PALETTE).Value));
+            if (xml.Element(PALETTE) != null)
+            {
+                if (xml.Element(PALETTE).Attribute(OFFSET) != null)
+                {
+                    int offset = int.Parse(xml.Element(PALETTE).Attribute(OFFSET).Value);
+
+                    if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is Palette)
+                    {
+                        ImagePalette = (Palette)RomProject.Instance.Files[0].GetElementAt(offset);
+                    }
+                    else
+                        ImagePalette = new Palette(-1, Convert.FromBase64String(xml.Element(PALETTE).Value));
+                }
+                else
+                    ImagePalette = new Palette(-1, Convert.FromBase64String(xml.Element(PALETTE).Value));
+            }
             else
                 ImagePalette = null;
 
@@ -256,36 +291,25 @@ namespace MK64Pitstop.Data.Karts
                     }
                 }
 
-                //Load the ImageMIO0Block here
-                ImageMIO0Block block = new ImageMIO0Block(-1, data);
+                ImageMIO0Block block;
+                int offset = int.Parse(image.Attribute(OFFSET).Value);
+                if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is ImageMIO0Block)
+                {
+                    block = (ImageMIO0Block)RomProject.Instance.Files[0].GetElementAt(offset);
+                }
+                else
+                {
+                    block = new ImageMIO0Block(name, -1, data);
+                }
 
                 Palette combinedPalette = ImagePalette;
                 if (animPalettes.Count > 0)
                     combinedPalette = combinedPalette.Combine(animPalettes[0]);
-                Texture newTexture = new Texture(0, ((ImageMIO0Block)element).DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
-                ((ImageMIO0Block)element).DecodedN64DataElement = newTexture;
+                Texture newTexture = new Texture(-1, block.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
+                block.DecodedN64DataElement = newTexture;
 
                 KartImage newImage = new KartImage(block, animPalettes);
                 Images.Add(name, newImage);
-
-
-                if (RomProject.Instance.Files[0].HasElementExactlyAt(offset))
-                {
-                    N64DataElement element = RomProject.Instance.Files[0].GetElementAt(offset);
-                    if (element is ImageMIO0Block)
-                    {
-                        if (((ImageMIO0Block)element).DecodedN64DataElement == null)
-                        {
-                            Palette combinedPalette = ImagePalette;
-                            if (animPalettes.Count > 0)
-                                combinedPalette = combinedPalette.Combine(animPalettes[0]);
-                            Texture newTexture = new Texture(0, ((ImageMIO0Block)element).DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
-                            ((ImageMIO0Block)element).DecodedN64DataElement = newTexture;
-                        }
-                        KartImage newImage = new KartImage((ImageMIO0Block)element, animPalettes);
-                        Images.Add(name, newImage);
-                    }
-                }
             }
         }
 
@@ -303,15 +327,20 @@ namespace MK64Pitstop.Data.Karts
         {
             XElement xml = new XElement(KART_IMAGE_POOL); //Can derive actual type from name with N64DataElementFactory
 
-            if(ImagePalette != null)
-                xml.Add(new XElement(PALETTE, Convert.ToBase64String(ImagePalette.RawData)));
+            if (ImagePalette != null)
+            {
+                XElement paletteEl = new XElement(PALETTE, Convert.ToBase64String(ImagePalette.RawData));
+                paletteEl.Add(new XAttribute(OFFSET, ImagePalette.FileOffset));
+                xml.Add(paletteEl);
+            }
 
             XElement xmlImages = new XElement(IMAGES);
             foreach (string key in Images.Keys)
             {
                 XElement xmlImage = new XElement(IMAGE);
                 xmlImage.Add(new XAttribute(IMAGE_NAME, key));
-                xmlImage.Add(new XAttribute(IMAGE_OFFSET, Images[key].EncodedData.FileOffset));
+                xmlImage.Add(new XElement(IMAGE_DATA, Convert.ToBase64String(Images[key].EncodedData.RawData)));
+                xmlImage.Add(new XAttribute(OFFSET, Images[key].EncodedData.FileOffset));
                 XElement animElement = new XElement(IMAGE_ANIM_PALETTES);
                 foreach (Palette palette in Images[key].AnimationPalettes)
                 {

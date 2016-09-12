@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Cereal64\Common\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -89,6 +93,12 @@
     </Compile>
     <Compile Include="Modules\Karts\AddImageForm.Designer.cs">
       <DependentUpon>AddImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\KartPreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\KartPreviewControl.Designer.cs">
+      <DependentUpon>KartPreviewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Karts\NewAnimForm.cs">
       <SubType>Form</SubType>
@@ -164,6 +174,9 @@
     <EmbeddedResource Include="Modules\Karts\AddImageForm.resx">
       <DependentUpon>AddImageForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\KartPreviewControl.resx">
+      <DependentUpon>KartPreviewControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\NewAnimForm.resx">
       <DependentUpon>NewAnimForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -212,7 +225,6 @@
       <Name>VisObj64</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

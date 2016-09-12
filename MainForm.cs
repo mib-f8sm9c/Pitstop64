@@ -16,6 +16,7 @@ using Cereal64.Common.Utils;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using MK64Pitstop.Services.Readers;
 using MK64Pitstop.Services.Hub;
+using MK64Pitstop.Data.Karts;
 
 namespace MK64Pitstop
 {
@@ -71,7 +72,8 @@ namespace MK64Pitstop
                 RomProject.Instance.Reset();
 
                 UnknownData data = new UnknownData(0, File.ReadAllBytes(openFileDialog.FileName));
-                RomFile file = new RomFile(openFileDialog.FileName, RomProject.Instance.Files.Count + 1, data);
+                RomFile file = new RomFile(Path.GetFileNameWithoutExtension(openFileDialog.FileName),
+                    RomProject.Instance.Files.Count + 1, data);
                 RomProject.Instance.AddRomFile(file);
 
                 statusBarFile.Text = "New Project";
@@ -92,6 +94,16 @@ namespace MK64Pitstop
                 statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
                 _loadedFilePath = openProjectDialog.FileName;
 
+                foreach (RomItem item in RomProject.Instance.Items)
+                {
+                    if (item is KartInfo)
+                    {
+                        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
+                    }
+                }
+
+                MarioKart64ElementHub.Instance.LoadFromXML();
+
                 MarioKart64Reader.ReadRom();
 
                 UpdateSelectedModule();
@@ -108,6 +120,8 @@ namespace MK64Pitstop
 
                 path = saveProjectDialog.FileName;
             }
+
+            RomProject.Instance.MoveRomItem(MarioKart64ElementHub.Instance, RomProject.Instance.Items.Count - 1);
 
             RomProject.Save(path);
 

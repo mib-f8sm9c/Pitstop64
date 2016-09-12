@@ -263,6 +263,12 @@ namespace MK64Pitstop.Services.Readers
                                 .Palettes[frameIndex * 4];
                         }
 
+
+                        byte[] fakePaletteBytes = new byte[128];
+                        for(int p = 0; p < fakePaletteBytes.Length; p++)
+                            fakePaletteBytes[p] = 0xFF;
+                        firstAnimPalette = new Palette(-1, fakePaletteBytes);
+
                         Texture newTexture = new Texture(0, imageMio.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, selectedPalette.Combine(firstAnimPalette));
 
                         //newTexture.Image.Save("test.bmp");
@@ -446,8 +452,11 @@ namespace MK64Pitstop.Services.Readers
 
                             turnBlocks[animIndex][frameIndex] = imageBlock;
 
-                            animationPalettes.AddRange(((KartPaletteBlock)block.WheelPaletteReferences[i][(8 - animIndex)].ReferenceElement)
-                                 .Palettes.GetRange(frameIndex * 4, 4));
+                            for (int p = 0; p < 4; p++)
+                            {
+                                animationPalettes.Add(((KartPaletteBlock)block.WheelPaletteReferences[i][(8 - animIndex)].ReferenceElement)
+                                     .Palettes[frameIndex * 4 + p].Duplicate());
+                            }
                         }
                     }
                     else
@@ -490,8 +499,11 @@ namespace MK64Pitstop.Services.Readers
 
                             spinBlocks[animIndex][frameIndex] = imageBlock;
 
-                            animationPalettes.AddRange(((KartPaletteBlock)block.WheelPaletteReferences[i][(8 - animIndex) + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT].ReferenceElement)
-                                 .Palettes.GetRange(frameIndex * 4, 4));
+                            for (int p = 0; p < 4; p++)
+                            {
+                                animationPalettes.Add(((KartPaletteBlock)block.WheelPaletteReferences[i][(8 - animIndex) + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT].ReferenceElement)
+                                     .Palettes[frameIndex * 4 + p].Duplicate());
+                            }
                         }
                     }
                     
@@ -558,14 +570,13 @@ namespace MK64Pitstop.Services.Readers
                 TKMK00Block tkmk;
                 if ((tkmk = nameplatesContainer.SingleOrDefault(t => t.FileOffset == MarioKartRomInfo.CharacterNameplateReference[i])) != null)
                 {
-                    TKMK00Block newTkmk = new TKMK00Block(MarioKart64ElementHub.Instance.NewElementOffset, tkmk.RawData, tkmk.ImageAlphaColor);
+                    TKMK00Block newTkmk = new TKMK00Block(-1, tkmk.RawData, tkmk.ImageAlphaColor);
                     newKart.KartNamePlate = newTkmk;
-                    MarioKart64ElementHub.Instance.AdvanceNewElementOffset(newTkmk);
-                    results.NewElements.Add(newTkmk);
                 }
 
                 MarioKart64ElementHub.Instance.Karts.Add(newKart);
                 MarioKart64ElementHub.Instance.SelectedKarts[i] = newKart;
+                RomProject.Instance.AddRomItem(newKart);
             }
         }
 
