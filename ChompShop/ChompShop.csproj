@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChompShopAlerts.cs" />
     <Compile Include="ChompShopFloor.cs" />
     <Compile Include="ChompShopForm.cs">
       <SubType>Form</SubType>
@@ -57,10 +58,81 @@
     <Compile Include="ChompShopForm.Designer.cs">
       <DependentUpon>ChompShopForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Controls\ExportKartsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ExportKartsForm.Designer.cs">
+      <DependentUpon>ExportKartsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ChompShopWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartAnimsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartAnimsForm.Designer.cs">
+      <DependentUpon>KartAnimsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartImagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartImagesForm.Designer.cs">
+      <DependentUpon>KartImagesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartNameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartNameForm.Designer.cs">
+      <DependentUpon>KartNameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartPortraitsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartPortraitsForm.Designer.cs">
+      <DependentUpon>KartPortraitsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadedKartsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LoadedKartsForm.Designer.cs">
+      <DependentUpon>LoadedKartsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NewKartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\NewKartForm.Designer.cs">
+      <DependentUpon>NewKartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\KartWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChompShopForm.resx">
       <DependentUpon>ChompShopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ChompShopWindow.resx">
+      <DependentUpon>ChompShopWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExportKartsForm.resx">
+      <DependentUpon>ExportKartsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartAnimsForm.resx">
+      <DependentUpon>KartAnimsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartImagesForm.resx">
+      <DependentUpon>KartImagesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartNameForm.resx">
+      <DependentUpon>KartNameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartPortraitsForm.resx">
+      <DependentUpon>KartPortraitsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LoadedKartsForm.resx">
+      <DependentUpon>LoadedKartsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NewKartForm.resx">
+      <DependentUpon>NewKartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -8,6 +8,8 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
+using Ionic.Zip;
+using System.IO;
 
 namespace MK64Pitstop.Data.Karts
 {
@@ -34,6 +36,8 @@ namespace MK64Pitstop.Data.Karts
         private const string NAME_PLATE_ALPHA = "alpha";
 
         private const string OFFSET = "offset";
+
+        public const string KARTS_FILE_EXTENSION = "karts";
 
         public string KartName { get; set; }
 
@@ -149,6 +153,11 @@ namespace MK64Pitstop.Data.Karts
 
         public override XElement GetAsXML()
         {
+            return GetAsXML(false);
+        }
+
+        public XElement GetAsXML(bool formatForExternalSave)
+        {
             XElement xml = new XElement(this.GetType().ToString()); //Can derive actual type from name with N64DataElementFactory
 
             xml.Add(new XAttribute(NAME, KartName));
@@ -194,18 +203,21 @@ namespace MK64Pitstop.Data.Karts
 
             KartNamePlate.FileOffset = namePlateOffset;
 
+            //If saving for Chomp Shop use or distribution, need to cull the
+            // index values for all the RomElements
+            if (formatForExternalSave)
+            {
+                foreach(XElement xel in xml.DescendantsAndSelf())
+                {
+                    foreach(XAttribute at in xel.Attributes())
+                    {
+                        if (at.Name == OFFSET)
+                            at.Value = "-1";
+                    }
+                }
+            }
+
             return xml;
-        }
-
-        public void SaveToFile(string fileName)
-        {
-            //Here save all kart information to an external file
-        }
-
-        public static KartInfo LoadFromFile(string fileName)
-        {
-            //Here load all kart information from an external file
-            return null;
         }
 
         public override string ToString()
@@ -217,6 +229,68 @@ namespace MK64Pitstop.Data.Karts
         {
             return "Karts/" + KartName;
         }
+
+
+        public static void SaveKarts(string fileName, IList<KartInfo> karts)
+        {
+            //Here save all kart information to an external file
+            Path.ChangeExtension(fileName, "karts");
+
+            //NEED TO HANDLE IF THE FILE EXISTS, THEN UPDATE THE KARTS INSIDE THE FILE!!
+            if (File.Exists(fileName))
+            {
+                using (ZipFile zipDest = ZipFile.Read(fileName))
+                {
+                    foreach (KartInfo kart in karts)
+                    {
+                        XElement kartXML = kart.GetAsXML(true);
+
+                        zipDest.UpdateEntry(kart.KartName, Encoding.ASCII.GetBytes(kartXML.ToString()));
+                    }
+                }
+            }
+            else
+            {
+                using (var fs = File.Create(fileName))
+                {
+                    using (ZipOutputStream s = new ZipOutputStream(fs))
+                    {
+                        foreach (KartInfo kart in karts)
+                        {
+                            XElement kartXML = kart.GetAsXML(true);
+
+                            s.PutNextEntry(kart.KartName);
+                            byte[] bytes = Encoding.ASCII.GetBytes(kartXML.ToString());
+                            s.Write(bytes, 0, bytes.Length);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static List<KartInfo> LoadFromFile(string fileName)
+        {
+            List<KartInfo> karts = new List<KartInfo>();
+
+            if (!File.Exists(fileName))
+                return karts;
+
+            //Other verification goes here??
+
+            //Here load all kart information from an external file
+            using (ZipFile zip = ZipFile.Read(fileName))
+            {
+                foreach (ZipEntry e in zip)
+                {
+                    MemoryStream projectStream = new MemoryStream();
+                    e.Extract(projectStream);
+                    karts.Add(new KartInfo(XElement.Parse(Encoding.ASCII.GetString(projectStream.ToArray()))));
+                }
+            }
+
+            return karts;
+        }
+
     }
 
     /// <summary>

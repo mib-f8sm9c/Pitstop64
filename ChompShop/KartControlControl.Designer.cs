@@ -1,6 +1,6 @@
-﻿namespace MK64Pitstop.Modules.Karts
+﻿namespace ChompShop
 {
-    partial class KartControl
+    partial class KartControlControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -78,8 +78,6 @@
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.tabKartModule = new System.Windows.Forms.TabControl();
             this.tabKarts = new System.Windows.Forms.TabPage();
-            this.btnExportKart = new System.Windows.Forms.Button();
-            this.btnDuplicateKart = new System.Windows.Forms.Button();
             this.gbKartInfo = new System.Windows.Forms.GroupBox();
             this.gbNamePlate = new System.Windows.Forms.GroupBox();
             this.btnImportNamePlate = new System.Windows.Forms.Button();
@@ -102,10 +100,10 @@
             this.tabSelectedKarts = new System.Windows.Forms.TabPage();
             this.tabKartAnim = new System.Windows.Forms.TabPage();
             this.pnlSharedControls = new System.Windows.Forms.Panel();
-            this.lblOrig = new System.Windows.Forms.Label();
             this.saveImageDialog = new System.Windows.Forms.SaveFileDialog();
             this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveKartDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnDuplicateKart = new System.Windows.Forms.Button();
+            this.lblOrig = new System.Windows.Forms.Label();
             this.gbSelectedKarts.SuspendLayout();
             this.gbAnimInfo.SuspendLayout();
             this.pnlKartAnimation.SuspendLayout();
@@ -688,7 +686,6 @@
             // tabKarts
             // 
             this.tabKarts.BackColor = System.Drawing.SystemColors.Control;
-            this.tabKarts.Controls.Add(this.btnExportKart);
             this.tabKarts.Controls.Add(this.btnDuplicateKart);
             this.tabKarts.Controls.Add(this.gbKartInfo);
             this.tabKarts.Controls.Add(this.btnRemove);
@@ -700,26 +697,6 @@
             this.tabKarts.Size = new System.Drawing.Size(674, 382);
             this.tabKarts.TabIndex = 2;
             this.tabKarts.Text = "Karts";
-            // 
-            // btnExportKart
-            // 
-            this.btnExportKart.Location = new System.Drawing.Point(28, 339);
-            this.btnExportKart.Name = "btnExportKart";
-            this.btnExportKart.Size = new System.Drawing.Size(93, 34);
-            this.btnExportKart.TabIndex = 24;
-            this.btnExportKart.Text = "Export";
-            this.btnExportKart.UseVisualStyleBackColor = true;
-            this.btnExportKart.Click += new System.EventHandler(this.btnExportKart_Click);
-            // 
-            // btnDuplicateKart
-            // 
-            this.btnDuplicateKart.Location = new System.Drawing.Point(28, 261);
-            this.btnDuplicateKart.Name = "btnDuplicateKart";
-            this.btnDuplicateKart.Size = new System.Drawing.Size(93, 33);
-            this.btnDuplicateKart.TabIndex = 5;
-            this.btnDuplicateKart.Text = "Duplicate";
-            this.btnDuplicateKart.UseVisualStyleBackColor = true;
-            this.btnDuplicateKart.Click += new System.EventHandler(this.btnDuplicateKart_Click);
             // 
             // gbKartInfo
             // 
@@ -953,6 +930,24 @@
             this.pnlSharedControls.Size = new System.Drawing.Size(682, 56);
             this.pnlSharedControls.TabIndex = 11;
             // 
+            // saveImageDialog
+            // 
+            this.saveImageDialog.Filter = "BMP/PNG files|*.bmp;*.png|All files|*.*";
+            // 
+            // openImageDialog
+            // 
+            this.openImageDialog.FileName = "openFileDialog1";
+            // 
+            // btnDuplicateKart
+            // 
+            this.btnDuplicateKart.Location = new System.Drawing.Point(28, 261);
+            this.btnDuplicateKart.Name = "btnDuplicateKart";
+            this.btnDuplicateKart.Size = new System.Drawing.Size(93, 33);
+            this.btnDuplicateKart.TabIndex = 5;
+            this.btnDuplicateKart.Text = "Duplicate";
+            this.btnDuplicateKart.UseVisualStyleBackColor = true;
+            this.btnDuplicateKart.Click += new System.EventHandler(this.btnDuplicateKart_Click);
+            // 
             // lblOrig
             // 
             this.lblOrig.AutoSize = true;
@@ -962,19 +957,6 @@
             this.lblOrig.TabIndex = 8;
             this.lblOrig.Text = "*Original Kart (Read-Only)";
             this.lblOrig.Visible = false;
-            // 
-            // saveImageDialog
-            // 
-            this.saveImageDialog.Filter = "BMP/PNG files|*.bmp;*.png|All files|*.*";
-            // 
-            // openImageDialog
-            // 
-            this.openImageDialog.FileName = "openFileDialog1";
-            // 
-            // saveKartDialog
-            // 
-            this.saveKartDialog.DefaultExt = "kart";
-            this.saveKartDialog.Filter = "Karts|*.karts";
             // 
             // KartControl
             // 
@@ -1093,7 +1075,5 @@
         private System.Windows.Forms.Button btnExportNamePlate;
         private System.Windows.Forms.Button btnDuplicateKart;
         private System.Windows.Forms.Label lblOrig;
-        private System.Windows.Forms.Button btnExportKart;
-        private System.Windows.Forms.SaveFileDialog saveKartDialog;
     }
 }

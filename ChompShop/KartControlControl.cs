@@ -13,18 +13,15 @@ using MK64Pitstop.Services;
 using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Services.Hub;
 using Cereal64.Common.Rom;
-using System.Xml.Linq;
-using System.IO;
-using Ionic.Zip;
 
-namespace MK64Pitstop.Modules.Karts
+namespace ChompShop
 {
-    public partial class KartControl : UserControl
+    public partial class KartControlControl : UserControl
     {
         private bool SettingsChanged { get { return _settingsChanged; } set { _settingsChanged = value; btnKartsApply.Enabled = value; } }
         private bool _settingsChanged;
 
-        public KartControl()
+        public KartControlControl()
         {
             InitializeComponent();
         }
@@ -307,22 +304,22 @@ namespace MK64Pitstop.Modules.Karts
         private void btnAnimationsAdd_Click(object sender, EventArgs e)
         {
             //Add a new animation
-            NewAnimForm form = new NewAnimForm();
-            if(form.ShowDialog() == DialogResult.OK)
-            {
-                if (SelectedKart.KartAnimations.SingleOrDefault(k => k.Name == form.AnimationName) == null)
-                {
-                    SelectedKart.KartAnimations.Add(new KartAnimationSeries(form.AnimationName));
-                    lbAnimations.Items.Add(SelectedKart.KartAnimations.Last());
-                    lbAnimations.SelectedIndex = lbAnimations.Items.Count - 1;
+            //NewAnimForm form = new NewAnimForm();
+            //if(form.ShowDialog() == DialogResult.OK)
+            //{
+            //    if (SelectedKart.KartAnimations.SingleOrDefault(k => k.Name == form.AnimationName) == null)
+            //    {
+            //        SelectedKart.KartAnimations.Add(new KartAnimationSeries(form.AnimationName));
+            //        lbAnimations.Items.Add(SelectedKart.KartAnimations.Last());
+            //        lbAnimations.SelectedIndex = lbAnimations.Items.Count - 1;
 
-                    SettingsChanged = true;
-                }
-                else
-                {
-                    MessageBox.Show("Animation with that name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            //        SettingsChanged = true;
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Animation with that name already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //}
         }
 
         private void btnAnimationsDelete_Click(object sender, EventArgs e)
@@ -633,38 +630,38 @@ namespace MK64Pitstop.Modules.Karts
 
         private void btnAnimImageAdd_Click(object sender, EventArgs e)
         {
-            //Add an existing image to the list
-            AddImageForm form = new AddImageForm(SelectedKart);
-            DialogResult hasAddedImage = form.ShowDialog();
+            ////Add an existing image to the list
+            //AddImageForm form = new AddImageForm(SelectedKart);
+            //DialogResult hasAddedImage = form.ShowDialog();
 
-            if (form.Reset)
-                lbAnimImages.Items.Clear();
+            //if (form.Reset)
+            //    lbAnimImages.Items.Clear();
 
-            if (hasAddedImage == DialogResult.OK)
-            {
-                //Get the form.ImageName image
-                int newIndexToAdd;
-                if (lbAnimImages.SelectedIndex == -1)
-                    newIndexToAdd = lbAnimImages.Items.Count;
-                else
-                    newIndexToAdd = lbAnimImages.SelectedIndex + 1;
-                if(!form.HasMultipleSelectedImages)
-                {
-                    lbAnimImages.Items.Insert(newIndexToAdd, form.SelectedImage);
-                    SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, form.SelectedImage.Name);
-                }
-                else
-                {
-                    for (int i = form.SelectedImages.Length - 1; i >= 0; i--)
-                    {
-                        KartImage image = form.SelectedImages[i];
-                        lbAnimImages.Items.Insert(newIndexToAdd, image);
-                        SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, image.Name);
-                    }
-                }
+            //if (hasAddedImage == DialogResult.OK)
+            //{
+            //    //Get the form.ImageName image
+            //    int newIndexToAdd;
+            //    if (lbAnimImages.SelectedIndex == -1)
+            //        newIndexToAdd = lbAnimImages.Items.Count;
+            //    else
+            //        newIndexToAdd = lbAnimImages.SelectedIndex + 1;
+            //    if(!form.HasMultipleSelectedImages)
+            //    {
+            //        lbAnimImages.Items.Insert(newIndexToAdd, form.SelectedImage);
+            //        SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, form.SelectedImage.Name);
+            //    }
+            //    else
+            //    {
+            //        for (int i = form.SelectedImages.Length - 1; i >= 0; i--)
+            //        {
+            //            KartImage image = form.SelectedImages[i];
+            //            lbAnimImages.Items.Insert(newIndexToAdd, image);
+            //            SelectedAnim.OrderedImageNames.Insert(newIndexToAdd, image.Name);
+            //        }
+            //    }
 
-                SettingsChanged = true;
-            }
+            //    SettingsChanged = true;
+            //}
         }
 
         private void btnAnimImageRemove_Click(object sender, EventArgs e)
@@ -1266,16 +1263,6 @@ namespace MK64Pitstop.Modules.Karts
 
                     SettingsChanged = true;
                 }
-            }
-        }
-
-        private void btnExportKart_Click(object sender, EventArgs e)
-        {
-            //Export the kart to an external file here!
-
-            if (saveKartDialog.ShowDialog() == DialogResult.OK)
-            {
-                KartInfo.SaveKarts(saveKartDialog.FileName, new KartInfo[] { SelectedKartInfo });
             }
         }
 

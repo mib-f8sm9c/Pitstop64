@@ -3,34 +3,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MK64Pitstop.Data.Karts;
+using System.IO;
+using ChompShop.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace ChompShop
 {
     public static class ChompShopFloor
     {
-        public static delegate void KartChangedEvent();
+        public static List<KartWrapper> Karts { get { return _karts; } }
+        private static List<KartWrapper> _karts = new List<KartWrapper>();
 
-        public static event KartChangedEvent KartChanged = delegate { };
+        public static KartWrapper ReferenceKart { get; private set; }
 
-        public static KartInfo CurrentKart { get; private set; }
-
-        public static KartInfo ReferenceKart { get; private set; }
-
-        public static void NewKart(string newKartName)
+        public static bool NewKart(string newKartName)
         {
-            CurrentKart = new KartInfo(newKartName, null, false);
+            if (Karts.Exists(k => k.Kart.KartName == newKartName))
+                return false;
+
+            Karts.Add(new KartWrapper(new KartInfo(newKartName, null, false)));
+            ChompShopAlerts.UpdateKartsLoaded();
+            return true;
         }
 
-        public static void LoadKart(string newKartName)
+        public static void LoadKarts(string kartPath)
         {
-            //Load up the xml here
-            //CurrentKart = new KartInfo(xml);
+            List<KartInfo> karts = KartInfo.LoadFromFile(kartPath);
+            List<KartWrapper> wrappers = new List<KartWrapper>();
+
+            foreach (KartInfo kart in karts)
+            {
+                //Check to see if it exists
+                if (Karts.Exists(k => k.Kart.KartName == kart.KartName))
+                {
+                    DialogResult result = MessageBox.Show("Kart \"" + kart.KartName + "\" already exists. Replace previous Kart with this Kart? Unsaved changes will be lost!",
+                        "Name Conflict", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Cancel)
+                    {
+                        //quit out of loading
+                        wrappers.Clear();
+                        break;
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        continue;
+                    }
+                    else //Yes
+                    {
+                        //Remove the kart from the list here
+                    }
+                }
+
+                wrappers.Add(new KartWrapper(kart));
+            }
+
+            if (wrappers.Count > 0)
+            {
+                Karts.AddRange(wrappers);
+                ChompShopAlerts.UpdateKartsLoaded();
+            }
         }
 
-        public static void LoadReferenceKart(string newKartName)
+        public static void LoadReferenceKart(string kartPath)
         {
             //Load up the xml here
             //ReferenceKart = new KartInfo(xml);
+            //List<KartInfo> karts = KartInfo.LoadFromFile(kartPath);
+            //if (karts.Count > 0)
+            //    ReferenceKart = karts[0];
         }
+        
+        public static void SaveKartToDisk(string kartPath, List<KartWrapper> karts)
+        {
+            KartInfo.SaveKarts(kartPath, karts.ConvertAll<KartInfo>(k => k.Kart));
+        }
+
     }
 }
