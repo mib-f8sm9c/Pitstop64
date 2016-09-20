@@ -10,6 +10,7 @@ using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Modules.Karts;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using ChompShop.Controls;
+using ChompShop.Data;
 
 namespace ChompShop
 {
@@ -84,6 +85,5 @@ namespace ChompShop
         {
             _controlController.ShowSingleForm(ChompShopWindowType.ExportKarts);
         }
-
     }
 }

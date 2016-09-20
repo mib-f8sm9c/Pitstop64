@@ -92,6 +92,12 @@
     <Compile Include="Controls\KartControls\KartPortraitsForm.Designer.cs">
       <DependentUpon>KartPortraitsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KartExportInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\KartExportInfoControl.Designer.cs">
+      <DependentUpon>KartExportInfoControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LoadedKartsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\KartControls\KartPortraitsForm.resx">
       <DependentUpon>KartPortraitsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartExportInfoControl.resx">
+      <DependentUpon>KartExportInfoControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LoadedKartsForm.resx">
       <DependentUpon>LoadedKartsForm.cs</DependentUpon>

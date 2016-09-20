@@ -159,5 +159,18 @@ namespace ChompShop.Controls
 
             return KartForms[kart].ContainsKey(type);
         }
+
+        public void ClearKartForms(KartWrapper kart)
+        {
+            if (KartForms.ContainsKey(kart))
+            {
+                List<ChompShopWindow> forms = new List<ChompShopWindow>(KartForms[kart].Values);
+                foreach (ChompShopWindow form in forms)
+                {
+                    form.Close();
+                    KartForms[kart].Remove(form.WindowType);
+                }
+            }
+        }
     }
 }

@@ -54,6 +54,7 @@
             this.txtKartName.Name = "txtKartName";
             this.txtKartName.Size = new System.Drawing.Size(124, 23);
             this.txtKartName.TabIndex = 1;
+            this.txtKartName.TextChanged += new System.EventHandler(this.txtKartName_TextChanged);
             // 
             // gbNamePlate
             // 

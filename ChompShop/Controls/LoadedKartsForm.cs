@@ -13,6 +13,7 @@ namespace ChompShop.Controls
     public partial class LoadedKartsForm : ChompShopWindow
     {
         public LoadedKartsForm()
+            : base (null)
         {
             InitializeComponent();
             ChompShopAlerts.LoadedKartsChanged += ChompShopAlerts_LoadedKartsChanged;
@@ -40,6 +41,8 @@ namespace ChompShop.Controls
             btnImages.Enabled = enabled;
             btnAnims.Enabled = enabled;
             btnResetChanges.Enabled = enabled;
+            btnCopy.Enabled = enabled;
+            btnRemove.Enabled = enabled;
         }
 
         private void PopulateKartListBox()
@@ -61,11 +64,6 @@ namespace ChompShop.Controls
                     lbKarts.SelectedIndex = index;
                 }
             }
-        }
-
-        public override ChompShopWindowType WindowType
-        {
-            get { return ChompShopWindowType.LoadedKarts; }
         }
 
         private KartWrapper SelectedKart { get { if (lbKarts.SelectedIndex == -1) return null; return (KartWrapper)lbKarts.SelectedItem; } }
@@ -93,5 +91,49 @@ namespace ChompShop.Controls
             if (SelectedKart != null)
                 this.ChompShopForm.ControlController.ShowKartForm(SelectedKart, ChompShopWindowType.KartAnimations);
         }
+
+        private void btnAddKart_Click(object sender, EventArgs e)
+        {
+            //Add a kart
+            if (openKartDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ChompShopFloor.LoadKarts(openKartDialog.FileName);
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            //Remove a kart
+            if (SelectedKart != null)
+            {
+                KartWrapper kart = SelectedKart;
+                ChompShopFloor.RemoveKart(kart);
+                ChompShopForm.ControlController.ClearKartForms(kart); //Move to an alert if we use this line anywhere else?
+            }
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            //Copy a kart
+            if (SelectedKart != null)
+            {
+                ChompShopFloor.CopyKart(SelectedKart);
+            }
+        }
+
+        protected override void KartNameUpdated(KartWrapper wrapper)
+        {
+            for (int i = 0; i < lbKarts.Items.Count; i++)
+            {
+                if (lbKarts.Items[i] == wrapper)
+                {
+                    lbKarts.Items[i] = wrapper;
+                }
+            }
+        }
+
+        public override ChompShopWindowType WindowType { get { return ChompShopWindowType.LoadedKarts; } }
+
+        protected override string TitleText { get { return "Loaded Karts"; } }
     }
 }

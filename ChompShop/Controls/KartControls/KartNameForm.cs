@@ -15,9 +15,9 @@ namespace ChompShop.Controls.KartControls
         public bool _initializing;
 
         public KartNameForm(KartWrapper kart)
+            : base(kart)
         {
             InitializeComponent();
-            Kart = kart;
 
             InitData();
         }
@@ -26,7 +26,7 @@ namespace ChompShop.Controls.KartControls
         {
             _initializing = true;
 
-            this.Text = "Kart Name - " + Kart.Kart.KartName;
+            this.ResetTitleText();
 
             ClearView();
 
@@ -47,5 +47,39 @@ namespace ChompShop.Controls.KartControls
         }
 
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.KartName; } }
+
+        protected override string TitleText { get { return "Kart Name - {0}"; } }
+
+        private void txtKartName_TextChanged(object sender, EventArgs e)
+        {
+            if(_initializing)
+                return;
+
+            //Change the name and alert everywhere
+            string oldName = Kart.Kart.KartName;
+            string newName = txtKartName.Text;
+
+            if(oldName == newName)
+                return;
+
+            //Here, double check for valid characters?
+
+            foreach (KartWrapper wrapper in ChompShopFloor.Karts)
+            {
+                if (wrapper.Kart.KartName == newName)
+                {
+                    MessageBox.Show("Name already exists. Please make a new name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    _initializing = true;
+                    txtKartName.Text = oldName;
+                    _initializing = false;
+
+                    return;
+                }
+            }
+
+            Kart.Kart.KartName = newName;
+            ChompShopAlerts.UpdateKartName(Kart);
+        }
     }
 }

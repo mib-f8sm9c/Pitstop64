@@ -13,6 +13,13 @@ namespace ChompShop.Data
 
         public bool IsModified { get; private set; }
 
+        public KartWrapper(KartWrapper kartWrapper, string newName)
+        {
+            OriginalKart = new KartInfo(kartWrapper.Kart); //Lose the original kart data
+            OriginalKart.KartName = newName;
+            CopyFromOriginal();
+        }
+
         public KartWrapper(KartInfo origKart)
         {
             OriginalKart = origKart;

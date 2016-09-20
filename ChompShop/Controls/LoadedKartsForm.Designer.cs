@@ -34,17 +34,21 @@
             this.btnPortraits = new System.Windows.Forms.Button();
             this.btnAnims = new System.Windows.Forms.Button();
             this.btnResetChanges = new System.Windows.Forms.Button();
+            this.btnAddKart = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbKarts
             // 
             this.lbKarts.FormattingEnabled = true;
             this.lbKarts.ItemHeight = 16;
-            this.lbKarts.Location = new System.Drawing.Point(16, 15);
+            this.lbKarts.Location = new System.Drawing.Point(16, 47);
             this.lbKarts.Margin = new System.Windows.Forms.Padding(4);
             this.lbKarts.Name = "lbKarts";
             this.lbKarts.ScrollAlwaysVisible = true;
-            this.lbKarts.Size = new System.Drawing.Size(159, 212);
+            this.lbKarts.Size = new System.Drawing.Size(159, 180);
             this.lbKarts.TabIndex = 0;
             // 
             // btnName
@@ -106,11 +110,54 @@
             this.btnResetChanges.Text = "Reset Changes";
             this.btnResetChanges.UseVisualStyleBackColor = true;
             // 
+            // btnAddKart
+            // 
+            this.btnAddKart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAddKart.Location = new System.Drawing.Point(87, 12);
+            this.btnAddKart.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddKart.Name = "btnAddKart";
+            this.btnAddKart.Size = new System.Drawing.Size(24, 24);
+            this.btnAddKart.TabIndex = 6;
+            this.btnAddKart.Text = "+";
+            this.btnAddKart.UseVisualStyleBackColor = true;
+            this.btnAddKart.Click += new System.EventHandler(this.btnAddKart_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRemove.Location = new System.Drawing.Point(151, 12);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(24, 24);
+            this.btnRemove.TabIndex = 7;
+            this.btnRemove.Text = "-";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // openKartDialog
+            // 
+            this.openKartDialog.Filter = "Karts|*.karts";
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCopy.Location = new System.Drawing.Point(119, 12);
+            this.btnCopy.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(24, 24);
+            this.btnCopy.TabIndex = 8;
+            this.btnCopy.Text = "c";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // LoadedKartsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(367, 247);
+            this.Controls.Add(this.btnCopy);
+            this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.btnAddKart);
             this.Controls.Add(this.btnResetChanges);
             this.Controls.Add(this.btnAnims);
             this.Controls.Add(this.btnPortraits);
@@ -133,5 +180,9 @@
         private System.Windows.Forms.Button btnPortraits;
         private System.Windows.Forms.Button btnAnims;
         private System.Windows.Forms.Button btnResetChanges;
+        private System.Windows.Forms.Button btnAddKart;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.OpenFileDialog openKartDialog;
+        private System.Windows.Forms.Button btnCopy;
     }
 }

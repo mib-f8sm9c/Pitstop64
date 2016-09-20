@@ -15,9 +15,9 @@ namespace ChompShop.Controls.KartControls
         public bool _initializing;
 
         public KartImagesForm(KartWrapper kart)
+            : base (kart)
         {
             InitializeComponent();
-            Kart = kart;
 
             InitData();
         }
@@ -26,7 +26,7 @@ namespace ChompShop.Controls.KartControls
         {
             _initializing = true;
 
-            this.Text = "Kart Images - " + Kart.Kart.KartName;
+            ResetTitleText();
 
             //
 
@@ -34,5 +34,7 @@ namespace ChompShop.Controls.KartControls
         }
 
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.KartImages; } }
+
+        protected override string TitleText { get { return "Kart Images - {0}"; } }
     }
 }

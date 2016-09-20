@@ -11,10 +11,48 @@ namespace ChompShop.Controls
     [TypeDescriptionProvider(typeof(ChompShopWindowDescriptionProvider<ChompShopWindow, Form>))]
     public class ChompShopWindow : Form
     {
+        public ChompShopWindow()
+            : this(null)
+        {
+        }
+
+        public ChompShopWindow(KartWrapper kart)
+        {
+            Kart = kart;
+
+            ChompShopAlerts.KartNameChanged += new ChompShopAlerts.KartNameChangedEvent(ChompShopAlerts_KartNameChanged);
+        }
+
+        private void ChompShopAlerts_KartNameChanged(KartWrapper wrapper)
+        {
+            if (Kart == wrapper)
+            {
+                //Need invoke?
+                ResetTitleText();
+            }
+
+            KartNameUpdated(wrapper);
+        }
+
+        protected virtual void KartNameUpdated(KartWrapper wrapper)
+        {
+
+        }
+
         public virtual void InitData()
         {
             throw new NotImplementedException();
         }
+
+        protected void ResetTitleText()
+        {
+            if (Kart != null)
+                this.Text = string.Format(TitleText, Kart.Kart.KartName);
+            else
+                this.Text = TitleText;
+        }
+
+        protected virtual string TitleText { get { throw new NotImplementedException(); } }
 
         public virtual ChompShopWindowType WindowType { get { throw new NotImplementedException(); } }
 

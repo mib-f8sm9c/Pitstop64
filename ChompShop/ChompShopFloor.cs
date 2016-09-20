@@ -74,7 +74,38 @@ namespace ChompShop
             //if (karts.Count > 0)
             //    ReferenceKart = karts[0];
         }
-        
+
+        public static void RemoveKart(KartWrapper kart)
+        {
+            if (!Karts.Contains(kart))
+                return;
+
+            if (kart.IsModified)
+            {
+                //Double check that they don't mind losing their changes
+                if (MessageBox.Show("Kart has unexported changes. Do you really want to remove it from Chomp Shop?", "Warning", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+                    return;
+            }
+
+            Karts.Remove(kart);
+
+            ChompShopAlerts.RemoveKart(kart);
+        }
+
+        public static void CopyKart(KartWrapper kart)
+        {
+            int nameCount = 1;
+            string newName = kart.Kart.KartName;
+            while (Karts.Exists(k => k.Kart.KartName == newName + nameCount.ToString()))
+                nameCount++;
+            newName += nameCount.ToString();
+
+            KartWrapper kartWrapper = new KartWrapper(kart, newName);
+            Karts.Add(kartWrapper);
+            ChompShopAlerts.UpdateKartsLoaded();
+        }
+
         public static void SaveKartToDisk(string kartPath, List<KartWrapper> karts)
         {
             KartInfo.SaveKarts(kartPath, karts.ConvertAll<KartInfo>(k => k.Kart));
