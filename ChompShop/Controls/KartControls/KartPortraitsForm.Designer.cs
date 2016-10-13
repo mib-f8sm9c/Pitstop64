@@ -28,146 +28,182 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
             this.gbKartPortraits = new System.Windows.Forms.GroupBox();
-            this.btnImportPortrait = new System.Windows.Forms.Button();
-            this.btnExportPortrait = new System.Windows.Forms.Button();
-            this.pnlPortrait = new System.Windows.Forms.Panel();
-            this.pbPortrait = new System.Windows.Forms.PictureBox();
-            this.btnBGColor2 = new System.Windows.Forms.Button();
-            this.txtPortraitNum = new System.Windows.Forms.TextBox();
-            this.btnNextPortrait = new System.Windows.Forms.Button();
-            this.btnPrevPortrait = new System.Windows.Forms.Button();
+            this.lblRole = new System.Windows.Forms.Label();
+            this.lblRoleText = new System.Windows.Forms.Label();
+            this.lblPortraitCount = new System.Windows.Forms.Label();
+            this.lblCountText = new System.Windows.Forms.Label();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.lbPortraits = new System.Windows.Forms.ListBox();
+            this.openPortraitDialog = new System.Windows.Forms.OpenFileDialog();
+            this.savePortraitDialog = new System.Windows.Forms.SaveFileDialog();
             this.gbKartPortraits.SuspendLayout();
-            this.pnlPortrait.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPortrait)).BeginInit();
             this.SuspendLayout();
+            // 
+            // imagePreviewControl
+            // 
+            this.imagePreviewControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.imagePreviewControl.ExportButtonVisible = true;
+            this.imagePreviewControl.Image = null;
+            this.imagePreviewControl.Location = new System.Drawing.Point(185, 99);
+            this.imagePreviewControl.Name = "imagePreviewControl";
+            this.imagePreviewControl.Size = new System.Drawing.Size(175, 155);
+            this.imagePreviewControl.TabIndex = 4;
             // 
             // gbKartPortraits
             // 
-            this.gbKartPortraits.Controls.Add(this.btnImportPortrait);
-            this.gbKartPortraits.Controls.Add(this.btnExportPortrait);
-            this.gbKartPortraits.Controls.Add(this.pnlPortrait);
-            this.gbKartPortraits.Controls.Add(this.btnBGColor2);
-            this.gbKartPortraits.Controls.Add(this.txtPortraitNum);
-            this.gbKartPortraits.Controls.Add(this.btnNextPortrait);
-            this.gbKartPortraits.Controls.Add(this.btnPrevPortrait);
-            this.gbKartPortraits.Location = new System.Drawing.Point(13, 13);
-            this.gbKartPortraits.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbKartPortraits.Controls.Add(this.lblRole);
+            this.gbKartPortraits.Controls.Add(this.lblRoleText);
+            this.gbKartPortraits.Controls.Add(this.imagePreviewControl);
+            this.gbKartPortraits.Controls.Add(this.lblPortraitCount);
+            this.gbKartPortraits.Controls.Add(this.lblCountText);
+            this.gbKartPortraits.Controls.Add(this.btnRemove);
+            this.gbKartPortraits.Controls.Add(this.btnDown);
+            this.gbKartPortraits.Controls.Add(this.btnUp);
+            this.gbKartPortraits.Controls.Add(this.btnAdd);
+            this.gbKartPortraits.Controls.Add(this.lbPortraits);
+            this.gbKartPortraits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbKartPortraits.Location = new System.Drawing.Point(5, 5);
+            this.gbKartPortraits.Margin = new System.Windows.Forms.Padding(4);
             this.gbKartPortraits.Name = "gbKartPortraits";
-            this.gbKartPortraits.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbKartPortraits.Size = new System.Drawing.Size(324, 315);
+            this.gbKartPortraits.Padding = new System.Windows.Forms.Padding(4);
+            this.gbKartPortraits.Size = new System.Drawing.Size(376, 261);
             this.gbKartPortraits.TabIndex = 3;
             this.gbKartPortraits.TabStop = false;
             this.gbKartPortraits.Text = "Portraits";
             // 
-            // btnImportPortrait
+            // lblRole
             // 
-            this.btnImportPortrait.Location = new System.Drawing.Point(195, 210);
-            this.btnImportPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnImportPortrait.Name = "btnImportPortrait";
-            this.btnImportPortrait.Size = new System.Drawing.Size(104, 42);
-            this.btnImportPortrait.TabIndex = 22;
-            this.btnImportPortrait.Text = "Import";
-            this.btnImportPortrait.UseVisualStyleBackColor = true;
+            this.lblRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRole.AutoSize = true;
+            this.lblRole.Location = new System.Drawing.Point(279, 32);
+            this.lblRole.Name = "lblRole";
+            this.lblRole.Size = new System.Drawing.Size(42, 17);
+            this.lblRole.TabIndex = 29;
+            this.lblRole.Text = "None";
             // 
-            // btnExportPortrait
+            // lblRoleText
             // 
-            this.btnExportPortrait.Location = new System.Drawing.Point(28, 210);
-            this.btnExportPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnExportPortrait.Name = "btnExportPortrait";
-            this.btnExportPortrait.Size = new System.Drawing.Size(104, 42);
-            this.btnExportPortrait.TabIndex = 21;
-            this.btnExportPortrait.Text = "Export";
-            this.btnExportPortrait.UseVisualStyleBackColor = true;
+            this.lblRoleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRoleText.AutoSize = true;
+            this.lblRoleText.Location = new System.Drawing.Point(182, 32);
+            this.lblRoleText.Name = "lblRoleText";
+            this.lblRoleText.Size = new System.Drawing.Size(91, 17);
+            this.lblRoleText.TabIndex = 28;
+            this.lblRoleText.Text = "Portrait Role:";
             // 
-            // pnlPortrait
+            // lblPortraitCount
             // 
-            this.pnlPortrait.BackColor = System.Drawing.SystemColors.ControlText;
-            this.pnlPortrait.Controls.Add(this.pbPortrait);
-            this.pnlPortrait.Location = new System.Drawing.Point(83, 36);
-            this.pnlPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pnlPortrait.Name = "pnlPortrait";
-            this.pnlPortrait.Size = new System.Drawing.Size(173, 160);
-            this.pnlPortrait.TabIndex = 20;
+            this.lblPortraitCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPortraitCount.AutoSize = true;
+            this.lblPortraitCount.Location = new System.Drawing.Point(279, 69);
+            this.lblPortraitCount.Name = "lblPortraitCount";
+            this.lblPortraitCount.Size = new System.Drawing.Size(36, 17);
+            this.lblPortraitCount.TabIndex = 27;
+            this.lblPortraitCount.Text = "0/17";
             // 
-            // pbPortrait
+            // lblCountText
             // 
-            this.pbPortrait.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbPortrait.Location = new System.Drawing.Point(0, 0);
-            this.pbPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pbPortrait.Name = "pbPortrait";
-            this.pbPortrait.Size = new System.Drawing.Size(173, 160);
-            this.pbPortrait.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbPortrait.TabIndex = 0;
-            this.pbPortrait.TabStop = false;
+            this.lblCountText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCountText.AutoSize = true;
+            this.lblCountText.Location = new System.Drawing.Point(174, 69);
+            this.lblCountText.Name = "lblCountText";
+            this.lblCountText.Size = new System.Drawing.Size(99, 17);
+            this.lblCountText.TabIndex = 26;
+            this.lblCountText.Text = "Portrait Count:";
             // 
-            // btnBGColor2
+            // btnRemove
             // 
-            this.btnBGColor2.BackColor = System.Drawing.SystemColors.ControlText;
-            this.btnBGColor2.Location = new System.Drawing.Point(24, 49);
-            this.btnBGColor2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnBGColor2.Name = "btnBGColor2";
-            this.btnBGColor2.Size = new System.Drawing.Size(32, 30);
-            this.btnBGColor2.TabIndex = 19;
-            this.btnBGColor2.UseVisualStyleBackColor = false;
+            this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemove.Image = global::ChompShop.Properties.Resources.minus;
+            this.btnRemove.Location = new System.Drawing.Point(85, 22);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(20, 20);
+            this.btnRemove.TabIndex = 25;
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
-            // txtPortraitNum
+            // btnDown
             // 
-            this.txtPortraitNum.Location = new System.Drawing.Point(136, 267);
-            this.txtPortraitNum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtPortraitNum.Name = "txtPortraitNum";
-            this.txtPortraitNum.ReadOnly = true;
-            this.txtPortraitNum.Size = new System.Drawing.Size(49, 23);
-            this.txtPortraitNum.TabIndex = 3;
+            this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDown.Image = global::ChompShop.Properties.Resources.arrow_thick_bottom;
+            this.btnDown.Location = new System.Drawing.Point(59, 22);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(20, 20);
+            this.btnDown.TabIndex = 24;
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
-            // btnNextPortrait
+            // btnUp
             // 
-            this.btnNextPortrait.Location = new System.Drawing.Point(195, 266);
-            this.btnNextPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnNextPortrait.Name = "btnNextPortrait";
-            this.btnNextPortrait.Size = new System.Drawing.Size(31, 30);
-            this.btnNextPortrait.TabIndex = 2;
-            this.btnNextPortrait.Text = ">";
-            this.btnNextPortrait.UseVisualStyleBackColor = true;
+            this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUp.Image = global::ChompShop.Properties.Resources.arrow_thick_top;
+            this.btnUp.Location = new System.Drawing.Point(33, 22);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(20, 20);
+            this.btnUp.TabIndex = 23;
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
-            // btnPrevPortrait
+            // btnAdd
             // 
-            this.btnPrevPortrait.Location = new System.Drawing.Point(97, 266);
-            this.btnPrevPortrait.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnPrevPortrait.Name = "btnPrevPortrait";
-            this.btnPrevPortrait.Size = new System.Drawing.Size(31, 30);
-            this.btnPrevPortrait.TabIndex = 1;
-            this.btnPrevPortrait.Text = "<";
-            this.btnPrevPortrait.UseVisualStyleBackColor = true;
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdd.Image = global::ChompShop.Properties.Resources.plus;
+            this.btnAdd.Location = new System.Drawing.Point(7, 22);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(20, 20);
+            this.btnAdd.TabIndex = 22;
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // lbPortraits
+            // 
+            this.lbPortraits.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbPortraits.FormattingEnabled = true;
+            this.lbPortraits.ItemHeight = 16;
+            this.lbPortraits.Location = new System.Drawing.Point(7, 48);
+            this.lbPortraits.Name = "lbPortraits";
+            this.lbPortraits.ScrollAlwaysVisible = true;
+            this.lbPortraits.Size = new System.Drawing.Size(164, 196);
+            this.lbPortraits.TabIndex = 21;
+            this.lbPortraits.SelectedIndexChanged += new System.EventHandler(this.lbPortraits_SelectedIndexChanged);
             // 
             // KartPortraitsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 339);
+            this.ClientSize = new System.Drawing.Size(386, 271);
             this.Controls.Add(this.gbKartPortraits);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "KartPortraitsForm";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Kart Portraits";
             this.gbKartPortraits.ResumeLayout(false);
             this.gbKartPortraits.PerformLayout();
-            this.pnlPortrait.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbPortrait)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private MK64Pitstop.Modules.Karts.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.GroupBox gbKartPortraits;
-        private System.Windows.Forms.Button btnImportPortrait;
-        private System.Windows.Forms.Button btnExportPortrait;
-        private System.Windows.Forms.Panel pnlPortrait;
-        private System.Windows.Forms.PictureBox pbPortrait;
-        private System.Windows.Forms.Button btnBGColor2;
-        private System.Windows.Forms.TextBox txtPortraitNum;
-        private System.Windows.Forms.Button btnNextPortrait;
-        private System.Windows.Forms.Button btnPrevPortrait;
+        private System.Windows.Forms.OpenFileDialog openPortraitDialog;
+        private System.Windows.Forms.SaveFileDialog savePortraitDialog;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ListBox lbPortraits;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Label lblCountText;
+        private System.Windows.Forms.Label lblPortraitCount;
+        private System.Windows.Forms.Label lblRole;
+        private System.Windows.Forms.Label lblRoleText;
     }
 }

@@ -5,7 +5,6 @@ using System.Text;
 using MK64Pitstop.Data.Karts;
 using System.IO;
 using ChompShop.Data;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace ChompShop

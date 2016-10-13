@@ -10,7 +10,7 @@ using MK64Pitstop.Data.Karts;
 
 namespace MK64Pitstop.Modules.Karts
 {
-    public partial class KartPreviewControl : UserControl
+    public partial class KartPreviewControl : ImagePreviewControl
     {
         //NEED TO: GET THE REFERENCE KART CODE WORKING!!
 
@@ -101,7 +101,22 @@ namespace MK64Pitstop.Modules.Karts
             Static,
             Animated
         }
-        public PreviewMode Mode { get; set; }
+        public PreviewMode Mode
+        {
+            get
+            {
+                return _mode;
+            }
+            set
+            {
+                StopPreview();
+                _mode = value;
+                StartPreview();
+            }
+        }
+        private PreviewMode _mode;
+
+        public bool CycleAnimations { get; set; }
 
         public bool UseAnimPalettes
         {
@@ -133,6 +148,18 @@ namespace MK64Pitstop.Modules.Karts
         }
         private bool _showReferenceKart;
 
+        public bool DisplayRefKartOption
+        {
+            get
+            {
+                return cbOverlayKart.Visible;
+            }
+            set
+            {
+                cbOverlayKart.Visible = value;
+            }
+        }
+
         private Timer _timer;
 
         public KartPreviewControl()
@@ -140,19 +167,10 @@ namespace MK64Pitstop.Modules.Karts
             InitializeComponent();
 
             //Debug for now
-            Mode = PreviewMode.Static;
             _timer = new Timer();
             _timer.Tick += new EventHandler(_timer_Tick);
             FramesPerSecond = 30;
-        }
-
-        private void btnBGColor2_Click(object sender, EventArgs e)
-        {
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                btnBGColor2.BackColor = colorDialog.Color;
-                pnlPreview.BackColor = colorDialog.Color;
-            }
+            Mode = PreviewMode.Static;
         }
 
         //Start the animation
@@ -180,7 +198,7 @@ namespace MK64Pitstop.Modules.Karts
         private void ResetPreview()
         {
             //Clear the image
-            pbPreview.Image = null;
+            Image = null;
 
             if (_kart == null || _kart.KartAnimations.Count == 0)
                 return;
@@ -191,7 +209,7 @@ namespace MK64Pitstop.Modules.Karts
 
             //Just display the single frame
             KartImage selectedKartImage = _kart.KartImages.Images[_kart.KartAnimations[_animIndex].OrderedImageNames[_frameIndex]];
-            pbPreview.Image = selectedKartImage.Image;
+            Image = selectedKartImage.Image;
         }
 
         private void _timer_Tick(object sender, EventArgs e)
@@ -201,7 +219,15 @@ namespace MK64Pitstop.Modules.Karts
 
             _frameIndex++;
             if (_kart.KartAnimations[_animIndex].OrderedImageNames.Count <= _frameIndex)
+            {
                 _frameIndex = 0;
+                if (CycleAnimations)
+                {
+                    _animIndex++;
+                    if (_animIndex >= _kart.KartAnimations.Count)
+                        _animIndex = 0;
+                }
+            }
             ResetPreview();
         }
     }

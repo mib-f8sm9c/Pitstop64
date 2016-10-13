@@ -11,7 +11,8 @@
     <RootNamespace>ChompShop</RootNamespace>
     <AssemblyName>ChompShop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -32,6 +33,22 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
@@ -74,17 +91,23 @@
     <Compile Include="Controls\KartControls\KartAnimsForm.Designer.cs">
       <DependentUpon>KartAnimsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KartControls\KartImageSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartImageSelectForm.Designer.cs">
+      <DependentUpon>KartImageSelectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\KartControls\KartImagesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\KartControls\KartImagesForm.Designer.cs">
       <DependentUpon>KartImagesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KartControls\KartNameForm.cs">
+    <Compile Include="Controls\KartControls\KartInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\KartControls\KartNameForm.Designer.cs">
-      <DependentUpon>KartNameForm.cs</DependentUpon>
+    <Compile Include="Controls\KartControls\KartInfoForm.Designer.cs">
+      <DependentUpon>KartInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\KartControls\KartPortraitsForm.cs">
       <SubType>Form</SubType>
@@ -92,11 +115,11 @@
     <Compile Include="Controls\KartControls\KartPortraitsForm.Designer.cs">
       <DependentUpon>KartPortraitsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KartExportInfoControl.cs">
+    <Compile Include="Controls\KartControls\KartValidityControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\KartExportInfoControl.Designer.cs">
-      <DependentUpon>KartExportInfoControl.cs</DependentUpon>
+    <Compile Include="Controls\KartControls\KartValidityControl.Designer.cs">
+      <DependentUpon>KartValidityControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\LoadedKartsForm.cs">
       <SubType>Form</SubType>
@@ -104,11 +127,11 @@
     <Compile Include="Controls\LoadedKartsForm.Designer.cs">
       <DependentUpon>LoadedKartsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewKartForm.cs">
+    <Compile Include="Controls\TextInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\NewKartForm.Designer.cs">
-      <DependentUpon>NewKartForm.cs</DependentUpon>
+    <Compile Include="Controls\TextInputForm.Designer.cs">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\KartWrapper.cs" />
     <Compile Include="Program.cs" />
@@ -125,37 +148,42 @@
     <EmbeddedResource Include="Controls\KartControls\KartAnimsForm.resx">
       <DependentUpon>KartAnimsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartImageSelectForm.resx">
+      <DependentUpon>KartImageSelectForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\KartControls\KartImagesForm.resx">
       <DependentUpon>KartImagesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\KartControls\KartNameForm.resx">
-      <DependentUpon>KartNameForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\KartControls\KartInfoForm.resx">
+      <DependentUpon>KartInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\KartControls\KartPortraitsForm.resx">
       <DependentUpon>KartPortraitsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\KartExportInfoControl.resx">
-      <DependentUpon>KartExportInfoControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\KartControls\KartValidityControl.resx">
+      <DependentUpon>KartValidityControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LoadedKartsForm.resx">
       <DependentUpon>LoadedKartsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NewKartForm.resx">
-      <DependentUpon>NewKartForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TextInputForm.resx">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -175,6 +203,57 @@
       <Project>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</Project>
       <Name>MK64Pitstop</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\expand-left-2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\collapse-left-2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\circle-check-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\circle-x-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clipboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid-three-up-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action-undo-4x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-thick-bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-thick-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\task-4x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

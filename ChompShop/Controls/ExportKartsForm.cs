@@ -39,21 +39,25 @@ namespace ChompShop.Controls
         {
             List<KartWrapper> newCheckedWrappers = new List<KartWrapper>();
 
+            Dictionary<KartWrapper, CheckState> oldCheckedStates = new Dictionary<KartWrapper, CheckState>();
+
+            for (int i = 0; i < clbKarts.Items.Count; i++)
+                oldCheckedStates.Add((KartWrapper)clbKarts.Items[i], clbKarts.GetItemCheckState(i));
+
             clbKarts.Items.Clear();
 
             foreach (KartWrapper kart in ChompShopFloor.Karts)
             {
-                if (_checkedWrappers.Contains(kart))
-                {
-                    //Add as checked
-                    clbKarts.Items.Add(kart);
-                    clbKarts.SetItemChecked(clbKarts.Items.Count - 1, true);
+                CheckState state = CheckState.Unchecked;
+                if(oldCheckedStates.ContainsKey(kart))
+                    state = oldCheckedStates[kart];
+                if (!kart.ValidKart)
+                    state = CheckState.Indeterminate;
+
+
+                clbKarts.Items.Add(kart, state);
+                if (state == CheckState.Checked)
                     newCheckedWrappers.Add(kart);
-                }
-                else
-                {
-                    clbKarts.Items.Add(kart);
-                }
             }
 
             _checkedWrappers = newCheckedWrappers;
@@ -64,6 +68,12 @@ namespace ChompShop.Controls
             if (_initializing)
                 return;
 
+            if (e.CurrentValue == CheckState.Indeterminate)  //Disabled checkbox
+            {
+                e.NewValue = CheckState.Indeterminate;
+                return;
+            }
+
             if (e.NewValue == CheckState.Checked)
             {
                 _checkedWrappers.Add((KartWrapper)clbKarts.Items[e.Index]);
@@ -72,7 +82,6 @@ namespace ChompShop.Controls
             {
                 _checkedWrappers.Remove((KartWrapper)clbKarts.Items[e.Index]);
             }
-
             //Update stuff
             CheckedWrappersUpdated();
         }
@@ -101,5 +110,10 @@ namespace ChompShop.Controls
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.ExportKarts; } }
 
         protected override string TitleText { get { return "Export Karts"; } }
+
+        private void clbKarts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            kartValidityControl.SetKart((KartWrapper)clbKarts.SelectedItem);
+        }
     }
 }

@@ -211,20 +211,21 @@ namespace MK64Pitstop.Services.Readers
                 //OKAY, Instructions for the next step:
                 // Use the RomImageOrder to split up images the way you need to, then whatever.
                 
+                //Dictionary to speed up the searching algorithm
+                Dictionary<int, ImageMIO0Block> foundOffsets = new Dictionary<int, ImageMIO0Block>();
+
                 for (int j = 0; j < block.CharacterTurnReferences[i].Length; j++)
                 {
                     if (block.CharacterTurnReferences[i][j].ReferenceElement == null)
                     {
                         mioOffset = block.CharacterTurnReferences[i][j].Offset + KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET;
 
-                        N64DataElement existingMio;
                         ImageMIO0Block mio;
 
-                        if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset) &&
-                            (existingMio = RomProject.Instance.Files[0].GetElementAt(mioOffset)) is ImageMIO0Block)
+                        if (foundOffsets.TryGetValue(mioOffset, out mio))
                         {
-                            mio = (ImageMIO0Block)existingMio;
                             block.CharacterTurnReferences[i][j].ReferenceElement = mio;
+                            continue;
                         }
                         else if (rawData != null)
                         {
@@ -233,8 +234,7 @@ namespace MK64Pitstop.Services.Readers
 
                             results.NewElements.Add(mio);
                             results.OriginalMIO0s.Add(mio);
-                            //RomProject.Instance.Files[0].AddElement(mio);
-                            //MarioKart64ElementHub.Instance.OriginalMIO0Blocks.Add(mio);
+                            foundOffsets.Add(mioOffset, mio);
                         }
                     }
 
@@ -277,20 +277,20 @@ namespace MK64Pitstop.Services.Readers
                     }
                 }
 
+                foundOffsets.Clear();
+
                 for (int j = 0; j < block.CharacterCrashReferences[i].Length; j++)
                 {
                     if (block.CharacterCrashReferences[i][j].ReferenceElement == null)
                     {
                         mioOffset = block.CharacterCrashReferences[i][j].Offset + KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET;
                         
-                        N64DataElement existingMio;
                         ImageMIO0Block mio;
-                        
-                        if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset) &&
-                            (existingMio = RomProject.Instance.Files[0].GetElementAt(mioOffset)) is ImageMIO0Block)
+
+                        if (foundOffsets.TryGetValue(mioOffset, out mio))
                         {
-                            mio = (ImageMIO0Block)existingMio;
                             block.CharacterCrashReferences[i][j].ReferenceElement = mio;
+                            continue;
                         }
                         else if (rawData != null)
                         {
@@ -299,8 +299,7 @@ namespace MK64Pitstop.Services.Readers
 
                             results.NewElements.Add(mio);
                             results.OriginalMIO0s.Add(mio);
-                            //RomProject.Instance.Files[0].AddElement(mio);
-                            //MarioKart64ElementHub.Instance.OriginalMIO0Blocks.Add(mio);
+                            foundOffsets.Add(mioOffset, mio);
                         }
                     }
 
@@ -322,8 +321,11 @@ namespace MK64Pitstop.Services.Readers
         {
             int mioOffset;
 
-            foreach (List<KartPortraitTableEntry> kartPortraits in portraits.Entries)
+            for (int k = 0; k < portraits.Entries.Count; k++)
             {
+                List<KartPortraitTableEntry> kartPortraits = portraits.Entries[k];
+                string kartName = Enum.GetName(typeof(MarioKartRomInfo.OriginalCharacters), k);
+
                 for (int i = 0; i < kartPortraits.Count; i++)
                 {
                     if (kartPortraits[i].ImageReference == null)
@@ -342,6 +344,8 @@ namespace MK64Pitstop.Services.Readers
                         else if(rawData != null)
                         {
                             mio = ImageMIO0Block.ReadImageMIO0BlockFrom(rawData, mioOffset);
+                            mio.ImageName = kartName + "Portrait-" + (i + 1); 
+
                             kartPortraits[i].ImageReference = mio;
 
                             results.NewElements.Add(mio);

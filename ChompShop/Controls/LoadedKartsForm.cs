@@ -32,9 +32,12 @@ namespace ChompShop.Controls
             SetButtonsEnabled();
         }
 
+        private KartWrapper SelectedKart { get { return (KartWrapper)lbKarts.SelectedItem; } }
+        
         private void SetButtonsEnabled()
         {
-            bool enabled = lbKarts.SelectedIndex != -1;
+            bool enabled = (SelectedKart != null);
+            bool hasChanges = (enabled ? SelectedKart.IsModified : false);
 
             btnName.Enabled = enabled;
             btnPortraits.Enabled = enabled;
@@ -43,30 +46,30 @@ namespace ChompShop.Controls
             btnResetChanges.Enabled = enabled;
             btnCopy.Enabled = enabled;
             btnRemove.Enabled = enabled;
+
+            btnResetChanges.Enabled = hasChanges;
+            btnSaveChanges.Enabled = hasChanges;
         }
 
         private void PopulateKartListBox()
         {
-            KartWrapper selectedWrapper = (KartWrapper)lbKarts.SelectedItem;
             lbKarts.Items.Clear();
 
             lbKarts.Items.AddRange(ChompShopFloor.Karts.ToArray());
 
             if (lbKarts.Items.Count > 0)
             {
-                if (selectedWrapper == null)
+                if (SelectedKart == null)
                     lbKarts.SelectedIndex = 0;
                 else
                 {
-                    int index = ChompShopFloor.Karts.IndexOf(selectedWrapper);
+                    int index = ChompShopFloor.Karts.IndexOf(SelectedKart);
                     if (index == -1)
                         index = 0;
                     lbKarts.SelectedIndex = index;
                 }
             }
         }
-
-        private KartWrapper SelectedKart { get { if (lbKarts.SelectedIndex == -1) return null; return (KartWrapper)lbKarts.SelectedItem; } }
 
         private void btnName_Click(object sender, EventArgs e)
         {
@@ -130,6 +133,26 @@ namespace ChompShop.Controls
                     lbKarts.Items[i] = wrapper;
                 }
             }
+        }
+
+        private void btnResetChanges_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("All changes since last save will be lost. Continue?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
+            {
+                SelectedKart.RevertChanges();
+                InitData();
+            }
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            SelectedKart.SaveChanges();
+            SetButtonsEnabled();
+        }
+
+        private void lbKarts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetButtonsEnabled();
         }
 
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.LoadedKarts; } }

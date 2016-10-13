@@ -1,6 +1,6 @@
 ﻿namespace ChompShop.Controls.KartControls
 {
-    partial class KartNameForm
+    partial class KartInfoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -34,6 +34,8 @@
             this.btnImportNamePlate = new System.Windows.Forms.Button();
             this.btnExportNamePlate = new System.Windows.Forms.Button();
             this.pbNamePlate = new System.Windows.Forms.PictureBox();
+            this.openNamePlateDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveNamePlateDialog = new System.Windows.Forms.SaveFileDialog();
             this.gbNamePlate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbNamePlate)).BeginInit();
             this.SuspendLayout();
@@ -41,7 +43,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(40, 72);
+            this.label1.Location = new System.Drawing.Point(36, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 17);
@@ -50,7 +52,7 @@
             // 
             // txtKartName
             // 
-            this.txtKartName.Location = new System.Drawing.Point(12, 92);
+            this.txtKartName.Location = new System.Drawing.Point(12, 43);
             this.txtKartName.Name = "txtKartName";
             this.txtKartName.Size = new System.Drawing.Size(124, 23);
             this.txtKartName.TabIndex = 1;
@@ -61,9 +63,10 @@
             this.gbNamePlate.Controls.Add(this.btnImportNamePlate);
             this.gbNamePlate.Controls.Add(this.btnExportNamePlate);
             this.gbNamePlate.Controls.Add(this.pbNamePlate);
-            this.gbNamePlate.Location = new System.Drawing.Point(142, 12);
+            this.gbNamePlate.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbNamePlate.Location = new System.Drawing.Point(148, 5);
             this.gbNamePlate.Name = "gbNamePlate";
-            this.gbNamePlate.Size = new System.Drawing.Size(120, 191);
+            this.gbNamePlate.Size = new System.Drawing.Size(120, 205);
             this.gbNamePlate.TabIndex = 6;
             this.gbNamePlate.TabStop = false;
             this.gbNamePlate.Text = "Nameplate";
@@ -76,6 +79,7 @@
             this.btnImportNamePlate.TabIndex = 23;
             this.btnImportNamePlate.Text = "Import";
             this.btnImportNamePlate.UseVisualStyleBackColor = true;
+            this.btnImportNamePlate.Click += new System.EventHandler(this.btnImportNamePlate_Click);
             // 
             // btnExportNamePlate
             // 
@@ -85,6 +89,7 @@
             this.btnExportNamePlate.TabIndex = 23;
             this.btnExportNamePlate.Text = "Export";
             this.btnExportNamePlate.UseVisualStyleBackColor = true;
+            this.btnExportNamePlate.Click += new System.EventHandler(this.btnExportNamePlate_Click);
             // 
             // pbNamePlate
             // 
@@ -94,18 +99,27 @@
             this.pbNamePlate.TabIndex = 1;
             this.pbNamePlate.TabStop = false;
             // 
-            // KartNameForm
+            // openNamePlateDialog
+            // 
+            this.openNamePlateDialog.Filter = "PNG files|*.png|All files|*.*";
+            // 
+            // saveNamePlateDialog
+            // 
+            this.saveNamePlateDialog.Filter = "PNG files|*.png|All files|*.*";
+            // 
+            // KartInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(272, 213);
+            this.ClientSize = new System.Drawing.Size(273, 215);
             this.Controls.Add(this.gbNamePlate);
             this.Controls.Add(this.txtKartName);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "KartNameForm";
-            this.Text = "Kart Name";
+            this.Name = "KartInfoForm";
+            this.Padding = new System.Windows.Forms.Padding(5);
+            this.Text = "Kart Info";
             this.gbNamePlate.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbNamePlate)).EndInit();
             this.ResumeLayout(false);
@@ -121,5 +135,7 @@
         private System.Windows.Forms.Button btnImportNamePlate;
         private System.Windows.Forms.Button btnExportNamePlate;
         private System.Windows.Forms.PictureBox pbNamePlate;
+        private System.Windows.Forms.OpenFileDialog openNamePlateDialog;
+        private System.Windows.Forms.SaveFileDialog saveNamePlateDialog;
     }
 }

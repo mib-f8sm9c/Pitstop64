@@ -130,6 +130,11 @@ namespace MK64Pitstop.Data.Karts
                     block = new ImageMIO0Block(-1, data);
                 }
 
+                if (portrait.Attribute(NAME) != null)
+                {
+                    block.ImageName = portrait.Attribute(NAME).Value;
+                }
+
                 Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
                 block.DecodedN64DataElement = newTexture;
                 KartPortraits.Add(block);
@@ -187,6 +192,7 @@ namespace MK64Pitstop.Data.Karts
                     XElement xmlPortrait = new XElement(PORTRAIT);
                     xmlPortrait.Add(new XAttribute(OFFSET, block.FileOffset));
                     xmlPortrait.Add(new XElement(IMAGE_DATA, Convert.ToBase64String(block.RawData)));
+                    xmlPortrait.Add(new XAttribute(NAME, block.ImageName));
                     xmlPortraits.Add(xmlPortrait);
                 }
             }
@@ -395,6 +401,11 @@ namespace MK64Pitstop.Data.Karts
                 return true;
             }
             return false;
+        }
+
+        public void ClearPalette()
+        {
+            ImagePalette = null;
         }
 
         public XElement GetAsXml()

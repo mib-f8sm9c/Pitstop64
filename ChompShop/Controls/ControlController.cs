@@ -135,7 +135,7 @@ namespace ChompShop.Controls
             switch (type)
             {
                 case ChompShopWindowType.KartName:
-                    return new KartNameForm(wrapper);
+                    return new KartInfoForm(wrapper);
                 case ChompShopWindowType.KartPortraits:
                     return new KartPortraitsForm(wrapper);
                 case ChompShopWindowType.KartImages:

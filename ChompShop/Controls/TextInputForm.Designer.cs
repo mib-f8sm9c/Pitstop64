@@ -1,6 +1,6 @@
 ﻿namespace ChompShop.Controls
 {
-    partial class NewKartForm
+    partial class TextInputForm
     {
         /// <summary>
         /// Required designer variable.
@@ -39,10 +39,10 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Location = new System.Drawing.Point(13, 80);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(111, 34);
-            this.btnOK.TabIndex = 0;
+            this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -53,17 +53,17 @@
             this.txtName.Location = new System.Drawing.Point(76, 40);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(236, 23);
-            this.txtName.TabIndex = 1;
+            this.txtName.TabIndex = 0;
             // 
             // lblName
             // 
             this.lblName.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(140, 20);
+            this.lblName.Location = new System.Drawing.Point(12, 20);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(110, 17);
-            this.lblName.TabIndex = 2;
-            this.lblName.Text = "New Kart Name:";
+            this.lblName.Size = new System.Drawing.Size(370, 17);
+            this.lblName.TabIndex = 3;
+            this.lblName.Text = "TextBox Label";
+            this.lblName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnCancel
             // 
@@ -73,11 +73,11 @@
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(111, 34);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // NewKartForm
+            // TextInputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -87,9 +87,9 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.btnOK);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "NewKartForm";
-            this.Text = "New Kart Info";
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "TextInputForm";
+            this.Text = "Title Text";
             this.ResumeLayout(false);
             this.PerformLayout();
 

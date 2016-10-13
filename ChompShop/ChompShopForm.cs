@@ -35,10 +35,16 @@ namespace ChompShop
             //kartName = RequestKartName();
 
             //ChompShopFloor.NewKart(kartName);
-            NewKartForm form = new NewKartForm();
+            TextInputForm form = new TextInputForm("Kart Name:", "New Kart Name");
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ChompShopFloor.NewKart(form.KartName);
+                //Later on, do better name verifcation
+                if (string.IsNullOrWhiteSpace(form.TextOutput))
+                {
+                    MessageBox.Show("Kart Name is invalid!");
+                }
+                else
+                    ChompShopFloor.NewKart(form.TextOutput);
             }
         }
 
