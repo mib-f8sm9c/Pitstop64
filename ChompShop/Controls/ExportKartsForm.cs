@@ -21,8 +21,14 @@ namespace ChompShop.Controls
             : base (null)
         {
             InitializeComponent();
+            ChompShopAlerts.LoadedKartsChanged += ChompShopAlerts_LoadedKartsChanged;
 
             _checkedWrappers = new List<KartWrapper>();
+            InitData();
+        }
+
+        private void ChompShopAlerts_LoadedKartsChanged()
+        {
             InitData();
         }
 

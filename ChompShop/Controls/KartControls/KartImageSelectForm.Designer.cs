@@ -31,10 +31,12 @@
             this.lbKartImages = new System.Windows.Forms.ListBox();
             this.txtSearchImages = new System.Windows.Forms.TextBox();
             this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
-            this.btnSelect = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.lblSelectCount = new System.Windows.Forms.Label();
             this.lblSelectedCountText = new System.Windows.Forms.Label();
+            this.btnExportAll = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSelect = new System.Windows.Forms.Button();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // lbKartImages
@@ -69,27 +71,46 @@
             this.imagePreviewControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.imagePreviewControl.ExportButtonVisible = true;
             this.imagePreviewControl.Image = null;
-            this.imagePreviewControl.Location = new System.Drawing.Point(264, 15);
+            this.imagePreviewControl.Location = new System.Drawing.Point(264, 9);
             this.imagePreviewControl.Margin = new System.Windows.Forms.Padding(4);
             this.imagePreviewControl.Name = "imagePreviewControl";
             this.imagePreviewControl.Size = new System.Drawing.Size(197, 191);
             this.imagePreviewControl.TabIndex = 2;
             // 
-            // btnSelect
+            // lblSelectCount
             // 
-            this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelect.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSelect.Image = global::ChompShop.Properties.Resources.circle_check_3x;
-            this.btnSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSelect.Location = new System.Drawing.Point(264, 235);
-            this.btnSelect.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(185, 39);
-            this.btnSelect.TabIndex = 3;
-            this.btnSelect.Text = "Select";
-            this.btnSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSelect.UseVisualStyleBackColor = true;
+            this.lblSelectCount.AutoSize = true;
+            this.lblSelectCount.Location = new System.Drawing.Point(276, 203);
+            this.lblSelectCount.Name = "lblSelectCount";
+            this.lblSelectCount.Size = new System.Drawing.Size(116, 17);
+            this.lblSelectCount.TabIndex = 3;
+            this.lblSelectCount.Text = "Images Selected:";
+            // 
+            // lblSelectedCountText
+            // 
+            this.lblSelectedCountText.AutoSize = true;
+            this.lblSelectedCountText.Location = new System.Drawing.Point(398, 203);
+            this.lblSelectedCountText.Name = "lblSelectedCountText";
+            this.lblSelectedCountText.Size = new System.Drawing.Size(16, 17);
+            this.lblSelectedCountText.TabIndex = 4;
+            this.lblSelectedCountText.Text = "0";
+            // 
+            // btnExportAll
+            // 
+            this.btnExportAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportAll.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnExportAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportAll.Image = global::ChompShop.Properties.Resources.data_transfer_download_3x;
+            this.btnExportAll.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportAll.Location = new System.Drawing.Point(264, 161);
+            this.btnExportAll.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExportAll.Name = "btnExportAll";
+            this.btnExportAll.Size = new System.Drawing.Size(128, 38);
+            this.btnExportAll.TabIndex = 7;
+            this.btnExportAll.Text = "Export All...";
+            this.btnExportAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExportAll.UseVisualStyleBackColor = true;
+            this.btnExportAll.Click += new System.EventHandler(this.btnExportAll_Click);
             // 
             // btnCancel
             // 
@@ -102,34 +123,33 @@
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(185, 39);
-            this.btnCancel.TabIndex = 4;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // lblSelectCount
+            // btnSelect
             // 
-            this.lblSelectCount.AutoSize = true;
-            this.lblSelectCount.Location = new System.Drawing.Point(276, 203);
-            this.lblSelectCount.Name = "lblSelectCount";
-            this.lblSelectCount.Size = new System.Drawing.Size(116, 17);
-            this.lblSelectCount.TabIndex = 5;
-            this.lblSelectCount.Text = "Images Selected:";
-            // 
-            // lblSelectedCountText
-            // 
-            this.lblSelectedCountText.AutoSize = true;
-            this.lblSelectedCountText.Location = new System.Drawing.Point(398, 203);
-            this.lblSelectedCountText.Name = "lblSelectedCountText";
-            this.lblSelectedCountText.Size = new System.Drawing.Size(16, 17);
-            this.lblSelectedCountText.TabIndex = 6;
-            this.lblSelectedCountText.Text = "0";
+            this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelect.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSelect.Image = global::ChompShop.Properties.Resources.circle_check_3x;
+            this.btnSelect.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSelect.Location = new System.Drawing.Point(264, 235);
+            this.btnSelect.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(185, 39);
+            this.btnSelect.TabIndex = 5;
+            this.btnSelect.Text = "Select";
+            this.btnSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSelect.UseVisualStyleBackColor = true;
             // 
             // KartImageSelectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(462, 336);
+            this.Controls.Add(this.btnExportAll);
             this.Controls.Add(this.lblSelectedCountText);
             this.Controls.Add(this.lblSelectCount);
             this.Controls.Add(this.btnCancel);
@@ -155,5 +175,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblSelectCount;
         private System.Windows.Forms.Label lblSelectedCountText;
+        private System.Windows.Forms.Button btnExportAll;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }

@@ -24,7 +24,7 @@ namespace MK64Pitstop.Modules.Karts
             {
                 StopPreview();
                 _kart = value;
-                ResetPreview();
+                StartPreview();
             }
         }
         private KartInfo _kart = null;
@@ -41,10 +41,12 @@ namespace MK64Pitstop.Modules.Karts
                 {
                     StopPreview();
                     _referenceKart = value;
-                    ResetPreview();
+                    StartPreview();
                 }
                 else
                     _referenceKart = value;
+
+                cbOverlayKart.Enabled = (_referenceKart == null);
             }
         }
         private KartInfo _referenceKart = null;
@@ -176,7 +178,10 @@ namespace MK64Pitstop.Modules.Karts
         //Start the animation
         private void StartPreview()
         {
-            if (Mode == PreviewMode.Animated)
+            if (this.DesignMode)
+                return;
+
+            if (Mode == PreviewMode.Animated && _kart != null)
             {
                 if (!_timer.Enabled)
                     _timer.Start();
@@ -190,6 +195,9 @@ namespace MK64Pitstop.Modules.Karts
         //Stop the animation
         private void StopPreview()
         {
+            if (this.DesignMode)
+                return;
+
             if (_timer.Enabled)
                 _timer.Stop();
         }
@@ -197,6 +205,9 @@ namespace MK64Pitstop.Modules.Karts
         //Reset the view to the new kart
         private void ResetPreview()
         {
+            if (this.DesignMode)
+                return;
+
             //Clear the image
             Image = null;
 

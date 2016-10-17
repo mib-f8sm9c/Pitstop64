@@ -34,5 +34,21 @@ namespace ChompShop
         {
             KartNameChanged(kart);
         }
+
+        //Change the reference kart: needs to update the kart viewers in all the windows
+        public delegate void ReferenceKartChangedEvent(KartWrapper refKart);
+        public static event ReferenceKartChangedEvent ReferenceKartChanged = delegate { };
+        public static void UpdateReferenceKart(KartWrapper kart)
+        {
+            ReferenceKartChanged(kart);
+        }
+
+        //Kart image got removed: needs to affect the animation window
+        public delegate void KartImageRemovedEvent(KartWrapper kart);
+        public static event KartImageRemovedEvent KartImageRemoved = delegate { };
+        public static void UpdateKartImages(KartWrapper kart)
+        {
+            KartImageRemoved(kart);
+        }
     }
 }

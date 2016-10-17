@@ -21,11 +21,51 @@ namespace ChompShop.Controls.KartControls
         {
             InitializeComponent();
 
-            //Handle treeView checkboxes
-            //treeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            //treeView.DrawNode += new DrawTreeNodeEventHandler(tree_DrawNode);
+            if (kart.ComprimisedAnimations)
+                ShowReloadScreen();
+            else
+                InitData();
+
+            ChompShopAlerts.ReferenceKartChanged += ChompShopAlerts_LoadedKartsChanged;
+            ChompShopAlerts.KartImageRemoved += ChompShopAlerts_KartImageRemoved;
+        }
+
+        private void ChompShopAlerts_KartImageRemoved(KartWrapper kart)
+        {
+            if (this.Kart == kart)
+            {
+                //Need to invalidate this form and reload it
+                ShowReloadScreen();
+            }
+        }
+
+        private void ShowReloadScreen()
+        {
+            pnlReloadAnimations.BringToFront();
+            pnlReloadAnimations.Visible = true;
+            pnlReloadAnimations.Enabled = true;
+            pnlLeftSide.Enabled = false;
+            pnlKartAnimation.Enabled = false;
+        }
+
+        private void HideReloadScreen()
+        {
+            pnlReloadAnimations.Visible = false;
+            pnlReloadAnimations.Enabled = false;
+            pnlLeftSide.Enabled = true;
+            pnlKartAnimation.Enabled = true;
 
             InitData();
+        }
+
+        private void ChompShopAlerts_LoadedKartsChanged(KartWrapper kart)
+        {
+            UpdateReferenceKart(kart);
+        }
+
+        private void UpdateReferenceKart(KartWrapper kart)
+        {
+            kartPreviewControl.ReferenceKart = kart.Kart;
         }
 
         public override void InitData()
@@ -42,6 +82,7 @@ namespace ChompShop.Controls.KartControls
             PopulateAnimationImages();
             UpdateKartPreviewAnimation();
             UpdateAnimationEnableds();
+            UpdateReferenceKart(ChompShopFloor.ReferenceKart);
 
             _initializing = false;
         }
@@ -330,7 +371,14 @@ namespace ChompShop.Controls.KartControls
                 lbAnimImages.SelectedIndex = selectedIndex + 1;
             }
         }
+        
+        private void btnRecalculate_Click(object sender, EventArgs e)
+        {
+            //Recalculate the animations
+            Kart.UpdateAnimationsWithExistingImages();
 
+            HideReloadScreen();
+        }
 
         #region CheckboxHell
 
@@ -629,297 +677,6 @@ namespace ChompShop.Controls.KartControls
 
         #endregion
 
-        #region TreeViewStuff (no longer wanted)
-        /*
-        Code for mixed-checked box tree views, taken from http://stackoverflow.com/questions/698369/how-to-disable-a-winforms-treeview-node-checkbox
 
-        // constants used to hide a checkbox
-        public const int TVIF_STATE = 0x8;
-        public const int TVIS_STATEIMAGEMASK = 0xF000;
-        public const int TV_FIRST = 0x1100;
-        public const int TVM_SETITEM = TV_FIRST + 63;
-
-        [DllImport("user32.dll")]
-        static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam,
-        IntPtr lParam);
-
-        // struct used to set node properties
-        public struct TVITEM
-        {
-            public int mask;
-            public IntPtr hItem;
-            public int state;
-            public int stateMask;
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public String lpszText;
-            public int cchTextMax;
-            public int iImage;
-            public int iSelectedImage;
-            public int cChildren;
-            public IntPtr lParam;
-
-        }
-        
-        //More tree view stuff
-        void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
-        {
-            if (e.Node.Tag != null && ((string)e.Node.Tag).StartsWith("N"))
-            {
-                HideCheckBox(e.Node);
-                e.DrawDefault = true;
-            }
-            else
-            {
-                e.Graphics.DrawString(e.Node.Text, e.Node.TreeView.Font,
-                   Brushes.Black, e.Node.Bounds.X, e.Node.Bounds.Y);
-            }
-        }
-
-        private void HideCheckBox(TreeNode node)
-        {
-            TVITEM tvi = new TVITEM();
-            tvi.hItem = node.Handle;
-            tvi.mask = TVIF_STATE;
-            tvi.stateMask = TVIS_STATEIMAGEMASK;
-            tvi.state = 0;
-            IntPtr lparam = Marshal.AllocHGlobal(Marshal.SizeOf(tvi));
-            Marshal.StructureToPtr(tvi, lparam, false);
-            SendMessage(node.TreeView.Handle, TVM_SETITEM, IntPtr.Zero, lparam);
-        }
-
-        #region Checkbox Accessors
-        
-        public bool TurnMinus25Checked
-        {
-            get
-            {
-                return treeView.Nodes["nTm25"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nTm25"].Checked = value;
-            }
-        }
-
-        public bool TurnMinus19Checked
-        {
-            get
-            {
-                return treeView.Nodes["nTm19"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nTm19"].Checked = value;
-            }
-        }
-
-        public bool TurnMinus12Checked
-        {
-            get
-            {
-                return treeView.Nodes["nTm12"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nTm12"].Checked = value;
-            }
-        }
-
-        public bool TurnMinus6Checked
-        {
-            get
-            {
-                return treeView.Nodes["nTm6"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nTm6"].Checked = value;
-            }
-        }
-
-        public bool Turn0Checked
-        {
-            get
-            {
-                return treeView.Nodes["nT0"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nT0"].Checked = value;
-            }
-        }
-
-        public bool Turn6Checked
-        {
-            get
-            {
-                return treeView.Nodes["nT6"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nT6"].Checked = value;
-            }
-        }
-
-        public bool Turn12Checked
-        {
-            get
-            {
-                return treeView.Nodes["nT12"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nT12"].Checked = value;
-            }
-        }
-
-        public bool Turn19Checked
-        {
-            get
-            {
-                return treeView.Nodes["nT19"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nT19"].Checked = value;
-            }
-        }
-
-        public bool Turn25Checked
-        {
-            get
-            {
-                return treeView.Nodes["nT25"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nT25"].Checked = value;
-            }
-        }
-
-        public bool SpinMinus25Checked
-        {
-            get
-            {
-                return treeView.Nodes["nSm25"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nSm25"].Checked = value;
-            }
-        }
-
-        public bool SpinMinus19Checked
-        {
-            get
-            {
-                return treeView.Nodes["nSm19"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nSm19"].Checked = value;
-            }
-        }
-
-        public bool SpinMinus12Checked
-        {
-            get
-            {
-                return treeView.Nodes["nSm12"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nSm12"].Checked = value;
-            }
-        }
-
-        public bool SpinMinus6Checked
-        {
-            get
-            {
-                return treeView.Nodes["nSm6"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nSm6"].Checked = value;
-            }
-        }
-
-        public bool Spin0Checked
-        {
-            get
-            {
-                return treeView.Nodes["nS0"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nS0"].Checked = value;
-            }
-        }
-
-        public bool Spin6Checked
-        {
-            get
-            {
-                return treeView.Nodes["nS6"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nS6"].Checked = value;
-            }
-        }
-
-        public bool Spin12Checked
-        {
-            get
-            {
-                return treeView.Nodes["nS12"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nS12"].Checked = value;
-            }
-        }
-
-        public bool Spin19Checked
-        {
-            get
-            {
-                return treeView.Nodes["nS19"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nS19"].Checked = value;
-            }
-        }
-
-        public bool Spin25Checked
-        {
-            get
-            {
-                return treeView.Nodes["nS25"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nS25"].Checked = value;
-            }
-        }
-
-        public bool CrashChecked
-        {
-            get
-            {
-                return treeView.Nodes["nCrash"].Checked;
-            }
-            set
-            {
-                treeView.Nodes["nCrash"].Checked = value;
-            }
-        }
-
-        #endregion
-
-         */
-        #endregion
     }
 }

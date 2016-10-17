@@ -15,6 +15,7 @@ namespace ChompShop.Data
         public KartInfo Kart { get; private set; }
 
         public bool IsModified { get; private set; }
+        public bool ComprimisedAnimations { get; private set; }
 
         //Un-paletted images
         public List<BitmapWrapper> NewImages { get; private set; }
@@ -211,6 +212,8 @@ namespace ChompShop.Data
 
             //Flip something to notify that a cart got removed, and 
             // thus update the animation form and whatnot
+            ChompShopAlerts.UpdateKartImages(this);
+            ComprimisedAnimations = true;
         }
 
         public void RemoveKartImages(List<KartImage> images)
@@ -228,6 +231,8 @@ namespace ChompShop.Data
 
             //Flip something to notify that a cart got removed, and 
             // thus update the animation form and whatnot
+            ChompShopAlerts.UpdateKartImages(this);
+            ComprimisedAnimations = true;
         }
 
         public void SetMainPalette(Palette palette)
@@ -370,10 +375,20 @@ namespace ChompShop.Data
         public void UpdateAnimationsWithExistingImages()
         {
             //Bascially remove images from animations where the images are missing
+            foreach (KartAnimationSeries anim in Kart.KartAnimations)
+            {
+                for (int i = 0; i < anim.OrderedImageNames.Count; i++)
+                {
+                    if (!Kart.KartImages.Images.ContainsKey(anim.OrderedImageNames[i]))
+                    {
+                        anim.OrderedImageNames.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
 
-            //NOTE: PROBABLY BELONGS IN THE ANIMATION CONTROL INSTEAD!!!
-
-            throw new NotImplementedException();
+            ComprimisedAnimations = false;
+            IsModified = true;
         }
 
         public void RevertChanges()

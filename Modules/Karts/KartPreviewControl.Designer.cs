@@ -34,20 +34,24 @@
             // 
             // cbOverlayKart
             // 
+            this.cbOverlayKart.Appearance = System.Windows.Forms.Appearance.Button;
             this.cbOverlayKart.AutoSize = true;
+            this.cbOverlayKart.Enabled = false;
+            this.cbOverlayKart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbOverlayKart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.cbOverlayKart.Location = new System.Drawing.Point(3, 72);
+            this.cbOverlayKart.Image = global::MK64Pitstop.Properties.Resources.people_2x;
+            this.cbOverlayKart.Location = new System.Drawing.Point(3, 69);
             this.cbOverlayKart.Name = "cbOverlayKart";
-            this.cbOverlayKart.Size = new System.Drawing.Size(76, 56);
+            this.cbOverlayKart.Size = new System.Drawing.Size(22, 22);
             this.cbOverlayKart.TabIndex = 25;
-            this.cbOverlayKart.Text = "\r\nOverlay\r\nReference\r\nMario";
+            this.toolTip.SetToolTip(this.cbOverlayKart, "Display Reference Kart");
             this.cbOverlayKart.UseVisualStyleBackColor = true;
             // 
             // KartPreviewControl
             // 
             this.Controls.Add(this.cbOverlayKart);
             this.Name = "KartPreviewControl";
-            this.Size = new System.Drawing.Size(223, 155);
+            this.Size = new System.Drawing.Size(172, 155);
             this.Controls.SetChildIndex(this.cbOverlayKart, 0);
             this.ResumeLayout(false);
             this.PerformLayout();

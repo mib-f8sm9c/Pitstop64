@@ -76,6 +76,12 @@
       <DependentUpon>ChompShopForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Controls\ReferenceKartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ReferenceKartForm.Designer.cs">
+      <DependentUpon>ReferenceKartForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExportKartsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ChompShopWindow.resx">
       <DependentUpon>ChompShopWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ReferenceKartForm.resx">
+      <DependentUpon>ReferenceKartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExportKartsForm.resx">
       <DependentUpon>ExportKartsForm.cs</DependentUpon>
@@ -254,6 +263,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\task-4x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data-transfer-download-3x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

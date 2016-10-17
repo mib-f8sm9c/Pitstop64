@@ -133,6 +133,16 @@ namespace ChompShop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap data_transfer_download_3x {
+            get {
+                object obj = ResourceManager.GetObject("data-transfer-download-3x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap expand_left_2x {
             get {
                 object obj = ResourceManager.GetObject("expand_left_2x", resourceCulture);

@@ -47,7 +47,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 17);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 1;
             this.label1.Text = "Kart Name";
             // 
             // txtKartName
@@ -55,7 +55,7 @@
             this.txtKartName.Location = new System.Drawing.Point(12, 43);
             this.txtKartName.Name = "txtKartName";
             this.txtKartName.Size = new System.Drawing.Size(124, 23);
-            this.txtKartName.TabIndex = 1;
+            this.txtKartName.TabIndex = 0;
             this.txtKartName.TextChanged += new System.EventHandler(this.txtKartName_TextChanged);
             // 
             // gbNamePlate
@@ -67,7 +67,7 @@
             this.gbNamePlate.Location = new System.Drawing.Point(148, 5);
             this.gbNamePlate.Name = "gbNamePlate";
             this.gbNamePlate.Size = new System.Drawing.Size(120, 205);
-            this.gbNamePlate.TabIndex = 6;
+            this.gbNamePlate.TabIndex = 2;
             this.gbNamePlate.TabStop = false;
             this.gbNamePlate.Text = "Nameplate";
             // 
@@ -76,7 +76,7 @@
             this.btnImportNamePlate.Location = new System.Drawing.Point(24, 129);
             this.btnImportNamePlate.Name = "btnImportNamePlate";
             this.btnImportNamePlate.Size = new System.Drawing.Size(78, 34);
-            this.btnImportNamePlate.TabIndex = 23;
+            this.btnImportNamePlate.TabIndex = 1;
             this.btnImportNamePlate.Text = "Import";
             this.btnImportNamePlate.UseVisualStyleBackColor = true;
             this.btnImportNamePlate.Click += new System.EventHandler(this.btnImportNamePlate_Click);
@@ -86,7 +86,7 @@
             this.btnExportNamePlate.Location = new System.Drawing.Point(24, 80);
             this.btnExportNamePlate.Name = "btnExportNamePlate";
             this.btnExportNamePlate.Size = new System.Drawing.Size(78, 34);
-            this.btnExportNamePlate.TabIndex = 23;
+            this.btnExportNamePlate.TabIndex = 0;
             this.btnExportNamePlate.Text = "Export";
             this.btnExportNamePlate.UseVisualStyleBackColor = true;
             this.btnExportNamePlate.Click += new System.EventHandler(this.btnExportNamePlate_Click);

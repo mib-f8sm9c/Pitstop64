@@ -263,15 +263,7 @@ namespace MK64Pitstop.Services.Readers
                                 .Palettes[frameIndex * 4];
                         }
 
-
-                        byte[] fakePaletteBytes = new byte[128];
-                        for(int p = 0; p < fakePaletteBytes.Length; p++)
-                            fakePaletteBytes[p] = 0xFF;
-                        firstAnimPalette = new Palette(-1, fakePaletteBytes);
-
                         Texture newTexture = new Texture(0, imageMio.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, selectedPalette.Combine(firstAnimPalette));
-
-                        //newTexture.Image.Save("test.bmp");
 
                         imageMio.DecodedN64DataElement = newTexture;
                     }

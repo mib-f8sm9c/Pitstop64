@@ -26,6 +26,8 @@ namespace ChompShop
             InitializeComponent();
 
             _controlController = new ControlController(this);
+
+            ChompShopFloor.LoadReferenceKart();
         }
 
         private void newKartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,19 +54,11 @@ namespace ChompShop
         {
             if (openKartDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ChompShopFloor.LoadKarts(openKartDialog.FileName);
-                //pbPreview.Image = ((Texture)ChompShopFloor.CurrentKart.KartPortraits[0].DecodedN64DataElement).Image;
+                if(openKartDialog.FileNames.Length > 1)
+                    ChompShopFloor.LoadKarts(openKartDialog.FileNames);
+                else
+                    ChompShopFloor.LoadKarts(openKartDialog.FileName);
             }
-        }
-
-        private void saveKartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveKartAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -90,6 +84,11 @@ namespace ChompShop
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _controlController.ShowSingleForm(ChompShopWindowType.ExportKarts);
+        }
+
+        private void referenceKartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _controlController.ShowSingleForm(ChompShopWindowType.ReferenceKart);
         }
     }
 }

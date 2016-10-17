@@ -256,6 +256,21 @@
       <Name>VisObj64</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-thick-bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-thick-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-thick-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\people-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\people-2x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

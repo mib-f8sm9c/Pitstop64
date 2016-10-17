@@ -73,7 +73,7 @@
             this.btnSaveChanges.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveChanges.Name = "btnSaveChanges";
             this.btnSaveChanges.Size = new System.Drawing.Size(95, 50);
-            this.btnSaveChanges.TabIndex = 9;
+            this.btnSaveChanges.TabIndex = 8;
             this.btnSaveChanges.Text = "Save Kart Changes";
             this.btnSaveChanges.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSaveChanges.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -90,7 +90,7 @@
             this.btnCopy.Margin = new System.Windows.Forms.Padding(4);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(24, 24);
-            this.btnCopy.TabIndex = 8;
+            this.btnCopy.TabIndex = 2;
             this.toolTip.SetToolTip(this.btnCopy, "Duplicate selected Kart");
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
@@ -104,7 +104,7 @@
             this.btnRemove.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(24, 24);
-            this.btnRemove.TabIndex = 7;
+            this.btnRemove.TabIndex = 3;
             this.toolTip.SetToolTip(this.btnRemove, "Remove selected Kart");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -118,7 +118,7 @@
             this.btnAddKart.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddKart.Name = "btnAddKart";
             this.btnAddKart.Size = new System.Drawing.Size(24, 24);
-            this.btnAddKart.TabIndex = 6;
+            this.btnAddKart.TabIndex = 1;
             this.toolTip.SetToolTip(this.btnAddKart, "Add new Kart");
             this.btnAddKart.UseVisualStyleBackColor = true;
             this.btnAddKart.Click += new System.EventHandler(this.btnAddKart_Click);
@@ -134,7 +134,7 @@
             this.btnResetChanges.Margin = new System.Windows.Forms.Padding(4);
             this.btnResetChanges.Name = "btnResetChanges";
             this.btnResetChanges.Size = new System.Drawing.Size(95, 50);
-            this.btnResetChanges.TabIndex = 5;
+            this.btnResetChanges.TabIndex = 9;
             this.btnResetChanges.Text = "Revert Changes";
             this.btnResetChanges.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetChanges.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -153,7 +153,7 @@
             this.btnAnims.Margin = new System.Windows.Forms.Padding(4);
             this.btnAnims.Name = "btnAnims";
             this.btnAnims.Size = new System.Drawing.Size(95, 40);
-            this.btnAnims.TabIndex = 4;
+            this.btnAnims.TabIndex = 7;
             this.btnAnims.Text = " Animations";
             this.btnAnims.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnAnims, "Manage Kart Animations");
@@ -171,7 +171,7 @@
             this.btnPortraits.Margin = new System.Windows.Forms.Padding(4);
             this.btnPortraits.Name = "btnPortraits";
             this.btnPortraits.Size = new System.Drawing.Size(95, 40);
-            this.btnPortraits.TabIndex = 3;
+            this.btnPortraits.TabIndex = 5;
             this.btnPortraits.Text = " Portraits";
             this.btnPortraits.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnPortraits, "Edit Kart Portrait Images");
@@ -189,7 +189,7 @@
             this.btnImages.Margin = new System.Windows.Forms.Padding(4);
             this.btnImages.Name = "btnImages";
             this.btnImages.Size = new System.Drawing.Size(95, 40);
-            this.btnImages.TabIndex = 2;
+            this.btnImages.TabIndex = 6;
             this.btnImages.Text = " Images";
             this.btnImages.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnImages, "Manage Kart Images");
@@ -207,7 +207,7 @@
             this.btnName.Margin = new System.Windows.Forms.Padding(4);
             this.btnName.Name = "btnName";
             this.btnName.Size = new System.Drawing.Size(95, 40);
-            this.btnName.TabIndex = 1;
+            this.btnName.TabIndex = 4;
             this.btnName.Text = "Kart Info";
             this.btnName.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnName, "Edit Kart Name");

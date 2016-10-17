@@ -112,6 +112,6 @@
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.ToolTip toolTip;
+        protected System.Windows.Forms.ToolTip toolTip;
     }
 }

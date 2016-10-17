@@ -46,7 +46,7 @@
             this.btnExport.Location = new System.Drawing.Point(35, 265);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(133, 49);
-            this.btnExport.TabIndex = 2;
+            this.btnExport.TabIndex = 1;
             this.btnExport.Text = "Export Kart...";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
@@ -60,7 +60,7 @@
             this.gbInfo.Location = new System.Drawing.Point(200, 5);
             this.gbInfo.Name = "gbInfo";
             this.gbInfo.Size = new System.Drawing.Size(267, 312);
-            this.gbInfo.TabIndex = 1;
+            this.gbInfo.TabIndex = 2;
             this.gbInfo.TabStop = false;
             this.gbInfo.Text = "Kart Info";
             // 

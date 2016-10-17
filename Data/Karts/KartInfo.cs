@@ -253,6 +253,8 @@ namespace MK64Pitstop.Data.Karts
 
                         zipDest.UpdateEntry(kart.KartName, Encoding.ASCII.GetBytes(kartXML.ToString()));
                     }
+
+                    zipDest.Save();
                 }
             }
             else

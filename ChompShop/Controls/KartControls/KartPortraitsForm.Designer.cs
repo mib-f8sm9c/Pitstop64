@@ -52,7 +52,7 @@
             this.imagePreviewControl.Location = new System.Drawing.Point(185, 99);
             this.imagePreviewControl.Name = "imagePreviewControl";
             this.imagePreviewControl.Size = new System.Drawing.Size(175, 155);
-            this.imagePreviewControl.TabIndex = 4;
+            this.imagePreviewControl.TabIndex = 9;
             // 
             // gbKartPortraits
             // 
@@ -72,7 +72,7 @@
             this.gbKartPortraits.Name = "gbKartPortraits";
             this.gbKartPortraits.Padding = new System.Windows.Forms.Padding(4);
             this.gbKartPortraits.Size = new System.Drawing.Size(376, 261);
-            this.gbKartPortraits.TabIndex = 3;
+            this.gbKartPortraits.TabIndex = 0;
             this.gbKartPortraits.TabStop = false;
             this.gbKartPortraits.Text = "Portraits";
             // 
@@ -83,7 +83,7 @@
             this.lblRole.Location = new System.Drawing.Point(279, 32);
             this.lblRole.Name = "lblRole";
             this.lblRole.Size = new System.Drawing.Size(42, 17);
-            this.lblRole.TabIndex = 29;
+            this.lblRole.TabIndex = 6;
             this.lblRole.Text = "None";
             // 
             // lblRoleText
@@ -93,7 +93,7 @@
             this.lblRoleText.Location = new System.Drawing.Point(182, 32);
             this.lblRoleText.Name = "lblRoleText";
             this.lblRoleText.Size = new System.Drawing.Size(91, 17);
-            this.lblRoleText.TabIndex = 28;
+            this.lblRoleText.TabIndex = 5;
             this.lblRoleText.Text = "Portrait Role:";
             // 
             // lblPortraitCount
@@ -103,7 +103,7 @@
             this.lblPortraitCount.Location = new System.Drawing.Point(279, 69);
             this.lblPortraitCount.Name = "lblPortraitCount";
             this.lblPortraitCount.Size = new System.Drawing.Size(36, 17);
-            this.lblPortraitCount.TabIndex = 27;
+            this.lblPortraitCount.TabIndex = 8;
             this.lblPortraitCount.Text = "0/17";
             // 
             // lblCountText
@@ -113,7 +113,7 @@
             this.lblCountText.Location = new System.Drawing.Point(174, 69);
             this.lblCountText.Name = "lblCountText";
             this.lblCountText.Size = new System.Drawing.Size(99, 17);
-            this.lblCountText.TabIndex = 26;
+            this.lblCountText.TabIndex = 7;
             this.lblCountText.Text = "Portrait Count:";
             // 
             // btnRemove
@@ -123,7 +123,7 @@
             this.btnRemove.Location = new System.Drawing.Point(85, 22);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(20, 20);
-            this.btnRemove.TabIndex = 25;
+            this.btnRemove.TabIndex = 4;
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
@@ -134,7 +134,7 @@
             this.btnDown.Location = new System.Drawing.Point(59, 22);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(20, 20);
-            this.btnDown.TabIndex = 24;
+            this.btnDown.TabIndex = 3;
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
@@ -145,7 +145,7 @@
             this.btnUp.Location = new System.Drawing.Point(33, 22);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(20, 20);
-            this.btnUp.TabIndex = 23;
+            this.btnUp.TabIndex = 2;
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
@@ -156,7 +156,7 @@
             this.btnAdd.Location = new System.Drawing.Point(7, 22);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(20, 20);
-            this.btnAdd.TabIndex = 22;
+            this.btnAdd.TabIndex = 1;
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -170,7 +170,7 @@
             this.lbPortraits.Name = "lbPortraits";
             this.lbPortraits.ScrollAlwaysVisible = true;
             this.lbPortraits.Size = new System.Drawing.Size(164, 196);
-            this.lbPortraits.TabIndex = 21;
+            this.lbPortraits.TabIndex = 0;
             this.lbPortraits.SelectedIndexChanged += new System.EventHandler(this.lbPortraits_SelectedIndexChanged);
             // 
             // KartPortraitsForm

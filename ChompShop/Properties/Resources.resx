@@ -121,8 +121,11 @@
   <data name="image-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="video-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\video-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow-thick-top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-thick-top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="task-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\task-4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="collapse_left_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\collapse-left-2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,8 +160,8 @@
   <data name="expand_left_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\expand-left-2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow-thick-top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow-thick-top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="video-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\video-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="circle-x-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\circle-x-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -166,7 +169,7 @@
   <data name="minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="task-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\task-4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="data-transfer-download-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\data-transfer-download-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

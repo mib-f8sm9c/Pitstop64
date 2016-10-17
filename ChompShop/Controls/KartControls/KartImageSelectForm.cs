@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
 using MK64Pitstop.Data.Karts;
+using System.IO;
 
 namespace ChompShop.Controls.KartControls
 {
@@ -52,6 +53,19 @@ namespace ChompShop.Controls.KartControls
             }
         }
 
+        public List<KartImage> AllImages
+        {
+            get
+            {
+                List<KartImage> images = new List<KartImage>();
+                foreach (object image in lbKartImages.Items)
+                {
+                    images.Add((KartImage)image);
+                }
+                return images;
+            }
+        }
+
         private void UpdateSelectedCount()
         {
             lblSelectedCountText.Text = lbKartImages.SelectedItems.Count.ToString();
@@ -79,6 +93,17 @@ namespace ChompShop.Controls.KartControls
         {
             //Need to preserve selected items?
             UpdateImages();
+        }
+
+        private void btnExportAll_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                foreach (KartImage image in AllImages)
+                {
+                    image.Image.Save(Path.Combine(folderBrowserDialog.SelectedPath, image.Name));
+                }
+            }
         }
     }
 }

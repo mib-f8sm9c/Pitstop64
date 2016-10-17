@@ -33,13 +33,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newKartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadKartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveKartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveKartAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadedKartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.referenceKartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,7 +56,8 @@
             this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.windowsToolStripMenuItem});
+            this.windowsToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(6, 4, 0, 2);
@@ -69,8 +70,6 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newKartToolStripMenuItem,
             this.loadKartToolStripMenuItem,
-            this.saveKartToolStripMenuItem,
-            this.saveKartAsToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
@@ -79,35 +78,21 @@
             // newKartToolStripMenuItem
             // 
             this.newKartToolStripMenuItem.Name = "newKartToolStripMenuItem";
-            this.newKartToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.newKartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newKartToolStripMenuItem.Text = "New Kart";
             this.newKartToolStripMenuItem.Click += new System.EventHandler(this.newKartToolStripMenuItem_Click);
             // 
             // loadKartToolStripMenuItem
             // 
             this.loadKartToolStripMenuItem.Name = "loadKartToolStripMenuItem";
-            this.loadKartToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.loadKartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadKartToolStripMenuItem.Text = "Load Kart...";
             this.loadKartToolStripMenuItem.Click += new System.EventHandler(this.loadKartToolStripMenuItem_Click);
-            // 
-            // saveKartToolStripMenuItem
-            // 
-            this.saveKartToolStripMenuItem.Name = "saveKartToolStripMenuItem";
-            this.saveKartToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.saveKartToolStripMenuItem.Text = "Save Kart As...";
-            this.saveKartToolStripMenuItem.Click += new System.EventHandler(this.saveKartToolStripMenuItem_Click);
-            // 
-            // saveKartAsToolStripMenuItem
-            // 
-            this.saveKartAsToolStripMenuItem.Name = "saveKartAsToolStripMenuItem";
-            this.saveKartAsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.saveKartAsToolStripMenuItem.Text = "Save All Karts As...";
-            this.saveKartAsToolStripMenuItem.Click += new System.EventHandler(this.saveKartAsToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -137,6 +122,22 @@
             // openKartDialog
             // 
             this.openKartDialog.Filter = "Karts|*.karts";
+            this.openKartDialog.Multiselect = true;
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.referenceKartToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 19);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // referenceKartToolStripMenuItem
+            // 
+            this.referenceKartToolStripMenuItem.Name = "referenceKartToolStripMenuItem";
+            this.referenceKartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.referenceKartToolStripMenuItem.Text = "Reference Kart";
+            this.referenceKartToolStripMenuItem.Click += new System.EventHandler(this.referenceKartToolStripMenuItem_Click);
             // 
             // ChompShopForm
             // 
@@ -166,13 +167,13 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newKartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadKartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveKartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveKartAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openKartDialog;
         private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadedKartsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem referenceKartToolStripMenuItem;
     }
 }
 

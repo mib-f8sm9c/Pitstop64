@@ -32,19 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KartImagesForm));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.gbKartImages = new System.Windows.Forms.GroupBox();
-            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
-            this.lbKartImages = new System.Windows.Forms.ListBox();
-            this.gbNew = new System.Windows.Forms.GroupBox();
-            this.lbNewImages = new System.Windows.Forms.ListBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnRemoveKartImage = new System.Windows.Forms.Button();
             this.btnEditKartImage = new System.Windows.Forms.Button();
+            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
+            this.lbKartImages = new System.Windows.Forms.ListBox();
             this.btnAdvanced = new System.Windows.Forms.Button();
+            this.gbNew = new System.Windows.Forms.GroupBox();
             this.btnConvertNewToKart = new System.Windows.Forms.Button();
             this.btnRemoveNewImage = new System.Windows.Forms.Button();
+            this.lbNewImages = new System.Windows.Forms.ListBox();
             this.btnAddNewImage = new System.Windows.Forms.Button();
             this.btnBasePaletteManip = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -80,9 +80,34 @@
             this.gbKartImages.Location = new System.Drawing.Point(3, 3);
             this.gbKartImages.Name = "gbKartImages";
             this.gbKartImages.Size = new System.Drawing.Size(396, 316);
-            this.gbKartImages.TabIndex = 11;
+            this.gbKartImages.TabIndex = 0;
             this.gbKartImages.TabStop = false;
             this.gbKartImages.Text = "Kart Images";
+            // 
+            // btnRemoveKartImage
+            // 
+            this.btnRemoveKartImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveKartImage.Image = global::ChompShop.Properties.Resources.minus;
+            this.btnRemoveKartImage.Location = new System.Drawing.Point(6, 22);
+            this.btnRemoveKartImage.Name = "btnRemoveKartImage";
+            this.btnRemoveKartImage.Size = new System.Drawing.Size(20, 20);
+            this.btnRemoveKartImage.TabIndex = 1;
+            this.toolTip.SetToolTip(this.btnRemoveKartImage, "Remove selected Kart Image");
+            this.btnRemoveKartImage.UseVisualStyleBackColor = true;
+            this.btnRemoveKartImage.Click += new System.EventHandler(this.btnRemoveKartImage_Click);
+            // 
+            // btnEditKartImage
+            // 
+            this.btnEditKartImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditKartImage.Image = global::ChompShop.Properties.Resources.pencil;
+            this.btnEditKartImage.Location = new System.Drawing.Point(30, 22);
+            this.btnEditKartImage.Name = "btnEditKartImage";
+            this.btnEditKartImage.Size = new System.Drawing.Size(20, 20);
+            this.btnEditKartImage.TabIndex = 2;
+            this.toolTip.SetToolTip(this.btnEditKartImage, "Edit selected Kart Image");
+            this.btnEditKartImage.UseVisualStyleBackColor = true;
+            this.btnEditKartImage.Visible = false;
+            this.btnEditKartImage.Click += new System.EventHandler(this.btnEditKartImage_Click);
             // 
             // imagePreviewControl
             // 
@@ -91,7 +116,7 @@
             this.imagePreviewControl.Location = new System.Drawing.Point(220, 18);
             this.imagePreviewControl.Name = "imagePreviewControl";
             this.imagePreviewControl.Size = new System.Drawing.Size(170, 155);
-            this.imagePreviewControl.TabIndex = 9;
+            this.imagePreviewControl.TabIndex = 3;
             // 
             // lbKartImages
             // 
@@ -104,6 +129,18 @@
             this.lbKartImages.Size = new System.Drawing.Size(208, 260);
             this.lbKartImages.TabIndex = 0;
             this.lbKartImages.SelectedIndexChanged += new System.EventHandler(this.lbKartImages_SelectedIndexChanged);
+            // 
+            // btnAdvanced
+            // 
+            this.btnAdvanced.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdvanced.Image = ((System.Drawing.Image)(resources.GetObject("btnAdvanced.Image")));
+            this.btnAdvanced.Location = new System.Drawing.Point(353, 272);
+            this.btnAdvanced.Name = "btnAdvanced";
+            this.btnAdvanced.Size = new System.Drawing.Size(34, 34);
+            this.btnAdvanced.TabIndex = 4;
+            this.toolTip.SetToolTip(this.btnAdvanced, "Expand more options");
+            this.btnAdvanced.UseVisualStyleBackColor = true;
+            this.btnAdvanced.Click += new System.EventHandler(this.btnAdvanced_Click);
             // 
             // gbNew
             // 
@@ -118,63 +155,9 @@
             this.gbNew.Location = new System.Drawing.Point(3, 3);
             this.gbNew.Name = "gbNew";
             this.gbNew.Size = new System.Drawing.Size(311, 316);
-            this.gbNew.TabIndex = 11;
+            this.gbNew.TabIndex = 0;
             this.gbNew.TabStop = false;
             this.gbNew.Text = "New Images";
-            // 
-            // lbNewImages
-            // 
-            this.lbNewImages.FormattingEnabled = true;
-            this.lbNewImages.ItemHeight = 16;
-            this.lbNewImages.Location = new System.Drawing.Point(73, 50);
-            this.lbNewImages.Name = "lbNewImages";
-            this.lbNewImages.ScrollAlwaysVisible = true;
-            this.lbNewImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbNewImages.Size = new System.Drawing.Size(222, 260);
-            this.lbNewImages.TabIndex = 1;
-            this.lbNewImages.SelectedIndexChanged += new System.EventHandler(this.lbNewImages_SelectedIndexChanged);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = "PNG/BMP files|*.png;*.bmp|All files|*.*";
-            this.openFileDialog.Multiselect = true;
-            // 
-            // btnRemoveKartImage
-            // 
-            this.btnRemoveKartImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveKartImage.Image = global::ChompShop.Properties.Resources.minus;
-            this.btnRemoveKartImage.Location = new System.Drawing.Point(6, 22);
-            this.btnRemoveKartImage.Name = "btnRemoveKartImage";
-            this.btnRemoveKartImage.Size = new System.Drawing.Size(20, 20);
-            this.btnRemoveKartImage.TabIndex = 8;
-            this.toolTip.SetToolTip(this.btnRemoveKartImage, "Remove selected Kart Image");
-            this.btnRemoveKartImage.UseVisualStyleBackColor = true;
-            this.btnRemoveKartImage.Click += new System.EventHandler(this.btnRemoveKartImage_Click);
-            // 
-            // btnEditKartImage
-            // 
-            this.btnEditKartImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditKartImage.Image = global::ChompShop.Properties.Resources.pencil;
-            this.btnEditKartImage.Location = new System.Drawing.Point(30, 22);
-            this.btnEditKartImage.Name = "btnEditKartImage";
-            this.btnEditKartImage.Size = new System.Drawing.Size(20, 20);
-            this.btnEditKartImage.TabIndex = 10;
-            this.toolTip.SetToolTip(this.btnEditKartImage, "Edit selected Kart Image");
-            this.btnEditKartImage.UseVisualStyleBackColor = true;
-            this.btnEditKartImage.Visible = false;
-            this.btnEditKartImage.Click += new System.EventHandler(this.btnEditKartImage_Click);
-            // 
-            // btnAdvanced
-            // 
-            this.btnAdvanced.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdvanced.Image = ((System.Drawing.Image)(resources.GetObject("btnAdvanced.Image")));
-            this.btnAdvanced.Location = new System.Drawing.Point(353, 272);
-            this.btnAdvanced.Name = "btnAdvanced";
-            this.btnAdvanced.Size = new System.Drawing.Size(34, 34);
-            this.btnAdvanced.TabIndex = 6;
-            this.toolTip.SetToolTip(this.btnAdvanced, "Expand more options");
-            this.btnAdvanced.UseVisualStyleBackColor = true;
-            this.btnAdvanced.Click += new System.EventHandler(this.btnAdvanced_Click);
             // 
             // btnConvertNewToKart
             // 
@@ -183,7 +166,7 @@
             this.btnConvertNewToKart.Location = new System.Drawing.Point(15, 63);
             this.btnConvertNewToKart.Name = "btnConvertNewToKart";
             this.btnConvertNewToKart.Size = new System.Drawing.Size(38, 35);
-            this.btnConvertNewToKart.TabIndex = 4;
+            this.btnConvertNewToKart.TabIndex = 3;
             this.toolTip.SetToolTip(this.btnConvertNewToKart, "Convert new images to Kart Images");
             this.btnConvertNewToKart.UseVisualStyleBackColor = true;
             this.btnConvertNewToKart.Click += new System.EventHandler(this.btnConvertNewToKart_Click);
@@ -195,10 +178,22 @@
             this.btnRemoveNewImage.Location = new System.Drawing.Point(277, 18);
             this.btnRemoveNewImage.Name = "btnRemoveNewImage";
             this.btnRemoveNewImage.Size = new System.Drawing.Size(20, 20);
-            this.btnRemoveNewImage.TabIndex = 10;
+            this.btnRemoveNewImage.TabIndex = 2;
             this.toolTip.SetToolTip(this.btnRemoveNewImage, "Remove selected new image");
             this.btnRemoveNewImage.UseVisualStyleBackColor = true;
             this.btnRemoveNewImage.Click += new System.EventHandler(this.btnRemoveNewImage_Click);
+            // 
+            // lbNewImages
+            // 
+            this.lbNewImages.FormattingEnabled = true;
+            this.lbNewImages.ItemHeight = 16;
+            this.lbNewImages.Location = new System.Drawing.Point(73, 50);
+            this.lbNewImages.Name = "lbNewImages";
+            this.lbNewImages.ScrollAlwaysVisible = true;
+            this.lbNewImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbNewImages.Size = new System.Drawing.Size(222, 260);
+            this.lbNewImages.TabIndex = 0;
+            this.lbNewImages.SelectedIndexChanged += new System.EventHandler(this.lbNewImages_SelectedIndexChanged);
             // 
             // btnAddNewImage
             // 
@@ -207,7 +202,7 @@
             this.btnAddNewImage.Location = new System.Drawing.Point(254, 18);
             this.btnAddNewImage.Name = "btnAddNewImage";
             this.btnAddNewImage.Size = new System.Drawing.Size(20, 20);
-            this.btnAddNewImage.TabIndex = 9;
+            this.btnAddNewImage.TabIndex = 1;
             this.toolTip.SetToolTip(this.btnAddNewImage, "Add new images");
             this.btnAddNewImage.UseVisualStyleBackColor = true;
             this.btnAddNewImage.Click += new System.EventHandler(this.btnAddNewImage_Click);
@@ -219,9 +214,14 @@
             this.btnBasePaletteManip.Location = new System.Drawing.Point(15, 126);
             this.btnBasePaletteManip.Name = "btnBasePaletteManip";
             this.btnBasePaletteManip.Size = new System.Drawing.Size(38, 36);
-            this.btnBasePaletteManip.TabIndex = 5;
+            this.btnBasePaletteManip.TabIndex = 4;
             this.btnBasePaletteManip.UseVisualStyleBackColor = true;
             this.btnBasePaletteManip.Click += new System.EventHandler(this.btnBasePaletteManip_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "PNG/BMP files|*.png;*.bmp|All files|*.*";
+            this.openFileDialog.Multiselect = true;
             // 
             // KartImagesForm
             // 

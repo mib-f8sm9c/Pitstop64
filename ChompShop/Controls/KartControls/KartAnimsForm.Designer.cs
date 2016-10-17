@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KartAnimsForm));
             this.kartPreviewControl = new MK64Pitstop.Modules.Karts.KartPreviewControl();
             this.pnlKartAnimation = new System.Windows.Forms.Panel();
             this.btnAnimImageDown = new System.Windows.Forms.Button();
@@ -64,13 +65,18 @@
             this.btnAnimationsDelete = new System.Windows.Forms.Button();
             this.btnAnimationsAdd = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.pnlLeftSide = new System.Windows.Forms.Panel();
             this.btnAnimRename = new System.Windows.Forms.Button();
+            this.pnlLeftSide = new System.Windows.Forms.Panel();
+            this.pnlReloadAnimations = new System.Windows.Forms.Panel();
+            this.btnRecalculate = new System.Windows.Forms.Button();
+            this.lblWarningText = new System.Windows.Forms.Label();
+            this.lblReloadWarning = new System.Windows.Forms.Label();
             this.pnlKartAnimation.SuspendLayout();
             this.gbAnimationType.SuspendLayout();
             this.gbSpin.SuspendLayout();
             this.gbTurn.SuspendLayout();
             this.pnlLeftSide.SuspendLayout();
+            this.pnlReloadAnimations.SuspendLayout();
             this.SuspendLayout();
             // 
             // kartPreviewControl
@@ -89,7 +95,7 @@
             this.kartPreviewControl.ReferenceKart = null;
             this.kartPreviewControl.ShowReferenceKart = false;
             this.kartPreviewControl.Size = new System.Drawing.Size(175, 165);
-            this.kartPreviewControl.TabIndex = 16;
+            this.kartPreviewControl.TabIndex = 5;
             this.kartPreviewControl.UseAnimPalettes = false;
             // 
             // pnlKartAnimation
@@ -106,7 +112,7 @@
             this.pnlKartAnimation.Location = new System.Drawing.Point(186, 5);
             this.pnlKartAnimation.Name = "pnlKartAnimation";
             this.pnlKartAnimation.Size = new System.Drawing.Size(489, 309);
-            this.pnlKartAnimation.TabIndex = 15;
+            this.pnlKartAnimation.TabIndex = 1;
             // 
             // btnAnimImageDown
             // 
@@ -115,7 +121,7 @@
             this.btnAnimImageDown.Location = new System.Drawing.Point(160, 10);
             this.btnAnimImageDown.Name = "btnAnimImageDown";
             this.btnAnimImageDown.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageDown.TabIndex = 17;
+            this.btnAnimImageDown.TabIndex = 5;
             this.toolTip.SetToolTip(this.btnAnimImageDown, "Move Kart Image down");
             this.btnAnimImageDown.UseVisualStyleBackColor = true;
             this.btnAnimImageDown.Click += new System.EventHandler(this.btnAnimImageDown_Click);
@@ -127,7 +133,7 @@
             this.btnAnimImageUp.Location = new System.Drawing.Point(134, 10);
             this.btnAnimImageUp.Name = "btnAnimImageUp";
             this.btnAnimImageUp.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageUp.TabIndex = 16;
+            this.btnAnimImageUp.TabIndex = 4;
             this.toolTip.SetToolTip(this.btnAnimImageUp, "Move Kart Image up");
             this.btnAnimImageUp.UseVisualStyleBackColor = true;
             this.btnAnimImageUp.Click += new System.EventHandler(this.btnAnimImageUp_Click);
@@ -140,7 +146,7 @@
             this.btnAnimImageDuplicate.Location = new System.Drawing.Point(70, 10);
             this.btnAnimImageDuplicate.Name = "btnAnimImageDuplicate";
             this.btnAnimImageDuplicate.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageDuplicate.TabIndex = 15;
+            this.btnAnimImageDuplicate.TabIndex = 3;
             this.toolTip.SetToolTip(this.btnAnimImageDuplicate, "Duplicate selected Kart Image");
             this.btnAnimImageDuplicate.UseVisualStyleBackColor = true;
             this.btnAnimImageDuplicate.Click += new System.EventHandler(this.btnAnimImageDuplicate_Click);
@@ -152,7 +158,7 @@
             this.btnAnimImageRemove.Location = new System.Drawing.Point(44, 10);
             this.btnAnimImageRemove.Name = "btnAnimImageRemove";
             this.btnAnimImageRemove.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageRemove.TabIndex = 14;
+            this.btnAnimImageRemove.TabIndex = 2;
             this.toolTip.SetToolTip(this.btnAnimImageRemove, "Remove selected Kart Image from the animation");
             this.btnAnimImageRemove.UseVisualStyleBackColor = true;
             this.btnAnimImageRemove.Click += new System.EventHandler(this.btnAnimImageRemove_Click);
@@ -164,7 +170,7 @@
             this.btnAnimImageAdd.Location = new System.Drawing.Point(18, 10);
             this.btnAnimImageAdd.Name = "btnAnimImageAdd";
             this.btnAnimImageAdd.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageAdd.TabIndex = 13;
+            this.btnAnimImageAdd.TabIndex = 1;
             this.toolTip.SetToolTip(this.btnAnimImageAdd, "Add existing Kart Image to the animation");
             this.btnAnimImageAdd.UseVisualStyleBackColor = true;
             this.btnAnimImageAdd.Click += new System.EventHandler(this.btnAnimImageAdd_Click);
@@ -179,7 +185,7 @@
             this.lbAnimImages.Name = "lbAnimImages";
             this.lbAnimImages.ScrollAlwaysVisible = true;
             this.lbAnimImages.Size = new System.Drawing.Size(166, 244);
-            this.lbAnimImages.TabIndex = 8;
+            this.lbAnimImages.TabIndex = 0;
             this.lbAnimImages.SelectedIndexChanged += new System.EventHandler(this.lbAnimImages_SelectedIndexChanged);
             // 
             // gbAnimationType
@@ -194,7 +200,7 @@
             this.gbAnimationType.Location = new System.Drawing.Point(196, 8);
             this.gbAnimationType.Name = "gbAnimationType";
             this.gbAnimationType.Size = new System.Drawing.Size(273, 283);
-            this.gbAnimationType.TabIndex = 11;
+            this.gbAnimationType.TabIndex = 6;
             this.gbAnimationType.TabStop = false;
             this.gbAnimationType.Text = "Animation Type";
             // 
@@ -214,7 +220,7 @@
             this.gbSpin.Location = new System.Drawing.Point(6, 131);
             this.gbSpin.Name = "gbSpin";
             this.gbSpin.Size = new System.Drawing.Size(257, 102);
-            this.gbSpin.TabIndex = 20;
+            this.gbSpin.TabIndex = 1;
             this.gbSpin.TabStop = false;
             this.gbSpin.Text = "Spin Animation";
             // 
@@ -224,7 +230,7 @@
             this.cbAnimSpinM25.Location = new System.Drawing.Point(6, 21);
             this.cbAnimSpinM25.Name = "cbAnimSpinM25";
             this.cbAnimSpinM25.Size = new System.Drawing.Size(79, 20);
-            this.cbAnimSpinM25.TabIndex = 9;
+            this.cbAnimSpinM25.TabIndex = 0;
             this.cbAnimSpinM25.Text = "Spin -25°";
             this.cbAnimSpinM25.UseVisualStyleBackColor = true;
             this.cbAnimSpinM25.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -235,7 +241,7 @@
             this.cbAnimSpinM19.Location = new System.Drawing.Point(87, 21);
             this.cbAnimSpinM19.Name = "cbAnimSpinM19";
             this.cbAnimSpinM19.Size = new System.Drawing.Size(79, 20);
-            this.cbAnimSpinM19.TabIndex = 10;
+            this.cbAnimSpinM19.TabIndex = 1;
             this.cbAnimSpinM19.Text = "Spin -19°";
             this.cbAnimSpinM19.UseVisualStyleBackColor = true;
             this.cbAnimSpinM19.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -246,7 +252,7 @@
             this.cbAnimSpinM12.Location = new System.Drawing.Point(167, 21);
             this.cbAnimSpinM12.Name = "cbAnimSpinM12";
             this.cbAnimSpinM12.Size = new System.Drawing.Size(79, 20);
-            this.cbAnimSpinM12.TabIndex = 11;
+            this.cbAnimSpinM12.TabIndex = 2;
             this.cbAnimSpinM12.Text = "Spin -12°";
             this.cbAnimSpinM12.UseVisualStyleBackColor = true;
             this.cbAnimSpinM12.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -257,7 +263,7 @@
             this.cbAnimSpin25.Location = new System.Drawing.Point(167, 71);
             this.cbAnimSpin25.Name = "cbAnimSpin25";
             this.cbAnimSpin25.Size = new System.Drawing.Size(75, 20);
-            this.cbAnimSpin25.TabIndex = 17;
+            this.cbAnimSpin25.TabIndex = 8;
             this.cbAnimSpin25.Text = "Spin 25°";
             this.cbAnimSpin25.UseVisualStyleBackColor = true;
             this.cbAnimSpin25.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -268,7 +274,7 @@
             this.cbAnimSpinM6.Location = new System.Drawing.Point(6, 46);
             this.cbAnimSpinM6.Name = "cbAnimSpinM6";
             this.cbAnimSpinM6.Size = new System.Drawing.Size(72, 20);
-            this.cbAnimSpinM6.TabIndex = 12;
+            this.cbAnimSpinM6.TabIndex = 3;
             this.cbAnimSpinM6.Text = "Spin -6°";
             this.cbAnimSpinM6.UseVisualStyleBackColor = true;
             this.cbAnimSpinM6.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -279,7 +285,7 @@
             this.cbAnimSpin19.Location = new System.Drawing.Point(87, 71);
             this.cbAnimSpin19.Name = "cbAnimSpin19";
             this.cbAnimSpin19.Size = new System.Drawing.Size(75, 20);
-            this.cbAnimSpin19.TabIndex = 16;
+            this.cbAnimSpin19.TabIndex = 7;
             this.cbAnimSpin19.Text = "Spin 19°";
             this.cbAnimSpin19.UseVisualStyleBackColor = true;
             this.cbAnimSpin19.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -290,7 +296,7 @@
             this.cbAnimSpin0.Location = new System.Drawing.Point(87, 46);
             this.cbAnimSpin0.Name = "cbAnimSpin0";
             this.cbAnimSpin0.Size = new System.Drawing.Size(68, 20);
-            this.cbAnimSpin0.TabIndex = 13;
+            this.cbAnimSpin0.TabIndex = 4;
             this.cbAnimSpin0.Text = "Spin 0°";
             this.cbAnimSpin0.UseVisualStyleBackColor = true;
             this.cbAnimSpin0.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -301,7 +307,7 @@
             this.cbAnimSpin12.Location = new System.Drawing.Point(6, 71);
             this.cbAnimSpin12.Name = "cbAnimSpin12";
             this.cbAnimSpin12.Size = new System.Drawing.Size(75, 20);
-            this.cbAnimSpin12.TabIndex = 15;
+            this.cbAnimSpin12.TabIndex = 6;
             this.cbAnimSpin12.Text = "Spin 12°";
             this.cbAnimSpin12.UseVisualStyleBackColor = true;
             this.cbAnimSpin12.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -312,7 +318,7 @@
             this.cbAnimSpin6.Location = new System.Drawing.Point(167, 46);
             this.cbAnimSpin6.Name = "cbAnimSpin6";
             this.cbAnimSpin6.Size = new System.Drawing.Size(68, 20);
-            this.cbAnimSpin6.TabIndex = 14;
+            this.cbAnimSpin6.TabIndex = 5;
             this.cbAnimSpin6.Text = "Spin 6°";
             this.cbAnimSpin6.UseVisualStyleBackColor = true;
             this.cbAnimSpin6.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -333,7 +339,7 @@
             this.gbTurn.Location = new System.Drawing.Point(6, 25);
             this.gbTurn.Name = "gbTurn";
             this.gbTurn.Size = new System.Drawing.Size(257, 92);
-            this.gbTurn.TabIndex = 19;
+            this.gbTurn.TabIndex = 0;
             this.gbTurn.TabStop = false;
             this.gbTurn.Text = "Turn Animation";
             // 
@@ -442,7 +448,7 @@
             this.cbAnimCrash.Location = new System.Drawing.Point(62, 248);
             this.cbAnimCrash.Name = "cbAnimCrash";
             this.cbAnimCrash.Size = new System.Drawing.Size(124, 20);
-            this.cbAnimCrash.TabIndex = 18;
+            this.cbAnimCrash.TabIndex = 2;
             this.cbAnimCrash.Text = "Crash Animation";
             this.cbAnimCrash.UseVisualStyleBackColor = true;
             this.cbAnimCrash.CheckedChanged += new System.EventHandler(this.cbAnim_CheckedChanged);
@@ -458,7 +464,7 @@
             this.lbAnimations.Name = "lbAnimations";
             this.lbAnimations.ScrollAlwaysVisible = true;
             this.lbAnimations.Size = new System.Drawing.Size(163, 100);
-            this.lbAnimations.TabIndex = 13;
+            this.lbAnimations.TabIndex = 0;
             this.lbAnimations.SelectedIndexChanged += new System.EventHandler(this.lbAnimations_SelectedIndexChanged);
             // 
             // btnPlayAnims
@@ -469,7 +475,7 @@
             this.btnPlayAnims.Location = new System.Drawing.Point(152, 158);
             this.btnPlayAnims.Name = "btnPlayAnims";
             this.btnPlayAnims.Size = new System.Drawing.Size(20, 20);
-            this.btnPlayAnims.TabIndex = 17;
+            this.btnPlayAnims.TabIndex = 4;
             this.toolTip.SetToolTip(this.btnPlayAnims, "Play all animations");
             this.btnPlayAnims.UseVisualStyleBackColor = true;
             this.btnPlayAnims.Click += new System.EventHandler(this.btnPlayAnims_Click);
@@ -481,7 +487,7 @@
             this.btnAnimationsDelete.Location = new System.Drawing.Point(34, 158);
             this.btnAnimationsDelete.Name = "btnAnimationsDelete";
             this.btnAnimationsDelete.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimationsDelete.TabIndex = 14;
+            this.btnAnimationsDelete.TabIndex = 2;
             this.toolTip.SetToolTip(this.btnAnimationsDelete, "Remove selected animation");
             this.btnAnimationsDelete.UseVisualStyleBackColor = true;
             this.btnAnimationsDelete.Click += new System.EventHandler(this.btnAnimationsDelete_Click);
@@ -493,10 +499,22 @@
             this.btnAnimationsAdd.Location = new System.Drawing.Point(8, 158);
             this.btnAnimationsAdd.Name = "btnAnimationsAdd";
             this.btnAnimationsAdd.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimationsAdd.TabIndex = 12;
+            this.btnAnimationsAdd.TabIndex = 1;
             this.toolTip.SetToolTip(this.btnAnimationsAdd, "Add new animation");
             this.btnAnimationsAdd.UseVisualStyleBackColor = true;
             this.btnAnimationsAdd.Click += new System.EventHandler(this.btnAnimationsAdd_Click);
+            // 
+            // btnAnimRename
+            // 
+            this.btnAnimRename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimRename.Image = global::ChompShop.Properties.Resources.pencil;
+            this.btnAnimRename.Location = new System.Drawing.Point(60, 158);
+            this.btnAnimRename.Name = "btnAnimRename";
+            this.btnAnimRename.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimRename.TabIndex = 3;
+            this.toolTip.SetToolTip(this.btnAnimRename, "Rename selected animation");
+            this.btnAnimRename.UseVisualStyleBackColor = true;
+            this.btnAnimRename.Click += new System.EventHandler(this.btnAnimRename_Click);
             // 
             // pnlLeftSide
             // 
@@ -510,19 +528,53 @@
             this.pnlLeftSide.Location = new System.Drawing.Point(5, 5);
             this.pnlLeftSide.Name = "pnlLeftSide";
             this.pnlLeftSide.Size = new System.Drawing.Size(181, 309);
-            this.pnlLeftSide.TabIndex = 18;
+            this.pnlLeftSide.TabIndex = 0;
             // 
-            // btnAnimRename
+            // pnlReloadAnimations
             // 
-            this.btnAnimRename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimRename.Image = global::ChompShop.Properties.Resources.pencil;
-            this.btnAnimRename.Location = new System.Drawing.Point(60, 158);
-            this.btnAnimRename.Name = "btnAnimRename";
-            this.btnAnimRename.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimRename.TabIndex = 18;
-            this.toolTip.SetToolTip(this.btnAnimRename, "Rename selected animation");
-            this.btnAnimRename.UseVisualStyleBackColor = true;
-            this.btnAnimRename.Click += new System.EventHandler(this.btnAnimRename_Click);
+            this.pnlReloadAnimations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlReloadAnimations.Controls.Add(this.btnRecalculate);
+            this.pnlReloadAnimations.Controls.Add(this.lblWarningText);
+            this.pnlReloadAnimations.Controls.Add(this.lblReloadWarning);
+            this.pnlReloadAnimations.Location = new System.Drawing.Point(5, 5);
+            this.pnlReloadAnimations.Name = "pnlReloadAnimations";
+            this.pnlReloadAnimations.Size = new System.Drawing.Size(670, 309);
+            this.pnlReloadAnimations.TabIndex = 19;
+            this.pnlReloadAnimations.Visible = false;
+            // 
+            // btnRecalculate
+            // 
+            this.btnRecalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRecalculate.Location = new System.Drawing.Point(256, 227);
+            this.btnRecalculate.Name = "btnRecalculate";
+            this.btnRecalculate.Size = new System.Drawing.Size(155, 51);
+            this.btnRecalculate.TabIndex = 1;
+            this.btnRecalculate.Text = "Recalculate Animations";
+            this.btnRecalculate.UseVisualStyleBackColor = true;
+            this.btnRecalculate.Click += new System.EventHandler(this.btnRecalculate_Click);
+            // 
+            // lblWarningText
+            // 
+            this.lblWarningText.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblWarningText.Location = new System.Drawing.Point(105, 103);
+            this.lblWarningText.Name = "lblWarningText";
+            this.lblWarningText.Size = new System.Drawing.Size(458, 95);
+            this.lblWarningText.TabIndex = 1;
+            this.lblWarningText.Text = resources.GetString("lblWarningText.Text");
+            this.lblWarningText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblReloadWarning
+            // 
+            this.lblReloadWarning.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblReloadWarning.AutoSize = true;
+            this.lblReloadWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReloadWarning.Location = new System.Drawing.Point(275, 39);
+            this.lblReloadWarning.Name = "lblReloadWarning";
+            this.lblReloadWarning.Size = new System.Drawing.Size(109, 29);
+            this.lblReloadWarning.TabIndex = 0;
+            this.lblReloadWarning.Text = "Warning";
             // 
             // KartAnimsForm
             // 
@@ -531,6 +583,7 @@
             this.ClientSize = new System.Drawing.Size(680, 319);
             this.Controls.Add(this.pnlKartAnimation);
             this.Controls.Add(this.pnlLeftSide);
+            this.Controls.Add(this.pnlReloadAnimations);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "KartAnimsForm";
@@ -544,6 +597,8 @@
             this.gbTurn.ResumeLayout(false);
             this.gbTurn.PerformLayout();
             this.pnlLeftSide.ResumeLayout(false);
+            this.pnlReloadAnimations.ResumeLayout(false);
+            this.pnlReloadAnimations.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -587,5 +642,9 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Panel pnlLeftSide;
         private System.Windows.Forms.Button btnAnimRename;
+        private System.Windows.Forms.Panel pnlReloadAnimations;
+        private System.Windows.Forms.Button btnRecalculate;
+        private System.Windows.Forms.Label lblWarningText;
+        private System.Windows.Forms.Label lblReloadWarning;
     }
 }

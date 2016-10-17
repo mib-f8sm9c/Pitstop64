@@ -13,6 +13,7 @@ namespace ChompShop.Controls
     {
         LoadedKarts,
         ExportKarts,
+        ReferenceKart,
         KartName,
         KartPortraits,
         KartImages,
@@ -125,6 +126,8 @@ namespace ChompShop.Controls
                     return new LoadedKartsForm();
                 case ChompShopWindowType.ExportKarts:
                     return new ExportKartsForm();
+                case ChompShopWindowType.ReferenceKart:
+                    return null;
             }
 
             return null;
