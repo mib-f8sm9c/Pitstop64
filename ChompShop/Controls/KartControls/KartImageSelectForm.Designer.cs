@@ -98,7 +98,6 @@
             // btnExportAll
             // 
             this.btnExportAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportAll.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnExportAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportAll.Image = global::ChompShop.Properties.Resources.data_transfer_download_3x;
             this.btnExportAll.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;

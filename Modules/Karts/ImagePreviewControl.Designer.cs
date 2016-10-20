@@ -37,13 +37,16 @@
             this.btnExport = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.pbOverlay = new System.Windows.Forms.PictureBox();
             this.pnlPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOverlay)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlPreview
             // 
             this.pnlPreview.BackColor = System.Drawing.SystemColors.ControlText;
+            this.pnlPreview.Controls.Add(this.pbOverlay);
             this.pnlPreview.Controls.Add(this.pbPreview);
             this.pnlPreview.Location = new System.Drawing.Point(33, 12);
             this.pnlPreview.Name = "pnlPreview";
@@ -91,6 +94,17 @@
             // 
             this.saveFileDialog.Filter = "BMP files|*.bmp";
             // 
+            // pbOverlay
+            // 
+            this.pbOverlay.BackColor = System.Drawing.Color.Transparent;
+            this.pbOverlay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbOverlay.Location = new System.Drawing.Point(0, 0);
+            this.pbOverlay.Name = "pbOverlay";
+            this.pbOverlay.Size = new System.Drawing.Size(130, 130);
+            this.pbOverlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbOverlay.TabIndex = 1;
+            this.pbOverlay.TabStop = false;
+            // 
             // ImagePreviewControl
             // 
             this.Controls.Add(this.btnExport);
@@ -100,6 +114,7 @@
             this.Size = new System.Drawing.Size(175, 155);
             this.pnlPreview.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOverlay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -113,5 +128,6 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         protected System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.PictureBox pbOverlay;
     }
 }

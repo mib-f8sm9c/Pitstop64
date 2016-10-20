@@ -46,6 +46,7 @@
             this.cbOverlayKart.TabIndex = 25;
             this.toolTip.SetToolTip(this.cbOverlayKart, "Display Reference Kart");
             this.cbOverlayKart.UseVisualStyleBackColor = true;
+            this.cbOverlayKart.CheckedChanged += new System.EventHandler(this.cbOverlayKart_CheckedChanged);
             // 
             // KartPreviewControl
             // 

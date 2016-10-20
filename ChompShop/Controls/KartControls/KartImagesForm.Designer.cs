@@ -163,10 +163,12 @@
             // 
             this.btnConvertNewToKart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConvertNewToKart.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertNewToKart.Image")));
-            this.btnConvertNewToKart.Location = new System.Drawing.Point(15, 63);
+            this.btnConvertNewToKart.Location = new System.Drawing.Point(15, 74);
             this.btnConvertNewToKart.Name = "btnConvertNewToKart";
-            this.btnConvertNewToKart.Size = new System.Drawing.Size(38, 35);
+            this.btnConvertNewToKart.Size = new System.Drawing.Size(81, 99);
             this.btnConvertNewToKart.TabIndex = 3;
+            this.btnConvertNewToKart.Text = "Convert to Kart Image";
+            this.btnConvertNewToKart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolTip.SetToolTip(this.btnConvertNewToKart, "Convert new images to Kart Images");
             this.btnConvertNewToKart.UseVisualStyleBackColor = true;
             this.btnConvertNewToKart.Click += new System.EventHandler(this.btnConvertNewToKart_Click);
@@ -187,11 +189,11 @@
             // 
             this.lbNewImages.FormattingEnabled = true;
             this.lbNewImages.ItemHeight = 16;
-            this.lbNewImages.Location = new System.Drawing.Point(73, 50);
+            this.lbNewImages.Location = new System.Drawing.Point(102, 50);
             this.lbNewImages.Name = "lbNewImages";
             this.lbNewImages.ScrollAlwaysVisible = true;
             this.lbNewImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbNewImages.Size = new System.Drawing.Size(222, 260);
+            this.lbNewImages.Size = new System.Drawing.Size(193, 260);
             this.lbNewImages.TabIndex = 0;
             this.lbNewImages.SelectedIndexChanged += new System.EventHandler(this.lbNewImages_SelectedIndexChanged);
             // 
@@ -211,10 +213,12 @@
             // 
             this.btnBasePaletteManip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBasePaletteManip.Image = global::ChompShop.Properties.Resources.circle_check_3x;
-            this.btnBasePaletteManip.Location = new System.Drawing.Point(15, 126);
+            this.btnBasePaletteManip.Location = new System.Drawing.Point(15, 195);
             this.btnBasePaletteManip.Name = "btnBasePaletteManip";
-            this.btnBasePaletteManip.Size = new System.Drawing.Size(38, 36);
+            this.btnBasePaletteManip.Size = new System.Drawing.Size(81, 96);
             this.btnBasePaletteManip.TabIndex = 4;
+            this.btnBasePaletteManip.Text = "Create New Base Palette";
+            this.btnBasePaletteManip.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnBasePaletteManip.UseVisualStyleBackColor = true;
             this.btnBasePaletteManip.Click += new System.EventHandler(this.btnBasePaletteManip_Click);
             // 

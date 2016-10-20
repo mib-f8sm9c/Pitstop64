@@ -39,14 +39,17 @@ namespace ChompShop.Controls
             if (ChompShopFloor.UsingLoadedReferenceKart)
             {
                 radUseFile.Checked = true;
+                lbKarts.Enabled = false;
             }
             else if (ChompShopFloor.ReferenceKart != null)
             {
                 radUseKart.Checked = true;
+                lbKarts.Enabled = true;
             }
             else
             {
                 radDontUse.Checked = true;
+                lbKarts.Enabled = false;
             }
 
             PopulateKartListBox();
@@ -97,6 +100,7 @@ namespace ChompShop.Controls
             {
                 ChompShopFloor.SaveReferenceKart();
                 radUseFile.Checked = true;
+                radUseFile.Enabled = true;
             }
         }
 
@@ -105,6 +109,17 @@ namespace ChompShop.Controls
             btnSaveRef.Enabled = (lbKarts.SelectedIndex != -1);
 
             ChompShopFloor.LoadReferenceKart((KartWrapper)lbKarts.SelectedItem);
+        }
+
+        protected override void KartNameUpdated(KartWrapper wrapper)
+        {
+            for (int i = 0; i < lbKarts.Items.Count; i++)
+            {
+                if (lbKarts.Items[i] == wrapper)
+                {
+                    lbKarts.Items[i] = wrapper;
+                }
+            }
         }
 
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.ReferenceKart; } }

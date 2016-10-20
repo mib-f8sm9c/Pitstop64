@@ -113,6 +113,17 @@ namespace ChompShop.Controls
             }
         }
 
+        protected override void KartNameUpdated(KartWrapper wrapper)
+        {
+            for (int i = 0; i < clbKarts.Items.Count; i++)
+            {
+                if (clbKarts.Items[i] == wrapper)
+                {
+                    clbKarts.Items[i] = wrapper;
+                }
+            }
+        }
+
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.ExportKarts; } }
 
         protected override string TitleText { get { return "Export Karts"; } }

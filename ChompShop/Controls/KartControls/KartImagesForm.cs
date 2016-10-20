@@ -339,12 +339,14 @@ namespace ChompShop.Controls.KartControls
             {
                 //No palette yet
                 btnBasePaletteManip.Image = ChompShop.Properties.Resources.circle_check_3x;
+                btnBasePaletteManip.Text = "Create New Base Palette";
                 toolTip.SetToolTip(btnBasePaletteManip, "Generate a new Base Palette from the new images");
             }
             else
             {
                 //Palette exists
                 btnBasePaletteManip.Image = ChompShop.Properties.Resources.circle_x_3x;
+                btnBasePaletteManip.Text = "Clear Base Palette";
                 toolTip.SetToolTip(btnBasePaletteManip, "Clear the Kart's Base Palette");
             }
 

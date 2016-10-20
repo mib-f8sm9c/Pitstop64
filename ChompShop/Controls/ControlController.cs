@@ -127,7 +127,7 @@ namespace ChompShop.Controls
                 case ChompShopWindowType.ExportKarts:
                     return new ExportKartsForm();
                 case ChompShopWindowType.ReferenceKart:
-                    return null;
+                    return new ReferenceKartForm();
             }
 
             return null;

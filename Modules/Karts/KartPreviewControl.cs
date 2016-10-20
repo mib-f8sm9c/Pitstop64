@@ -46,7 +46,7 @@ namespace MK64Pitstop.Modules.Karts
                 else
                     _referenceKart = value;
 
-                cbOverlayKart.Enabled = (_referenceKart == null);
+                cbOverlayKart.Enabled = (_referenceKart != null);
             }
         }
         private KartInfo _referenceKart = null;
@@ -210,6 +210,7 @@ namespace MK64Pitstop.Modules.Karts
 
             //Clear the image
             Image = null;
+            OverlayImage = null;
 
             if (_kart == null || _kart.KartAnimations.Count == 0)
                 return;
@@ -221,6 +222,39 @@ namespace MK64Pitstop.Modules.Karts
             //Just display the single frame
             KartImage selectedKartImage = _kart.KartImages.Images[_kart.KartAnimations[_animIndex].OrderedImageNames[_frameIndex]];
             Image = selectedKartImage.Image;
+
+            if(ShowReferenceKart)
+                SetReferenceImage();
+        }
+
+        private void SetReferenceImage()
+        {
+            if (_referenceKart == null)
+                return;
+
+            int imageIndex;
+            KartAnimationSeries refAnim;
+            int refFrameIndex;
+            if (_kart.KartAnimations[_animIndex].IsTurnAnim)
+                imageIndex = _kart.KartAnimations[_animIndex].GetImageIndexForTurnFrame(_frameIndex);
+            else if (_kart.KartAnimations[_animIndex].IsSpinAnim)
+                imageIndex = _kart.KartAnimations[_animIndex].GetImageIndexForSpinFrame(_frameIndex);
+            else
+                imageIndex = _kart.KartAnimations[_animIndex].GetImageIndexForCrashFrame(_frameIndex);
+
+            refAnim = _referenceKart.KartAnimations.FirstOrDefault(a => (a.KartAnimationType & _kart.KartAnimations[_animIndex].KartAnimationType) != 0);
+            if (refAnim == null)
+                return;
+
+            if (refAnim.IsTurnAnim)
+                refFrameIndex = refAnim.GetTurnFrameForImageIndex(_frameIndex);
+            else if (refAnim.IsSpinAnim)
+                refFrameIndex = refAnim.GetSpinFrameForImageIndex(_frameIndex);
+            else
+                refFrameIndex = refAnim.GetCrashFrameForImageIndex(_frameIndex);
+
+            KartImage selectedKartImage = _referenceKart.KartImages.Images[refAnim.OrderedImageNames[refFrameIndex]];
+            OverlayImage = selectedKartImage.Image;
         }
 
         private void _timer_Tick(object sender, EventArgs e)
@@ -240,6 +274,11 @@ namespace MK64Pitstop.Modules.Karts
                 }
             }
             ResetPreview();
+        }
+
+        private void cbOverlayKart_CheckedChanged(object sender, EventArgs e)
+        {
+            ShowReferenceKart = cbOverlayKart.Checked;
         }
     }
 }

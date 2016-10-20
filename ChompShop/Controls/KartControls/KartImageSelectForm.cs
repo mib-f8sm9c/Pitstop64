@@ -101,7 +101,7 @@ namespace ChompShop.Controls.KartControls
             {
                 foreach (KartImage image in AllImages)
                 {
-                    image.Image.Save(Path.Combine(folderBrowserDialog.SelectedPath, image.Name));
+                    image.Image.Save(Path.Combine(folderBrowserDialog.SelectedPath, image.Name + ".png"));
                 }
             }
         }

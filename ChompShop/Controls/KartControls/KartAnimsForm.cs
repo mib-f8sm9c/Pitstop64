@@ -65,7 +65,16 @@ namespace ChompShop.Controls.KartControls
 
         private void UpdateReferenceKart(KartWrapper kart)
         {
-            kartPreviewControl.ReferenceKart = kart.Kart;
+            if (kart == null || kart.Kart == null)
+            {
+                kartPreviewControl.ReferenceKart = null;
+                kartPreviewControl.DisplayRefKartOption = false;
+            }
+            else
+            {
+                kartPreviewControl.ReferenceKart = kart.Kart;
+                kartPreviewControl.DisplayRefKartOption = true;
+            }
         }
 
         public override void InitData()
@@ -170,7 +179,34 @@ namespace ChompShop.Controls.KartControls
             {
                 kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Static;
                 kartPreviewControl.Image = SelectedImage.Image;
+
+                if (kartPreviewControl.ShowReferenceKart && kartPreviewControl.ReferenceKart != null)
+                    UpdateKartReferenceImage();
+                else
+                    kartPreviewControl.OverlayImage = null;
             }
+        }
+
+        private void UpdateKartReferenceImage()
+        {
+            KartAnimationSeries refAnim = kartPreviewControl.ReferenceKart.KartAnimations.FirstOrDefault(
+                f => (f.KartAnimationType & SelectedAnimation.KartAnimationType) != 0);
+
+            if (refAnim == null)
+            {
+                kartPreviewControl.OverlayImage = null;
+                return;
+            }
+
+            int refIndex;
+            if (refAnim.IsTurnAnim)
+                refIndex = refAnim.GetImageIndexForTurnFrame(SelectedAnimation.GetTurnFrameForImageIndex(SelectedAnimation.OrderedImageNames.IndexOf(SelectedImage.Name)));
+            else if (refAnim.IsSpinAnim)
+                refIndex = refAnim.GetImageIndexForSpinFrame(SelectedAnimation.GetSpinFrameForImageIndex(SelectedAnimation.OrderedImageNames.IndexOf(SelectedImage.Name)));
+            else
+                refIndex = refAnim.GetImageIndexForCrashFrame(SelectedAnimation.GetCrashFrameForImageIndex(SelectedAnimation.OrderedImageNames.IndexOf(SelectedImage.Name)));
+
+            kartPreviewControl.OverlayImage = kartPreviewControl.ReferenceKart.KartImages.Images[refAnim.OrderedImageNames[refIndex]].Image;
         }
 
         private void UpdateAnimationEnableds()
