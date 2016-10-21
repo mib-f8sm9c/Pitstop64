@@ -172,6 +172,7 @@ namespace MK64Pitstop.Modules.Karts
                     if (MarioKart64ElementHub.Instance.Karts.SingleOrDefault(k => k.KartName == kart.KartName) == null)
                     {
                         MarioKart64ElementHub.Instance.Karts.Add(kart);
+                        RomProject.Instance.AddRomItem(kart);
                         addedKarts++;
                     }
                 }
@@ -196,6 +197,7 @@ namespace MK64Pitstop.Modules.Karts
                             MessageBox.Show("Karts loaded");
                         }
                     }
+                    UpdateReferences();
                 }
                 else
                 {

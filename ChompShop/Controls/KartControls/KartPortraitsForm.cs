@@ -107,28 +107,34 @@ namespace ChompShop.Controls.KartControls
         {
             if (openPortraitDialog.ShowDialog() == DialogResult.OK)
             {
-                Image img = Bitmap.FromFile(openPortraitDialog.FileName);
-                if (img.Width != 64 || img.Height != 64)
+                foreach (string file in openPortraitDialog.FileNames)
                 {
-                    MessageBox.Show("Image must be 64x64!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (lbPortraits.Items.Count >= 17)
+                        break;
+
+                    Image img = Bitmap.FromFile(file);
+                    if (img.Width != 64 || img.Height != 64)
+                    {
+                        MessageBox.Show("Image must be 64x64!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (img != null)
+                    {
+                        //Create the new KartImage here
+                        byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
+                        Texture texture = new Texture(-1, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                        ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
+                        block.ImageName = Path.GetFileNameWithoutExtension(file);
+                        block.DecodedN64DataElement = texture;
+                        Kart.AddPortrait(block);
+
+                        lbPortraits.Items.Add(block);
+                    }
                 }
 
-                if (img != null)
-                {
-                    //Create the new KartImage here
-                    byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
-                    Texture texture = new Texture(-1, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                    ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
-                    block.ImageName = Path.GetFileNameWithoutExtension(openPortraitDialog.FileName);
-                    block.DecodedN64DataElement = texture;
-                    Kart.AddPortrait(block);
-
-                    lbPortraits.Items.Add(block);
-
-                    UpdatePortraitCount();
-                    UpdateButtonsEnabled();
-                }
+                UpdatePortraitCount();
+                UpdateButtonsEnabled();
             }
         }
 

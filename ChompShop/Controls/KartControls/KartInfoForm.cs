@@ -125,9 +125,9 @@ namespace ChompShop.Controls.KartControls
                 if (img != null)
                 {
                     //Copy the old name plate to make the new one
-                    TKMK00Block tkmk = new TKMK00Block(-1, Kart.Kart.KartNamePlate.RawData, Kart.Kart.KartNamePlate.ImageAlphaColor);
-                    tkmk.SetImage(new Bitmap(img));
-
+                    byte[] imgData = Cereal64.Microcodes.F3DEX.DataElements.TextureConversion.RGBA16ToBinary((Bitmap)img);
+                    TKMK00Block tkmk = new TKMK00Block(-1, MarioKartTestingTool.TKMK00Encoder.Encode(imgData, img.Width, img.Height, 0), 0);
+                    
                     Kart.SetNamePlate(tkmk);
 
                     pbNamePlate.Image = tkmk.Image;

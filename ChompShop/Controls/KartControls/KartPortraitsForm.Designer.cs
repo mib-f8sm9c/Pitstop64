@@ -40,7 +40,6 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.lbPortraits = new System.Windows.Forms.ListBox();
             this.openPortraitDialog = new System.Windows.Forms.OpenFileDialog();
-            this.savePortraitDialog = new System.Windows.Forms.SaveFileDialog();
             this.gbKartPortraits.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +50,7 @@
             this.imagePreviewControl.Image = null;
             this.imagePreviewControl.Location = new System.Drawing.Point(185, 99);
             this.imagePreviewControl.Name = "imagePreviewControl";
+            this.imagePreviewControl.OverlayImage = null;
             this.imagePreviewControl.Size = new System.Drawing.Size(175, 155);
             this.imagePreviewControl.TabIndex = 9;
             // 
@@ -173,6 +173,10 @@
             this.lbPortraits.TabIndex = 0;
             this.lbPortraits.SelectedIndexChanged += new System.EventHandler(this.lbPortraits_SelectedIndexChanged);
             // 
+            // openPortraitDialog
+            // 
+            this.openPortraitDialog.Multiselect = true;
+            // 
             // KartPortraitsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -195,7 +199,6 @@
         private MK64Pitstop.Modules.Karts.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.GroupBox gbKartPortraits;
         private System.Windows.Forms.OpenFileDialog openPortraitDialog;
-        private System.Windows.Forms.SaveFileDialog savePortraitDialog;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.ListBox lbPortraits;
         private System.Windows.Forms.Button btnRemove;

@@ -24,6 +24,8 @@ namespace MK64Pitstop.Modules.Karts
             {
                 StopPreview();
                 _kart = value;
+                if (_kart != null && _kart.KartAnimations.Count >= _animIndex)
+                    _animIndex = 0;
                 StartPreview();
             }
         }

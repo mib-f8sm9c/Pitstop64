@@ -404,6 +404,15 @@ namespace MK64Pitstop.Services.Hub
             for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedKarts.Length; i++)
             {
                 KartInfo kart = MarioKart64ElementHub.Instance.SelectedKarts[i];
+
+                //Save the main palette
+                if (kart.KartImages.ImagePalette.FileOffset == -1)
+                {
+                    kart.KartImages.ImagePalette.FileOffset = NewElementOffset;
+                    AdvanceNewElementOffset(kart.KartImages.ImagePalette);
+                    RomProject.Instance.Files[0].AddElement(kart.KartImages.ImagePalette);
+                }
+
                 KartGraphicsBlock.CharacterPaletteReferences[i] = new DmaAddress(0x0F, kart.KartImages.ImagePalette.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
                 KartGraphicsBlock.CharacterPaletteReferences[i].ReferenceElement = kart.KartImages.ImagePalette;
 
@@ -500,6 +509,15 @@ namespace MK64Pitstop.Services.Hub
                             imageName = anim.OrderedImageNames[anim.GetImageIndexForSpinFrame(frameIndex)];
 
                         ImageMIO0Block block = kart.KartImages.Images[imageName].GetEncodedData(kart.KartImages.ImagePalette);
+
+                        //Save the image
+                        if (block.FileOffset == -1)
+                        {
+                            block.FileOffset = NewElementOffset;
+                            AdvanceNewElementOffset(block);
+                            RomProject.Instance.Files[0].AddElement(block);
+                        }
+
                         DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
                         address.ReferenceElement = block;
                         KartGraphicsBlock.CharacterTurnReferences[i][j] = address;
