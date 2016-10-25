@@ -88,26 +88,115 @@ namespace MK64Pitstop
         {
             if (openProjectDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                RomProject.Load(openProjectDialog.FileName);
+                LoadProjectAsync(openProjectDialog.FileName);
+            }
+        }
 
+        BackgroundWorker _worker;
+
+        private void LoadProjectAsync(string fileName)
+        {
+            _worker = new BackgroundWorker();
+            _worker.WorkerSupportsCancellation = true;
+
+            _worker.DoWork += new DoWorkEventHandler(LoadProjectPayload);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedReadProject);
+
+            if (ProgressService.StartDialog("Loading up Rom Project"))
+                ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelReading);
+            _worker.RunWorkerAsync(fileName);
+        }
+
+        private void LoadProjectPayload(object sender, DoWorkEventArgs args)
+        {
+            RomProject.Load(openProjectDialog.FileName);
+        }
+
+        private void FinishedReadProject(object sender, RunWorkerCompletedEventArgs args)
+        {
+            if (!args.Cancelled && args.Error == null)
+            {
                 //If successful, mark flags and put the filename in the status bar
-                statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
-                _loadedFilePath = openProjectDialog.FileName;
-
-                foreach (RomItem item in RomProject.Instance.Items)
+                if (InvokeRequired)
                 {
-                    if (item is KartInfo)
+                    this.Invoke((Action)(() =>
                     {
-                        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
-                    }
+                        statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
+                        _loadedFilePath = openProjectDialog.FileName;
+                    }));
+                }
+                else
+                {
+                    statusBarFile.Text = Path.GetFileNameWithoutExtension(openProjectDialog.FileName);
+                    _loadedFilePath = openProjectDialog.FileName;
                 }
 
-                MarioKart64ElementHub.Instance.LoadFromXML();
-
-                MarioKart64Reader.ReadRom();
-
-                UpdateSelectedModule();
+                //Load it into the Rom Project
+                ApplyProjectAsync();
             }
+            else
+            {
+                ProgressService.StopDialog();
+                MessageBox.Show("Error, could not open project");
+            }
+        }
+
+        private void ApplyProjectAsync()
+        {
+            _worker = new BackgroundWorker();
+            _worker.WorkerSupportsCancellation = true;
+
+            _worker.DoWork += new DoWorkEventHandler(ApplyProjectPayload);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedApplyProject);
+
+            if (ProgressService.StartDialog("Splicing in Rom data"))
+                ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelReading);
+            _worker.RunWorkerAsync();
+        }
+
+        private void ApplyProjectPayload(object sender, DoWorkEventArgs args)
+        {
+            foreach (RomItem item in RomProject.Instance.Items)
+            {
+                if (item is KartInfo)
+                {
+                    MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
+                }
+            }
+
+            MarioKart64ElementHub.Instance.LoadFromXML();
+
+            MarioKart64Reader.ReadRom();
+        }
+
+        private void FinishedApplyProject(object sender, RunWorkerCompletedEventArgs args)
+        {
+            if (!args.Cancelled && args.Error == null)
+            {
+                //If successful, mark flags and put the filename in the status bar
+                if (InvokeRequired)
+                {
+                    this.Invoke((Action)(() =>
+                    {
+                        UpdateSelectedModule();
+                    }));
+                }
+                else
+                {
+                    UpdateSelectedModule();
+                }
+            }
+            else
+            {
+                ProgressService.StopDialog();
+                MessageBox.Show("Error, could not open project");
+            }
+        }
+
+        private void CancelReading()
+        {
+            _worker.CancelAsync();
+            MessageBox.Show("Project loading has been cancelled");
         }
 
         public void SaveProject(bool newFile)
@@ -127,6 +216,9 @@ namespace MK64Pitstop
 
             _loadedFilePath = path;
             statusBarFile.Text = Path.GetFileNameWithoutExtension(_loadedFilePath);
+
+            if (newFile)
+                MessageBox.Show("Project successfully saved!");
         }
 
         public void ExportRom()
@@ -138,8 +230,11 @@ namespace MK64Pitstop
                 MarioKart64ElementHub.Instance.SaveKartInfo();
 
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
-                if(N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
+                if (N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
+                {
                     File.WriteAllBytes(saveFileDialog.FileName, newRomData);
+                    MessageBox.Show("Rom successfully exported!");
+                }
             }
         }
 

@@ -13,6 +13,7 @@ using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Services.Hub;
 using MK64Pitstop.Data.Courses;
 using MK64Pitstop.Data.Text;
+using System.Windows.Forms;
 
 namespace MK64Pitstop.Services.Readers
 {
@@ -31,8 +32,6 @@ namespace MK64Pitstop.Services.Readers
             if(ProgressService.StartDialog("Loading up MK64 Rom"))
                 ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelReading);
             _worker.RunWorkerAsync();
-
-            //bw.CancelAsync();
         }
 
         private static void ReadRomPayload(object sender, DoWorkEventArgs args)
@@ -146,7 +145,6 @@ namespace MK64Pitstop.Services.Readers
 
             CourseReader.ReadRom(worker, rawData, results);
 
-            ProgressService.SetMessage("Finished! ");
             //debug stuff
             //ImageMIO0Block imblock = ImageMIO0Block.ReadImageMIO0BlockFrom(data, 0x963EF0);
 
@@ -160,38 +158,77 @@ namespace MK64Pitstop.Services.Readers
             if (!args.Cancelled && args.Error == null)
             {
                 //Load it into the Rom Project
-                ApplyResults((MarioKart64ReaderResults)args.Result);
+                ApplyResultsAsync((MarioKart64ReaderResults)args.Result);
             }
+        }
 
+        private static void FinishedApplyResults(object sender, RunWorkerCompletedEventArgs args)
+        {
             ProgressService.StopDialog();
+
+            if (!args.Cancelled && args.Error == null)
+            {
+                MessageBox.Show("Rom successfully loaded!");
+            }
+            else
+            {
+                MessageBox.Show("Error, rom could not successfully load");
+            }
         }
 
         private static void CancelReading()
         {
             _worker.CancelAsync();
+            MessageBox.Show("Rom loading has been cancelled");
         }
 
-        public static void ApplyResults(MarioKart64ReaderResults results)
+        public static void ApplyResultsAsync(MarioKart64ReaderResults results)
         {
+            _worker = new BackgroundWorker();
+            _worker.WorkerSupportsCancellation = true;
+
+            _worker.DoWork += new DoWorkEventHandler(ApplyResults);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedApplyResults);
+
+            _worker.RunWorkerAsync(results);
+        }
+
+        public static void ApplyResults(object sender, DoWorkEventArgs args)
+        {
+            MarioKart64ReaderResults results = (MarioKart64ReaderResults)args.Argument;
+
             //To-do: add an error report for any sort of exceptions during saving?
+            ProgressService.SetMessage("Splicing data elements into Rom object");
             foreach (N64DataElement element in results.NewElements)
                 RomProject.Instance.Files[0].AddElement(element);
 
+            ProgressService.SetMessage("Splicing TKMK00 blocks into Rom object");
             foreach (TKMK00Block block in results.OriginalTKMK00Blocks)
                 MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.Add(block);
 
             if (results.KartResults != null)
+            {
+                ProgressService.SetMessage("Splicing kart data into Rom object");
                 KartReader.ApplyResults(results.KartResults);
+            }
 
             if (results.CourseResults != null)
+            {
+                ProgressService.SetMessage("Splicing course data into Rom object");
                 CourseReader.ApplyResults(results.CourseResults);
+            }
 
-            if(results.TextBank != null)
+            if (results.TextBank != null)
+            {
+                ProgressService.SetMessage("Splicing text data into Rom object");
                 MarioKart64ElementHub.Instance.TextBank = results.TextBank;
+            }
 
             //Does this really belong here?
             if (!RomProject.Instance.Items.Contains(MarioKart64ElementHub.Instance))
                 RomProject.Instance.AddRomItem(MarioKart64ElementHub.Instance);
+
+            ProgressService.SetMessage("Finished!");
         }
     }
 

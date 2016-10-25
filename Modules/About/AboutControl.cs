@@ -31,21 +31,24 @@ More thanks to be included";
             if (RomProject.Instance.Files.Count > 0)
             {
                 btnResizeRom.Enabled = true;
-                txt.Enabled = true;
+                txtRomSize.Enabled = true;
+                txtRomSize.Text = ((int)Math.Round(RomProject.Instance.Files[0].FileLength / 1048576.0)).ToString();
             }
             else
             {
                 btnResizeRom.Enabled = false;
-                txt.Enabled = false;
+                txtRomSize.Enabled = false;
+                txtRomSize.Text = string.Empty;
             }
         }
 
         private void btnResizeRom_Click(object sender, EventArgs e)
         {
             //SUPER debug, DONT ACTUALLY USE IN REALITY
-            int mbSize = int.Parse(txt.Text);
+            int mbSize = int.Parse(txtRomSize.Text);
             int byteCount = mbSize << 20;
             RomProject.Instance.Files[0].ExpandFileTo(byteCount, 0xFF);
+            MessageBox.Show("File expanded to " + byteCount + " bytes!");
         }
     }
 }

@@ -37,12 +37,12 @@ namespace MK64Pitstop.Services
             _dialog.Message = message;
         }
 
-        public static void StopDialog()
+        public static void StopDialog(DialogResult result = DialogResult.OK)
         {
             if (_dialog == null)
                 return;
 
-            _dialog.Close();
+            _dialog.CloseProgressDialog(result);
         }
 
         private static void _dialog_FormClosed(object sender, FormClosedEventArgs e)
