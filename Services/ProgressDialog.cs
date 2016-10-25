@@ -11,10 +11,13 @@ namespace MK64Pitstop.Services
 {
     public partial class ProgressDialog : Form
     {
+        private Timer _timer;
+
         public ProgressDialog(string message)
         {
             InitializeComponent();
             lblStatus.Text = message;
+            progressBar.Style = ProgressBarStyle.Marquee;
         }
 
         public string Message
@@ -34,10 +37,15 @@ namespace MK64Pitstop.Services
             }
         }
 
-        public void CloseProgressDialog()
+        public void CloseProgressDialog(DialogResult result = DialogResult.OK)
         {
-            DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.Close();
+            DialogResult = result;
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => { this.Close(); }));
+            }
+            else
+                this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

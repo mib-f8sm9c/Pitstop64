@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microcodes", "..\Cereal64\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisObj64", "..\Cereal64\VisObj64\VisObj64.csproj", "{E523D0E4-0133-4A52-B143-7DB3C2653A63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChompShop", "ChompShop\ChompShop.csproj", "{67827AF3-4928-4570-B798-F1DD12226D50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +27,8 @@ Global
 		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Debug|x86.ActiveCfg = Debug|x86
 		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Debug|x86.Build.0 = Debug|x86
 		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|Any CPU.ActiveCfg = Release|x86
-		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|x86.ActiveCfg = Release|x86
 		{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}.Release|x86.Build.0 = Release|x86
 		{B6A46BAF-D012-40F7-8213-EE361B1BC75E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{E523D0E4-0133-4A52-B143-7DB3C2653A63}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E523D0E4-0133-4A52-B143-7DB3C2653A63}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E523D0E4-0133-4A52-B143-7DB3C2653A63}.Release|x86.ActiveCfg = Release|Any CPU
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Debug|x86.ActiveCfg = Debug|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Debug|x86.Build.0 = Debug|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|Any CPU.ActiveCfg = Release|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|x86.ActiveCfg = Release|x86
+		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

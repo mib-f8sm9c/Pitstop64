@@ -5,6 +5,7 @@ using System.Text;
 using Cereal64.Common.DataElements;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils;
+using System.Xml.Linq;
 
 namespace MK64Pitstop.Data.Text
 {
@@ -43,6 +44,12 @@ namespace MK64Pitstop.Data.Text
 
         public TextReferenceBlock(int fileOffset, byte[] data)
             : base(fileOffset, data)
+        {
+
+        }
+
+        public TextReferenceBlock(XElement xml, byte[] data)
+            : base(xml, data)
         {
 
         }

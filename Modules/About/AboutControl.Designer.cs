@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.btnResizeRom = new System.Windows.Forms.Button();
-            this.txt = new System.Windows.Forms.TextBox();
+            this.txtRomSize = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.gbDebug = new System.Windows.Forms.GroupBox();
             this.txtAbout = new System.Windows.Forms.RichTextBox();
@@ -38,6 +38,7 @@
             // 
             // btnResizeRom
             // 
+            this.btnResizeRom.Enabled = false;
             this.btnResizeRom.Location = new System.Drawing.Point(20, 79);
             this.btnResizeRom.Margin = new System.Windows.Forms.Padding(4);
             this.btnResizeRom.Name = "btnResizeRom";
@@ -47,13 +48,14 @@
             this.btnResizeRom.UseVisualStyleBackColor = true;
             this.btnResizeRom.Click += new System.EventHandler(this.btnResizeRom_Click);
             // 
-            // txt
+            // txtRomSize
             // 
-            this.txt.Location = new System.Drawing.Point(41, 50);
-            this.txt.Name = "txt";
-            this.txt.Size = new System.Drawing.Size(100, 23);
-            this.txt.TabIndex = 1;
-            this.txt.Text = "12";
+            this.txtRomSize.Enabled = false;
+            this.txtRomSize.Location = new System.Drawing.Point(41, 50);
+            this.txtRomSize.Name = "txtRomSize";
+            this.txtRomSize.Size = new System.Drawing.Size(100, 23);
+            this.txtRomSize.TabIndex = 1;
+            this.txtRomSize.Text = "12";
             // 
             // label1
             // 
@@ -68,7 +70,7 @@
             // 
             this.gbDebug.Controls.Add(this.btnResizeRom);
             this.gbDebug.Controls.Add(this.label1);
-            this.gbDebug.Controls.Add(this.txt);
+            this.gbDebug.Controls.Add(this.txtRomSize);
             this.gbDebug.Location = new System.Drawing.Point(319, 3);
             this.gbDebug.Name = "gbDebug";
             this.gbDebug.Size = new System.Drawing.Size(179, 126);
@@ -104,7 +106,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnResizeRom;
-        private System.Windows.Forms.TextBox txt;
+        private System.Windows.Forms.TextBox txtRomSize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gbDebug;
         private System.Windows.Forms.RichTextBox txtAbout;

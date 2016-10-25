@@ -15,6 +15,8 @@ namespace MK64Pitstop.Data.Karts
 {
     public class KartGraphicsReferenceBlock : N64DataElement
     {
+        //NOTE: SCALE FACTOR STARTS AT 0xDE7D4 AND GOES Mario,Luigi,Yoshi,Toad,DK,Wario,Peach,Bowser
+
         public static int DefaultKartGraphicsReferenceBlock0Location = 0x0DE7F4;
         public static int DefaultKartGraphicsReferenceBlock1Location = 0x0DEAC0;
         public static int DefaultKartGraphicsReferenceBlock2Location = 0x0E2B20;
@@ -22,7 +24,8 @@ namespace MK64Pitstop.Data.Karts
         public static int DefaultKartGraphicsReferenceLength = 0x476C;
 
         public const int TURN_REF_TOTAL_COUNT = 0x1EF;
-        public const int HALF_TURN_REF_COUNT = 0x23;
+        public const int FULL_TURN_REF_COUNT = 0x23;
+        public const int HALF_TURN_REF_COUNT = 0x15;
         public const int ANIMATION_ANGLE_COUNT = 9;
         public const int FULL_SPIN_REF_COUNT = 0x14;
         public const int CRASH_REF_COUNT = 0x20;
