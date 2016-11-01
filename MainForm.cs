@@ -62,7 +62,10 @@ namespace MK64Pitstop
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-            this.Text = string.Format("{0} V.{1}.{2}.{3}", fvi.ProductName, fvi.ProductMajorPart, fvi.ProductMinorPart, fvi.ProductBuildPart);
+            string titleText = string.Format("{0} V.{1}.{2}.{3}", fvi.ProductName, fvi.ProductMajorPart, fvi.ProductMinorPart, fvi.ProductBuildPart);
+            if (fvi.ProductPrivatePart != 0)
+                titleText += "." + fvi.ProductPrivatePart.ToString();
+            this.Text = titleText;
         }
 
         public void NewProject()

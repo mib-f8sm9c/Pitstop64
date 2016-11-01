@@ -30,6 +30,8 @@ namespace MK64Pitstop.Modules.Courses
 
         public void UpdateControl()
         {
+            cbCourse.Items.Clear();
+
             if (RomProject.Instance.Files.Count > 0  && MarioKart64ElementHub.Instance.CourseDataBlock != null)
             {
                 cbCourse.Enabled = true;
@@ -44,7 +46,6 @@ namespace MK64Pitstop.Modules.Courses
             else
             {
                 cbCourse.Enabled = false;
-                cbCourse.Items.Clear();
             }
         }
 
@@ -55,6 +56,7 @@ namespace MK64Pitstop.Modules.Courses
                 //This is still in the old format, so we'll just 
                 openGLControl.ClearGraphics();
                 PortedLoadingCode();
+                openGLControl.RefreshGraphics();
             }
         }
 
@@ -117,35 +119,37 @@ namespace MK64Pitstop.Modules.Courses
             //RomProject.Instance.Files[2].FileLength = textureSegData.Length;
 
             //Here we'll assume that there's only 1 file (the full rom) in the rom project
-            if (RomProject.Instance.DMAProfiles.FirstOrDefault(dp => dp.ProfileName == "Levelviewer") == null)
+            if (RomProject.Instance.DMAProfiles.FirstOrDefault(dp => dp.ProfileName == "Levelviewer") != null)
             {
-                DmaProfile profile = new DmaProfile("Levelviewer");
-                DmaSegment segment = new DmaSegment();
-                segment.File = RomProject.Instance.Files[1];
-                segment.RamSegment = 0x04;
-                segment.RamStartOffset = 0x00;
-                segment.FileStartOffset = 0x00;
-                segment.FileEndOffset = segment.File.FileLength;
-                segment.TagInfo = "Vertices";
-                profile.AddDmaSegment(0x04, segment);
-                segment = new DmaSegment();
-                segment.File = RomProject.Instance.Files[2];
-                segment.RamSegment = 0x07;
-                segment.RamStartOffset = 0x00;
-                segment.FileStartOffset = 0x00;
-                segment.FileEndOffset = segment.File.FileLength;
-                segment.TagInfo = "PackedDLs";
-                profile.AddDmaSegment(0x07, segment);
-                segment = new DmaSegment();
-                segment.File = RomProject.Instance.Files[3];
-                segment.RamSegment = 0x05;
-                segment.RamStartOffset = 0x00;
-                segment.FileStartOffset = 0x00;
-                segment.FileEndOffset = segment.File.FileLength;
-                segment.TagInfo = "Textures";
-                profile.AddDmaSegment(0x05, segment);
-                RomProject.Instance.AddDmaProfile(profile);
+                RomProject.Instance.RemoveDmaProfile(RomProject.Instance.DMAProfiles.FirstOrDefault(dp => dp.ProfileName == "Levelviewer"));
             }
+
+            DmaProfile profile = new DmaProfile("Levelviewer");
+            DmaSegment segment = new DmaSegment();
+            segment.File = RomProject.Instance.Files[1];
+            segment.RamSegment = 0x04;
+            segment.RamStartOffset = 0x00;
+            segment.FileStartOffset = 0x00;
+            segment.FileEndOffset = segment.File.FileLength;
+            segment.TagInfo = "Vertices";
+            profile.AddDmaSegment(0x04, segment);
+            segment = new DmaSegment();
+            segment.File = RomProject.Instance.Files[2];
+            segment.RamSegment = 0x07;
+            segment.RamStartOffset = 0x00;
+            segment.FileStartOffset = 0x00;
+            segment.FileEndOffset = segment.File.FileLength;
+            segment.TagInfo = "PackedDLs";
+            profile.AddDmaSegment(0x07, segment);
+            segment = new DmaSegment();
+            segment.File = RomProject.Instance.Files[3];
+            segment.RamSegment = 0x05;
+            segment.RamStartOffset = 0x00;
+            segment.FileStartOffset = 0x00;
+            segment.FileEndOffset = segment.File.FileLength;
+            segment.TagInfo = "Textures";
+            profile.AddDmaSegment(0x05, segment);
+            RomProject.Instance.AddDmaProfile(profile);
 
             F3DEXReaderPackage package = F3DEXReader.ReadF3DEXAt(RomProject.Instance.Files[2], 0x00);
             F3DEXReaderPackage newPackage = package;
