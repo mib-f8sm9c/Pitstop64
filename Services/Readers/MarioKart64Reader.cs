@@ -11,7 +11,7 @@ using System.Drawing;
 using System.ComponentModel;
 using MK64Pitstop.Data.Karts;
 using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Courses;
+using MK64Pitstop.Data.Tracks;
 using MK64Pitstop.Data.Text;
 using System.Windows.Forms;
 
@@ -143,7 +143,7 @@ namespace MK64Pitstop.Services.Readers
 
             KartReader.ReadRom(worker, rawData, results);
 
-            CourseReader.ReadRom(worker, rawData, results);
+            TrackReader.ReadRom(worker, rawData, results);
 
             //debug stuff
             //ImageMIO0Block imblock = ImageMIO0Block.ReadImageMIO0BlockFrom(data, 0x963EF0);
@@ -212,10 +212,10 @@ namespace MK64Pitstop.Services.Readers
                 KartReader.ApplyResults(results.KartResults);
             }
 
-            if (results.CourseResults != null)
+            if (results.TrackResults != null)
             {
-                ProgressService.SetMessage("Splicing course data into Rom object");
-                CourseReader.ApplyResults(results.CourseResults);
+                ProgressService.SetMessage("Splicing track data into Rom object");
+                TrackReader.ApplyResults(results.TrackResults);
             }
 
             if (results.TextBank != null)
@@ -237,7 +237,7 @@ namespace MK64Pitstop.Services.Readers
         public List<N64DataElement> NewElements;
         public List<TKMK00Block> OriginalTKMK00Blocks;
         public KartReaderResults KartResults;
-        public CourseReaderResults CourseResults;
+        public TrackReaderResults TrackResults;
         public TextBank TextBank;
 
         public MarioKart64ReaderResults()

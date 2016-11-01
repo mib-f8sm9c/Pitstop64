@@ -6,19 +6,20 @@ using Cereal64.Common.DataElements;
 using Cereal64.Common.Utils;
 using System.Xml.Linq;
 
-namespace MK64Pitstop.Data.Courses
+namespace MK64Pitstop.Data.Tracks
 {
-    public class CourseDataReferenceBlock: N64DataElement
+    [AlternateXMLNames(new string[] { "CourseDataReferenceBlock" })]
+    public class TrackDataReferenceBlock: N64DataElement
     {
-        public CourseDataReferenceEntry[] entries = new CourseDataReferenceEntry[0x13];
+        public TrackDataReferenceEntry[] entries = new TrackDataReferenceEntry[0x13];
 
-        public CourseDataReferenceBlock(int offset, byte[] data)
+        public TrackDataReferenceBlock(int offset, byte[] data)
             : base(offset, data)
         {
 
         }
 
-        public CourseDataReferenceBlock(XElement xml, byte[] fileData)
+        public TrackDataReferenceBlock(XElement xml, byte[] fileData)
             : base(xml, fileData)
         {
 
@@ -39,7 +40,7 @@ namespace MK64Pitstop.Data.Courses
                 for (int i = 0; i < 0x13; i++)
                 {
                     Array.Copy(value, 0x30 * i, entryData, 0, 0x30);
-                    entries[i] = new CourseDataReferenceEntry(FileOffset, entryData, i);
+                    entries[i] = new TrackDataReferenceEntry(FileOffset, entryData, i);
                 }
             }
         }

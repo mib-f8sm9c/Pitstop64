@@ -42,7 +42,7 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.romInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coursesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tracksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,7 +154,7 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.romInfoToolStripMenuItem,
-            this.coursesToolStripMenuItem,
+            this.tracksToolStripMenuItem,
             this.kartsToolStripMenuItem,
             this.texturesToolStripMenuItem,
             this.textToolStripMenuItem});
@@ -169,12 +169,12 @@
             this.romInfoToolStripMenuItem.Text = "Rom Info";
             this.romInfoToolStripMenuItem.Click += new System.EventHandler(this.romInfoToolStripMenuItem_Click);
             // 
-            // coursesToolStripMenuItem
+            // tracksToolStripMenuItem
             // 
-            this.coursesToolStripMenuItem.Name = "coursesToolStripMenuItem";
-            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.coursesToolStripMenuItem.Text = "Courses";
-            this.coursesToolStripMenuItem.Click += new System.EventHandler(this.coursesToolStripMenuItem_Click);
+            this.tracksToolStripMenuItem.Name = "tracksToolStripMenuItem";
+            this.tracksToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tracksToolStripMenuItem.Text = "Tracks";
+            this.tracksToolStripMenuItem.Click += new System.EventHandler(this.tracksToolStripMenuItem_Click);
             // 
             // kartsToolStripMenuItem
             // 
@@ -276,7 +276,7 @@
         private System.Windows.Forms.ToolStripMenuItem texturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kartsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem romInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem coursesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tracksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
     }
 }

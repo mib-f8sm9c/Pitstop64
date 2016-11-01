@@ -13,15 +13,14 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using Cereal64.VisObj64.Data.OpenGL.Wrappers.F3DEX;
 using Cereal64.Microcodes.F3DEX;
-using MK64Pitstop.Data.Courses;
+using MK64Pitstop.Data.Tracks;
 using MK64Pitstop.Services.Hub;
 
-namespace MK64Pitstop.Modules.Courses
+namespace MK64Pitstop.Modules.Tracks
 {
-    public partial class CourseControl : UserControl
+    public partial class TrackControl : UserControl
     {
-
-        public CourseControl()
+        public TrackControl()
         {
             InitializeComponent();
 
@@ -30,28 +29,28 @@ namespace MK64Pitstop.Modules.Courses
 
         public void UpdateControl()
         {
-            cbCourse.Items.Clear();
+            cbTrack.Items.Clear();
 
-            if (RomProject.Instance.Files.Count > 0  && MarioKart64ElementHub.Instance.CourseDataBlock != null)
+            if (RomProject.Instance.Files.Count > 0  && MarioKart64ElementHub.Instance.TrackDataBlock != null)
             {
-                cbCourse.Enabled = true;
+                cbTrack.Enabled = true;
 
-                for (int i = 0; i < MarioKartRomInfo.CourseCount; i++)
+                for (int i = 0; i < MarioKartRomInfo.TrackCount; i++)
                 {
-                    //Add all the courses here. But they're going to be loaded in the Mariokart hub
-                    cbCourse.Items.Add(Enum.GetName(typeof(MarioKartRomInfo.OriginalCourses), (MarioKartRomInfo.OriginalCourses)i));
+                    //Add all the tracks here. But they're going to be loaded in the Mariokart hub
+                    cbTrack.Items.Add(Enum.GetName(typeof(MarioKartRomInfo.OriginalTracks), (MarioKartRomInfo.OriginalTracks)i));
                 }
-                cbCourse.SelectedIndex = 0;
+                cbTrack.SelectedIndex = 0;
             }
             else
             {
-                cbCourse.Enabled = false;
+                cbTrack.Enabled = false;
             }
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (cbCourse.SelectedIndex != -1)
+            if (cbTrack.SelectedIndex != -1)
             {
                 //This is still in the old format, so we'll just 
                 openGLControl.ClearGraphics();
@@ -64,7 +63,7 @@ namespace MK64Pitstop.Modules.Courses
         private void PortedLoadingCode()
         {
             byte[] _romData = RomProject.Instance.Files[0].GetAsBytes();
-            CourseDataReferenceEntry SelectedCourse = MarioKart64ElementHub.Instance.CourseDataBlock.entries[cbCourse.SelectedIndex];
+            TrackDataReferenceEntry SelectedTrack = MarioKart64ElementHub.Instance.TrackDataBlock.entries[cbTrack.SelectedIndex];
 
             while (RomProject.Instance.Files.Count > 1)
             {
@@ -72,18 +71,18 @@ namespace MK64Pitstop.Modules.Courses
             }
 
             //Take the blocks, and export them
-            byte[] displayListBlock = new byte[SelectedCourse.DisplayListBlockEnd - SelectedCourse.DisplayListBlockStart];
-            Array.Copy(_romData, SelectedCourse.DisplayListBlockStart,
+            byte[] displayListBlock = new byte[SelectedTrack.DisplayListBlockEnd - SelectedTrack.DisplayListBlockStart];
+            Array.Copy(_romData, SelectedTrack.DisplayListBlockStart,
                 displayListBlock, 0, displayListBlock.Length);
-            int vertexEndPackedDLStartOffset = SelectedCourse.DisplayListOffset & 0x00FFFFFF;
+            int vertexEndPackedDLStartOffset = SelectedTrack.DisplayListOffset & 0x00FFFFFF;
             byte[] vertexBlock = new byte[vertexEndPackedDLStartOffset];
-            Array.Copy(_romData, SelectedCourse.VertexBlockStart,
+            Array.Copy(_romData, SelectedTrack.VertexBlockStart,
                 vertexBlock, 0, vertexBlock.Length);
-            byte[] packedBlock = new byte[(SelectedCourse.VertexBlockEnd - SelectedCourse.VertexBlockStart) - vertexEndPackedDLStartOffset];
-            Array.Copy(_romData, SelectedCourse.VertexBlockStart + vertexEndPackedDLStartOffset,
+            byte[] packedBlock = new byte[(SelectedTrack.VertexBlockEnd - SelectedTrack.VertexBlockStart) - vertexEndPackedDLStartOffset];
+            Array.Copy(_romData, SelectedTrack.VertexBlockStart + vertexEndPackedDLStartOffset,
                 packedBlock, 0, packedBlock.Length);
-            byte[] textureBlock = new byte[SelectedCourse.TextureBlockEnd - SelectedCourse.TextureBlockStart];
-            Array.Copy(_romData, SelectedCourse.TextureBlockStart,
+            byte[] textureBlock = new byte[SelectedTrack.TextureBlockEnd - SelectedTrack.TextureBlockStart];
+            Array.Copy(_romData, SelectedTrack.TextureBlockStart,
                 textureBlock, 0, textureBlock.Length);
 
             byte[] decodedDLData = Cereal64.Common.Utils.Encoding.MIO0.Decode(displayListBlock);
@@ -96,7 +95,7 @@ namespace MK64Pitstop.Modules.Courses
             F3DEXCommandCollection commandColl = new F3DEXCommandCollection(0x00, commands);
             byte[] commandsData = commandColl.RawData;
 
-            List<CourseTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
+            List<TrackTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
 
             byte[] textureSegData = new byte[textureSegPointers.Sum(t => t.DecompressedSize)];
             int bytePointer = 0;
@@ -165,15 +164,15 @@ namespace MK64Pitstop.Modules.Courses
         }
 
 
-        private List<CourseTextureRef> ReadTextureBank(byte[] texturePointers)
+        private List<TrackTextureRef> ReadTextureBank(byte[] texturePointers)
         {
-            List<CourseTextureRef> output = new List<CourseTextureRef>();
+            List<TrackTextureRef> output = new List<TrackTextureRef>();
             byte[] tempArray = new byte[0x10];
 
             for (int i = 0; i < texturePointers.Length / 0x10; i++)
             {
                 Array.Copy(texturePointers, i * 0x10, tempArray, 0, 0x10);
-                CourseTextureRef refText = new CourseTextureRef(i * 0x10, tempArray);
+                TrackTextureRef refText = new TrackTextureRef(i * 0x10, tempArray);
                 if (refText.RomOffset == 0x00000000)
                     break;
 

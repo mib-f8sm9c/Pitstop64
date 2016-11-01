@@ -6,9 +6,10 @@ using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Data.Courses
+namespace MK64Pitstop.Data.Tracks
 {
-    public class CourseTextureRef : N64DataElement
+    [AlternateXMLNames(new string[] { "CourseTextureRef" })]
+    public class TrackTextureRef : N64DataElement
     {
         [CategoryAttribute("Texture MIO Settings"),
         DescriptionAttribute("Offset of the texture MIO block offset by 0x641F70")]
@@ -23,7 +24,7 @@ namespace MK64Pitstop.Data.Courses
         public int DecompressedSize { get; set; }
 
 
-        public CourseTextureRef(int offset, byte[] rawData)
+        public TrackTextureRef(int offset, byte[] rawData)
             : base(offset, rawData)
         {
         }

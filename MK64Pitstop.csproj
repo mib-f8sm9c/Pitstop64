@@ -70,16 +70,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Courses\CourseData.cs" />
-    <Compile Include="Data\Courses\CourseDataReferenceBlock.cs" />
-    <Compile Include="Data\Courses\CourseTextureRef.cs" />
+    <Compile Include="Data\Tracks\TrackData.cs" />
+    <Compile Include="Data\Tracks\TrackDataReferenceBlock.cs" />
+    <Compile Include="Data\Tracks\TrackTextureRef.cs" />
     <Compile Include="Data\DmaAddressBlock.cs" />
     <Compile Include="Data\Karts\KartPaletteBlock.cs" />
     <Compile Include="Data\Karts\KartPortraitTable.cs" />
     <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
     <Compile Include="Data\Text\TextBank.cs" />
     <Compile Include="Data\Text\TextBankBlock.cs" />
-    <Compile Include="Data\Courses\CourseDataReferenceEntry.cs" />
+    <Compile Include="Data\Tracks\TrackDataReferenceEntry.cs" />
     <Compile Include="Data\ImageMIO0Block.cs" />
     <Compile Include="Data\Karts\KartGraphicsReferenceBlock.cs" />
     <Compile Include="Data\Karts\KartInfo.cs" />
@@ -94,13 +94,13 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
-    <Compile Include="Modules\Courses\CourseControl.cs">
+    <Compile Include="Modules\Tracks\TrackControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Modules\Courses\CourseControl.Designer.cs">
-      <DependentUpon>CourseControl.cs</DependentUpon>
+    <Compile Include="Modules\Tracks\TrackControl.Designer.cs">
+      <DependentUpon>TrackControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Courses\CourseModule.cs" />
+    <Compile Include="Modules\Tracks\TrackModule.cs" />
     <Compile Include="Modules\Info\RomInfoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,7 +163,7 @@
     </Compile>
     <Compile Include="Services\Hub\KartHub.cs" />
     <Compile Include="Services\Hub\MarioKart64ElementHub.cs" />
-    <Compile Include="Services\Readers\CourseReader.cs" />
+    <Compile Include="Services\Readers\TrackReader.cs" />
     <Compile Include="Services\Readers\KartReader.cs" />
     <Compile Include="Services\Readers\MarioKart64Reader.cs" />
     <Compile Include="Services\ProgressDialog.cs">
@@ -185,8 +185,8 @@
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Courses\CourseControl.resx">
-      <DependentUpon>CourseControl.cs</DependentUpon>
+    <EmbeddedResource Include="Modules\Tracks\TrackControl.resx">
+      <DependentUpon>TrackControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Info\RomInfoControl.resx">
       <DependentUpon>RomInfoControl.cs</DependentUpon>

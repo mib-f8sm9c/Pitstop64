@@ -5,9 +5,10 @@ using System.Text;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.Rom;
 
-namespace MK64Pitstop.Data.Courses
+namespace MK64Pitstop.Data.Tracks
 {
-    public class CourseData
+    //NOT BEING USED CURRENTLY!!!
+    public class TrackData : RomItem
     {
         //In the future, store outside of the MIOBlocks, then move into them when re
         public MIO0Block ItemsBlock { get; private set; }
@@ -20,15 +21,15 @@ namespace MK64Pitstop.Data.Courses
         public uint TableSeg { get; private set; }
         public uint Unknown2 { get; private set; }
 
-        public string CourseName { get; set; }
-        public bool IsOriginalCourse { get; private set; }
+        public string TrackName { get; set; }
+        public bool IsOriginalTrack { get; private set; }
 
-        public CourseData()
+        public TrackData()
         {
 
         }
 
-        public CourseDataReferenceEntry GetCourseDataReference()
+        public TrackDataReferenceEntry GetTrackDataReference()
         {
             throw new NotImplementedException();
             return null;

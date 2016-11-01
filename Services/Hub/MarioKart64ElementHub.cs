@@ -8,7 +8,7 @@ using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
 using Cereal64.Common.DataElements;
 using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Data.Courses;
+using MK64Pitstop.Data.Tracks;
 using MK64Pitstop.Services.Readers;
 using MK64Pitstop.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
@@ -21,12 +21,12 @@ namespace MK64Pitstop.Services.Hub
     {
         private const string SELECTED_KARTS = "selectedKarts";
 
-        private const string COURSES = "courses";
-        private const string COURSE_NAMES = "courseName";
+        private const string TRACKS = "tracks";
+        private const string TRACK_NAMES = "trackName";
 
-        private const string SELECTED_COURSES = "selectedCourses";
+        private const string SELECTED_TRACKS = "selectedTracks";
 
-        private const string COURSES_GRAPHICS_REFRENCE_BLOCK = "courseGraphicsReferenceBlock";
+        private const string TRACKS_GRAPHICS_REFRENCE_BLOCK = "trackGraphicsReferenceBlock";
 
         private const string KARTS_GRAPHICS_REFERENCE_BLOCK = "kartGraphicsReferenceBlock";
         private const string KARTS_PORTRAITS_REFERENCE_TABLE = "kartPortraitsReferenceTable";
@@ -69,18 +69,18 @@ namespace MK64Pitstop.Services.Hub
         public KartInfo[] SelectedKarts { get; private set; }
         public List<KartPaletteBlock> TurnKartPaletteBlocks { get; private set; }
         public List<KartPaletteBlock> SpinKartPaletteBlocks { get; private set; }
-        public List<CourseData> Courses { get; private set; }
-        public CourseData[] SelectedCourses { get; private set; }
+        public List<TrackData> Tracks { get; private set; }
+        public TrackData[] SelectedTracks { get; private set; }
         public List<MIO0Block> AddedMIO0Blocks { get; private set; }
         public List<MIO0Block> OriginalMIO0Blocks { get; private set; }
         public List<TKMK00Block> AddedTKMK00Blocks { get; private set; }
         public List<TKMK00Block> OriginalTKMK00Blocks { get; private set; }
 
-        //public CourseGraphicsReferenceBlock CourseGraphicsBlock { get; set; }
+        //public TrackGraphicsReferenceBlock TrackGraphicsBlock { get; set; }
 
         public KartGraphicsReferenceBlock KartGraphicsBlock { get; set; }
         public KartPortraitTable KartPortraitsTable { get; set; }
-        public CourseDataReferenceBlock CourseDataBlock { get; set; }
+        public TrackDataReferenceBlock TrackDataBlock { get; set; }
 
         //NOTE: THIS GUY ISN"T GETTING SAVED OR LOADED~!!!
         public TextBank TextBank { get; set; }
@@ -97,8 +97,8 @@ namespace MK64Pitstop.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            Courses = new List<CourseData>();
-            SelectedCourses = new CourseData[MarioKartRomInfo.CourseCount];
+            Tracks = new List<TrackData>();
+            SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
             AddedMIO0Blocks = new List<MIO0Block>();
             OriginalMIO0Blocks = new List<MIO0Block>();
             AddedTKMK00Blocks = new List<TKMK00Block>();
@@ -112,8 +112,8 @@ namespace MK64Pitstop.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            Courses = new List<CourseData>();
-            SelectedCourses = new CourseData[MarioKartRomInfo.CourseCount];
+            Tracks = new List<TrackData>();
+            SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
             AddedMIO0Blocks = new List<MIO0Block>();
             OriginalMIO0Blocks = new List<MIO0Block>();
             AddedTKMK00Blocks = new List<TKMK00Block>();
@@ -377,8 +377,8 @@ namespace MK64Pitstop.Services.Hub
             Array.Clear(SelectedKarts, 0, SelectedKarts.Length);
             TurnKartPaletteBlocks.Clear();
             SpinKartPaletteBlocks.Clear();
-            Courses.Clear();
-            Array.Clear(SelectedCourses, 0, SelectedCourses.Length);
+            Tracks.Clear();
+            Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
             AddedMIO0Blocks.Clear();
             OriginalMIO0Blocks.Clear();
             AddedTKMK00Blocks.Clear();

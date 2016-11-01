@@ -1,6 +1,6 @@
-﻿namespace MK64Pitstop.Modules.Courses
+﻿namespace MK64Pitstop.Modules.Tracks
 {
-    partial class CourseControl
+    partial class TrackControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,29 +29,29 @@
         private void InitializeComponent()
         {
             Cereal64.VisObj64.Visualization.OpenGL.Cameras.NewCamera newCamera1 = new Cereal64.VisObj64.Visualization.OpenGL.Cameras.NewCamera();
-            this.gbCourseView = new System.Windows.Forms.GroupBox();
+            this.gbTrackView = new System.Windows.Forms.GroupBox();
             this.openGLControl = new VisObj64.Visualization.OpenGL.OpenGLControl();
             this.gbSettings = new System.Windows.Forms.GroupBox();
             this.lblWarning = new System.Windows.Forms.Label();
             this.btnLoad = new System.Windows.Forms.Button();
-            this.cbCourse = new System.Windows.Forms.ComboBox();
+            this.cbTrack = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.gbCourseView.SuspendLayout();
+            this.gbTrackView.SuspendLayout();
             this.gbSettings.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gbCourseView
+            // gbTrackView
             // 
-            this.gbCourseView.Controls.Add(this.openGLControl);
-            this.gbCourseView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbCourseView.Location = new System.Drawing.Point(145, 4);
-            this.gbCourseView.Name = "gbCourseView";
-            this.gbCourseView.Padding = new System.Windows.Forms.Padding(10, 4, 10, 10);
-            this.gbCourseView.Size = new System.Drawing.Size(448, 359);
-            this.gbCourseView.TabIndex = 1;
-            this.gbCourseView.TabStop = false;
-            this.gbCourseView.Text = "Course View";
+            this.gbTrackView.Controls.Add(this.openGLControl);
+            this.gbTrackView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbTrackView.Location = new System.Drawing.Point(145, 4);
+            this.gbTrackView.Name = "gbTrackView";
+            this.gbTrackView.Padding = new System.Windows.Forms.Padding(10, 4, 10, 10);
+            this.gbTrackView.Size = new System.Drawing.Size(448, 359);
+            this.gbTrackView.TabIndex = 1;
+            this.gbTrackView.TabStop = false;
+            this.gbTrackView.Text = "Track View";
             // 
             // openGLControl
             // 
@@ -69,7 +69,7 @@
             this.gbSettings.Controls.Add(this.label2);
             this.gbSettings.Controls.Add(this.lblWarning);
             this.gbSettings.Controls.Add(this.btnLoad);
-            this.gbSettings.Controls.Add(this.cbCourse);
+            this.gbSettings.Controls.Add(this.cbTrack);
             this.gbSettings.Controls.Add(this.label1);
             this.gbSettings.Dock = System.Windows.Forms.DockStyle.Left;
             this.gbSettings.Location = new System.Drawing.Point(4, 4);
@@ -96,19 +96,19 @@
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(114, 40);
             this.btnLoad.TabIndex = 2;
-            this.btnLoad.Text = "Load Course";
+            this.btnLoad.Text = "Load Track";
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
-            // cbCourse
+            // cbTrack
             // 
-            this.cbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCourse.Enabled = false;
-            this.cbCourse.FormattingEnabled = true;
-            this.cbCourse.Location = new System.Drawing.Point(6, 40);
-            this.cbCourse.Name = "cbCourse";
-            this.cbCourse.Size = new System.Drawing.Size(129, 24);
-            this.cbCourse.TabIndex = 1;
+            this.cbTrack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTrack.Enabled = false;
+            this.cbTrack.FormattingEnabled = true;
+            this.cbTrack.Location = new System.Drawing.Point(6, 40);
+            this.cbTrack.Name = "cbTrack";
+            this.cbTrack.Size = new System.Drawing.Size(129, 24);
+            this.cbTrack.TabIndex = 1;
             // 
             // label1
             // 
@@ -117,7 +117,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Course";
+            this.label1.Text = "Track";
             // 
             // label2
             // 
@@ -126,22 +126,22 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 102);
             this.label2.TabIndex = 4;
-            this.label2.Text = "After loading a\r\ncourse, click and\r\nmove the mouse to\r\nactivate it. Only load\r\non" +
-    "e course per\r\nprogram";
+            this.label2.Text = "After loading a\r\ntrack, click and\r\nmove the mouse to\r\nactivate it. Only load\r\non" +
+    "e track per\r\nprogram";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // CourseControl
+            // TrackControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbCourseView);
+            this.Controls.Add(this.gbTrackView);
             this.Controls.Add(this.gbSettings);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "CourseControl";
+            this.Name = "TrackControl";
             this.Padding = new System.Windows.Forms.Padding(4);
             this.Size = new System.Drawing.Size(597, 367);
-            this.gbCourseView.ResumeLayout(false);
+            this.gbTrackView.ResumeLayout(false);
             this.gbSettings.ResumeLayout(false);
             this.gbSettings.PerformLayout();
             this.ResumeLayout(false);
@@ -151,10 +151,10 @@
         #endregion
 
         private VisObj64.Visualization.OpenGL.OpenGLControl openGLControl;
-        private System.Windows.Forms.GroupBox gbCourseView;
+        private System.Windows.Forms.GroupBox gbTrackView;
         private System.Windows.Forms.GroupBox gbSettings;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbCourse;
+        private System.Windows.Forms.ComboBox cbTrack;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Label lblWarning;
         private System.Windows.Forms.Label label2;

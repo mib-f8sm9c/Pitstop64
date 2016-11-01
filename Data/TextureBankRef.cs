@@ -9,6 +9,8 @@ using Cereal64.Common.Rom;
 
 namespace MK64Pitstop.Data
 {
+    //NOT USED, CAN DELETE!
+
     /// <summary>
     /// This reference points to an MIO block that contains a texture
     /// </summary>

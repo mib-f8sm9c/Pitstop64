@@ -34,7 +34,7 @@ namespace MK64Pitstop
         }
 
         //NOTE: THIS IS THE WRONG ORDER, but it's how the game stores it in order
-        public enum OriginalCourses
+        public enum OriginalTracks
         {
             MarioRaceway = 0x0,
             ChocoMountain,
@@ -149,8 +149,8 @@ namespace MK64Pitstop
             0x007FBCC0,
         };
 
-        public static int CourseReferenceDataTableLocation { get { return 0x122390; } }
-        public static int CourseCount { get { return 0x13; } }
+        public static int TrackReferenceDataTableLocation { get { return 0x122390; } }
+        public static int TrackCount { get { return 0x13; } }
         public static int TextureBankOffset { get { return 0x641F70; } } //Ends 966260?
         public static int KartTexturePaletteBank { get { return 0x145470; } }
 

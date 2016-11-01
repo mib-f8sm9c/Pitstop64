@@ -47,7 +47,7 @@ namespace TrackShack.Controls
         protected void ResetTitleText()
         {
             if (Track != null)
-                this.Text = string.Format(TitleText, Track.Kart.KartName);
+                this.Text = string.Format(TitleText, Track.ToString()); //Fix this eventually!!
             else
                 this.Text = TitleText;
         }

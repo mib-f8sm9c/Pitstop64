@@ -288,9 +288,9 @@ namespace MK64Pitstop
             SelectedModule = ModuleFactory.Modules.Karts;
         }
 
-        private void coursesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tracksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SelectedModule = ModuleFactory.Modules.Courses;
+            SelectedModule = ModuleFactory.Modules.Tracks;
         }
 
         private void romInfoToolStripMenuItem_Click(object sender, EventArgs e)

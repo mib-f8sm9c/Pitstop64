@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop.Modules.Courses
+namespace MK64Pitstop.Modules.Tracks
 {
-    public class CourseModule : IModule
+    public class TrackModule : IModule
     {
-        //In the future, we'll need to keep track of all the course data,
+        //In the future, we'll need to keep track of all the track data,
         // but for now a viewer will suffice
 
         public void UpdateRomData()
@@ -21,11 +21,11 @@ namespace MK64Pitstop.Modules.Courses
             {
                 if (_control == null)
                 {
-                    _control = new CourseControl();
+                    _control = new TrackControl();
                 }
                 return _control;
             }
         }
-        private CourseControl _control;
+        private TrackControl _control;
     }
 }
