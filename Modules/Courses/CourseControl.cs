@@ -102,9 +102,12 @@ namespace MK64Pitstop.Modules.Courses
             int bytePointer = 0;
             for (int i = 0; i < textureSegPointers.Count; i++)
             {
-                byte[] tempHolder = new byte[textureSegPointers[i].CompressedSize];
+                int mioSize = textureSegPointers[i].CompressedSize;
+                if (mioSize % 4 != 0)
+                    mioSize += 4 - (mioSize % 4);
+                byte[] tempHolder = new byte[mioSize];
                 Array.Copy(_romData, (textureSegPointers[i].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset,
-                    tempHolder, 0, textureSegPointers[i].CompressedSize);
+                    tempHolder, 0, mioSize);
                 byte[] decompressed = Cereal64.Common.Utils.Encoding.MIO0.Decode(tempHolder);
                 Array.Copy(decompressed, 0, textureSegData, bytePointer, decompressed.Length);
                 bytePointer += decompressed.Length;
