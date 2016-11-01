@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisObj64", "..\Cereal64\Vis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChompShop", "ChompShop\ChompShop.csproj", "{67827AF3-4928-4570-B798-F1DD12226D50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackShack", "TrackShack\TrackShack.csproj", "{EC717AA0-D8C3-474C-B402-457F436BE05E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,16 @@ Global
 		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|x86.ActiveCfg = Release|x86
 		{67827AF3-4928-4570-B798-F1DD12226D50}.Release|x86.Build.0 = Release|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Debug|x86.ActiveCfg = Debug|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Debug|x86.Build.0 = Debug|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Release|Any CPU.ActiveCfg = Release|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Release|x86.ActiveCfg = Release|x86
+		{EC717AA0-D8C3-474C-B402-457F436BE05E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

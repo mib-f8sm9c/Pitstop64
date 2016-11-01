@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\Cereal64\Common\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,16 +49,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Controls\TrackShackWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Data\TrackWrapper.cs" />
+    <Compile Include="TrackShackAlerts.cs" />
+    <Compile Include="TrackShackFloor.cs" />
+    <Compile Include="TrackShackForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackShackForm.Designer.cs">
+      <DependentUpon>TrackShackForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TrackShackWindow.resx">
+      <DependentUpon>TrackShackWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackShackForm.resx">
+      <DependentUpon>TrackShackForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -75,6 +88,27 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Cereal64\Common\Common.csproj">
+      <Project>{B6A46BAF-D012-40F7-8213-EE361B1BC75E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cereal64\Microcodes\Microcodes.csproj">
+      <Project>{F4DBB616-9F71-4593-AD2C-4BBE38561AF1}</Project>
+      <Name>Microcodes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cereal64\VisObj64\VisObj64.csproj">
+      <Project>{E523D0E4-0133-4A52-B143-7DB3C2653A63}</Project>
+      <Name>VisObj64</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MK64Pitstop.csproj">
+      <Project>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</Project>
+      <Name>MK64Pitstop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\TrackControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
