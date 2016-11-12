@@ -30,39 +30,32 @@
         {
             Cereal64.VisObj64.Visualization.OpenGL.Cameras.NewCamera newCamera1 = new Cereal64.VisObj64.Visualization.OpenGL.Cameras.NewCamera();
             this.gbTrackView = new System.Windows.Forms.GroupBox();
-            this.openGLControl = new VisObj64.Visualization.OpenGL.OpenGLControl();
             this.gbSettings = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblWarning = new System.Windows.Forms.Label();
             this.btnLoad = new System.Windows.Forms.Button();
             this.cbTrack = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.gbF3D = new System.Windows.Forms.GroupBox();
+            this.f3DEXEditor1 = new Cereal64.Microcodes.F3DEX.Controls.F3DEXEditor();
+            this.openGLControl = new VisObj64.Visualization.OpenGL.OpenGLControl();
             this.gbTrackView.SuspendLayout();
             this.gbSettings.SuspendLayout();
+            this.gbF3D.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTrackView
             // 
             this.gbTrackView.Controls.Add(this.openGLControl);
+            this.gbTrackView.Controls.Add(this.gbF3D);
             this.gbTrackView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbTrackView.Location = new System.Drawing.Point(145, 4);
             this.gbTrackView.Name = "gbTrackView";
             this.gbTrackView.Padding = new System.Windows.Forms.Padding(10, 4, 10, 10);
-            this.gbTrackView.Size = new System.Drawing.Size(448, 359);
+            this.gbTrackView.Size = new System.Drawing.Size(580, 359);
             this.gbTrackView.TabIndex = 1;
             this.gbTrackView.TabStop = false;
             this.gbTrackView.Text = "Track View";
-            // 
-            // openGLControl
-            // 
-            this.openGLControl.Camera = newCamera1;
-            this.openGLControl.ClearColor = System.Drawing.Color.CornflowerBlue;
-            this.openGLControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openGLControl.Location = new System.Drawing.Point(10, 20);
-            this.openGLControl.Margin = new System.Windows.Forms.Padding(4);
-            this.openGLControl.Name = "openGLControl";
-            this.openGLControl.Size = new System.Drawing.Size(428, 329);
-            this.openGLControl.TabIndex = 0;
             // 
             // gbSettings
             // 
@@ -78,6 +71,17 @@
             this.gbSettings.TabIndex = 2;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Settings";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1, 246);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(136, 102);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "After loading a\r\ntrack, click and\r\nmove the mouse to\r\nactivate it. Only load\r\none" +
+    " track per\r\nprogram";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblWarning
             // 
@@ -115,20 +119,41 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 17);
+            this.label1.Size = new System.Drawing.Size(44, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Track";
             // 
-            // label2
+            // gbF3D
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1, 246);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 102);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "After loading a\r\ntrack, click and\r\nmove the mouse to\r\nactivate it. Only load\r\non" +
-    "e track per\r\nprogram";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.gbF3D.Controls.Add(this.f3DEXEditor1);
+            this.gbF3D.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gbF3D.Location = new System.Drawing.Point(70, 20);
+            this.gbF3D.Name = "gbF3D";
+            this.gbF3D.Size = new System.Drawing.Size(500, 329);
+            this.gbF3D.TabIndex = 1;
+            this.gbF3D.TabStop = false;
+            // 
+            // f3DEXEditor1
+            // 
+            this.f3DEXEditor1.Commands = null;
+            this.f3DEXEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.f3DEXEditor1.FixedSize = false;
+            this.f3DEXEditor1.Location = new System.Drawing.Point(3, 19);
+            this.f3DEXEditor1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.f3DEXEditor1.Name = "f3DEXEditor1";
+            this.f3DEXEditor1.Size = new System.Drawing.Size(494, 307);
+            this.f3DEXEditor1.TabIndex = 0;
+            // 
+            // openGLControl
+            // 
+            this.openGLControl.Camera = newCamera1;
+            this.openGLControl.ClearColor = System.Drawing.Color.CornflowerBlue;
+            this.openGLControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openGLControl.Location = new System.Drawing.Point(10, 20);
+            this.openGLControl.Margin = new System.Windows.Forms.Padding(4);
+            this.openGLControl.Name = "openGLControl";
+            this.openGLControl.Size = new System.Drawing.Size(60, 329);
+            this.openGLControl.TabIndex = 0;
             // 
             // TrackControl
             // 
@@ -140,10 +165,11 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TrackControl";
             this.Padding = new System.Windows.Forms.Padding(4);
-            this.Size = new System.Drawing.Size(597, 367);
+            this.Size = new System.Drawing.Size(729, 367);
             this.gbTrackView.ResumeLayout(false);
             this.gbSettings.ResumeLayout(false);
             this.gbSettings.PerformLayout();
+            this.gbF3D.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -158,6 +184,8 @@
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Label lblWarning;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox gbF3D;
+        private Cereal64.Microcodes.F3DEX.Controls.F3DEXEditor f3DEXEditor1;
 
 
     }

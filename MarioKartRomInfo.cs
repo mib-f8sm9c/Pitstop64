@@ -57,7 +57,56 @@ namespace MK64Pitstop
             DKsJungleParkway,
             BigDonut
         }
-      
+
+        public const int CoursePreviewImageWidth = 128;
+        public const int CoursePreviewImageHeight = 72;
+        public static int[] CoursePreviewImageOffsets = new int[]
+        {
+            0x007A1418,
+            0x007A4570,
+            0x007A6F94,
+            0x007AA074,
+            0x007AC720,
+            0x007B0160,
+            0x007B2568,
+            0x007B488C,
+            0x007B70AC,
+            0x007B9E20,
+            0x007BC3E8,
+            0x007BED84,
+            0x007C1590,
+            0x007C45A0,
+            0x007C6DC4,
+            0x007CA098,
+            0x007CC5C0,
+            0x007CECB0,
+            0x007D15A8,
+            0x007D548C
+        };
+
+        public static int[] OriginalTrackDLOffsets = new int[] //Can use the DL end index values instead maybe?
+        {
+            0x6928,
+            0x5AE0,
+            0x9910,
+            0x7338,
+            0x8150,
+            0x6638,
+            0xB2B0,
+            0xB120,
+            0xC730,
+            0x6730,
+            0x6B08,
+            0xA670,
+            0x3848,
+            0x20F8,
+            0xA4A8,
+            0x15C0,
+            0x1110,
+            0x738,
+            0x9C18
+        };
+
         //Here, define the different pointers for the different regions. In the MarioKartHeader class (or MarioKart64Reader) we'll 
         // actually #def these values
 #if EU
@@ -150,7 +199,7 @@ namespace MK64Pitstop
         };
 
         public static int TrackReferenceDataTableLocation { get { return 0x122390; } }
-        public static int TrackCount { get { return 0x13; } }
+        public static int TrackCount { get { return 0x14; } }
         public static int TextureBankOffset { get { return 0x641F70; } } //Ends 966260?
         public static int KartTexturePaletteBank { get { return 0x145470; } }
 

@@ -11,7 +11,7 @@ namespace MK64Pitstop.Data.Tracks
     [AlternateXMLNames(new string[] { "CourseDataReferenceBlock" })]
     public class TrackDataReferenceBlock: N64DataElement
     {
-        public TrackDataReferenceEntry[] entries = new TrackDataReferenceEntry[0x13];
+        public TrackDataReferenceEntry[] Entries = new TrackDataReferenceEntry[MarioKartRomInfo.TrackCount];
 
         public TrackDataReferenceBlock(int offset, byte[] data)
             : base(offset, data)
@@ -29,25 +29,25 @@ namespace MK64Pitstop.Data.Tracks
         {
             get
             {
-                return ByteHelper.CombineIntoBytes(entries);
+                return ByteHelper.CombineIntoBytes(Entries);
             }
             set
             {
-                if (value.Length != 0x30 * 0x13)
+                if (value.Length != 0x30 * MarioKartRomInfo.TrackCount)
                     return;
 
                 byte[] entryData = new byte[0x30];
-                for (int i = 0; i < 0x13; i++)
+                for (int i = 0; i < MarioKartRomInfo.TrackCount; i++)
                 {
                     Array.Copy(value, 0x30 * i, entryData, 0, 0x30);
-                    entries[i] = new TrackDataReferenceEntry(FileOffset, entryData, i);
+                    Entries[i] = new TrackDataReferenceEntry(FileOffset, entryData, i);
                 }
             }
         }
 
         public override int RawDataSize
         {
-            get { return entries.Length * 0x30; } //Don't hardcode it in the future?
+            get { return Entries.Length * 0x30; } //Don't hardcode it in the future?
         }
     }
 }

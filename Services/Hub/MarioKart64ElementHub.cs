@@ -585,6 +585,196 @@ namespace MK64Pitstop.Services.Hub
             }
         }
 
+        public void SaveTrackInfo()
+        {
+            if (TrackDataBlock == null)
+                return;
+
+            for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedTracks.Length; i++)
+            {
+                TrackData track = MarioKart64ElementHub.Instance.SelectedTracks[i];
+
+                //Save the main palette
+            //    if (kart.KartImages.ImagePalette.FileOffset == -1)
+            //    {
+            //        kart.KartImages.ImagePalette.FileOffset = NewElementOffset;
+            //        AdvanceNewElementOffset(kart.KartImages.ImagePalette);
+            //        RomProject.Instance.Files[0].AddElement(kart.KartImages.ImagePalette);
+            //    }
+
+            //    KartGraphicsBlock.CharacterPaletteReferences[i] = new DmaAddress(0x0F, kart.KartImages.ImagePalette.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+            //    KartGraphicsBlock.CharacterPaletteReferences[i].ReferenceElement = kart.KartImages.ImagePalette;
+
+            //    //Save the kart palettes in BLOCKS!
+            //    //but first, assign each unique animation its own PaletteBlock, adding new ones as necessary
+
+            //    //Backwards, so the order is preserved
+            //    for (int h = kart.KartAnimations.Count - 1; h >= 0; h--)
+            //    {
+            //        KartAnimationSeries anim = kart.KartAnimations[h];
+            //        if (anim.IsTurnAnim)
+            //        {
+            //            if (!TurnPaletteBlocks.ContainsKey(anim))
+            //            {
+            //                while (this.TurnKartPaletteBlocks.Count <= turnPaletteBlockIndex)
+            //                {
+            //                    byte[] newPaletteBlockData = new byte[0x40 * 2 * 20 * 4];
+            //                    KartPaletteBlock block = new KartPaletteBlock(this.NewElementOffset, newPaletteBlockData);
+            //                    foreach (Palette palette in block.Palettes)
+            //                        RomProject.Instance.Files[0].AddElement(palette);
+            //                    this.AdvanceNewElementOffset(block);
+            //                    this.TurnKartPaletteBlocks.Add(block);
+            //                }
+
+            //                TurnPaletteBlocks.Add(anim, this.TurnKartPaletteBlocks[turnPaletteBlockIndex]);
+            //                turnPaletteBlockIndex++;
+
+            //                byte[] testingBytes = anim.GenerateKartAnimationPaletteData(
+            //                    kart.KartImages, true);
+
+            //                TurnPaletteBlocks[anim].RawData = testingBytes;
+            //            }
+            //        }
+
+            //        if (anim.IsSpinAnim)
+            //        {
+            //            if (!SpinPaletteBlocks.ContainsKey(anim))
+            //            {
+            //                while (this.SpinKartPaletteBlocks.Count <= spinPaletteBlockIndex)
+            //                {
+            //                    byte[] newPaletteBlockData = new byte[0x40 * 2 * 20 * 4];
+            //                    KartPaletteBlock block = new KartPaletteBlock(this.NewElementOffset, newPaletteBlockData);
+            //                    foreach (Palette palette in block.Palettes)
+            //                        RomProject.Instance.Files[0].AddElement(palette);
+            //                    this.AdvanceNewElementOffset(block);
+            //                    this.SpinKartPaletteBlocks.Add(block);
+            //                }
+
+            //                SpinPaletteBlocks.Add(anim, this.SpinKartPaletteBlocks[spinPaletteBlockIndex]);
+            //                spinPaletteBlockIndex++;
+
+            //                SpinPaletteBlocks[anim].RawData = anim.GenerateKartAnimationPaletteData(
+            //                    kart.KartImages, false);
+            //            }
+            //        }
+            //    }
+
+            //    List<int> setAnimPaletteBlock = new List<int>();
+
+            //    for (int j = 0; j < KartGraphicsBlock.CharacterTurnReferences[i].Length; j++)
+            //    {
+            //        int animFlag;
+            //        int frameIndex; //Theres a function for this in KartReader?
+            //        bool isTurnAnim = true;
+
+            //        if (j < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT)
+            //        {
+            //            animFlag = (int)Math.Round(Math.Pow(2, j / KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT));
+            //            frameIndex = j - (j / KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT;
+
+            //            //The last 14 values of the turn animation are from the spin one, actually
+            //            if (frameIndex >= KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
+            //            {
+            //                animFlag <<= 9; //Make it spin anim, not turn anim
+            //                frameIndex -= 15;
+            //                isTurnAnim = false; //Don't do palette block stuff for this one
+            //            }
+            //        }
+            //        else
+            //        {
+            //            animFlag = (int)Math.Round(Math.Pow(2, (j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT));
+            //            frameIndex = j - (KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT * KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT) - ((j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
+            //            isTurnAnim = false;
+            //        }
+
+            //        KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & animFlag) != 0);
+            //        if (anim != null)
+            //        {
+            //            //Need to replace animIndex with GetIndexfor(animIndex), but we need a better spin/turn/crash test
+            //            string imageName;
+            //            if (anim.IsTurnAnim)
+            //                imageName = anim.OrderedImageNames[anim.GetImageIndexForTurnFrame(frameIndex)];
+            //            else //if (anim.IsSpinAnim)
+            //                imageName = anim.OrderedImageNames[anim.GetImageIndexForSpinFrame(frameIndex)];
+
+            //            ImageMIO0Block block = kart.KartImages.Images[imageName].GetEncodedData(kart.KartImages.ImagePalette);
+
+            //            //Save the image
+            //            if (block.FileOffset == -1)
+            //            {
+            //                block.FileOffset = NewElementOffset;
+            //                AdvanceNewElementOffset(block);
+            //                RomProject.Instance.Files[0].AddElement(block);
+            //            }
+
+            //            DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+            //            address.ReferenceElement = block;
+            //            KartGraphicsBlock.CharacterTurnReferences[i][j] = address;
+
+            //            int animIndex;
+            //            if (animFlag == 0)
+            //                animIndex = 0;
+            //            else
+            //                animIndex = (int)Math.Round(Math.Log(animFlag, 2));
+
+            //            //inverse the animation index
+            //            if (animIndex < 9)
+            //                animIndex = 8 - animIndex;
+            //            else
+            //                animIndex = (8 - (animIndex - 9)) + 9;
+
+            //            if (!setAnimPaletteBlock.Contains(animIndex))
+            //            {
+            //                if (isTurnAnim)
+            //                {
+            //                    KartGraphicsBlock.WheelPaletteReferences[i][animIndex] = new DmaAddress(0x0F, TurnPaletteBlocks[anim].FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+            //                }
+            //                else
+            //                {
+            //                    KartGraphicsBlock.WheelPaletteReferences[i][animIndex] = new DmaAddress(0x0F, SpinPaletteBlocks[anim].FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+            //                }
+            //                setAnimPaletteBlock.Add(animIndex);
+            //            }
+            //        }
+            //    }
+
+            //    for (int j = 0; j < KartGraphicsBlock.CharacterCrashReferences[i].Length; j++)
+            //    {
+            //        KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & (int)KartAnimationSeries.KartAnimationTypeFlag.Crash) != 0);
+            //        if (anim != null)
+            //        {
+            //            ImageMIO0Block block = kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].GetEncodedData(kart.KartImages.ImagePalette);
+            //            DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+            //            address.ReferenceElement = block;
+            //            KartGraphicsBlock.CharacterCrashReferences[i][j] = address;
+            //        }
+            //    }
+
+            //    for (int j = 0; j < kart.KartPortraits.Count; j++)
+            //    {
+            //        if (kart.KartPortraits[j].FileOffset == -1)
+            //        {
+            //            kart.KartPortraits[j].FileOffset = MarioKart64ElementHub.Instance.NewElementOffset;
+            //            MarioKart64ElementHub.Instance.AdvanceNewElementOffset(kart.KartPortraits[j]);
+            //            RomProject.Instance.Files[0].AddElement(kart.KartPortraits[j]);
+            //        }
+
+            //        KartPortraitTableEntry entry = new KartPortraitTableEntry(kart.KartPortraits[j].FileOffset, kart.KartPortraits[j]);
+            //        KartPortraitsTable.Entries[i][j] = entry;
+            //    }
+
+            //    N64DataElement tkmk;
+            //    if (RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterNameplateReference[i]) &&
+            //        (tkmk = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.CharacterNameplateReference[i])) is TKMK00Block)
+            //    {
+            //        TKMK00Block oldTkmk = (TKMK00Block)tkmk;
+            //        oldTkmk.ImageAlphaColor = kart.KartNamePlate.ImageAlphaColor;
+            //        oldTkmk.SetImage(kart.KartNamePlate.Image);
+            //    }
+
+            }
+        }
+
         public override string GetXMLPath()
         {
             return "MarioKartElementHub";

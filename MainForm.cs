@@ -231,6 +231,7 @@ namespace MK64Pitstop
             {
                 //Apply changes here
                 MarioKart64ElementHub.Instance.SaveKartInfo();
+                MarioKart64ElementHub.Instance.SaveTrackInfo();
 
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
                 if (N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data

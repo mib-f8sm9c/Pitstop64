@@ -63,7 +63,7 @@ namespace MK64Pitstop.Modules.Tracks
         private void PortedLoadingCode()
         {
             byte[] _romData = RomProject.Instance.Files[0].GetAsBytes();
-            TrackDataReferenceEntry SelectedTrack = MarioKart64ElementHub.Instance.TrackDataBlock.entries[cbTrack.SelectedIndex];
+            TrackDataReferenceEntry SelectedTrack = MarioKart64ElementHub.Instance.TrackDataBlock.Entries[cbTrack.SelectedIndex];
 
             while (RomProject.Instance.Files.Count > 1)
             {
@@ -95,10 +95,14 @@ namespace MK64Pitstop.Modules.Tracks
             F3DEXCommandCollection commandColl = new F3DEXCommandCollection(0x00, commands);
             byte[] commandsData = commandColl.RawData;
 
+            f3DEXEditor1.Commands = commandColl;
+
             List<TrackTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
 
             byte[] textureSegData = new byte[textureSegPointers.Sum(t => t.DecompressedSize)];
             int bytePointer = 0;
+            List<string> offsets = new List<string>();
+            List<int> pointers = new List<int>();
             for (int i = 0; i < textureSegPointers.Count; i++)
             {
                 int mioSize = textureSegPointers[i].CompressedSize;
@@ -109,7 +113,9 @@ namespace MK64Pitstop.Modules.Tracks
                     tempHolder, 0, mioSize);
                 byte[] decompressed = Cereal64.Common.Utils.Encoding.MIO0.Decode(tempHolder);
                 Array.Copy(decompressed, 0, textureSegData, bytePointer, decompressed.Length);
+                pointers.Add(bytePointer);
                 bytePointer += decompressed.Length;
+                offsets.Add(((textureSegPointers[i].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset).ToString("X"));
             }
 
             //Use the F3DEXReader here
