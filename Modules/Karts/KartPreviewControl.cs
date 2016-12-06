@@ -170,6 +170,8 @@ namespace MK64Pitstop.Modules.Karts
         {
             InitializeComponent();
 
+            _lockImageSize = true;
+
             //Debug for now
             _timer = new Timer();
             _timer.Tick += new EventHandler(_timer_Tick);

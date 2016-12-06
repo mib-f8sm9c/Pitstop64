@@ -2,11 +2,91 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MK64Pitstop.Data.Textures;
 
 namespace MK64Pitstop
 {
     public static class MarioKartRomInfo
     {
+        public struct MK64ImageInfo
+        {
+            public int TextureOffset;
+            public string TextureEncoding;
+            public int TextureBlockOffset;
+            public string Format;
+            public string PixelSize;
+            public int Width;
+            public int Height;
+            public bool IsOriginal;
+            public int PaletteOffset;
+            public string PaletteEncoding;
+            public int PaletteBlockOffset;
+            public int PaletteColorCount;
+            public int PaletteColorOffset;
+            public int TkmkLength;
+            public ushort TkmkAlpha;
+            public string Name;
+
+            public MK64ImageInfo(string inputString)
+            {
+                //Set defaults
+                TextureOffset = -1;
+                TextureEncoding = "Raw";
+                TextureBlockOffset = -1;
+                Format = "RGBA";
+                PixelSize = "Size_8b";
+                Width = 0;
+                Height = 0;
+                IsOriginal = false;
+                PaletteOffset = -1;
+                PaletteEncoding = "Raw";
+                PaletteBlockOffset = -1;
+                PaletteColorCount = 0;
+                PaletteColorOffset = 0;
+                TkmkLength = 0;
+                TkmkAlpha = 0;
+                Name = string.Empty;
+
+                //parse the string
+                string[] parts = inputString.Split(',');
+
+                switch (parts[0])
+                {
+                    case "TKMK00":
+                        //Need to load up the tkmk specifics
+                        TextureOffset = Convert.ToInt32(parts[1], 16);
+                        TextureEncoding = parts[0];
+                        PixelSize = "Size_16b";
+                        Width = int.Parse(parts[2]);
+                        Height = int.Parse(parts[3]);
+                        IsOriginal = bool.Parse(parts[4]);
+                        TkmkLength = Convert.ToInt32(parts[5], 16);
+                        TkmkAlpha = Convert.ToUInt16(parts[6], 16);
+                        break;
+                    default:
+                        TextureOffset = Convert.ToInt32(parts[1], 16);
+                        TextureEncoding = parts[0];
+                        TextureBlockOffset = Convert.ToInt32(parts[2], 16);
+                        Format = parts[3];
+                        PixelSize = parts[4];
+                        Width = int.Parse(parts[5]);
+                        Height = int.Parse(parts[6]);
+                        IsOriginal = bool.Parse(parts[7]);
+                        if (Format == "CI")
+                        {
+                            PaletteOffset = Convert.ToInt32(parts[8], 16);
+                            PaletteEncoding = parts[9];
+                            PaletteBlockOffset = Convert.ToInt32(parts[10], 16);
+                            PaletteColorCount = int.Parse(parts[11]);
+                            PaletteColorOffset = int.Parse(parts[12]);
+                        }
+                        break;
+                }
+                Name = parts.Last();
+            }
+
+        }
+
         public struct TKMK00RomLocation
         {
             public int RomOffset;
@@ -118,6 +198,27 @@ namespace MK64Pitstop
 #elif JPA
 
 #else //USA or non-defined
+
+        public static MK64ImageInfo[] ImageLocations = new MK64ImageInfo[]
+        {
+            //TKMK images
+            new MK64ImageInfo("TKMK00,0x7FA3C0,220,32,True,0xC00,0x01,PlayerSelectImage"), //TKMK00, texture offset, width, height, isOrig, Length, Alpha, Name
+            new MK64ImageInfo("TKMK00,0x7FB8C0,64,12,True,0x200,0x01," + TextureNames.KART_6_PORTRAIT),
+
+            new MK64ImageInfo("TKMK00,0x7FBAC0,64,12,True,0x200,0x01," + TextureNames.KART_4_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FBCC0,64,12,True,0x200,0x01," + TextureNames.KART_8_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FBEC0,64,12,True,0x200,0x01," + TextureNames.KART_2_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FC0C0,64,12,True,0x200,0x01," + TextureNames.KART_1_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FC2C0,64,12,True,0x200,0x01," + TextureNames.KART_3_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FC4C0,64,12,True,0x200,0x01," + TextureNames.KART_7_PORTRAIT),
+            new MK64ImageInfo("TKMK00,0x7FC6C0,64,12,True,0x200,0x01," + TextureNames.KART_5_PORTRAIT),
+            
+
+            //Others
+            new MK64ImageInfo("MIO0,0x7A6F94,0,RGBA,Size_16b,128,72,True,BowsersCastlePreview"), //Format, texture offset, texture block offset, image format, pixel size, width, height, isOrig, name
+            new MK64ImageInfo("Raw,0x7DD63C,0,RGBA,Size_16b,64,64,True,Player1KartSelectBorder"),
+            new MK64ImageInfo("MIO0,0x693BC4,0,CI,Size_8b,32,64,True,0x852E20,MIO0,0x13870,256,0,Cow1Front") //Format, texture offset, texture block offset, image format, pixel size, width, height, isOrig, paletteOffset, paletteFormat, paletteBlockOffset, colorCount, colorOffset, name
+        };
 
         //Pretty sure this info is held elsewhere, once we decipher that table we can ignore this : )
         public static TKMK00RomLocation[] TKMK00TextureLocations = new TKMK00RomLocation[]

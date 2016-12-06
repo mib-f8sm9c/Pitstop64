@@ -70,6 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\MK64Image.cs" />
+    <Compile Include="Data\Textures\TextureNames.cs" />
+    <Compile Include="Data\TKMK00Block.cs" />
+    <Compile Include="Data\Tracks\TrackItemsBlock.cs" />
     <Compile Include="Data\Tracks\TrackData.cs" />
     <Compile Include="Data\Tracks\TrackDataReferenceBlock.cs" />
     <Compile Include="Data\Tracks\TrackTextureRef.cs" />
@@ -86,7 +90,6 @@
     <Compile Include="Data\MarioKart64Header.cs" />
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
-    <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +97,25 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Textures\SubControls\CITextureViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\CITextureViewControl.Designer.cs">
+      <DependentUpon>CITextureViewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
+    <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\TextureViewControl.Designer.cs">
+      <DependentUpon>TextureViewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\TKMKViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\TKMKViewControl.Designer.cs">
+      <DependentUpon>TKMKViewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Tracks\TrackControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,6 +185,8 @@
     </Compile>
     <Compile Include="Services\Hub\KartHub.cs" />
     <Compile Include="Services\Hub\MarioKart64ElementHub.cs" />
+    <Compile Include="Services\Hub\TextureHub.cs" />
+    <Compile Include="Services\Readers\TextureReader.cs" />
     <Compile Include="Services\Readers\TrackReader.cs" />
     <Compile Include="Services\Readers\KartReader.cs" />
     <Compile Include="Services\Readers\MarioKart64Reader.cs" />
@@ -173,9 +197,7 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ProgressService.cs" />
-    <Compile Include="Services\TKMK00Encoder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Services\TKMK00.cs" />
     <Compile Include="Services\VertexPacker.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -184,6 +206,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SubControls\CITextureViewControl.resx">
+      <DependentUpon>CITextureViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
+      <DependentUpon>TextureViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SubControls\TKMKViewControl.resx">
+      <DependentUpon>TKMKViewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Tracks\TrackControl.resx">
       <DependentUpon>TrackControl.cs</DependentUpon>
@@ -262,6 +293,13 @@
   <ItemGroup>
     <None Include="Resources\people-2x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

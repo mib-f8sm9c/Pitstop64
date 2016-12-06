@@ -28,9 +28,9 @@ namespace MK64Pitstop.Data.Karts
                 {
                     _image = value;
                     ImageOffset = value.FileOffset - MarioKartRomInfo.CharacterFaceMIO0Offset;
-                    if (value.DecodedN64DataElement != null && value.DecodedN64DataElement is Texture)
+                    if (value.Element != null && value.Element is Texture)
                     {
-                        Texture texture = (Texture)value.DecodedN64DataElement;
+                        Texture texture = (Texture)value.Element;
                         ImageWidth = (short)texture.Width;
                         ImageHeight = (short)texture.Height;
                     }
@@ -50,11 +50,11 @@ namespace MK64Pitstop.Data.Karts
         {
             ImageReference = block;
 
-            if (block.DecodedN64DataElement is Texture)
+            if (block.Element is Texture)
             {
                 ImageOffset = block.FileOffset - MarioKartRomInfo.CharacterFaceMIO0Offset;
-                ImageWidth = (short)((Texture)block.DecodedN64DataElement).Width;
-                ImageHeight = (short)((Texture)block.DecodedN64DataElement).Height;
+                ImageWidth = (short)((Texture)block.Element).Width;
+                ImageHeight = (short)((Texture)block.Element).Height;
             }
         }
 

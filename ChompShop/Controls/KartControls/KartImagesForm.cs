@@ -288,10 +288,10 @@ namespace ChompShop.Controls.KartControls
             {
                 //Create the new KartImage here
                 byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
-                Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
+                Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
                 ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
                 block.ImageName = imageName;
-                block.DecodedN64DataElement = texture;
+                block.Texture = texture;
                 KartImage newImage = new KartImage(block, Kart.Kart.KartImages.ImagePalette);
                 return newImage;
             }

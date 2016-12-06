@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cereal64.Common.DataElements.Encoding;
 using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
+using Cereal64.Microcodes.F3DEX.DataElements;
 
 namespace MK64Pitstop.Data
 {
@@ -14,6 +16,24 @@ namespace MK64Pitstop.Data
 
         public string ImageName { get; set; }
 
+        public Texture Texture
+        {
+            get
+            {
+                if (Element == null || !(Element is Texture))
+                    return null;
+
+                return (Texture)Element;
+            }
+            set
+            {
+                if (Elements.Count > 0)
+                    ClearElements();
+
+                _elements.AddElement(value);
+            }
+        }
+        
         public ImageMIO0Block(int offset, byte[] rawData)
             : base(offset, rawData)
         {

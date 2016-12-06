@@ -31,20 +31,23 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImagePreviewControl));
             this.pnlPreview = new System.Windows.Forms.Panel();
+            this.pbOverlay = new System.Windows.Forms.PictureBox();
             this.pbPreview = new System.Windows.Forms.PictureBox();
             this.btnBGColor = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.btnExport = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.pbOverlay = new System.Windows.Forms.PictureBox();
             this.pnlPreview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOverlay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlPreview
             // 
+            this.pnlPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlPreview.BackColor = System.Drawing.SystemColors.ControlText;
             this.pnlPreview.Controls.Add(this.pbOverlay);
             this.pnlPreview.Controls.Add(this.pbPreview);
@@ -52,6 +55,18 @@
             this.pnlPreview.Name = "pnlPreview";
             this.pnlPreview.Size = new System.Drawing.Size(130, 130);
             this.pnlPreview.TabIndex = 24;
+            // 
+            // pbOverlay
+            // 
+            this.pbOverlay.BackColor = System.Drawing.Color.Transparent;
+            this.pbOverlay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbOverlay.Location = new System.Drawing.Point(0, 0);
+            this.pbOverlay.Name = "pbOverlay";
+            this.pbOverlay.Size = new System.Drawing.Size(130, 130);
+            this.pbOverlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbOverlay.TabIndex = 1;
+            this.pbOverlay.TabStop = false;
+            this.pbOverlay.Resize += new System.EventHandler(this.pbOverlay_Resize);
             // 
             // pbPreview
             // 
@@ -77,6 +92,7 @@
             // 
             // btnExport
             // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExport.BackColor = System.Drawing.SystemColors.Control;
             this.btnExport.Enabled = false;
             this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -94,17 +110,6 @@
             // 
             this.saveFileDialog.Filter = "BMP files|*.bmp";
             // 
-            // pbOverlay
-            // 
-            this.pbOverlay.BackColor = System.Drawing.Color.Transparent;
-            this.pbOverlay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbOverlay.Location = new System.Drawing.Point(0, 0);
-            this.pbOverlay.Name = "pbOverlay";
-            this.pbOverlay.Size = new System.Drawing.Size(130, 130);
-            this.pbOverlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbOverlay.TabIndex = 1;
-            this.pbOverlay.TabStop = false;
-            // 
             // ImagePreviewControl
             // 
             this.Controls.Add(this.btnExport);
@@ -113,8 +118,8 @@
             this.Name = "ImagePreviewControl";
             this.Size = new System.Drawing.Size(175, 155);
             this.pnlPreview.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbOverlay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.ResumeLayout(false);
 
         }

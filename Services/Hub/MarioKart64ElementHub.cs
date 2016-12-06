@@ -12,6 +12,7 @@ using MK64Pitstop.Data.Tracks;
 using MK64Pitstop.Services.Readers;
 using MK64Pitstop.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
+using Cereal64.Common.DataElements.Encoding;
 
 namespace MK64Pitstop.Services.Hub
 {
@@ -38,11 +39,6 @@ namespace MK64Pitstop.Services.Hub
         private const string TEXT_REFERENCE = "textReference";
 
         private const string OFFSET = "offset";
-
-        private const string ADDED_MIO0 = "addedMio0";
-        private const string ORIGINAL_MIO0 = "originalMio0";
-        private const string ADDED_TKMK00 = "addedTkmk00";
-        private const string ORIGINAL_TKMK00 = "originalTkmk00";
 
         private const string NEW_ELEMENT_OFFSET = "newElementOffset";
 
@@ -71,10 +67,8 @@ namespace MK64Pitstop.Services.Hub
         public List<KartPaletteBlock> SpinKartPaletteBlocks { get; private set; }
         public List<TrackData> Tracks { get; private set; }
         public TrackData[] SelectedTracks { get; private set; }
-        public List<MIO0Block> AddedMIO0Blocks { get; private set; }
-        public List<MIO0Block> OriginalMIO0Blocks { get; private set; }
-        public List<TKMK00Block> AddedTKMK00Blocks { get; private set; }
-        public List<TKMK00Block> OriginalTKMK00Blocks { get; private set; }
+
+        public TextureHub TextureHub { get; private set; }
 
         //public TrackGraphicsReferenceBlock TrackGraphicsBlock { get; set; }
 
@@ -99,10 +93,7 @@ namespace MK64Pitstop.Services.Hub
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
             Tracks = new List<TrackData>();
             SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
-            AddedMIO0Blocks = new List<MIO0Block>();
-            OriginalMIO0Blocks = new List<MIO0Block>();
-            AddedTKMK00Blocks = new List<TKMK00Block>();
-            OriginalTKMK00Blocks = new List<TKMK00Block>();
+            TextureHub = new TextureHub();
             NewElementOffset = BASE_FILE_END_OFFSET;
         }
 
@@ -114,10 +105,7 @@ namespace MK64Pitstop.Services.Hub
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
             Tracks = new List<TrackData>();
             SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
-            AddedMIO0Blocks = new List<MIO0Block>();
-            OriginalMIO0Blocks = new List<MIO0Block>();
-            AddedTKMK00Blocks = new List<TKMK00Block>();
-            OriginalTKMK00Blocks = new List<TKMK00Block>();
+            TextureHub = new TextureHub();
 
             _instance = this;
 
@@ -147,54 +135,6 @@ namespace MK64Pitstop.Services.Hub
             {
                 switch (element.Name.ToString())
                 {
-                    case ADDED_MIO0:
-                        foreach (XElement el in element.Elements())
-                        {
-                            offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementAt(offset))
-                            {
-                                N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                                if (dataElement is MIO0Block)
-                                    AddedMIO0Blocks.Add((MIO0Block)dataElement);
-                            }
-                        }
-                        break;
-                    case ADDED_TKMK00:
-                        foreach (XElement el in element.Elements())
-                        {
-                            offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementAt(offset))
-                            {
-                                N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                                if (dataElement is TKMK00Block)
-                                    AddedTKMK00Blocks.Add((TKMK00Block)dataElement);
-                            }
-                        }
-                        break;
-                    case ORIGINAL_MIO0:
-                        foreach (XElement el in element.Elements())
-                        {
-                            offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementAt(offset))
-                            {
-                                N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                                if (dataElement is MIO0Block)
-                                    OriginalMIO0Blocks.Add((MIO0Block)dataElement);
-                            }
-                        }
-                        break;
-                    case ORIGINAL_TKMK00:
-                        foreach (XElement el in element.Elements())
-                        {
-                            offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementAt(offset))
-                            {
-                                N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                                if (dataElement is TKMK00Block)
-                                    OriginalTKMK00Blocks.Add((TKMK00Block)dataElement);
-                            }
-                        }
-                        break;
                     case TURN_PALETTE_BLOCK:
                         foreach (XElement el in element.Elements())
                         {
@@ -296,6 +236,9 @@ namespace MK64Pitstop.Services.Hub
                             kartIndex++;
                         }
                         break;
+                    case TextureHub.TEXTURE_HUB:
+                        TextureHub.LoadReferencesFromXML(element);
+                        break;
                 }
             }
         }
@@ -321,27 +264,7 @@ namespace MK64Pitstop.Services.Hub
             //newElement.Value = TextReference.FileOffset.ToString();
             //xml.Add(newElement);
 
-            XElement newElement = new XElement(ADDED_MIO0);
-            foreach (MIO0Block block in AddedMIO0Blocks)
-                newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
-            xml.Add(newElement);
-
-            newElement = new XElement(ORIGINAL_MIO0);
-            foreach (MIO0Block block in OriginalMIO0Blocks)
-                newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
-            xml.Add(newElement);
-
-            newElement = new XElement(ADDED_TKMK00);
-            foreach (TKMK00Block block in AddedTKMK00Blocks)
-                newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
-            xml.Add(newElement);
-
-            newElement = new XElement(ORIGINAL_TKMK00);
-            foreach (TKMK00Block block in OriginalTKMK00Blocks)
-                newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
-            xml.Add(newElement);
-
-            newElement = new XElement(TURN_PALETTE_BLOCK);
+            XElement newElement = new XElement(TURN_PALETTE_BLOCK);
             foreach (KartPaletteBlock block in TurnKartPaletteBlocks)
                 newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
             xml.Add(newElement);
@@ -367,6 +290,7 @@ namespace MK64Pitstop.Services.Hub
             newElement.Value = KartPortraitsTable.FileOffset.ToString();
             xml.Add(newElement);
 
+            xml.Add(TextureHub.GetAsXML());
 
             return xml;
         }
@@ -379,13 +303,10 @@ namespace MK64Pitstop.Services.Hub
             SpinKartPaletteBlocks.Clear();
             Tracks.Clear();
             Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
-            AddedMIO0Blocks.Clear();
-            OriginalMIO0Blocks.Clear();
-            AddedTKMK00Blocks.Clear();
-            OriginalTKMK00Blocks.Clear();
             KartGraphicsBlock = null;
             //TextBank = null;
             //TextReference = null;
+            TextureHub.ClearTextureData();
         }
 
         public void SaveKartInfo()

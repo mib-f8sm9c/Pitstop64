@@ -10,6 +10,7 @@ using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 using Ionic.Zip;
 using System.IO;
+using Cereal64.Common.DataElements.Encoding;
 
 namespace MK64Pitstop.Data.Karts
 {
@@ -136,7 +137,7 @@ namespace MK64Pitstop.Data.Karts
                 }
 
                 Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                block.DecodedN64DataElement = newTexture;
+                block.Texture = newTexture;
                 KartPortraits.Add(block);
             }
 
@@ -187,7 +188,7 @@ namespace MK64Pitstop.Data.Karts
             XElement xmlPortraits = new XElement(PORTRAITS);
             foreach (ImageMIO0Block block in KartPortraits)
             {
-                if (block.DecodedN64DataElement != null)
+                if (block.Texture != null)
                 {
                     XElement xmlPortrait = new XElement(PORTRAIT);
                     xmlPortrait.Add(new XAttribute(OFFSET, block.FileOffset));
@@ -387,8 +388,8 @@ namespace MK64Pitstop.Data.Karts
                 Palette combinedPalette = ImagePalette;
                 if (animPalettes.Count > 0)
                     combinedPalette = combinedPalette.Combine(animPalettes[0]);
-                Texture newTexture = new Texture(-1, block.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
-                block.DecodedN64DataElement = newTexture;
+                Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
+                block.Texture = newTexture;
 
                 KartImage newImage = new KartImage(block, animPalettes);
                 Images.Add(name, newImage);
@@ -633,8 +634,8 @@ namespace MK64Pitstop.Data.Karts
         private KartImage(ImageMIO0Block block)
         {
             EncodedData = block;
-            if(block.DecodedN64DataElement != null)
-                Image = ((Texture)block.DecodedN64DataElement).Image;
+            if(block.Element != null)
+                Image = ((Texture)block.Element).Image;
             _name = block.ImageName;
             AnimationPalettes = new List<Palette>();
         }

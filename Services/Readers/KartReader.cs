@@ -9,6 +9,8 @@ using Cereal64.Common.Rom;
 using MK64Pitstop.Services.Hub;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using MK64Pitstop.Data;
+using Cereal64.Common.DataElements.Encoding;
+using MK64Pitstop.Data.Textures;
 
 namespace MK64Pitstop.Services.Readers
 {
@@ -22,7 +24,6 @@ namespace MK64Pitstop.Services.Readers
             KartPortraitTable portraits;
             if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterFaceTableOffset))
             {
-                ProgressService.SetMessage("Loading Kart Portraits");
                 byte[] portraitBlock = new byte[MarioKartRomInfo.CharacterFaceTableLength];
                 Array.Copy(rawData, MarioKartRomInfo.CharacterFaceTableOffset, portraitBlock, 0, MarioKartRomInfo.CharacterFaceTableLength);
 
@@ -40,7 +41,6 @@ namespace MK64Pitstop.Services.Readers
             KartGraphicsReferenceBlock block;
             if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location))
             {
-                ProgressService.SetMessage("Loading Kart Resources");
                 byte[] refBlock = new byte[KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength];
                 Array.Copy(rawData, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, refBlock, 0, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength);
 
@@ -53,11 +53,14 @@ namespace MK64Pitstop.Services.Readers
                 block = (KartGraphicsReferenceBlock)RomProject.Instance.Files[0].GetElementAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location);
             }
 
+            ProgressService.SetMessage("Loading Kart Resources");
             LoadKartGraphicDmaReferences(block, rawData, results, worker);
+
+            ProgressService.SetMessage("Loading Kart Portraits");
             LoadKartPortraitDmaReferences(portraits, rawData, results, worker);
 
             if (MarioKart64ElementHub.Instance.Karts.Count == 0) //Has not been initialized
-                LoadKartInfo(block, portraits, worker, rawData, finalResults.OriginalTKMK00Blocks, results);
+                LoadKartInfo(block, portraits, worker, rawData, finalResults.TextureResults.NewImages, results);
             
             results.KartGraphicsBlock = block;
             results.KartPortraitsTable = portraits;
@@ -241,7 +244,7 @@ namespace MK64Pitstop.Services.Readers
                     //Handle the encoded texture now
                     ImageMIO0Block imageMio = (ImageMIO0Block)block.CharacterTurnReferences[i][j].ReferenceElement;
 
-                    if (imageMio != null && imageMio.DecodedN64DataElement == null)
+                    if (imageMio != null && imageMio.Element == null)
                     {
                         Palette selectedPalette = (Palette)block.CharacterPaletteReferences[i].ReferenceElement;
                         
@@ -264,8 +267,8 @@ namespace MK64Pitstop.Services.Readers
                         }
 
                         Texture newTexture = new Texture(0, imageMio.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, selectedPalette.Combine(firstAnimPalette));
-
-                        imageMio.DecodedN64DataElement = newTexture;
+                        
+                        imageMio.Texture = newTexture;
                     }
                 }
 
@@ -298,12 +301,12 @@ namespace MK64Pitstop.Services.Readers
                     //Handle the encoded texture now
                     ImageMIO0Block imageMio = (ImageMIO0Block)block.CharacterCrashReferences[i][j].ReferenceElement;
 
-                    if (imageMio != null && imageMio.DecodedN64DataElement == null)
+                    if (imageMio != null && imageMio.Element == null)
                     {
                         Palette selectedPalette = (Palette)block.CharacterPaletteReferences[i].ReferenceElement;
                         Texture newTexture = new Texture(0, imageMio.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, selectedPalette);
-                        
-                        imageMio.DecodedN64DataElement = newTexture;
+
+                        imageMio.Texture = newTexture;
                     }
                 }
             }
@@ -346,18 +349,18 @@ namespace MK64Pitstop.Services.Readers
                             //MarioKart64ElementHub.Instance.OriginalMIO0Blocks.Add(mio);
                         }
 
-                        if (kartPortraits[i].ImageReference != null && kartPortraits[i].ImageReference.DecodedN64DataElement == null)
+                        if (kartPortraits[i].ImageReference != null && kartPortraits[i].ImageReference.Element == null)
                         {
                             Texture newTexture = new Texture(0, kartPortraits[i].ImageReference.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
 
-                            kartPortraits[i].ImageReference.DecodedN64DataElement = newTexture;
+                            kartPortraits[i].ImageReference.Texture = newTexture;
                         }
                     }
                 }
             }
         }
 
-        private static void LoadKartInfo(KartGraphicsReferenceBlock block, KartPortraitTable portraits, BackgroundWorker worker, byte[] data, List<TKMK00Block> nameplatesContainer, KartReaderResults results)
+        private static void LoadKartInfo(KartGraphicsReferenceBlock block, KartPortraitTable portraits, BackgroundWorker worker, byte[] data, List<MK64Image> images, KartReaderResults results)
         {
             for (int i = 0; i < KartGraphicsReferenceBlock.CHARACTER_COUNT; i++)
             {
@@ -563,12 +566,12 @@ namespace MK64Pitstop.Services.Readers
                 for(int j = 0; j < portraits.Entries[i].Count; j++)
                     newKart.KartPortraits.Add(portraits.Entries[i][j].ImageReference);
 
-                TKMK00Block tkmk;
-                if ((tkmk = nameplatesContainer.SingleOrDefault(t => t.FileOffset == MarioKartRomInfo.CharacterNameplateReference[i])) != null)
-                {
-                    TKMK00Block newTkmk = new TKMK00Block(-1, tkmk.RawData, tkmk.ImageAlphaColor);
-                    newKart.KartNamePlate = newTkmk;
-                }
+                //Find the tkmk block in either the new images or in the hub
+                MK64Image img;
+                if ((img = MarioKart64ElementHub.Instance.TextureHub.Images.SingleOrDefault(im => im.ImageName == TextureNames.PORTAIT_NAME_ARRAY[i])) != null)
+                    newKart.KartNamePlate = img.TKMKReference;
+                else if ((img = images.SingleOrDefault(im => im.ImageName == TextureNames.PORTAIT_NAME_ARRAY[i])) != null)
+                    newKart.KartNamePlate = img.TKMKReference;
 
                 MarioKart64ElementHub.Instance.Karts.Add(newKart);
                 MarioKart64ElementHub.Instance.SelectedKarts[i] = newKart;
@@ -581,8 +584,8 @@ namespace MK64Pitstop.Services.Readers
             foreach (N64DataElement element in results.NewElements)
                 RomProject.Instance.Files[0].AddElement(element);
 
-            foreach (ImageMIO0Block block in results.OriginalMIO0s)
-                MarioKart64ElementHub.Instance.OriginalMIO0Blocks.Add(block);
+            //foreach (ImageMIO0Block block in results.OriginalMIO0s)
+                //MarioKart64ElementHub.Instance.OriginalMIO0Blocks.Add(block);
 
             MarioKart64ElementHub.Instance.KartGraphicsBlock = results.KartGraphicsBlock;
             MarioKart64ElementHub.Instance.KartPortraitsTable = results.KartPortraitsTable;

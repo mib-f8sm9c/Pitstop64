@@ -9,6 +9,9 @@ using MK64Pitstop.Services.Hub;
 using MK64Pitstop.Data.Tracks;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
+using Cereal64.Common.Utils.Encoding;
+using Cereal64.Common.DataElements.Encoding;
+using MK64Pitstop.Data;
 
 namespace MK64Pitstop.Services.Readers
 {
@@ -17,13 +20,13 @@ namespace MK64Pitstop.Services.Readers
         public static void ReadRom(BackgroundWorker worker, byte[] rawData, MarioKart64ReaderResults finalResults)
         {
             TrackReaderResults results = new TrackReaderResults();
-            
+
             TrackDataReferenceBlock trackBlock;
             if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.TrackReferenceDataTableLocation))
             {
                 ProgressService.SetMessage("Loading Track Resources");
-                byte[] refBlock = new byte[0x13 * 0x30];
-                Array.Copy(rawData, MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock, 0, 0x13 * 0x30);
+                byte[] refBlock = new byte[MarioKartRomInfo.TrackCount * 0x30];
+                Array.Copy(rawData, MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock, 0, MarioKartRomInfo.TrackCount * 0x30);
 
                 trackBlock = new TrackDataReferenceBlock(MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock);
                 results.NewElements.Add(trackBlock);
@@ -55,40 +58,42 @@ namespace MK64Pitstop.Services.Readers
                 //Load up the name
                 string trackName = Enum.GetName(typeof(MarioKartRomInfo.OriginalTracks), i);
 
-                TrackData track = new TrackData(trackName, true);
                 //Now start loading up the raw data. Remember to add the MIO0 blocks, but send the actual data into the TrackData object!
 
+                //Item block
+                MIO0Block itemBlock = MIO0Block.ReadMIO0BlockFrom(rawData, SelectedTrackRef.DisplayListBlockStart, SelectedTrackRef.DisplayListBlockEnd - SelectedTrackRef.DisplayListBlockStart);
+                results.NewElements.Add(itemBlock);
 
-                //Take the blocks, and export them
-                byte[] displayListBlock = new byte[SelectedTrackRef.DisplayListBlockEnd - SelectedTrackRef.DisplayListBlockStart];
-                Array.Copy(rawData, SelectedTrackRef.DisplayListBlockStart,
-                    displayListBlock, 0, displayListBlock.Length);
-
-
-
+                //Vertex block
                 int vertexEndPackedDLStartOffset = SelectedTrackRef.DisplayListOffset & 0x00FFFFFF;
-                byte[] vertexBlock = new byte[vertexEndPackedDLStartOffset];
-                Array.Copy(rawData, SelectedTrackRef.VertexBlockStart,
-                    vertexBlock, 0, vertexBlock.Length);
+                MIO0Block vertexBlock = MIO0Block.ReadMIO0BlockFrom(rawData, SelectedTrackRef.VertexBlockStart, vertexEndPackedDLStartOffset);
+                results.NewElements.Add(vertexBlock);
+
+                //DL Block
                 byte[] packedBlock = new byte[(SelectedTrackRef.VertexBlockEnd - SelectedTrackRef.VertexBlockStart) - vertexEndPackedDLStartOffset];
                 Array.Copy(rawData, SelectedTrackRef.VertexBlockStart + vertexEndPackedDLStartOffset,
                     packedBlock, 0, packedBlock.Length);
+
+                //Texture Block
                 byte[] textureBlock = new byte[SelectedTrackRef.TextureBlockEnd - SelectedTrackRef.TextureBlockStart];
                 Array.Copy(rawData, SelectedTrackRef.TextureBlockStart,
                     textureBlock, 0, textureBlock.Length);
 
-                byte[] decodedDLData = Cereal64.Common.Utils.Encoding.MIO0.Decode(displayListBlock);
+                //Convert Items
+                TrackItemsBlock trackItemsBlock = new TrackItemsBlock(-1, itemBlock.DecodedData);
 
-                List<Vertex> vertices = VertexPacker.BytesToVertices(Cereal64.Common.Utils.Encoding.MIO0.Decode(vertexBlock).ToList());
-                VertexCollection vertCollection = new VertexCollection(0x00, vertices);
-                byte[] vertsData = vertCollection.RawData;
+                //Convert Vertices
+                List<Vertex> vertices = VertexPacker.BytesToVertices(vertexBlock.DecodedData.ToList());
+                VertexCollection vertCollection = new VertexCollection(-1, vertices); //Will the -1 hurt?
 
+                //Convert DL
                 List<F3DEXCommand> commands = F3DEXPacker.BytesToCommands(packedBlock.ToList());
-                F3DEXCommandCollection commandColl = new F3DEXCommandCollection(0x00, commands);
-                byte[] commandsData = commandColl.RawData;
+                F3DEXCommandCollection commandColl = new F3DEXCommandCollection(-1, commands);
 
+                //Convert Textures
                 List<TrackTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
 
+                //Not really needed yet, this is more of the Track Viewer shit, right?
                 byte[] textureSegData = new byte[textureSegPointers.Sum(t => t.DecompressedSize)];
                 int bytePointer = 0;
                 List<string> offsets = new List<string>();
@@ -108,6 +113,7 @@ namespace MK64Pitstop.Services.Readers
                     offsets.Add(((textureSegPointers[j].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset).ToString("X"));
                 }
 
+                //TrackData track = new TrackData(trackName, true, trackItemsBlock, vertCollection, commandColl, textureSegPointers);
             }
         }
 

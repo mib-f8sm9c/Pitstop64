@@ -11,12 +11,6 @@ namespace MK64Pitstop.Data.Tracks
 {
     public class TrackData : RomItem
     {
-        //public 
-
-        public MIO0Block ItemsBlock { get; private set; }
-        public MIO0Block VertexBlock { get; private set; }
-        public DmaAddressBlock TextureReferences { get; private set; }
-
         public TrackItemsBlock TrackItems { get; private set; }
         public VertexCollection Vertices { get; private set; }
         public F3DEXCommandCollection F3DCommands { get; private set; }
@@ -28,8 +22,20 @@ namespace MK64Pitstop.Data.Tracks
         public uint TableSeg { get; private set; }
         public uint Unknown2 { get; private set; }
 
+        //EVEN THOUGH IT'S POINTLESS, INCLUDE THE OTHER VALUES TOO!!
+
         public string TrackName { get; set; }
         public bool IsOriginalTrack { get; private set; }
+
+        public TrackData(string trackName, bool originalTrack, TrackItemsBlock items, VertexCollection verts, F3DEXCommandCollection commands, List<TrackTextureRef> textures,
+            uint VertexBank, uint Unknown1, uint TableSeg, uint Unknown2)
+            : this(trackName, originalTrack)
+        {
+            TrackItems = items;
+            Vertices = verts;
+            F3DCommands = commands;
+            TextureReferences = textures;
+        }
 
         public TrackData(string trackName, bool originalTrack)
         {

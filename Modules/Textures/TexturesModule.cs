@@ -8,27 +8,20 @@ using MK64Pitstop.Data;
 
 namespace MK64Pitstop.Modules.Textures
 {
+    /*For MK64:
+        ~Make the new texture control work
+        !Make a texture-loading feature
+        !Enumerate a few of the textures to be loaded
+        !Test the texture control, make it actually work
+        -Load up the big MIO0 block, make it work!
+        -Enumerate all the textures to be loaded
+    */
+
     public class TexturesModule : IModule
     {
-        private List<TKMK00Block> _tkmkTextures = new List<TKMK00Block>();
-
         public void UpdateRomData()
         {
-            _tkmkTextures.Clear();
-
-            //Load the textures here
-            if (RomProject.Instance.Files.Count > 0)
-            {
-                foreach (N64DataElement element in RomProject.Instance.Files[0].Elements)
-                {
-                    if (element is TKMK00Block)
-                    {
-                        _tkmkTextures.Add((TKMK00Block)element);
-                    }
-                }
-            }
-
-            _control.AddTKMK00Textures(_tkmkTextures);
+            _control.UpdateControl();
         }
 
         public System.Windows.Forms.Control Control

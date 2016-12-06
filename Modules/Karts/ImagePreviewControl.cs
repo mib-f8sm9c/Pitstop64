@@ -29,6 +29,50 @@ namespace MK64Pitstop.Modules.Karts
         }
 
         [Browsable(true)]
+        public bool LockImageSize
+        {
+            get 
+            {
+                return _lockImageSize;
+            }
+            set
+            {
+                _lockImageSize = value;
+            }
+        }
+        protected bool _lockImageSize;
+
+        [Browsable(true)]
+        public Size ImageSize
+        {
+            get
+            {
+                return pbPreview.Size;
+            }
+            set
+            {
+                //Set something here
+                pbPreview.Size = value;
+                pbOverlay.Size = value;
+            }
+        }
+
+        [Browsable(true)]
+        public PictureBoxSizeMode ImageSizeMode
+        {
+            get
+            {
+                return pbPreview.SizeMode;
+            }
+            set
+            {
+                //Set something here
+                pbPreview.SizeMode = value;
+                pbOverlay.SizeMode = value;
+            }
+        }
+
+        [Browsable(true)]
         [Category("Button style")]
         public bool ExportButtonVisible
         {
@@ -52,6 +96,10 @@ namespace MK64Pitstop.Modules.Karts
             {
                 pbPreview.Image = value;
                 btnExport.Enabled = (value != null);
+                if (!_lockImageSize && ImageSizeMode == PictureBoxSizeMode.Normal)
+                {
+                    ImageSize = value.Size;
+                }
             }
         }
 
@@ -90,6 +138,12 @@ namespace MK64Pitstop.Modules.Karts
                 //export
                 pbPreview.Image.Save(saveFileDialog.FileName);
             }
+        }
+
+        private void pbOverlay_Resize(object sender, EventArgs e)
+        {
+            //Align the export button the overlay
+            btnExport.Top = pnlPreview.Bottom - btnExport.Height;
         }
     }
 }

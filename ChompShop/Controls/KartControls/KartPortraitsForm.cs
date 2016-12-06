@@ -84,7 +84,7 @@ namespace ChompShop.Controls.KartControls
                 imagePreviewControl.Image = null;
             else
             {
-                imagePreviewControl.Image = ((Texture)((ImageMIO0Block)lbPortraits.SelectedItem).DecodedN64DataElement).Image;
+                imagePreviewControl.Image = ((ImageMIO0Block)lbPortraits.SelectedItem).Texture.Image;
                 if (lbPortraits.SelectedIndex < 17)
                     lblRole.Text = RoleText[lbPortraits.SelectedIndex];
             }
@@ -123,10 +123,10 @@ namespace ChompShop.Controls.KartControls
                     {
                         //Create the new KartImage here
                         byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
-                        Texture texture = new Texture(-1, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                        Texture texture = new Texture(0, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
                         ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
                         block.ImageName = Path.GetFileNameWithoutExtension(file);
-                        block.DecodedN64DataElement = texture;
+                        block.Texture = texture;
                         Kart.AddPortrait(block);
 
                         lbPortraits.Items.Add(block);
