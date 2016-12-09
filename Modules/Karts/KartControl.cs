@@ -133,7 +133,7 @@ namespace MK64Pitstop.Modules.Karts
             }
 
             //fill out information
-            pbPortrait.Image = ((Texture)SelectedKartInfo.KartPortraits[0].Element).Image;
+            pbPortrait.Image = SelectedKartInfo.KartPortraits[0].Image;
             kartPreviewControl.Kart = SelectedKartInfo;
             lblKartName.Text = SelectedKartInfo.KartName;
         }

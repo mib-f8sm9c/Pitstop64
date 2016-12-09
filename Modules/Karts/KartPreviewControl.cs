@@ -225,7 +225,7 @@ namespace MK64Pitstop.Modules.Karts
 
             //Just display the single frame
             KartImage selectedKartImage = _kart.KartImages.Images[_kart.KartAnimations[_animIndex].OrderedImageNames[_frameIndex]];
-            Image = selectedKartImage.Image;
+            Image = selectedKartImage.Images[0].Image;
 
             if(ShowReferenceKart)
                 SetReferenceImage();
@@ -258,7 +258,7 @@ namespace MK64Pitstop.Modules.Karts
                 refFrameIndex = refAnim.GetCrashFrameForImageIndex(_frameIndex);
 
             KartImage selectedKartImage = _referenceKart.KartImages.Images[refAnim.OrderedImageNames[refFrameIndex]];
-            OverlayImage = selectedKartImage.Image;
+            OverlayImage = selectedKartImage.Images[0].Image;
         }
 
         private void _timer_Tick(object sender, EventArgs e)

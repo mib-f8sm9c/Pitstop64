@@ -24,6 +24,26 @@ namespace MK64Pitstop.Services.Hub
         private Dictionary<Texture, List<MK64Image>> _sharedTextureImages;
         private Dictionary<Palette, List<MK64Image>> _sharedPaletteImages;
 
+        public bool HasImagesForTexture(Texture texture)
+        {
+            return _sharedTextureImages.ContainsKey(texture);
+        }
+
+        public List<MK64Image> ImagesForTexture(Texture texture)
+        {
+            return new List<MK64Image>(_sharedTextureImages[texture]);
+        }
+
+        public bool HasImagesForPalette(Palette palette)
+        {
+            return _sharedPaletteImages.ContainsKey(palette);
+        }
+
+        public List<MK64Image> ImagesForPalette(Palette palette)
+        {
+            return new List<MK64Image>(_sharedPaletteImages[palette]);
+        }
+
         public TextureHub()
         {
             //Do something here : /
@@ -86,20 +106,22 @@ namespace MK64Pitstop.Services.Hub
 
             _images.Add(image);
 
-            if (image.TextureReference != null)
+            if (image.ImageReference != null)
             {
-                if (!_sharedTextureImages.ContainsKey(image.TextureReference))
-                    _sharedTextureImages.Add(image.TextureReference, new List<MK64Image>());
+                if (!_sharedTextureImages.ContainsKey(image.ImageReference.Texture))
+                    _sharedTextureImages.Add(image.ImageReference.Texture, new List<MK64Image>());
 
-                _sharedTextureImages[image.TextureReference].Add(image);
+                _sharedTextureImages[image.ImageReference.Texture].Add(image);
 
                 if (image.Format == Texture.ImageFormat.CI)
                 {
-                    if (!_sharedPaletteImages.ContainsKey(image.PaletteReference))
-                        _sharedPaletteImages.Add(image.PaletteReference, new List<MK64Image>());
+                    foreach(Palette p in image.ImageReference.BasePalettes)
+                    {
+                        if (!_sharedPaletteImages.ContainsKey(p))
+                            _sharedPaletteImages.Add(p, new List<MK64Image>());
 
-                    _sharedPaletteImages[image.PaletteReference].Add(image);
-
+                        _sharedPaletteImages[p].Add(image);
+                    }
                 }
             }
             return true;
@@ -117,11 +139,14 @@ namespace MK64Pitstop.Services.Hub
 
             _images.Remove(image);
 
-            if (_sharedTextureImages.ContainsKey(image.TextureReference) && _sharedTextureImages[image.TextureReference].Contains(image))
-                _sharedTextureImages[image.TextureReference].Remove(image);
+            if (_sharedTextureImages.ContainsKey(image.ImageReference.Texture) && _sharedTextureImages[image.ImageReference.Texture].Contains(image))
+                _sharedTextureImages[image.ImageReference.Texture].Remove(image);
 
-            if (_sharedPaletteImages.ContainsKey(image.PaletteReference) && _sharedPaletteImages[image.PaletteReference].Contains(image))
-                _sharedPaletteImages[image.PaletteReference].Remove(image);
+            foreach (Palette p in image.ImageReference.BasePalettes)
+            {
+                if (_sharedPaletteImages.ContainsKey(p) && _sharedPaletteImages[p].Contains(image))
+                    _sharedPaletteImages[p].Remove(image);
+            }
 
             return true;
         }

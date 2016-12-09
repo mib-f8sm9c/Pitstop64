@@ -18,15 +18,16 @@ namespace MK64Pitstop
             public int Width;
             public int Height;
             public bool IsOriginal;
-            public int PaletteOffset;
-            public string PaletteEncoding;
-            public int PaletteBlockOffset;
-            public int PaletteColorCount;
-            public int PaletteColorOffset;
+            public int PaletteCount;
+            public List<int> PaletteOffset;
+            public List<string> PaletteEncoding;
+            public List<int> PaletteBlockOffset;
+            public List<int> PaletteColorCount;
+            public List<int> PaletteColorOffset;
             public int TkmkLength;
             public ushort TkmkAlpha;
             public string Name;
-
+            
             public MK64ImageInfo(string inputString)
             {
                 //Set defaults
@@ -38,11 +39,12 @@ namespace MK64Pitstop
                 Width = 0;
                 Height = 0;
                 IsOriginal = false;
-                PaletteOffset = -1;
-                PaletteEncoding = "Raw";
-                PaletteBlockOffset = -1;
-                PaletteColorCount = 0;
-                PaletteColorOffset = 0;
+                PaletteCount = 0;
+                PaletteOffset = new List<int>();
+                PaletteEncoding = new List<string>();
+                PaletteBlockOffset = new List<int>();
+                PaletteColorCount = new List<int>();
+                PaletteColorOffset = new List<int>();
                 TkmkLength = 0;
                 TkmkAlpha = 0;
                 Name = string.Empty;
@@ -74,11 +76,15 @@ namespace MK64Pitstop
                         IsOriginal = bool.Parse(parts[7]);
                         if (Format == "CI")
                         {
-                            PaletteOffset = Convert.ToInt32(parts[8], 16);
-                            PaletteEncoding = parts[9];
-                            PaletteBlockOffset = Convert.ToInt32(parts[10], 16);
-                            PaletteColorCount = int.Parse(parts[11]);
-                            PaletteColorOffset = int.Parse(parts[12]);
+                            PaletteCount = Convert.ToInt32(parts[8], 16);
+                            for (int i = 0; i < PaletteCount; i++)
+                            {
+                                PaletteOffset.Add(Convert.ToInt32(parts[9 + 5 * i], 16));
+                                PaletteEncoding.Add(parts[10 + 5 * i]);
+                                PaletteBlockOffset.Add(Convert.ToInt32(parts[11 + 5 * i], 16));
+                                PaletteColorCount.Add(int.Parse(parts[12 + 5 * i]));
+                                PaletteColorOffset.Add(int.Parse(parts[13 + 5 * i]));
+                            }
                         }
                         break;
                 }
@@ -217,7 +223,7 @@ namespace MK64Pitstop
             //Others
             new MK64ImageInfo("MIO0,0x7A6F94,0,RGBA,Size_16b,128,72,True,BowsersCastlePreview"), //Format, texture offset, texture block offset, image format, pixel size, width, height, isOrig, name
             new MK64ImageInfo("Raw,0x7DD63C,0,RGBA,Size_16b,64,64,True,Player1KartSelectBorder"),
-            new MK64ImageInfo("MIO0,0x693BC4,0,CI,Size_8b,32,64,True,0x852E20,MIO0,0x13870,256,0,Cow1Front") //Format, texture offset, texture block offset, image format, pixel size, width, height, isOrig, paletteOffset, paletteFormat, paletteBlockOffset, colorCount, colorOffset, name
+            new MK64ImageInfo("MIO0,0x693BC4,0,CI,Size_8b,32,64,True,1,0x852E20,MIO0,0x13870,256,0,Cow1Front") //Format, texture offset, texture block offset, image format, pixel size, width, height, isOrig, paletteOffset, paletteFormat, paletteBlockOffset, colorCount, colorOffset, name
         };
 
         //Pretty sure this info is held elsewhere, once we decipher that table we can ignore this : )

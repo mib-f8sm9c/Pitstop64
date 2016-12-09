@@ -288,12 +288,10 @@ namespace ChompShop.Controls.KartControls
             {
                 //Create the new KartImage here
                 byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
-                Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
-                ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
-                block.ImageName = imageName;
-                block.Texture = texture;
-                KartImage newImage = new KartImage(block, Kart.Kart.KartImages.ImagePalette);
-                return newImage;
+                Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);
+                //KartImage newImage = new KartImage(new List<MK64Image>(new MK64Image(texture, Kart.Kart.KartImages.ImagePalette)));
+                //return newImage;
+                throw new NotImplementedException();
             }
 
             return null;
@@ -383,7 +381,7 @@ namespace ChompShop.Controls.KartControls
             bool validKart = (SelectedKartImage != null);
             if (validKart)
             {
-                imagePreviewControl.Image = ((KartImage)lbKartImages.SelectedItem).Image;
+                imagePreviewControl.Image = ((MK64Image)lbKartImages.SelectedItem).Image;
             }
             else
             {

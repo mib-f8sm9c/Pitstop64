@@ -429,17 +429,26 @@ namespace MK64Pitstop.Services.Hub
                         else //if (anim.IsSpinAnim)
                             imageName = anim.OrderedImageNames[anim.GetImageIndexForSpinFrame(frameIndex)];
 
-                        ImageMIO0Block block = kart.KartImages.Images[imageName].GetEncodedData(kart.KartImages.ImagePalette);
+                        MK64Image mkImage = kart.KartImages.Images[imageName].Images[0];
 
                         //Save the image
-                        if (block.FileOffset == -1)
+                        if (mkImage.TextureOffset == -1)
                         {
-                            block.FileOffset = NewElementOffset;
-                            AdvanceNewElementOffset(block);
-                            RomProject.Instance.Files[0].AddElement(block);
+                            //It has to be an MIO0 block
+                            foreach (MK64Image editThisImage in kart.KartImages.Images[imageName].Images)
+                            {
+                                editThisImage.TextureBlockOffset = 0;
+                                editThisImage.TextureOffset = NewElementOffset;
+                            }
+                            mkImage.ImageReference.Texture.FileOffset = 0;
+                            MIO0Block newBlock = new MIO0Block(NewElementOffset, mkImage.ImageReference.Texture.RawData);
+                            AdvanceNewElementOffset(newBlock);
+                            RomProject.Instance.Files[0].AddElement(newBlock);
+
                         }
 
-                        DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+                        DmaAddress address = new DmaAddress(0x0F, mkImage.TextureOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
+                        MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(mkImage.TextureOffset);
                         address.ReferenceElement = block;
                         KartGraphicsBlock.CharacterTurnReferences[i][j] = address;
 
@@ -475,7 +484,22 @@ namespace MK64Pitstop.Services.Hub
                     KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & (int)KartAnimationSeries.KartAnimationTypeFlag.Crash) != 0);
                     if (anim != null)
                     {
-                        ImageMIO0Block block = kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].GetEncodedData(kart.KartImages.ImagePalette);
+                        MK64Image mkImage = kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].Images[0];
+
+                        if (mkImage.TextureOffset == -1)
+                        {
+                            foreach (MK64Image editThisImage in kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].Images)
+                            {
+                                editThisImage.TextureBlockOffset = 0;
+                                editThisImage.TextureOffset = NewElementOffset;
+                            }
+                            mkImage.ImageReference.Texture.FileOffset = 0;
+                            MIO0Block newBlock = new MIO0Block(NewElementOffset, mkImage.ImageReference.Texture.RawData);
+                            AdvanceNewElementOffset(newBlock);
+                            RomProject.Instance.Files[0].AddElement(newBlock);
+                        }
+
+                        MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(mkImage.TextureOffset);
                         DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
                         address.ReferenceElement = block;
                         KartGraphicsBlock.CharacterCrashReferences[i][j] = address;
@@ -484,14 +508,17 @@ namespace MK64Pitstop.Services.Hub
 
                 for (int j = 0; j < kart.KartPortraits.Count; j++)
                 {
-                    if (kart.KartPortraits[j].FileOffset == -1)
+                    if (kart.KartPortraits[j].TextureOffset == -1)
                     {
-                        kart.KartPortraits[j].FileOffset = MarioKart64ElementHub.Instance.NewElementOffset;
-                        MarioKart64ElementHub.Instance.AdvanceNewElementOffset(kart.KartPortraits[j]);
-                        RomProject.Instance.Files[0].AddElement(kart.KartPortraits[j]);
+                        kart.KartPortraits[j].TextureBlockOffset = 0;
+                        kart.KartPortraits[j].TextureOffset = NewElementOffset;
+                        kart.KartPortraits[j].ImageReference.Texture.FileOffset = 0;
+                        MIO0Block newBlock = new MIO0Block(NewElementOffset, kart.KartPortraits[j].ImageReference.Texture.RawData);
+                        AdvanceNewElementOffset(newBlock);
+                        RomProject.Instance.Files[0].AddElement(newBlock);
                     }
 
-                    KartPortraitTableEntry entry = new KartPortraitTableEntry(kart.KartPortraits[j].FileOffset, kart.KartPortraits[j]);
+                    KartPortraitTableEntry entry = new KartPortraitTableEntry(kart.KartPortraits[j].TextureOffset, kart.KartPortraits[j]);
                     KartPortraitsTable.Entries[i][j] = entry;
                 }
 
@@ -500,7 +527,7 @@ namespace MK64Pitstop.Services.Hub
                     (tkmk = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.CharacterNameplateReference[i])) is TKMK00Block)
                 {
                     TKMK00Block oldTkmk = (TKMK00Block)tkmk;
-                    oldTkmk.ImageAlphaColor = kart.KartNamePlate.ImageAlphaColor;
+                    oldTkmk.ImageAlphaColor = kart.KartNamePlate.TKMKAlphaColor;
                     oldTkmk.SetImage(kart.KartNamePlate.Image);
                 }
             }

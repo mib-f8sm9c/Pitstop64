@@ -10,55 +10,53 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 namespace MK64Pitstop.Data
 {
     //A simple extended MIO0Block class that adds extra info for images being stored in it
-    public class ImageMIO0Block : MIO0Block
+    public class ImageMIO0BlockINVALID : MIO0Block
     {
         private const string IMAGE_NAME = "imageName";
 
         public string ImageName { get; set; }
 
-        public Texture Texture
+        public F3DEXImage Image
         {
-            get
-            {
-                if (Element == null || !(Element is Texture))
-                    return null;
-
-                return (Texture)Element;
-            }
+            get { return _image; }
             set
             {
+                _image = Image;
+
                 if (Elements.Count > 0)
                     ClearElements();
 
-                _elements.AddElement(value);
+                //Assume that the MIO0 will contain only the texture, it's a safe bet right now
+                _elements.AddElement(_image.Texture);
             }
         }
-        
-        public ImageMIO0Block(int offset, byte[] rawData)
+        private F3DEXImage _image;
+
+        public ImageMIO0BlockINVALID(int offset, byte[] rawData)
             : base(offset, rawData)
         {
             ImageName = offset.ToString("X8");
         }
 
-        public ImageMIO0Block(string name, int offset, byte[] rawData)
+        public ImageMIO0BlockINVALID(string name, int offset, byte[] rawData)
             : base(offset, rawData)
         {
             ImageName = name;
         }
 
-        public ImageMIO0Block(XElement xml, byte[] fileData)
+        public ImageMIO0BlockINVALID(XElement xml, byte[] fileData)
             : base(xml, fileData)
         {
             ImageName = xml.Attribute(IMAGE_NAME).Value;
         }
 
-        public static ImageMIO0Block ReadImageMIO0BlockFrom(byte[] data, int offset)
+        public static ImageMIO0BlockINVALID ReadImageMIO0BlockFrom(byte[] data, int offset)
         {
             int mio0Length = MIO0.FindLengthOfMIO0Block(data, offset);
             byte[] mio0Data = new byte[mio0Length];
             Array.Copy(data, offset, mio0Data, 0, mio0Length);
 
-            return new ImageMIO0Block(offset.ToString("X8"), offset, mio0Data);
+            return new ImageMIO0BlockINVALID(offset.ToString("X8"), offset, mio0Data);
         }
 
         public override XElement GetAsXML()

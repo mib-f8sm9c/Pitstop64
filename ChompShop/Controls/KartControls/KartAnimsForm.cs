@@ -178,7 +178,7 @@ namespace ChompShop.Controls.KartControls
             else
             {
                 kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Static;
-                kartPreviewControl.Image = SelectedImage.Image;
+                kartPreviewControl.Image = SelectedImage.Images[0].Image;
 
                 if (kartPreviewControl.ShowReferenceKart && kartPreviewControl.ReferenceKart != null)
                     UpdateKartReferenceImage();
@@ -206,7 +206,7 @@ namespace ChompShop.Controls.KartControls
             else
                 refIndex = refAnim.GetImageIndexForCrashFrame(SelectedAnimation.GetCrashFrameForImageIndex(SelectedAnimation.OrderedImageNames.IndexOf(SelectedImage.Name)));
 
-            kartPreviewControl.OverlayImage = kartPreviewControl.ReferenceKart.KartImages.Images[refAnim.OrderedImageNames[refIndex]].Image;
+            kartPreviewControl.OverlayImage = kartPreviewControl.ReferenceKart.KartImages.Images[refAnim.OrderedImageNames[refIndex]].Images[0].Image;
         }
 
         private void UpdateAnimationEnableds()

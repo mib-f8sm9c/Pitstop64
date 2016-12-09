@@ -127,8 +127,9 @@ namespace ChompShop.Controls.KartControls
                     //Copy the old name plate to make the new one
                     byte[] imgData = Cereal64.Microcodes.F3DEX.DataElements.TextureConversion.RGBA16ToBinary((Bitmap)img);
                     TKMK00Block tkmk = new TKMK00Block(-1, MK64Pitstop.Services.TKMK00.Encode(imgData, img.Width, img.Height, 0), 0);
-                    
-                    Kart.SetNamePlate(tkmk);
+
+                    throw new NotImplementedException();
+                    //Kart.SetNamePlate(tkmk);
 
                     pbNamePlate.Image = tkmk.Image;
                 }

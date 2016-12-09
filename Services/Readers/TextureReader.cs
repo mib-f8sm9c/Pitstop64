@@ -32,7 +32,7 @@ namespace MK64Pitstop.Services.Readers
                 MK64Image image = new MK64Image(imageInfo, rawData);
                 if (image.IsValidImage)
                 {
-                    results.NewImages.Add(image);
+                    results.AddImage(image);
                 }
             }
 
@@ -49,10 +49,25 @@ namespace MK64Pitstop.Services.Readers
     public class TextureReaderResults
     {
         public List<MK64Image> NewImages;
+        public Dictionary<Texture, List<MK64Image>> ImagesByTexture;
 
         public TextureReaderResults()
         {
             NewImages = new List<MK64Image>();
+            ImagesByTexture = new Dictionary<Texture, List<MK64Image>>();
+        }
+
+        public void AddImage(MK64Image image)
+        {
+            NewImages.Add(image);
+            if (image.TextureEncoding != MK64Image.MK64ImageEncoding.TKMK00)
+            {
+                if (!ImagesByTexture.ContainsKey(image.ImageReference.Texture))
+                {
+                    ImagesByTexture.Add(image.ImageReference.Texture, new List<MK64Image>());
+                }
+                ImagesByTexture[image.ImageReference.Texture].Add(image);
+            }
         }
     }
 }

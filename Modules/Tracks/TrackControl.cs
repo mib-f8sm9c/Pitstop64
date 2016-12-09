@@ -159,7 +159,7 @@ namespace MK64Pitstop.Modules.Tracks
             profile.AddDmaSegment(0x05, segment);
             RomProject.Instance.AddDmaProfile(profile);
 
-            F3DEXReaderPackage package = F3DEXReader.ReadF3DEXAt(RomProject.Instance.Files[2], 0x00);
+            F3DEXReaderPackage package = new F3DEXReaderPackage();// F3DEXReader.ReadF3DEXAt(RomProject.Instance.Files[2], 0x00);
             F3DEXReaderPackage newPackage = package;
             newPackage = null;
 

@@ -10,6 +10,7 @@ using ChompShop.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using MK64Pitstop.Data;
 using System.IO;
+using Cereal64.Common.DataElements.Encoding;
 
 namespace ChompShop.Controls.KartControls
 {
@@ -31,7 +32,7 @@ namespace ChompShop.Controls.KartControls
 
             ResetTitleText();
 
-            ImageMIO0Block selectedImage = (ImageMIO0Block)lbPortraits.SelectedItem;
+            MK64Image selectedImage = (MK64Image)lbPortraits.SelectedItem;
 
             ClearForm();
 
@@ -62,7 +63,7 @@ namespace ChompShop.Controls.KartControls
 
         private void PopulatePortraitListBox()
         {
-            foreach (ImageMIO0Block image in Kart.Kart.KartPortraits)
+            foreach (MK64Image image in Kart.Kart.KartPortraits)
             {
                 lbPortraits.Items.Add(image);
             }
@@ -84,7 +85,7 @@ namespace ChompShop.Controls.KartControls
                 imagePreviewControl.Image = null;
             else
             {
-                imagePreviewControl.Image = ((ImageMIO0Block)lbPortraits.SelectedItem).Texture.Image;
+                imagePreviewControl.Image = ((MK64Image)lbPortraits.SelectedItem).Image;
                 if (lbPortraits.SelectedIndex < 17)
                     lblRole.Text = RoleText[lbPortraits.SelectedIndex];
             }
@@ -124,12 +125,14 @@ namespace ChompShop.Controls.KartControls
                         //Create the new KartImage here
                         byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
                         Texture texture = new Texture(0, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                        ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
-                        block.ImageName = Path.GetFileNameWithoutExtension(file);
-                        block.Texture = texture;
-                        Kart.AddPortrait(block);
+                        MIO0Block block = new MIO0Block(-1, imgData);
+                        //MK64Image image = new MK64Image(
+                        //block.ImageName = Path.GetFileNameWithoutExtension(file);
+                        //block.Texture = texture;
+                        //Kart.AddPortrait(block);
 
-                        lbPortraits.Items.Add(block);
+                        throw new NotImplementedException();
+                        //lbPortraits.Items.Add(block);
                     }
                 }
 
@@ -172,7 +175,7 @@ namespace ChompShop.Controls.KartControls
             if (lbPortraits.SelectedItem == null)
                 return;
 
-            Kart.RemovePortrait((ImageMIO0Block)lbPortraits.SelectedItem);
+            Kart.RemovePortrait((MK64Image)lbPortraits.SelectedItem);
             lbPortraits.Items.Remove(lbPortraits.SelectedItem);
 
             UpdatePortraitCount();
