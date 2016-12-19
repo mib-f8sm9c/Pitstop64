@@ -108,7 +108,7 @@ namespace MK64Pitstop.Services.Readers
 
             TextureReader.ReadRom(worker, rawData, results);
 
-            KartReader.ReadRom(worker, rawData, results);
+            //KartReader.ReadRom(worker, rawData, results);
 
             //TrackReader.ReadRom(worker, rawData, results);
 

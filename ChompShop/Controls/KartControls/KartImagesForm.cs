@@ -364,6 +364,7 @@ namespace ChompShop.Controls.KartControls
             if (validImage)
             {
                 imagePreviewControl.Image = SelectedNewImage.Image;
+                imagePreviewControl.ImageName = SelectedNewImage.Name;
             }
             else
             {
@@ -382,6 +383,7 @@ namespace ChompShop.Controls.KartControls
             if (validKart)
             {
                 imagePreviewControl.Image = ((MK64Image)lbKartImages.SelectedItem).Image;
+                imagePreviewControl.ImageName = ((MK64Image)lbKartImages.SelectedItem).ImageName;
             }
             else
             {

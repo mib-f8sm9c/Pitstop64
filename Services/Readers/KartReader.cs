@@ -446,7 +446,7 @@ namespace MK64Pitstop.Services.Readers
 
                 for (int j = 0; j < block.CharacterCrashReferences[i].Length; j++)
                 {
-                    MIO0Block imageBlock = (MIO0Block)block.CharacterTurnReferences[i][j].ReferenceElement;
+                    MIO0Block imageBlock = (MIO0Block)block.CharacterCrashReferences[i][j].ReferenceElement;
                     Texture texture = (Texture)imageBlock.Element;
 
                     List<MK64Image> images;

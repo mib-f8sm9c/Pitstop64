@@ -78,7 +78,10 @@ namespace ChompShop.Controls.KartControls
             if (lbKartImages.SelectedIndex == -1)
                 imagePreviewControl.Image = null;
             else
+            {
                 imagePreviewControl.Image = ((KartImage)lbKartImages.Items[lbKartImages.SelectedIndex]).Images[0].Image;
+                imagePreviewControl.ImageName = ((KartImage)lbKartImages.Items[lbKartImages.SelectedIndex]).Images[0].ImageName;
+            }
         }
 
         public string FilterText

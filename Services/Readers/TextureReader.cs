@@ -26,13 +26,45 @@ namespace MK64Pitstop.Services.Readers
         {
             TextureReaderResults results = new TextureReaderResults();
 
+            int skippedCount = 0;
+
             //Here, load in the texture stuff, add it to the 
             foreach (MarioKartRomInfo.MK64ImageInfo imageInfo in MarioKartRomInfo.ImageLocations)
             {
+                //For now
+                if (imageInfo.Format == "CI" && imageInfo.PaletteCount == 0)
+                {
+                    skippedCount++;
+                    continue;
+                }
+
+                if (imageInfo.TextureOffset == 8279612)
+                {
+                    skippedCount++;
+                }
+
                 MK64Image image = new MK64Image(imageInfo, rawData);
                 if (image.IsValidImage)
                 {
                     results.AddImage(image);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+
+            int x = skippedCount;
+            x++;
+
+            foreach (MarioKartRomInfo.MK64ImageInfo imageInfo in KartImageInfo.ImageLocations)
+            {
+                break;
+                MK64Image image = new MK64Image(imageInfo, rawData);
+                if (image.IsValidImage)
+                {
+                    //TO DO: USE ADDKARTIMAGE AND KEEP THEM SEPARATE FROM THE OTHER TEMPLATES
+                    results.AddKartImage(image);
                 }
             }
 
@@ -43,18 +75,36 @@ namespace MK64Pitstop.Services.Readers
         {
             foreach (MK64Image image in results.NewImages)
                 MarioKart64ElementHub.Instance.TextureHub.AddImage(image);
+
+            foreach (MK64Image image in results.NewKartImages)
+                MarioKart64ElementHub.Instance.TextureHub.AddKartImage(image);
         }
     }
 
     public class TextureReaderResults
     {
         public List<MK64Image> NewImages;
+        public List<MK64Image> NewKartImages;
         public Dictionary<Texture, List<MK64Image>> ImagesByTexture;
 
         public TextureReaderResults()
         {
             NewImages = new List<MK64Image>();
+            NewKartImages = new List<MK64Image>();
             ImagesByTexture = new Dictionary<Texture, List<MK64Image>>();
+        }
+
+        public void AddKartImage(MK64Image image)
+        {
+            NewKartImages.Add(image);
+            if (image.TextureEncoding != MK64Image.MK64ImageEncoding.TKMK00)
+            {
+                if (!ImagesByTexture.ContainsKey(image.ImageReference.Texture))
+                {
+                    ImagesByTexture.Add(image.ImageReference.Texture, new List<MK64Image>());
+                }
+                ImagesByTexture[image.ImageReference.Texture].Add(image);
+            }
         }
 
         public void AddImage(MK64Image image)

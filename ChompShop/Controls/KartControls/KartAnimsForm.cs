@@ -179,6 +179,7 @@ namespace ChompShop.Controls.KartControls
             {
                 kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Static;
                 kartPreviewControl.Image = SelectedImage.Images[0].Image;
+                kartPreviewControl.ImageName = SelectedImage.Images[0].ImageName;
 
                 if (kartPreviewControl.ShowReferenceKart && kartPreviewControl.ReferenceKart != null)
                     UpdateKartReferenceImage();

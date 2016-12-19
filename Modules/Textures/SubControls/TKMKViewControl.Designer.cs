@@ -31,22 +31,25 @@
             this.btnReplaceWith = new System.Windows.Forms.Button();
             this.pnlTools = new System.Windows.Forms.Panel();
             this.lblName = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.lblSize = new System.Windows.Forms.Label();
             this.pnlTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnReplaceWith
             // 
             this.btnReplaceWith.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceWith.Location = new System.Drawing.Point(274, 14);
+            this.btnReplaceWith.Location = new System.Drawing.Point(274, 33);
             this.btnReplaceWith.Name = "btnReplaceWith";
             this.btnReplaceWith.Size = new System.Drawing.Size(125, 33);
             this.btnReplaceWith.TabIndex = 2;
-            this.btnReplaceWith.Text = "Replace With...";
+            this.btnReplaceWith.Text = "Replace Image...";
             this.btnReplaceWith.UseVisualStyleBackColor = true;
             this.btnReplaceWith.Click += new System.EventHandler(this.btnReplaceWith_Click);
             // 
             // pnlTools
             // 
+            this.pnlTools.Controls.Add(this.lblSize);
             this.pnlTools.Controls.Add(this.lblName);
             this.pnlTools.Controls.Add(this.btnReplaceWith);
             this.pnlTools.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -64,6 +67,20 @@
             this.lblName.Size = new System.Drawing.Size(45, 17);
             this.lblName.TabIndex = 3;
             this.lblName.Text = "Name";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Image files|*.bmp, *.png";
+            // 
+            // lblSize
+            // 
+            this.lblSize.AutoSize = true;
+            this.lblSize.Location = new System.Drawing.Point(16, 41);
+            this.lblSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(35, 17);
+            this.lblSize.TabIndex = 4;
+            this.lblSize.Text = "Size";
             // 
             // TKMKViewControl
             // 
@@ -85,6 +102,8 @@
         private System.Windows.Forms.Button btnReplaceWith;
         private System.Windows.Forms.Panel pnlTools;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Label lblSize;
 
 
     }

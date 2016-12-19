@@ -90,6 +90,7 @@
     <Compile Include="Data\MarioKart64Header.cs" />
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
+    <Compile Include="KartImageInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,12 +98,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
-    <Compile Include="Modules\Textures\SubControls\CITextureViewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\Textures\SubControls\CITextureViewControl.Designer.cs">
-      <DependentUpon>CITextureViewControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
     <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
       <SubType>UserControl</SubType>
@@ -135,12 +130,6 @@
     </Compile>
     <Compile Include="Modules\Karts\KartPreviewControl.Designer.cs">
       <DependentUpon>KartPreviewControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\Karts\ImagePreviewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\Karts\ImagePreviewControl.Designer.cs">
-      <DependentUpon>ImagePreviewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Karts\NewAnimForm.cs">
       <SubType>Form</SubType>
@@ -207,9 +196,6 @@
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Textures\SubControls\CITextureViewControl.resx">
-      <DependentUpon>CITextureViewControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
       <DependentUpon>TextureViewControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,9 +210,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\KartPreviewControl.resx">
       <DependentUpon>KartPreviewControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Karts\ImagePreviewControl.resx">
-      <DependentUpon>ImagePreviewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\NewAnimForm.resx">
       <DependentUpon>NewAnimForm.cs</DependentUpon>
@@ -299,7 +282,10 @@
   <ItemGroup>
     <None Include="Resources\minus.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="KartImages.txt" />
+    <Content Include="QueuesTextures.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

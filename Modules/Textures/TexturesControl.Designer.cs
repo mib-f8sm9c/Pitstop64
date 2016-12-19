@@ -37,8 +37,9 @@
             this.btnAddImage = new System.Windows.Forms.Button();
             this.lbImages = new System.Windows.Forms.ListBox();
             this.pnlView = new System.Windows.Forms.Panel();
-            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
+            this.imagePreviewControl = new Cereal64.Common.Controls.ImagePreviewControl();
             this.pnlTools = new System.Windows.Forms.Panel();
+            this.lblImageCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,6 +67,7 @@
             // 
             // pnlChoose
             // 
+            this.pnlChoose.Controls.Add(this.lblImageCount);
             this.pnlChoose.Controls.Add(this.txtSearchImages);
             this.pnlChoose.Controls.Add(this.cbImageType);
             this.pnlChoose.Controls.Add(this.lblImageType);
@@ -102,7 +104,8 @@
             "IA",
             "I",
             "MIO0",
-            "TKMK00"});
+            "TKMK00",
+            "Raw"});
             this.cbImageType.Location = new System.Drawing.Point(72, 44);
             this.cbImageType.Name = "cbImageType";
             this.cbImageType.Size = new System.Drawing.Size(133, 24);
@@ -191,6 +194,17 @@
             this.pnlTools.Size = new System.Drawing.Size(449, 79);
             this.pnlTools.TabIndex = 7;
             // 
+            // lblImageCount
+            // 
+            this.lblImageCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblImageCount.AutoSize = true;
+            this.lblImageCount.Location = new System.Drawing.Point(69, 283);
+            this.lblImageCount.Name = "lblImageCount";
+            this.lblImageCount.Size = new System.Drawing.Size(57, 17);
+            this.lblImageCount.TabIndex = 6;
+            this.lblImageCount.Text = "Images:";
+            // 
             // TexturesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -222,7 +236,8 @@
         private System.Windows.Forms.Label lblImageType;
         private System.Windows.Forms.ComboBox cbImageType;
         private Cereal64.Common.Controls.WatermarkTextBox txtSearchImages;
-        private Karts.ImagePreviewControl imagePreviewControl;
+        private Cereal64.Common.Controls.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.Panel pnlTools;
+        private System.Windows.Forms.Label lblImageCount;
     }
 }

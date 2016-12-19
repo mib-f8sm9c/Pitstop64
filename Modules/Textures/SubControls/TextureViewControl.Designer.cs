@@ -29,12 +29,21 @@
         private void InitializeComponent()
         {
             this.pnlTools = new System.Windows.Forms.Panel();
+            this.btnEditPalette = new System.Windows.Forms.Button();
+            this.btnReplaceWith = new System.Windows.Forms.Button();
+            this.lblSize = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.lblError = new System.Windows.Forms.Label();
             this.pnlTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTools
             // 
+            this.pnlTools.Controls.Add(this.lblError);
+            this.pnlTools.Controls.Add(this.btnEditPalette);
+            this.pnlTools.Controls.Add(this.btnReplaceWith);
+            this.pnlTools.Controls.Add(this.lblSize);
             this.pnlTools.Controls.Add(this.lblName);
             this.pnlTools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTools.Location = new System.Drawing.Point(0, 0);
@@ -42,6 +51,38 @@
             this.pnlTools.Name = "pnlTools";
             this.pnlTools.Size = new System.Drawing.Size(554, 101);
             this.pnlTools.TabIndex = 5;
+            // 
+            // btnEditPalette
+            // 
+            this.btnEditPalette.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnEditPalette.Location = new System.Drawing.Point(243, 13);
+            this.btnEditPalette.Name = "btnEditPalette";
+            this.btnEditPalette.Size = new System.Drawing.Size(125, 33);
+            this.btnEditPalette.TabIndex = 8;
+            this.btnEditPalette.Text = "Edit Palette...";
+            this.btnEditPalette.UseVisualStyleBackColor = true;
+            this.btnEditPalette.Click += new System.EventHandler(this.btnEditPalette_Click);
+            // 
+            // btnReplaceWith
+            // 
+            this.btnReplaceWith.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReplaceWith.Location = new System.Drawing.Point(411, 13);
+            this.btnReplaceWith.Name = "btnReplaceWith";
+            this.btnReplaceWith.Size = new System.Drawing.Size(125, 33);
+            this.btnReplaceWith.TabIndex = 7;
+            this.btnReplaceWith.Text = "Replace Image...";
+            this.btnReplaceWith.UseVisualStyleBackColor = true;
+            this.btnReplaceWith.Click += new System.EventHandler(this.btnReplaceWith_Click);
+            // 
+            // lblSize
+            // 
+            this.lblSize.AutoSize = true;
+            this.lblSize.Location = new System.Drawing.Point(16, 41);
+            this.lblSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(35, 17);
+            this.lblSize.TabIndex = 5;
+            this.lblSize.Text = "Size";
             // 
             // lblName
             // 
@@ -52,6 +93,19 @@
             this.lblName.Size = new System.Drawing.Size(45, 17);
             this.lblName.TabIndex = 2;
             this.lblName.Text = "Name";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Image files|*.bmp;*.png";
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(16, 69);
+            this.lblError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 17);
+            this.lblError.TabIndex = 9;
             // 
             // TextureViewControl
             // 
@@ -72,5 +126,10 @@
 
         private System.Windows.Forms.Panel pnlTools;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblSize;
+        private System.Windows.Forms.Button btnReplaceWith;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button btnEditPalette;
+        private System.Windows.Forms.Label lblError;
     }
 }

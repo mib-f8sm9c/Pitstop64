@@ -39,7 +39,8 @@ namespace MK64Pitstop.Modules.Textures
             IA,
             I,
             MIO0,
-            TKMK00
+            TKMK00,
+            Raw
         }
 
         private ActiveControlTypes _activeControlType;
@@ -85,6 +86,10 @@ namespace MK64Pitstop.Modules.Textures
                         if (image.TextureEncoding != MK64Image.MK64ImageEncoding.TKMK00)
                             continue;
                         break;
+                    case SortTypes.Raw:
+                        if (image.TextureEncoding != MK64Image.MK64ImageEncoding.Raw)
+                            continue;
+                        break;
                 }
 
                 if (!string.IsNullOrWhiteSpace(cleanFilterText))
@@ -95,6 +100,8 @@ namespace MK64Pitstop.Modules.Textures
 
                 lbImages.Items.Add(image);
             }
+
+            lblImageCount.Text = "Images: " + lbImages.Items.Count;
         }
 
         //private void btnExport_Click(object sender, EventArgs e)
@@ -189,6 +196,7 @@ namespace MK64Pitstop.Modules.Textures
             else
             {
                 imagePreviewControl.Image = selectedImage.Image;
+                imagePreviewControl.ImageName = selectedImage.ImageName;
             }
 
             ActiveControl.Image = selectedImage;
@@ -215,9 +223,9 @@ namespace MK64Pitstop.Modules.Textures
                     case ActiveControlTypes.TKMK:
                         control = new TKMKViewControl();
                         break;
-                    case ActiveControlTypes.CI:
-                        control = new CITextureViewControl();
-                        break;
+                    //case ActiveControlTypes.CI:
+                    //    control = new CITextureViewControl();
+                    //    break;
                     default:
                         control = new TextureViewControl();
                         break;

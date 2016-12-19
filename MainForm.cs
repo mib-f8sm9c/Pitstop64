@@ -44,10 +44,19 @@ namespace MK64Pitstop
 
         private void UpdateSelectedModule()
         {
-            pnlCurrentView.Controls.Clear();
+            if (pnlCurrentView.Controls.Count > 0)
+            {
+                foreach (Control ctl in pnlCurrentView.Controls)
+                {
+                    ctl.Visible = false;
+                }
+                pnlCurrentView.Controls.Clear();
+            }
+
             IModule module = ModuleFactory.GetModule(SelectedModule);
             pnlCurrentView.Controls.Add(module.Control);
             module.Control.Dock = DockStyle.Fill;
+            module.Control.Visible = true;
             module.UpdateRomData();
         }
 

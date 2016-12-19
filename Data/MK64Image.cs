@@ -317,6 +317,7 @@ namespace MK64Pitstop.Data
                                     return;
 
                                 MIO0Block block = (MIO0Block)element;
+                                //System.IO.File.WriteAllBytes("test.bin",block.DecodedData);
 
                                 //now to search inside
                                 if (block.Elements.FirstOrDefault(e => e.FileOffset == PaletteBlockOffset[i]) != null)
@@ -362,6 +363,7 @@ namespace MK64Pitstop.Data
 
                                 //Create the MIO0 block!
                                 MIO0Block block = MIO0Block.ReadMIO0BlockFrom(rawData, PaletteOffset[i]);
+                                //System.IO.File.WriteAllBytes("test.bin",block.DecodedData);
                                 if (RomProject.Instance.Files[0].AddElement(block))
                                 {
                                     //Create the palette in the MIO0 block!
@@ -371,6 +373,8 @@ namespace MK64Pitstop.Data
                                     Palette palette = new Palette(PaletteBlockOffset[i], mioData);
                                     if (block.AddElement(palette))
                                         paletteRef = palette;
+                                    else
+                                        throw new Exception();
                                 }
 
                                 break;
@@ -474,7 +478,7 @@ namespace MK64Pitstop.Data
                                 break;
                         }
                         byte[] data = new byte[(int)Math.Round(Width * Height * byteSize)];
-                        Array.Copy(rawData, TextureBlockOffset, data, 0, data.Length);
+                        Array.Copy(rawData, TextureOffset, data, 0, data.Length);
                         Texture texture = new Texture(TextureOffset, data, Format, PixelSize, Width, Height);
 
                         //Add to the rom project

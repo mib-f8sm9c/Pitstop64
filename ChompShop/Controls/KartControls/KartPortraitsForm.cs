@@ -86,6 +86,7 @@ namespace ChompShop.Controls.KartControls
             else
             {
                 imagePreviewControl.Image = ((MK64Image)lbPortraits.SelectedItem).Image;
+                imagePreviewControl.ImageName = ((MK64Image)lbPortraits.SelectedItem).ImageName;
                 if (lbPortraits.SelectedIndex < 17)
                     lblRole.Text = RoleText[lbPortraits.SelectedIndex];
             }

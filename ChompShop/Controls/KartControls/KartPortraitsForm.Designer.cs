@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
+            this.imagePreviewControl = new Cereal64.Common.Controls.ImagePreviewControl();
             this.gbKartPortraits = new System.Windows.Forms.GroupBox();
             this.lblRole = new System.Windows.Forms.Label();
             this.lblRoleText = new System.Windows.Forms.Label();
@@ -196,7 +196,7 @@
 
         #endregion
 
-        private MK64Pitstop.Modules.Karts.ImagePreviewControl imagePreviewControl;
+        private Cereal64.Common.Controls.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.GroupBox gbKartPortraits;
         private System.Windows.Forms.OpenFileDialog openPortraitDialog;
         private System.Windows.Forms.Button btnAdd;

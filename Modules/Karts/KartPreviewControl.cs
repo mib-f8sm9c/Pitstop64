@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MK64Pitstop.Data.Karts;
+using Cereal64.Common.Controls;
 
 namespace MK64Pitstop.Modules.Karts
 {
@@ -226,6 +227,7 @@ namespace MK64Pitstop.Modules.Karts
             //Just display the single frame
             KartImage selectedKartImage = _kart.KartImages.Images[_kart.KartAnimations[_animIndex].OrderedImageNames[_frameIndex]];
             Image = selectedKartImage.Images[0].Image;
+            ImageName = selectedKartImage.Images[0].ImageName;
 
             if(ShowReferenceKart)
                 SetReferenceImage();

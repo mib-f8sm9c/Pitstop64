@@ -45,12 +45,12 @@
             this.tracksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlCurrentView = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -171,6 +171,7 @@
             // 
             // tracksToolStripMenuItem
             // 
+            this.tracksToolStripMenuItem.Enabled = false;
             this.tracksToolStripMenuItem.Name = "tracksToolStripMenuItem";
             this.tracksToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tracksToolStripMenuItem.Text = "Tracks";
@@ -178,6 +179,7 @@
             // 
             // kartsToolStripMenuItem
             // 
+            this.kartsToolStripMenuItem.Enabled = false;
             this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
             this.kartsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kartsToolStripMenuItem.Text = "Karts";
@@ -189,6 +191,13 @@
             this.texturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.texturesToolStripMenuItem.Text = "Textures";
             this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            // 
+            // textToolStripMenuItem
+            // 
+            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.textToolStripMenuItem.Text = "Text";
+            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -223,13 +232,6 @@
             // 
             this.saveProjectDialog.FileName = "newProject";
             this.saveProjectDialog.Filter = "Rom Project|*.romproj";
-            // 
-            // textToolStripMenuItem
-            // 
-            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
-            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.textToolStripMenuItem.Text = "Text";
-            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // MainForm
             // 

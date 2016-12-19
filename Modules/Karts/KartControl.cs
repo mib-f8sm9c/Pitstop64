@@ -73,6 +73,20 @@ namespace MK64Pitstop.Modules.Karts
             System.Diagnostics.Process.Start(CHOMP_SHOP_EXEC);
         }
 
+        private void KartControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                //Enable the kart cycling
+                kartPreviewControl.Mode = KartPreviewControl.PreviewMode.Animated;
+            }
+            else
+            {
+                //Disable the kart cycling
+                kartPreviewControl.Mode = KartPreviewControl.PreviewMode.Static;
+            }
+        }
+
         #region KartInfo
 
         private void UpdateKartList()
