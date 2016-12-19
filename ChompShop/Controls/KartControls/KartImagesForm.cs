@@ -292,7 +292,9 @@ namespace ChompShop.Controls.KartControls
                 ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
                 block.ImageName = imageName;
                 block.DecodedN64DataElement = texture;
-                KartImage newImage = new KartImage(block, Kart.Kart.KartImages.ImagePalette);
+                byte[] blankPaletteData = new byte[0x40];
+                Palette blankPalette = new Palette(-1, blankPaletteData);
+                KartImage newImage = new KartImage(block, blankPalette);
                 return newImage;
             }
 

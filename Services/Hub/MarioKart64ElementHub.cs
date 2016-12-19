@@ -555,6 +555,15 @@ namespace MK64Pitstop.Services.Hub
                     if (anim != null)
                     {
                         ImageMIO0Block block = kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].GetEncodedData(kart.KartImages.ImagePalette);
+
+                        //Save the image
+                        if (block.FileOffset == -1)
+                        {
+                            block.FileOffset = NewElementOffset;
+                            AdvanceNewElementOffset(block);
+                            RomProject.Instance.Files[0].AddElement(block);
+                        }
+
                         DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
                         address.ReferenceElement = block;
                         KartGraphicsBlock.CharacterCrashReferences[i][j] = address;
