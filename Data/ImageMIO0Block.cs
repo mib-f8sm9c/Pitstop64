@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
+using Cereal64.Common.DataElements.Encoding;
+using Cereal64.Common.DataElements;
 
 namespace MK64Pitstop.Data
 {
@@ -13,6 +15,8 @@ namespace MK64Pitstop.Data
         private const string IMAGE_NAME = "imageName";
 
         public string ImageName { get; set; }
+
+        public N64DataElement DecodedN64DataElement { get; set; }
 
         public ImageMIO0Block(int offset, byte[] rawData)
             : base(offset, rawData)

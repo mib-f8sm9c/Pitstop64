@@ -12,6 +12,7 @@ using MK64Pitstop.Data.Courses;
 using MK64Pitstop.Services.Readers;
 using MK64Pitstop.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
+using Cereal64.Common.DataElements.Encoding;
 
 namespace MK64Pitstop.Services.Hub
 {

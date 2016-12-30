@@ -186,6 +186,7 @@ namespace ChompShop.Controls.KartControls
             if (!_initializing)
             {
                 UpdatePortrait();
+                UpdateButtonsEnabled();
             }
         }
 
