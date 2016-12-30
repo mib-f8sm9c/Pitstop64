@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
-using MK64Pitstop.Modules.Karts;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Modules.Karts;
+using Pitstop64.Data.Karts;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using System.IO;
 
 namespace ChompShop.Controls.KartControls

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop.Modules.Info
+namespace Pitstop64.Modules.Info
 {
     public class RomInfoModule : IModule
     {

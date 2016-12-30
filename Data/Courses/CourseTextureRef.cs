@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Data.Courses
+namespace Pitstop64.Data.Courses
 {
     public class CourseTextureRef : N64DataElement
     {

@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Text
+﻿namespace Pitstop64.Modules.Text
 {
     partial class TextControl
     {

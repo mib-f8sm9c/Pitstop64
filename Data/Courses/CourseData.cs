@@ -6,7 +6,7 @@ using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements.Encoding;
 
-namespace MK64Pitstop.Data.Courses
+namespace Pitstop64.Data.Courses
 {
     public class CourseData
     {

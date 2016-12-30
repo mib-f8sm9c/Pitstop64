@@ -7,7 +7,7 @@ using System.Drawing;
 using MarioKartTestingTool;
 using System.Xml.Linq;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     public class TKMK00Block : N64DataElement
     {

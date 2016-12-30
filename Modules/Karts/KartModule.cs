@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 
-namespace MK64Pitstop.Modules.Karts
+namespace Pitstop64.Modules.Karts
 {
     public class KartModule : IModule
     {

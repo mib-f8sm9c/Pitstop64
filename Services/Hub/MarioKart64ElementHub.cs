@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
 using Cereal64.Common.DataElements;
-using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Data.Courses;
-using MK64Pitstop.Services.Readers;
-using MK64Pitstop.Data.Text;
+using Pitstop64.Data.Karts;
+using Pitstop64.Data.Courses;
+using Pitstop64.Services.Readers;
+using Pitstop64.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.DataElements.Encoding;
 
-namespace MK64Pitstop.Services.Hub
+namespace Pitstop64.Services.Hub
 {
     //Serves as a place to reference important N64DataElements, as well as resources that have
     // been externally added in to help keep track of them.

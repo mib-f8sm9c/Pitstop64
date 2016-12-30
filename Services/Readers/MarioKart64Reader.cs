@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using System.Drawing;
 using System.ComponentModel;
-using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Courses;
-using MK64Pitstop.Data.Text;
+using Pitstop64.Data.Karts;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Courses;
+using Pitstop64.Data.Text;
 using System.Windows.Forms;
 
-namespace MK64Pitstop.Services.Readers
+namespace Pitstop64.Services.Readers
 {
     public static class MarioKart64Reader
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop.Services.Hub
+namespace Pitstop64.Services.Hub
 {
     public class KartHub
     {

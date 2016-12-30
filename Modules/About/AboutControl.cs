@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Cereal64.Common.Rom;
 
-namespace MK64Pitstop.Modules.About
+namespace Pitstop64.Modules.About
 {
     public partial class AboutControl : UserControl
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MK64Pitstop.Services
+namespace Pitstop64.Services
 {
     public partial class ProgressDialog : Form
     {

@@ -6,9 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 
-namespace MK64Pitstop.Modules.Karts
+namespace Pitstop64.Modules.Karts
 {
     public partial class KartPreviewControl : ImagePreviewControl
     {

@@ -11,7 +11,7 @@ using Cereal64.Common.DataElements;
 using Ionic.Zip;
 using System.IO;
 
-namespace MK64Pitstop.Data.Karts
+namespace Pitstop64.Data.Karts
 {
     /// <summary>
     /// Stores information about a specific kart character

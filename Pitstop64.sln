@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MK64Pitstop", "MK64Pitstop.csproj", "{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitstop64", "Pitstop64.csproj", "{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Cereal64\Common\Common.csproj", "{B6A46BAF-D012-40F7-8213-EE361B1BC75E}"
 EndProject

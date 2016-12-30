@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Modules;
+using Pitstop64.Modules;
 
-namespace MK64Pitstop.Modules
+namespace Pitstop64.Modules
 {
     public static class ModuleFactory
     {

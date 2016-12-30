@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop
+namespace Pitstop64
 {
     public static class MarioKartRomInfo
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 
-namespace MK64Pitstop.Modules.Textures
+namespace Pitstop64.Modules.Textures
 {
     public class TexturesModule : IModule
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Cereal64.Common.Rom;
 
-namespace MK64Pitstop.Modules.Info
+namespace Pitstop64.Modules.Info
 {
     public partial class RomInfoControl : UserControl
     {

@@ -208,9 +208,9 @@
       <Project>{F4DBB616-9F71-4593-AD2C-4BBE38561AF1}</Project>
       <Name>Microcodes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MK64Pitstop.csproj">
+    <ProjectReference Include="..\Pitstop64.csproj">
       <Project>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</Project>
-      <Name>MK64Pitstop</Name>
+      <Name>Pitstop64</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

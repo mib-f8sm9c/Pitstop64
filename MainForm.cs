@@ -9,16 +9,16 @@ using System.Windows.Forms;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 using System.IO;
-using MK64Pitstop.Services;
-using MK64Pitstop.Modules;
+using Pitstop64.Services;
+using Pitstop64.Modules;
 using System.Reflection;
 using Cereal64.Common.Utils;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
-using MK64Pitstop.Services.Readers;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Services.Readers;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Karts;
 
-namespace MK64Pitstop
+namespace Pitstop64
 {
     public partial class MainForm : Form
     {

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.DataElements;
 using System.ComponentModel;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Services.Hub;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 
-namespace MK64Pitstop.Services.Readers
+namespace Pitstop64.Services.Readers
 {
     public static class KartReader
     {

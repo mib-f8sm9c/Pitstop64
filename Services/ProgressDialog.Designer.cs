@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Services
+﻿namespace Pitstop64.Services
 {
     partial class ProgressDialog
     {

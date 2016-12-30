@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KartAnimsForm));
-            this.kartPreviewControl = new MK64Pitstop.Modules.Karts.KartPreviewControl();
+            this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
             this.pnlKartAnimation = new System.Windows.Forms.Panel();
             this.btnAnimImageDown = new System.Windows.Forms.Button();
             this.btnAnimImageUp = new System.Windows.Forms.Button();
@@ -90,7 +90,7 @@
             this.kartPreviewControl.Image = null;
             this.kartPreviewControl.Kart = null;
             this.kartPreviewControl.Location = new System.Drawing.Point(3, 4);
-            this.kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Static;
+            this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Static;
             this.kartPreviewControl.Name = "kartPreviewControl";
             this.kartPreviewControl.ReferenceKart = null;
             this.kartPreviewControl.ShowReferenceKart = false;
@@ -605,7 +605,7 @@
 
         #endregion
 
-        private MK64Pitstop.Modules.Karts.KartPreviewControl kartPreviewControl;
+        private Pitstop64.Modules.Karts.KartPreviewControl kartPreviewControl;
         private System.Windows.Forms.Panel pnlKartAnimation;
         private System.Windows.Forms.Button btnAnimImageDown;
         private System.Windows.Forms.Button btnAnimImageUp;

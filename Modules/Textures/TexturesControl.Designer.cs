@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Textures
+﻿namespace Pitstop64.Modules.Textures
 {
     partial class TexturesControl
     {

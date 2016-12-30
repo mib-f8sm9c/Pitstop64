@@ -8,8 +8,8 @@
     <ProjectGuid>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MK64Pitstop</RootNamespace>
-    <AssemblyName>MK64Pitstop</AssemblyName>
+    <RootNamespace>Pitstop64</RootNamespace>
+    <AssemblyName>Pitstop64</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -261,6 +261,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\people-2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

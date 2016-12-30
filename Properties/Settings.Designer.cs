@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MK64Pitstop.Properties {
+namespace Pitstop64.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

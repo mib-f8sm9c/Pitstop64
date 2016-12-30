@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Info
+﻿namespace Pitstop64.Modules.Info
 {
     partial class RomInfoControl
     {

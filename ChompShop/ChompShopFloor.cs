@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 using System.IO;
 using ChompShop.Data;
 using System.Windows.Forms;
@@ -32,7 +32,7 @@ namespace ChompShop
 
         public static void LoadKarts(string[] kartPaths)
         {
-            MK64Pitstop.Services.ProgressService.StartDialog("Loading Karts");
+            Pitstop64.Services.ProgressService.StartDialog("Loading Karts");
 
             _worker = new BackgroundWorker();
             _worker.WorkerSupportsCancellation = true;
@@ -40,8 +40,8 @@ namespace ChompShop
             _worker.DoWork += new DoWorkEventHandler(LoadKartsPayload);
             _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedLoadingKarts);
 
-            if (MK64Pitstop.Services.ProgressService.StartDialog("Loading Karts"))
-                MK64Pitstop.Services.ProgressService.ProgressCancelled += new MK64Pitstop.Services.ProgressService.CancelProgressEvent(CancelLoading);
+            if (Pitstop64.Services.ProgressService.StartDialog("Loading Karts"))
+                Pitstop64.Services.ProgressService.ProgressCancelled += new Pitstop64.Services.ProgressService.CancelProgressEvent(CancelLoading);
             _worker.RunWorkerAsync(kartPaths);
         }
         
@@ -104,7 +104,7 @@ namespace ChompShop
                 }
             }
 
-            MK64Pitstop.Services.ProgressService.StopDialog();
+            Pitstop64.Services.ProgressService.StopDialog();
         }
 
         private static void CancelLoading()

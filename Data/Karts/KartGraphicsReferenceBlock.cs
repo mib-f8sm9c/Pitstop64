@@ -8,10 +8,10 @@ using Cereal64.Common.Utils;
 using System.Collections.ObjectModel;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using System.Xml.Linq;
-using MK64Pitstop.Services;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Services;
+using Pitstop64.Services.Hub;
 
-namespace MK64Pitstop.Data.Karts
+namespace Pitstop64.Data.Karts
 {
     public class KartGraphicsReferenceBlock : N64DataElement
     {

@@ -30,7 +30,7 @@
         {
             this.lbKartImages = new System.Windows.Forms.ListBox();
             this.txtSearchImages = new System.Windows.Forms.TextBox();
-            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
+            this.imagePreviewControl = new Pitstop64.Modules.Karts.ImagePreviewControl();
             this.lblSelectCount = new System.Windows.Forms.Label();
             this.lblSelectedCountText = new System.Windows.Forms.Label();
             this.btnExportAll = new System.Windows.Forms.Button();
@@ -170,7 +170,7 @@
 
         private System.Windows.Forms.ListBox lbKartImages;
         private System.Windows.Forms.TextBox txtSearchImages;
-        private MK64Pitstop.Modules.Karts.ImagePreviewControl imagePreviewControl;
+        private Pitstop64.Modules.Karts.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblSelectCount;

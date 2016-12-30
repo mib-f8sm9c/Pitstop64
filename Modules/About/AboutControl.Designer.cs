@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.About
+﻿namespace Pitstop64.Modules.About
 {
     partial class AboutControl
     {

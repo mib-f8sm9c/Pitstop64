@@ -34,7 +34,7 @@
             this.gbKartImages = new System.Windows.Forms.GroupBox();
             this.btnRemoveKartImage = new System.Windows.Forms.Button();
             this.btnEditKartImage = new System.Windows.Forms.Button();
-            this.imagePreviewControl = new MK64Pitstop.Modules.Karts.ImagePreviewControl();
+            this.imagePreviewControl = new Pitstop64.Modules.Karts.ImagePreviewControl();
             this.lbKartImages = new System.Windows.Forms.ListBox();
             this.btnAdvanced = new System.Windows.Forms.Button();
             this.gbNew = new System.Windows.Forms.GroupBox();
@@ -249,7 +249,7 @@
 
         #endregion
 
-        private MK64Pitstop.Modules.Karts.ImagePreviewControl imagePreviewControl;
+        private Pitstop64.Modules.Karts.ImagePreviewControl imagePreviewControl;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.ListBox lbKartImages;
         private System.Windows.Forms.Button btnRemoveKartImage;

@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Karts
+﻿namespace Pitstop64.Modules.Karts
 {
     partial class ImagePreviewControl
     {

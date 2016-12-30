@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 
 namespace ChompShop.Controls.KartControls
 {
