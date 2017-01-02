@@ -30,6 +30,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlChoose = new System.Windows.Forms.Panel();
+            this.lblImageCount = new System.Windows.Forms.Label();
             this.txtSearchImages = new Cereal64.Common.Controls.WatermarkTextBox();
             this.cbImageType = new System.Windows.Forms.ComboBox();
             this.lblImageType = new System.Windows.Forms.Label();
@@ -39,7 +40,6 @@
             this.pnlView = new System.Windows.Forms.Panel();
             this.imagePreviewControl = new Cereal64.Common.Controls.ImagePreviewControl();
             this.pnlTools = new System.Windows.Forms.Panel();
-            this.lblImageCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +79,17 @@
             this.pnlChoose.Name = "pnlChoose";
             this.pnlChoose.Size = new System.Drawing.Size(226, 324);
             this.pnlChoose.TabIndex = 0;
+            // 
+            // lblImageCount
+            // 
+            this.lblImageCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblImageCount.AutoSize = true;
+            this.lblImageCount.Location = new System.Drawing.Point(69, 283);
+            this.lblImageCount.Name = "lblImageCount";
+            this.lblImageCount.Size = new System.Drawing.Size(57, 17);
+            this.lblImageCount.TabIndex = 6;
+            this.lblImageCount.Text = "Images:";
             // 
             // txtSearchImages
             // 
@@ -176,6 +187,7 @@
             this.imagePreviewControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imagePreviewControl.ExportButtonVisible = true;
             this.imagePreviewControl.Image = null;
+            this.imagePreviewControl.ImageName = "";
             this.imagePreviewControl.ImageSize = new System.Drawing.Size(404, 220);
             this.imagePreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.imagePreviewControl.Location = new System.Drawing.Point(0, 0);
@@ -193,17 +205,6 @@
             this.pnlTools.Name = "pnlTools";
             this.pnlTools.Size = new System.Drawing.Size(449, 79);
             this.pnlTools.TabIndex = 7;
-            // 
-            // lblImageCount
-            // 
-            this.lblImageCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblImageCount.AutoSize = true;
-            this.lblImageCount.Location = new System.Drawing.Point(69, 283);
-            this.lblImageCount.Name = "lblImageCount";
-            this.lblImageCount.Size = new System.Drawing.Size(57, 17);
-            this.lblImageCount.TabIndex = 6;
-            this.lblImageCount.Text = "Images:";
             // 
             // TexturesControl
             // 

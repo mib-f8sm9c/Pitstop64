@@ -12,10 +12,18 @@ namespace MK64Pitstop.Modules.Textures.SubControls
 {
     public partial class TKMKViewControl : UserControl, ITextureViewControl
     {
-        public TKMKViewControl()
+        public TexturesControl.ImageUpdatedEvent ImageUpdated
         {
-            InitializeComponent();
+            get
+            {
+                return _imageUpdated;
+            }
+            set
+            {
+                _imageUpdated = value;
+            }
         }
+        private TexturesControl.ImageUpdatedEvent _imageUpdated = delegate { };
 
         public MK64Image Image
         {
@@ -39,6 +47,11 @@ namespace MK64Pitstop.Modules.Textures.SubControls
             }
         }
         private MK64Image _image;
+
+        public TKMKViewControl()
+        {
+            InitializeComponent();
+        }
 
         public void Activate()
         {
@@ -85,6 +98,7 @@ namespace MK64Pitstop.Modules.Textures.SubControls
                 }
 
                 Image = _image; //Reset it
+                ImageUpdated();
             }
         }
     }

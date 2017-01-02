@@ -16,5 +16,7 @@ namespace MK64Pitstop.Modules.Textures.SubControls
         void Deactivate();
 
         UserControl GetAsControl();
+
+        TexturesControl.ImageUpdatedEvent ImageUpdated { get; set; }
     }
 }

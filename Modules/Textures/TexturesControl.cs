@@ -9,11 +9,16 @@ using System.Windows.Forms;
 using MK64Pitstop.Data;
 using MK64Pitstop.Services.Hub;
 using MK64Pitstop.Modules.Textures.SubControls;
+using Cereal64.Common.DataElements;
+using Cereal64.Microcodes.F3DEX.DataElements;
+using Cereal64.Common.Utils;
 
 namespace MK64Pitstop.Modules.Textures
 {
     public partial class TexturesControl : UserControl
     {
+        public delegate void ImageUpdatedEvent();
+
         public TexturesControl()
         {
             InitializeComponent();
@@ -104,33 +109,6 @@ namespace MK64Pitstop.Modules.Textures
             lblImageCount.Text = "Images: " + lbImages.Items.Count;
         }
 
-        //private void btnExport_Click(object sender, EventArgs e)
-        //{
-        //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        pbImage.Image.Save(saveFileDialog.FileName);
-        //    }
-        //}
-
-        //private void btnImport_Click(object sender, EventArgs e)
-        //{
-        //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        Bitmap bmp = (Bitmap)Bitmap.FromFile(openFileDialog.FileName);
-
-        //        TKMK00Block tkmk = (TKMK00Block)cbImage.Items[cbImage.SelectedIndex];
-
-        //        if (!tkmk.SetImage(bmp))
-        //        {
-        //            MessageBox.Show("Overwrite failed (Image too big?)");
-        //        }
-        //        else
-        //        {
-        //            pbImage.Image = tkmk.Image;
-        //        }
-        //    }
-        //}
-
         private void btnAddImage_Click(object sender, EventArgs e)
         {
 
@@ -138,7 +116,7 @@ namespace MK64Pitstop.Modules.Textures
 
         private void btnRemoveImage_Click(object sender, EventArgs e)
         {
-
+            //Don't allow deleting original images!!
         }
 
         private void cbImageType_SelectedIndexChanged(object sender, EventArgs e)
@@ -162,10 +140,13 @@ namespace MK64Pitstop.Modules.Textures
 
         private void lbImages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DisplaySelectedImage();
+        }
+
+        private void DisplaySelectedImage()
+        {
             if (lbImages.SelectedItem != null)
             {
-                //Quick display here!
-                //pictureBox1.Image = ((MK64Image)lbImages.SelectedItem).Image;
                 MK64Image selectedImage = (MK64Image)lbImages.SelectedItem;
                 ActiveControlTypes newType;
                 if (selectedImage.TKMKReference != null)
@@ -223,9 +204,6 @@ namespace MK64Pitstop.Modules.Textures
                     case ActiveControlTypes.TKMK:
                         control = new TKMKViewControl();
                         break;
-                    //case ActiveControlTypes.CI:
-                    //    control = new CITextureViewControl();
-                    //    break;
                     default:
                         control = new TextureViewControl();
                         break;
@@ -236,6 +214,7 @@ namespace MK64Pitstop.Modules.Textures
                 ActiveControl = control;
             }
 
+            ActiveControl.ImageUpdated += ImageUpdated;
             ActiveControl.Activate();
         }
 
@@ -244,7 +223,15 @@ namespace MK64Pitstop.Modules.Textures
             if (_controls.ContainsKey(_activeControlType) && _controls[_activeControlType] != null)
                 _controls[_activeControlType].Deactivate();
 
+            if (ActiveControl != null)
+                ActiveControl.ImageUpdated -= ImageUpdated;
+
             ActiveControl = null;
+        }
+
+        private void ImageUpdated()
+        {
+            DisplaySelectedImage();
         }
     }
 }

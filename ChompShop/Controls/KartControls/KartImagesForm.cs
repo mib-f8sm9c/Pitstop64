@@ -287,7 +287,8 @@ namespace ChompShop.Controls.KartControls
             if (bmp != null && Kart != null && Kart.Kart != null && Kart.Kart.KartImages.ImagePalette != null)
             {
                 //Create the new KartImage here
-                byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
+                int tempPalOffset = 0;
+                byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette, ref tempPalOffset);
                 Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);
                 //KartImage newImage = new KartImage(new List<MK64Image>(new MK64Image(texture, Kart.Kart.KartImages.ImagePalette)));
                 //return newImage;

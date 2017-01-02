@@ -98,6 +98,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Textures\ComplexCIReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\ComplexCIReplaceForm.Designer.cs">
+      <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
     <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
       <SubType>UserControl</SubType>
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\ComplexCIReplaceForm.resx">
+      <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
       <DependentUpon>TextureViewControl.cs</DependentUpon>
