@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.DataElements;
 using System.ComponentModel;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Services.Hub;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.DataElements.Encoding;
 using MK64Pitstop.Data.Textures;
 
-namespace MK64Pitstop.Services.Readers
+namespace Pitstop64.Services.Readers
 {
     public static class KartReader
     {
@@ -351,7 +351,7 @@ namespace MK64Pitstop.Services.Readers
                 turnAnims[8].KartAnimationType = (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp25;
 
                 spinAnims[0] = new KartAnimationSeries(kartName + " Spin Down 25");
-                spinAnims[0].KartAnimationType = (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown25 | 
+                spinAnims[0].KartAnimationType = (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown25 |
                     KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown19);
                 spinAnims[1] = spinAnims[0];
                 spinAnims[2] = new KartAnimationSeries(kartName + " Spin Down 12");
@@ -364,7 +364,7 @@ namespace MK64Pitstop.Services.Readers
                 spinAnims[6] = new KartAnimationSeries(kartName + " Spin Up 12");
                 spinAnims[6].KartAnimationType = (int)KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp12;
                 spinAnims[7] = new KartAnimationSeries(kartName + " Spin Up 25");
-                spinAnims[7].KartAnimationType = (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp19 | 
+                spinAnims[7].KartAnimationType = (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp19 |
                     KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp25);
                 spinAnims[8] = spinAnims[7];
 
@@ -481,8 +481,10 @@ namespace MK64Pitstop.Services.Readers
 
                 newKart.KartAnimations.Add(crashAnim);
 
-                for(int j = 0; j < portraits.Entries[i].Count; j++)
+                for (int j = 0; j < portraits.Entries[i].Count; j++)
+                {
                     newKart.KartPortraits.Add(portraits.Entries[i][j].ImageReference);
+                }
 
                 //Find the tkmk block in either the new images or in the hub
                 MK64Image img;

@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Karts
+﻿namespace Pitstop64.Modules.Karts
 {
     partial class KartPreviewControl
     {
@@ -39,7 +39,7 @@
             this.cbOverlayKart.Enabled = false;
             this.cbOverlayKart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbOverlayKart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.cbOverlayKart.Image = global::MK64Pitstop.Properties.Resources.people_2x;
+            this.cbOverlayKart.Image = global::Pitstop64.Properties.Resources.people_2x;
             this.cbOverlayKart.Location = new System.Drawing.Point(3, 69);
             this.cbOverlayKart.Name = "cbOverlayKart";
             this.cbOverlayKart.Size = new System.Drawing.Size(22, 22);

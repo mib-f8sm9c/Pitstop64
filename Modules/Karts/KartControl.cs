@@ -6,18 +6,18 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Services;
-using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Services;
+using Pitstop64.Data.Karts;
+using Pitstop64.Services.Hub;
 using Cereal64.Common.Rom;
 using System.Xml.Linq;
 using System.IO;
 using Ionic.Zip;
 
-namespace MK64Pitstop.Modules.Karts
+namespace Pitstop64.Modules.Karts
 {
     public partial class KartControl : UserControl
     {

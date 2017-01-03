@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop.Modules.About
+namespace Pitstop64.Modules.About
 {
     public class AboutModule : IModule
     {

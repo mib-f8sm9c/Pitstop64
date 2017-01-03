@@ -5,7 +5,7 @@ using System.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Services
+namespace Pitstop64.Services
 {
     public static class VertexPacker
     {

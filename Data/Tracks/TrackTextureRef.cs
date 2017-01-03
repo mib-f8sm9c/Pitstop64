@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Data.Tracks
+namespace Pitstop64.Data.Courses
 {
     [AlternateXMLNames(new string[] { "CourseTextureRef" })]
     public class TrackTextureRef : N64DataElement

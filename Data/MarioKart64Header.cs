@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.DataElements;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     //NOT USED!!
 

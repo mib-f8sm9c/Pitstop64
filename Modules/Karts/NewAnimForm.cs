@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MK64Pitstop.Modules.Karts
+namespace Pitstop64.Modules.Karts
 {
     public partial class NewAnimForm : Form
     {

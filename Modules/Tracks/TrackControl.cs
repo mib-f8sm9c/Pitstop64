@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Services;
-using MK64Pitstop.Data;
+using Pitstop64.Services;
+using Pitstop64.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using Cereal64.VisObj64.Data.OpenGL.Wrappers.F3DEX;
 using Cereal64.Microcodes.F3DEX;
-using MK64Pitstop.Data.Tracks;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Data.Courses;
+using Pitstop64.Services.Hub;
 
-namespace MK64Pitstop.Modules.Tracks
+namespace Pitstop64.Modules.Courses
 {
     public partial class TrackControl : UserControl
     {

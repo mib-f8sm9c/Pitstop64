@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace MK64Pitstop
+namespace Pitstop64
 {
     static class Program
     {

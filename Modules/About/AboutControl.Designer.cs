@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.About
+﻿namespace Pitstop64.Modules.About
 {
     partial class AboutControl
     {
@@ -28,15 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnResizeRom = new System.Windows.Forms.Button();
-            this.txtRomSize = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.gbDebug = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnExportMIO0 = new System.Windows.Forms.Button();
             this.cb1MIO0Data = new System.Windows.Forms.ComboBox();
             this.txtAbout = new System.Windows.Forms.RichTextBox();
-            this.gbDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnResizeRom
@@ -127,23 +122,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtAbout);
-            this.Controls.Add(this.gbDebug);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AboutControl";
             this.Size = new System.Drawing.Size(501, 216);
-            this.gbDebug.ResumeLayout(false);
-            this.gbDebug.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnResizeRom;
-        private System.Windows.Forms.TextBox txtRomSize;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox gbDebug;
         private System.Windows.Forms.RichTextBox txtAbout;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExportMIO0;

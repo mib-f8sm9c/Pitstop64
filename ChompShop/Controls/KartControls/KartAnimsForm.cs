@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
 using System.Runtime.InteropServices;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Data.Karts;
 
 namespace ChompShop.Controls.KartControls
 {
@@ -156,14 +156,14 @@ namespace ChompShop.Controls.KartControls
                 //All animation cycle
                 kartPreviewControl.FrameIndex = 0;
                 kartPreviewControl.CycleAnimations = true;
-                kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
+                kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
                 kartPreviewControl.AnimIndex = 0;
             }
             else
             {
                 kartPreviewControl.FrameIndex = 0;
                 kartPreviewControl.CycleAnimations = false;
-                kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
+                kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
                 kartPreviewControl.AnimIndex = Kart.Kart.KartAnimations.IndexOf(SelectedAnimation);
             }
         }
@@ -177,7 +177,7 @@ namespace ChompShop.Controls.KartControls
             }
             else
             {
-                kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Static;
+                kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Static;
                 kartPreviewControl.Image = SelectedImage.Images[0].Image;
                 kartPreviewControl.ImageName = SelectedImage.Images[0].ImageName;
 

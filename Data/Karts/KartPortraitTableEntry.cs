@@ -7,7 +7,7 @@ using Cereal64.Common.Utils;
 using Cereal64.Common.Rom;
 using Cereal64.Microcodes.F3DEX.DataElements;
 
-namespace MK64Pitstop.Data.Karts
+namespace Pitstop64.Data.Karts
 {
     public class KartPortraitTableEntry : N64DataElement
     {

@@ -6,14 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using MK64Pitstop.Services.Hub;
 using MK64Pitstop.Modules.Textures.SubControls;
 using Cereal64.Common.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Modules.Textures
+namespace Pitstop64.Modules.Textures
 {
     public partial class TexturesControl : UserControl
     {

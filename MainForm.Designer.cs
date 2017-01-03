@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop
+﻿namespace Pitstop64
 {
     partial class MainForm
     {

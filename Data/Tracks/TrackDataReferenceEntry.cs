@@ -5,9 +5,9 @@ using System.Text;
 using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
-using MK64Pitstop;
+using Pitstop64;
 
-namespace MK64Pitstop.Data.Tracks
+namespace Pitstop64.Data.Courses
 {
     [AlternateXMLNames(new string[] { "CourseDataReferenceEntry" })]
     public class TrackDataReferenceEntry : N64DataElement

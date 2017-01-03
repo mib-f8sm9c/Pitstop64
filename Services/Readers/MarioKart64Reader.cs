@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using System.Drawing;
 using System.ComponentModel;
-using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Tracks;
-using MK64Pitstop.Data.Text;
+using Pitstop64.Data.Karts;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Courses;
+using Pitstop64.Data.Text;
 using System.Windows.Forms;
 using Cereal64.Common.DataElements.Encoding;
 
-namespace MK64Pitstop.Services.Readers
+namespace Pitstop64.Services.Readers
 {
     public static class MarioKart64Reader
     {
         private static BackgroundWorker _worker;
+
+        public delegate void ReadingFinishEvent(bool cancelled);
+
+        public static event ReadingFinishEvent ReadingFinished = delegate { };
 
         public static void ReadRom()
         {
@@ -51,17 +55,40 @@ namespace MK64Pitstop.Services.Readers
             //    return;
             //}
 
-            //Image testing code
-            //ImageMIO0Block block = ImageMIO0Block.ReadImageMIO0BlockFrom(rawData, 8000536);//new ImageMIO0Block(8000536, rawData);
-            //if(block.DecodedData != null)
-            //{
-            //    //block.DecodedN64DataElement = null;
-            //    Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 128, 78);
+            /*ProgressService.SetMessage("Reading TKMK00 Textures");
 
-            //    newTexture.Image.Save("testing.png");
-            //    //kartPortraits[i].ImageReference.DecodedN64DataElement = newTexture;
-            //}
+            N64DataElement preExistingElement;
 
+            //Now read the different data bits here, if they haven't been read in yet
+            for (int i = 0; i < MarioKartRomInfo.TKMK00TextureLocations.Length; i++)
+            {
+                preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
+                if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
+                {
+                    ushort alpha = MarioKartRomInfo.TKMK00TextureLocations[i].AlphaColor;
+                    int offset = MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset;
+                    int length = MarioKartRomInfo.TKMK00TextureLocations[i].Length;
+
+                    TKMK00Block tkmk;
+
+                    byte[] bytes = new byte[length];
+                    Array.Copy(rawData, offset, bytes, 0, length);
+
+                    tkmk = new TKMK00Block(offset, bytes, alpha);
+
+                    if (MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.SingleOrDefault(t => t.FileOffset == tkmk.FileOffset) == null)
+                    {
+                        results.NewElements.Add(tkmk);
+                        results.OriginalTKMK00Blocks.Add(tkmk);
+                    }
+                }
+                else if (preExistingElement is TKMK00Block &&
+                    MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.SingleOrDefault(t => t.FileOffset == preExistingElement.FileOffset) == null)
+                {
+                    results.OriginalTKMK00Blocks.Add((TKMK00Block)preExistingElement);
+                }
+            }
+*/
             //Text bank!
             TextBankBlock textBankBlock = null;
             TextReferenceBlock textReferenceBlock = null;
@@ -110,13 +137,6 @@ namespace MK64Pitstop.Services.Readers
 
             //KartReader.ReadRom(worker, rawData, results);
 
-            //TrackReader.ReadRom(worker, rawData, results);
-
-            //debug stuff
-            //ImageMIO0Block imblock = ImageMIO0Block.ReadImageMIO0BlockFrom(data, 0x963EF0);
-
-            //imblock.ImageName = "X";
-
             args.Result = results;
         }
 
@@ -127,6 +147,10 @@ namespace MK64Pitstop.Services.Readers
                 //Load it into the Rom Project
                 ApplyResultsAsync((MarioKart64ReaderResults)args.Result);
             }
+            else
+            {
+                ReadingFinished(true);
+        }
         }
 
         private static void FinishedApplyResults(object sender, RunWorkerCompletedEventArgs args)
@@ -136,10 +160,14 @@ namespace MK64Pitstop.Services.Readers
             if (!args.Cancelled && args.Error == null)
             {
                 MessageBox.Show("Rom successfully loaded!");
+
+                ReadingFinished(false);
             }
             else
             {
                 MessageBox.Show("Error, rom could not successfully load");
+
+                ReadingFinished(true);
             }
         }
 

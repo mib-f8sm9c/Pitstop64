@@ -74,6 +74,7 @@
             this.imagePreviewControl.Location = new System.Drawing.Point(264, 9);
             this.imagePreviewControl.Margin = new System.Windows.Forms.Padding(4);
             this.imagePreviewControl.Name = "imagePreviewControl";
+            this.imagePreviewControl.OverlayImage = null;
             this.imagePreviewControl.Size = new System.Drawing.Size(197, 191);
             this.imagePreviewControl.TabIndex = 2;
             // 
@@ -159,7 +160,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "KartImageSelectForm";
-            this.Text = "KartImageSelectForm";
+            this.Text = "Kart Image Select";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using System.IO;
 using Cereal64.Common.DataElements.Encoding;
 
@@ -190,6 +190,7 @@ namespace ChompShop.Controls.KartControls
             if (!_initializing)
             {
                 UpdatePortrait();
+                UpdateButtonsEnabled();
             }
         }
 

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
-using MK64Pitstop.Modules.Karts;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Modules.Karts;
+using Pitstop64.Data.Karts;
 using Cereal64.Microcodes.F3DEX.DataElements;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using System.IO;
 
 namespace ChompShop.Controls.KartControls
@@ -287,6 +287,15 @@ namespace ChompShop.Controls.KartControls
             if (bmp != null && Kart != null && Kart.Kart != null && Kart.Kart.KartImages.ImagePalette != null)
             {
                 //Create the new KartImage here
+                //byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
+                //Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
+               // ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
+               // block.ImageName = imageName;
+               // block.DecodedN64DataElement = texture;
+                //byte[] blankPaletteData = new byte[0x40];
+                //Palette blankPalette = new Palette(-1, blankPaletteData);
+                //KartImage newImage = new KartImage(block, blankPalette);
+                //return newImage;
                 int tempPalOffset = 0;
                 byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette, ref tempPalOffset);
                 Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);

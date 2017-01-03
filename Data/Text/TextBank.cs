@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cereal64.Common.Rom;
 
-namespace MK64Pitstop.Data.Text
+namespace Pitstop64.Data.Text
 {
     public class TextBank
     {

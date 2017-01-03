@@ -5,7 +5,7 @@ using System.Text;
 using Cereal64.Common.DataElements;
 using System.Xml.Linq;
 
-namespace MK64Pitstop.Data.Text
+namespace Pitstop64.Data.Text
 {
     public class TextBankBlock : N64DataElement
     {

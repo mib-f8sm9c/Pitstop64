@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Karts
+﻿namespace Pitstop64.Modules.Karts
 {
     partial class KartControl
     {
@@ -51,7 +51,7 @@
             this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnChompShop = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.kartPreviewControl = new MK64Pitstop.Modules.Karts.KartPreviewControl();
+            this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
             this.pnlSharedControls.SuspendLayout();
             this.gbSelectedKarts.SuspendLayout();
             this.gbKarts.SuspendLayout();
@@ -136,7 +136,7 @@
             // btnInsertKart
             // 
             this.btnInsertKart.Enabled = false;
-            this.btnInsertKart.Image = global::MK64Pitstop.Properties.Resources.arrow_thick_left;
+            this.btnInsertKart.Image = global::Pitstop64.Properties.Resources.arrow_thick_left;
             this.btnInsertKart.Location = new System.Drawing.Point(141, 114);
             this.btnInsertKart.Name = "btnInsertKart";
             this.btnInsertKart.Size = new System.Drawing.Size(20, 20);
@@ -147,7 +147,7 @@
             // btnKartDown
             // 
             this.btnKartDown.Enabled = false;
-            this.btnKartDown.Image = global::MK64Pitstop.Properties.Resources.arrow_thick_bottom;
+            this.btnKartDown.Image = global::Pitstop64.Properties.Resources.arrow_thick_bottom;
             this.btnKartDown.Location = new System.Drawing.Point(141, 61);
             this.btnKartDown.Name = "btnKartDown";
             this.btnKartDown.Size = new System.Drawing.Size(20, 20);
@@ -158,7 +158,7 @@
             // btnKartUp
             // 
             this.btnKartUp.Enabled = false;
-            this.btnKartUp.Image = global::MK64Pitstop.Properties.Resources.arrow_thick_top;
+            this.btnKartUp.Image = global::Pitstop64.Properties.Resources.arrow_thick_top;
             this.btnKartUp.Location = new System.Drawing.Point(141, 32);
             this.btnKartUp.Name = "btnKartUp";
             this.btnKartUp.Size = new System.Drawing.Size(20, 20);

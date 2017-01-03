@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Text;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Text;
 using System.IO;
 
-namespace MK64Pitstop.Modules.Text
+namespace Pitstop64.Modules.Text
 {
     public partial class TextControl : UserControl
     {

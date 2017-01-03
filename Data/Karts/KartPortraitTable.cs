@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using Cereal64.Common.Utils;
 using System.Xml.Linq;
 
-namespace MK64Pitstop.Data.Karts
+namespace Pitstop64.Data.Karts
 {
     public class KartPortraitTable : N64DataElement
     {

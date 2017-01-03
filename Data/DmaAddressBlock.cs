@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     //BARELY USED!!
 

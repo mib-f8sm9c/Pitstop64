@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Tracks
+﻿namespace Pitstop64.Modules.Courses
 {
     partial class TrackControl
     {

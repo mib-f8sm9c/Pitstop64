@@ -8,7 +8,7 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 
 //Source: https://github.com/RenaKunisaki/mariokart64/wiki/Compressed-Display-Lists
 
-namespace MK64Pitstop.Services
+namespace Pitstop64.Services
 {
     public static class F3DEXPacker
     {

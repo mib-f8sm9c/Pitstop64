@@ -7,7 +7,7 @@ using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
 using Cereal64.Microcodes.F3DEX.DataElements;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     //A simple extended MIO0Block class that adds extra info for images being stored in it
     public class ImageMIO0BlockINVALID : MIO0Block

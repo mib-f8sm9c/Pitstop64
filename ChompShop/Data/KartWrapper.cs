@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data.Karts;
-using MK64Pitstop.Data;
+using Pitstop64.Data.Karts;
+using Pitstop64.Data;
 using System.Drawing;
 using Cereal64.Microcodes.F3DEX.DataElements;
 

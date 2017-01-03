@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Cereal64.Common.DataElements;
 using MK64Pitstop.Services;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     public class TKMK00Block : N64DataElement
     {

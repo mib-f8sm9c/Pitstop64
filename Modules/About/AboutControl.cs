@@ -12,14 +12,13 @@ using Cereal64.Common.DataElements;
 using Cereal64.Common.DataElements.Encoding;
 using System.IO;
 
-namespace MK64Pitstop.Modules.About
+namespace Pitstop64.Modules.About
 {
     public partial class AboutControl : UserControl
     {
         private const string ABOUT_TEXT =
-@"Mario Kart 64 Pitstop created by mib_f8sm9c
-Major thanks to QueueRAM and Shygoo
-More thanks to be included";
+@"Pitstop64 created by mib_f8sm9c
+Major thanks to QueueRAM, Shygoo and Rena";
 
         public AboutControl()
         {
@@ -32,17 +31,7 @@ More thanks to be included";
 
         public void UpdateControl()
         {
-            if (RomProject.Instance.Files.Count > 0)
-            {
-                btnResizeRom.Enabled = true;
-                txtRomSize.Enabled = true;
-                txtRomSize.Text = ((int)Math.Round(RomProject.Instance.Files[0].FileLength / 1048576.0)).ToString();
             }
-            else
-            {
-                btnResizeRom.Enabled = false;
-                txtRomSize.Enabled = false;
-                txtRomSize.Text = string.Empty;
             }
 
             //Update the MIO0 stuff

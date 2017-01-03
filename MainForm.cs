@@ -9,16 +9,16 @@ using System.Windows.Forms;
 using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 using System.IO;
-using MK64Pitstop.Services;
-using MK64Pitstop.Modules;
+using Pitstop64.Services;
+using Pitstop64.Modules;
 using System.Reflection;
 using Cereal64.Common.Utils;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
-using MK64Pitstop.Services.Readers;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Karts;
+using Pitstop64.Services.Readers;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Karts;
 
-namespace MK64Pitstop
+namespace Pitstop64
 {
     public partial class MainForm : Form
     {
@@ -90,10 +90,26 @@ namespace MK64Pitstop
 
                 statusBarFile.Text = "New Project";
 
+                this.Enabled = false;
+
+                MarioKart64Reader.ReadingFinished += ReadingFinished;
+
                 MarioKart64Reader.ReadRom();
 
                 UpdateSelectedModule();
             }
+        }
+
+        private void ReadingFinished(bool cancelled)
+        {
+            if (InvokeRequired)
+                this.Invoke((Action)(() => { this.Enabled = true; }));
+            else
+                this.Enabled = true;
+
+            MarioKart64Reader.ReadingFinished -= ReadingFinished;
+
+            //Do the success/failure messages here?
         }
 
         public void LoadProject()
@@ -117,6 +133,8 @@ namespace MK64Pitstop
             if (ProgressService.StartDialog("Loading up Rom Project"))
                 ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelReading);
             _worker.RunWorkerAsync(fileName);
+
+            this.Enabled = false;
         }
 
         private void LoadProjectPayload(object sender, DoWorkEventArgs args)
@@ -150,6 +168,10 @@ namespace MK64Pitstop
             {
                 ProgressService.StopDialog();
                 MessageBox.Show("Error, could not open project");
+                if (InvokeRequired)
+                    this.Invoke((Action)(() => { this.Enabled = true; }));
+                else
+                    this.Enabled = true;
             }
         }
 
@@ -168,15 +190,18 @@ namespace MK64Pitstop
 
         private void ApplyProjectPayload(object sender, DoWorkEventArgs args)
         {
-            foreach (RomItem item in RomProject.Instance.Items)
-            {
-                if (item is KartInfo)
-                {
-                    MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
-                }
-            }
+            //foreach (RomItem item in RomProject.Instance.Items)
+            //{
+            //    if (item is KartInfo)
+            //    {
+            //        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
+            //    }
+            //}
+            MarioKart64ElementHub.Instance.SaveKartInfo();
 
             MarioKart64ElementHub.Instance.LoadFromXML();
+
+            MarioKart64Reader.ReadingFinished += ReadingFinished;
 
             MarioKart64Reader.ReadRom();
         }
@@ -224,20 +249,119 @@ namespace MK64Pitstop
 
             RomProject.Instance.MoveRomItem(MarioKart64ElementHub.Instance, RomProject.Instance.Items.Count - 1);
 
-            RomProject.Save(path);
+            if (InvokeRequired)
+                this.Invoke((Action)(() => { this.Enabled = false; }));
+            else
+                this.Enabled = false;
 
-            _loadedFilePath = path;
+            SaveProjectAsync(newFile, path);
+        }
+
+        #region AsyncSaveProject
+
+        private void SaveProjectAsync(bool newFile, string path)
+        {
+            _worker = new BackgroundWorker();
+            _worker.WorkerSupportsCancellation = true;
+
+            _worker.DoWork += new DoWorkEventHandler(SaveProjectPayload);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedSaveProject);
+
+            if (ProgressService.StartDialog("Saving Project..."))
+                ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelSaveProject);
+            _worker.RunWorkerAsync(new object[] { newFile, path });
+        }
+
+        private void SaveProjectPayload(object sender, DoWorkEventArgs args)
+        {
+            RomProject.Save(((object[])args.Argument)[1].ToString());
+
+            args.Result = args.Argument;
+        }
+
+        private void FinishedSaveProject(object sender, RunWorkerCompletedEventArgs args)
+        {
+            bool newFile = (bool)((object[])args.Result)[0];
+            if (!args.Cancelled && args.Error == null)
+            {
+                _loadedFilePath = ((object[])args.Result)[1].ToString();
             statusBarFile.Text = Path.GetFileNameWithoutExtension(_loadedFilePath);
 
+                ProgressService.StopDialog();
+
+                if (InvokeRequired)
+                    this.Invoke((Action)(() =>
+                    {
             if (newFile)
                 MessageBox.Show("Project successfully saved!");
+                        this.Enabled = true;
+                        UpdateSelectedModule();
+                    }));
+                else
+                {
+                    if (newFile)
+                        MessageBox.Show("Project successfully saved!");
+                    this.Enabled = true;
+                    UpdateSelectedModule();
         }
+
+            }
+            else
+            {
+                ProgressService.StopDialog();
+                MessageBox.Show("Error, could not save project");
+
+                if (InvokeRequired)
+                    this.Invoke((Action)(() => { this.Enabled = true; }));
+                else
+                    this.Enabled = true;
+            }
+        }
+
+        private void CancelSaveProject()
+        {
+            _worker.CancelAsync();
+            MessageBox.Show("Project saving has been cancelled");
+
+            if (InvokeRequired)
+                this.Invoke((Action)(() => { this.Enabled = true; }));
+            else
+                this.Enabled = true;
+        }
+
+        #endregion
 
         public void ExportRom()
         {
             saveFileDialog.FileName = Path.GetFileName(RomProject.Instance.Files[0].FileName);
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                if (InvokeRequired)
+                    this.Invoke((Action)(() => { this.Enabled = false; }));
+                else
+                    this.Enabled = false;
+
+                ExportRomAsync(saveFileDialog.FileName);
+            }
+        }
+
+        #region AsyncExportRom
+
+        private void ExportRomAsync(string path)
+        {
+            _worker = new BackgroundWorker();
+            _worker.WorkerSupportsCancellation = true;
+
+            _worker.DoWork += new DoWorkEventHandler(ExportRomPayload);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishedExportRom);
+
+            if (ProgressService.StartDialog("Exporting Rom..."))
+                ProgressService.ProgressCancelled += new ProgressService.CancelProgressEvent(CancelExportRom);
+            _worker.RunWorkerAsync(path);
+        }
+
+        private void ExportRomPayload(object sender, DoWorkEventArgs args)
+        {
                 //Apply changes here
                 MarioKart64ElementHub.Instance.SaveKartInfo();
                 MarioKart64ElementHub.Instance.SaveTrackInfo();
@@ -245,11 +369,60 @@ namespace MK64Pitstop
                 byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
                 if (N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
                 {
-                    File.WriteAllBytes(saveFileDialog.FileName, newRomData);
-                    MessageBox.Show("Rom successfully exported!");
-                }
+                File.WriteAllBytes(((string)args.Argument), newRomData);
             }
+            else
+            {
+                throw new Exception("Could not export rom!");
+            }
+
         }
+
+        private void FinishedExportRom(object sender, RunWorkerCompletedEventArgs args)
+        {
+            if (!args.Cancelled && args.Error == null)
+            {
+                ProgressService.StopDialog();
+
+                if (InvokeRequired)
+                    this.Invoke((Action)(() =>
+                    {
+                    MessageBox.Show("Rom successfully exported!");
+                        this.Enabled = true;
+                        UpdateSelectedModule();
+                    }));
+                else
+                {
+                    MessageBox.Show("Rom successfully exported!");
+                    this.Enabled = true;
+                    UpdateSelectedModule();
+                }
+
+            }
+            else
+            {
+                ProgressService.StopDialog();
+                MessageBox.Show("Error, could not export rom");
+
+                if (InvokeRequired)
+                    this.Invoke((Action)(() => { this.Enabled = true; }));
+                else
+                    this.Enabled = true;
+        }
+        }
+
+        private void CancelExportRom()
+        {
+            _worker.CancelAsync();
+            MessageBox.Show("Rom exporting has been cancelled");
+
+            if (InvokeRequired)
+                this.Invoke((Action)(() => { this.Enabled = true; }));
+            else
+                this.Enabled = true;
+        }
+
+        #endregion
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {

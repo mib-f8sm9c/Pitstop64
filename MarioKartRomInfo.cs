@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MK64Pitstop.Data.Textures;
 
-namespace MK64Pitstop
+namespace Pitstop64
 {
     public static class MarioKartRomInfo
     {
