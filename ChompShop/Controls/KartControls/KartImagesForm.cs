@@ -298,10 +298,15 @@ namespace ChompShop.Controls.KartControls
                 //return newImage;
                 int tempPalOffset = 0;
                 byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette, ref tempPalOffset);
-                Texture texture = new Texture(0, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);
-                //KartImage newImage = new KartImage(new List<MK64Image>(new MK64Image(texture, Kart.Kart.KartImages.ImagePalette)));
-                //return newImage;
-                throw new NotImplementedException();
+                Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);
+                List<Palette> palettes = new List<Palette>();
+                palettes.Add(Kart.Kart.KartImages.ImagePalette);
+                byte[] blankPaletteData = new byte[0x40];
+                palettes.Add(new Palette(-1, blankPaletteData));
+                F3DEXImage image = new F3DEXImage(texture, palettes);
+                MK64Image mkImg = new MK64Image(image, imageName, true);
+                KartImage newImage = new KartImage(new List<MK64Image>() { mkImg });
+                return newImage;
             }
 
             return null;
@@ -392,8 +397,8 @@ namespace ChompShop.Controls.KartControls
             bool validKart = (SelectedKartImage != null);
             if (validKart)
             {
-                imagePreviewControl.Image = ((MK64Image)lbKartImages.SelectedItem).Image;
-                imagePreviewControl.ImageName = ((MK64Image)lbKartImages.SelectedItem).ImageName;
+                imagePreviewControl.Image = ((KartImage)lbKartImages.SelectedItem).Images[0].Image;
+                imagePreviewControl.ImageName = ((KartImage)lbKartImages.SelectedItem).Images[0].ImageName;
             }
             else
             {

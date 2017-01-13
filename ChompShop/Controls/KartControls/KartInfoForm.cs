@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ChompShop.Data;
 using Pitstop64.Data;
+using System.IO;
 
 namespace ChompShop.Controls.KartControls
 {
@@ -126,10 +127,11 @@ namespace ChompShop.Controls.KartControls
                 {
                     //Copy the old name plate to make the new one
                     byte[] imgData = Cereal64.Microcodes.F3DEX.DataElements.TextureConversion.RGBA16ToBinary((Bitmap)img);
-                    TKMK00Block tkmk = new TKMK00Block(-1, MK64Pitstop.Services.TKMK00.Encode(imgData, img.Width, img.Height, 0), 0);
+                    TKMK00Block tkmk = new TKMK00Block(-1, Pitstop64.Services.TKMK00.Encode(imgData, img.Width, img.Height, 0), 0);
 
-                    throw new NotImplementedException();
-                    //Kart.SetNamePlate(tkmk);
+                    MK64Image image = new MK64Image(tkmk, Path.GetFileNameWithoutExtension(openNamePlateDialog.FileName));
+
+                    Kart.SetNamePlate(image);
 
                     pbNamePlate.Image = tkmk.Image;
                 }

@@ -33,6 +33,9 @@
             this.btnResizeRom = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtRomSize = new System.Windows.Forms.TextBox();
+            this.btnExportMIO0 = new System.Windows.Forms.Button();
+            this.cb1MIO0Data = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.gbDebug.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,12 +50,15 @@
             // 
             // gbDebug
             // 
+            this.gbDebug.Controls.Add(this.label2);
+            this.gbDebug.Controls.Add(this.btnExportMIO0);
+            this.gbDebug.Controls.Add(this.cb1MIO0Data);
             this.gbDebug.Controls.Add(this.btnResizeRom);
             this.gbDebug.Controls.Add(this.label1);
             this.gbDebug.Controls.Add(this.txtRomSize);
             this.gbDebug.Location = new System.Drawing.Point(40, 47);
             this.gbDebug.Name = "gbDebug";
-            this.gbDebug.Size = new System.Drawing.Size(173, 141);
+            this.gbDebug.Size = new System.Drawing.Size(173, 225);
             this.gbDebug.TabIndex = 4;
             this.gbDebug.TabStop = false;
             this.gbDebug.Text = "Debug Tools";
@@ -87,6 +93,33 @@
             this.txtRomSize.TabIndex = 1;
             this.txtRomSize.Text = "12";
             // 
+            // btnExportMIO0
+            // 
+            this.btnExportMIO0.Location = new System.Drawing.Point(20, 179);
+            this.btnExportMIO0.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExportMIO0.Name = "btnExportMIO0";
+            this.btnExportMIO0.Size = new System.Drawing.Size(137, 28);
+            this.btnExportMIO0.TabIndex = 6;
+            this.btnExportMIO0.Text = "Export";
+            this.btnExportMIO0.UseVisualStyleBackColor = true;
+            // 
+            // cb1MIO0Data
+            // 
+            this.cb1MIO0Data.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb1MIO0Data.FormattingEnabled = true;
+            this.cb1MIO0Data.Location = new System.Drawing.Point(20, 148);
+            this.cb1MIO0Data.Name = "cb1MIO0Data";
+            this.cb1MIO0Data.Size = new System.Drawing.Size(131, 24);
+            this.cb1MIO0Data.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(44, 122);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 23);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Export MIO0";
+            // 
             // RomInfoControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -111,6 +144,9 @@
         private System.Windows.Forms.Button btnResizeRom;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtRomSize;
+        private System.Windows.Forms.Button btnExportMIO0;
+        private System.Windows.Forms.ComboBox cb1MIO0Data;
+        private System.Windows.Forms.Label label2;
 
 
     }

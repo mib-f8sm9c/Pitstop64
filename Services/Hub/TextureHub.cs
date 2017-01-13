@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using System.Collections.ObjectModel;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using System.Xml.Linq;
 using Cereal64.Common;
 
-namespace MK64Pitstop.Services.Hub
+namespace Pitstop64.Services.Hub
 {
     /// <summary>
     /// Made to hold all the texture information in the ROM. For reference old & adding on new
@@ -64,7 +64,11 @@ namespace MK64Pitstop.Services.Hub
 
             foreach (MK64Image image in _images)
             {
-                images.Add(image.GetAsXML());
+                bool saveImageData = false;
+                if (image.TextureOffset == -1 || image.PaletteOffset.Count(i => i == -1) > 0)
+                    saveImageData = true;
+
+                images.Add(image.GetAsXML(saveImageData));
             }
 
             xml.Add(images);
@@ -73,7 +77,12 @@ namespace MK64Pitstop.Services.Hub
 
             foreach (MK64Image image in _kartImages)
             {
-                kartImages.Add(image.GetAsXML());
+                //use this here?
+                bool saveImageData = false;
+                if (image.TextureOffset == -1 || image.PaletteOffset.Count(i => i == -1) > 0)
+                    saveImageData = true;
+
+                kartImages.Add(image.GetAsXML(saveImageData));
             }
 
             xml.Add(kartImages);

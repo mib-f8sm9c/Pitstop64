@@ -125,15 +125,12 @@ namespace ChompShop.Controls.KartControls
                     {
                         //Create the new KartImage here
                         byte[] imgData = TextureConversion.RGBA16ToBinary(new Bitmap(img));
-                        Texture texture = new Texture(0, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                        MIO0Block block = new MIO0Block(-1, imgData);
-                        //MK64Image image = new MK64Image(
-                        //block.ImageName = Path.GetFileNameWithoutExtension(file);
-                        //block.Texture = texture;
-                        //Kart.AddPortrait(block);
+                        Texture texture = new Texture(-1, imgData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
+                        F3DEXImage image = new F3DEXImage(texture);
+                        MK64Image mkImage = new MK64Image(image, Path.GetFileNameWithoutExtension(file), true);
+                        Kart.AddPortrait(mkImage);
 
-                        throw new NotImplementedException();
-                        //lbPortraits.Items.Add(block);
+                        lbPortraits.Items.Add(mkImage);
                     }
                 }
 

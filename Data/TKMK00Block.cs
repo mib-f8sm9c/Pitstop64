@@ -5,13 +5,14 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Linq;
 using Cereal64.Common.DataElements;
-using MK64Pitstop.Services;
+using Pitstop64.Services;
 
 namespace Pitstop64.Data
 {
     public class TKMK00Block : N64DataElement
     {
         private const string XML_ALPHA = "ImgAlpha";
+        private const string TKMK00_DATA = "TKMK00Data";
 
         private bool _hasChanged;
 
@@ -76,6 +77,12 @@ namespace Pitstop64.Data
             ImageAlphaColor = ushort.Parse(xml.Attribute(XML_ALPHA).Value);
         }
 
+        public TKMK00Block(XElement xml)
+            : this(xml, Convert.FromBase64String(xml.Attribute(TKMK00_DATA).Value.ToString()))
+        {
+
+        }
+
         public TKMK00Block(int offset, byte[] rawData, ushort alphaColor)
             : base (offset, rawData)
         {
@@ -97,11 +104,21 @@ namespace Pitstop64.Data
             }
         }
 
-        public override System.Xml.Linq.XElement GetAsXML()
+        public override XElement GetAsXML()
+        {
+            return GetAsXML(false);
+        }
+
+        public XElement GetAsXML(bool includeRawData)
         {
             XElement xml = base.GetAsXML();
 
             xml.Add(new XAttribute(XML_ALPHA, ImageAlphaColor));
+
+            if (includeRawData)
+            {
+                xml.Add(new XAttribute(TKMK00_DATA, Convert.ToBase64String(_rawData)));
+            }
 
             return xml;
         }

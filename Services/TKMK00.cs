@@ -5,7 +5,7 @@ using System.Text;
 using Cereal64.Common.Utils;
 using System.Collections.ObjectModel;
 
-namespace MK64Pitstop.Services
+namespace Pitstop64.Services
 {
     /// <summary>
     /// Code for encoding/decoding images in the TKMK00 format

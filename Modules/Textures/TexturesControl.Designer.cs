@@ -136,7 +136,7 @@
             // 
             this.btnRemoveImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemoveImage.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnRemoveImage.Image = global::MK64Pitstop.Properties.Resources.minus;
+            this.btnRemoveImage.Image = global::Pitstop64.Properties.Resources.minus;
             this.btnRemoveImage.Location = new System.Drawing.Point(181, 276);
             this.btnRemoveImage.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveImage.Name = "btnRemoveImage";
@@ -149,7 +149,7 @@
             // 
             this.btnAddImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddImage.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddImage.Image = global::MK64Pitstop.Properties.Resources.plus;
+            this.btnAddImage.Image = global::Pitstop64.Properties.Resources.plus;
             this.btnAddImage.Location = new System.Drawing.Point(20, 276);
             this.btnAddImage.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddImage.Name = "btnAddImage";
@@ -188,22 +188,22 @@
             this.imagePreviewControl.ExportButtonVisible = true;
             this.imagePreviewControl.Image = null;
             this.imagePreviewControl.ImageName = "";
-            this.imagePreviewControl.ImageSize = new System.Drawing.Size(404, 220);
+            this.imagePreviewControl.ImageSize = new System.Drawing.Size(404, 210);
             this.imagePreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.imagePreviewControl.Location = new System.Drawing.Point(0, 0);
             this.imagePreviewControl.LockImageSize = false;
             this.imagePreviewControl.Margin = new System.Windows.Forms.Padding(4);
             this.imagePreviewControl.Name = "imagePreviewControl";
             this.imagePreviewControl.OverlayImage = null;
-            this.imagePreviewControl.Size = new System.Drawing.Size(449, 245);
+            this.imagePreviewControl.Size = new System.Drawing.Size(449, 235);
             this.imagePreviewControl.TabIndex = 6;
             // 
             // pnlTools
             // 
             this.pnlTools.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTools.Location = new System.Drawing.Point(0, 245);
+            this.pnlTools.Location = new System.Drawing.Point(0, 235);
             this.pnlTools.Name = "pnlTools";
-            this.pnlTools.Size = new System.Drawing.Size(449, 79);
+            this.pnlTools.Size = new System.Drawing.Size(449, 89);
             this.pnlTools.TabIndex = 7;
             // 
             // TexturesControl

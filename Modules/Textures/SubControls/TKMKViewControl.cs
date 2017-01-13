@@ -6,9 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 
-namespace MK64Pitstop.Modules.Textures.SubControls
+namespace Pitstop64.Modules.Textures.SubControls
 {
     public partial class TKMKViewControl : UserControl, ITextureViewControl
     {
@@ -84,7 +84,7 @@ namespace MK64Pitstop.Modules.Textures.SubControls
                     return;
                 }
 
-                if (bmp.Height != _image.Width ||
+                if (bmp.Height != _image.Height ||
                     bmp.Width != _image.Width)
                 {
                     MessageBox.Show("Error: New image must be same size!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

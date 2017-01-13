@@ -20,6 +20,7 @@ namespace Pitstop64.Services.Hub
     // been externally added in to help keep track of them.
     public class MarioKart64ElementHub : RomItem
     {
+        private const string KARTS = "Karts";
         private const string SELECTED_KARTS = "selectedKarts";
 
         private const string TRACKS = "tracks";
@@ -34,9 +35,6 @@ namespace Pitstop64.Services.Hub
 
         private const string TURN_PALETTE_BLOCK = "turnPaletteBlock";
         private const string SPIN_PALETTE_BLOCK = "spinPaletteBlock";
-
-        private const string TEXT_BANK = "textBank";
-        private const string TEXT_REFERENCE = "textReference";
 
         private const string OFFSET = "offset";
 
@@ -65,8 +63,8 @@ namespace Pitstop64.Services.Hub
         public KartInfo[] SelectedKarts { get; private set; }
         public List<KartPaletteBlock> TurnKartPaletteBlocks { get; private set; }
         public List<KartPaletteBlock> SpinKartPaletteBlocks { get; private set; }
-        public List<TrackData> Tracks { get; private set; }
-        public TrackData[] SelectedTracks { get; private set; }
+        //public List<TrackData> Tracks { get; private set; }
+        //public TrackData[] SelectedTracks { get; private set; }
 
         public TextureHub TextureHub { get; private set; }
 
@@ -91,8 +89,8 @@ namespace Pitstop64.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            Tracks = new List<TrackData>();
-            SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
+            //Tracks = new List<TrackData>();
+            //SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
             TextureHub = new TextureHub();
             NewElementOffset = BASE_FILE_END_OFFSET;
         }
@@ -103,13 +101,14 @@ namespace Pitstop64.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            Tracks = new List<TrackData>();
-            SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
+            //Tracks = new List<TrackData>();
+            //SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
             TextureHub = new TextureHub();
 
             _instance = this;
 
-            _loadedXml = xml; //Actually load the xml data at a later date
+            _loadedXml = xml; //Actually load the xml data at a later date (WRONG)
+            LoadFromXML();
         }
 
         public void AdvanceNewElementOffset(N64DataElement element)
@@ -129,10 +128,36 @@ namespace Pitstop64.Services.Hub
 
             NewElementOffset = int.Parse(_loadedXml.Attribute(NEW_ELEMENT_OFFSET).Value);
 
+            //Before we start, load up all saved karts and tracks
+            ProgressService.SetMessage("Loading Kart Resources");
+            foreach (RomItem item in RomProject.Instance.Items)
+            {
+                //If the same name kart hasn't been loaded yet
+                if (item is KartInfo && Karts.FirstOrDefault(k => k.KartName == ((KartInfo)item).KartName) == null)
+                {
+                    this.Karts.Add((KartInfo)item);
+                }
+                //else if is trackinfo
+            }
+
+            //Also the text bank is all elements, so we don't need an xml in here for it
+            ProgressService.SetMessage("Loading Text Blocks");
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1) &&
+                RomProject.Instance.Files[0].HasElementExactlyAt(TextBankBlock.TEXT_BLOCK_START))
+            {
+                TextReferenceBlock refBlock = (TextReferenceBlock)RomProject.Instance.Files[0].GetElementAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1);
+                TextBankBlock bankBlock = (TextBankBlock)RomProject.Instance.Files[0].GetElementAt(TextBankBlock.TEXT_BLOCK_START);
+
+                TextBank = new TextBank(bankBlock, refBlock, true);
+            }
+
             int offset;
+            int count = 0;
+            int fullCount = _loadedXml.Elements().Count();
 
             foreach (XElement element in _loadedXml.Elements())
             {
+                ProgressService.SetMessage(string.Format("Storing Special Elements {0:0.0}%", (double)count / fullCount));
                 switch (element.Name.ToString())
                 {
                     case TURN_PALETTE_BLOCK:
@@ -175,24 +200,6 @@ namespace Pitstop64.Services.Hub
                             }
                         }
                         break;
-                    //case TEXT_BANK:
-                    //    offset = int.Parse(element.Value);
-                    //    if (RomProject.Instance.Files[0].HasElementAt(offset))
-                    //    {
-                    //        N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                    //        if (dataElement is TextBankBlock)
-                    //            TextBank = (TextBankBlock)dataElement;
-                    //    }
-                    //    break;
-                    //case TEXT_REFERENCE:
-                    //    offset = int.Parse(element.Value);
-                    //    if (RomProject.Instance.Files[0].HasElementAt(offset))
-                    //    {
-                    //        N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                    //        if (dataElement is TextReferenceBlock)
-                    //            TextReference = (TextReferenceBlock)dataElement;
-                    //    }
-                    //    break;
                     case KARTS_GRAPHICS_REFERENCE_BLOCK:
                         offset = int.Parse(element.Value);
                         if (RomProject.Instance.Files[0].HasElementAt(offset))
@@ -217,13 +224,6 @@ namespace Pitstop64.Services.Hub
                             }
                         }
                         break;
-                    //case KARTS:
-                    //    foreach (XElement kart in element.Elements())
-                    //    {
-                    //        KartInfo newKart = new KartInfo(kart);
-                    //        Karts.Add(newKart);
-                    //    }
-                    //    break;
                     case SELECTED_KARTS:
                         int kartIndex = 0;
                         foreach(XElement selKart in element.Elements())
@@ -240,6 +240,7 @@ namespace Pitstop64.Services.Hub
                         TextureHub.LoadReferencesFromXML(element);
                         break;
                 }
+                count++;
             }
         }
 
@@ -249,20 +250,9 @@ namespace Pitstop64.Services.Hub
 
             xml.Add(new XAttribute(NEW_ELEMENT_OFFSET, NewElementOffset));
 
-            //TextBank/TextReferences - Only use the offset currently being used
             //KartReference - Only use the names of the karts selected
             //MIOBlocks/TKMK00Bocks - Offsets for each one
             //Karts - Full listing of information
-
-            ////Text bank
-            //XElement newElement = new XElement(TEXT_BANK);
-            //newElement.Value = TextBank.FileOffset.ToString();
-            //xml.Add(newElement);
-
-            ////Text reference
-            //newElement = new XElement(TEXT_REFERENCE);
-            //newElement.Value = TextReference.FileOffset.ToString();
-            //xml.Add(newElement);
 
             XElement newElement = new XElement(TURN_PALETTE_BLOCK);
             foreach (KartPaletteBlock block in TurnKartPaletteBlocks)
@@ -301,11 +291,9 @@ namespace Pitstop64.Services.Hub
             Array.Clear(SelectedKarts, 0, SelectedKarts.Length);
             TurnKartPaletteBlocks.Clear();
             SpinKartPaletteBlocks.Clear();
-            Tracks.Clear();
-            Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
+            //Tracks.Clear();
+            //Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
             KartGraphicsBlock = null;
-            //TextBank = null;
-            //TextReference = null;
             TextureHub.ClearTextureData();
         }
 
@@ -547,9 +535,9 @@ namespace Pitstop64.Services.Hub
             if (TrackDataBlock == null)
                 return;
 
-            for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedTracks.Length; i++)
-            {
-                TrackData track = MarioKart64ElementHub.Instance.SelectedTracks[i];
+           // for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedTracks.Length; i++)
+          //  {
+           //     TrackData track = MarioKart64ElementHub.Instance.SelectedTracks[i];
 
                 //Save the main palette
             //    if (kart.KartImages.ImagePalette.FileOffset == -1)
@@ -729,7 +717,7 @@ namespace Pitstop64.Services.Hub
             //        oldTkmk.SetImage(kart.KartNamePlate.Image);
             //    }
 
-            }
+            //}
         }
 
         public override string GetXMLPath()

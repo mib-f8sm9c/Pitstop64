@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Textures.SubControls
+﻿namespace Pitstop64.Modules.Textures.SubControls
 {
     partial class TextureViewControl
     {
@@ -29,17 +29,21 @@
         private void InitializeComponent()
         {
             this.pnlTools = new System.Windows.Forms.Panel();
+            this.lblError = new System.Windows.Forms.Label();
             this.btnEditPalette = new System.Windows.Forms.Button();
             this.btnReplaceWith = new System.Windows.Forms.Button();
             this.lblSize = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.lblError = new System.Windows.Forms.Label();
+            this.lblFormat = new System.Windows.Forms.Label();
+            this.lblEncoding = new System.Windows.Forms.Label();
             this.pnlTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTools
             // 
+            this.pnlTools.Controls.Add(this.lblEncoding);
+            this.pnlTools.Controls.Add(this.lblFormat);
             this.pnlTools.Controls.Add(this.lblError);
             this.pnlTools.Controls.Add(this.btnEditPalette);
             this.pnlTools.Controls.Add(this.btnReplaceWith);
@@ -52,10 +56,19 @@
             this.pnlTools.Size = new System.Drawing.Size(554, 101);
             this.pnlTools.TabIndex = 5;
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(16, 69);
+            this.lblError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 17);
+            this.lblError.TabIndex = 9;
+            // 
             // btnEditPalette
             // 
             this.btnEditPalette.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnEditPalette.Location = new System.Drawing.Point(243, 13);
+            this.btnEditPalette.Location = new System.Drawing.Point(411, 53);
             this.btnEditPalette.Name = "btnEditPalette";
             this.btnEditPalette.Size = new System.Drawing.Size(125, 33);
             this.btnEditPalette.TabIndex = 8;
@@ -98,14 +111,25 @@
             // 
             this.openFileDialog.Filter = "Image files|*.bmp;*.png";
             // 
-            // lblError
+            // lblFormat
             // 
-            this.lblError.AutoSize = true;
-            this.lblError.Location = new System.Drawing.Point(16, 69);
-            this.lblError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(0, 17);
-            this.lblError.TabIndex = 9;
+            this.lblFormat.AutoSize = true;
+            this.lblFormat.Location = new System.Drawing.Point(16, 69);
+            this.lblFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFormat.Name = "lblFormat";
+            this.lblFormat.Size = new System.Drawing.Size(52, 17);
+            this.lblFormat.TabIndex = 10;
+            this.lblFormat.Text = "Format";
+            // 
+            // lblEncoding
+            // 
+            this.lblEncoding.AutoSize = true;
+            this.lblEncoding.Location = new System.Drawing.Point(119, 41);
+            this.lblEncoding.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEncoding.Name = "lblEncoding";
+            this.lblEncoding.Size = new System.Drawing.Size(67, 17);
+            this.lblEncoding.TabIndex = 11;
+            this.lblEncoding.Text = "Encoding";
             // 
             // TextureViewControl
             // 
@@ -131,5 +155,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button btnEditPalette;
         private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.Label lblFormat;
+        private System.Windows.Forms.Label lblEncoding;
     }
 }

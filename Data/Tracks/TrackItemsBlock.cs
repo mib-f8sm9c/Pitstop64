@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
 
-namespace MK64Pitstop.Data.Tracks
+namespace Pitstop64.Data.Tracks
 {
     //Temp holder until we decode this class : )
     public class TrackItemsBlock : N64DataElement

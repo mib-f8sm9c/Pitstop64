@@ -179,7 +179,6 @@
             // 
             // kartsToolStripMenuItem
             // 
-            this.kartsToolStripMenuItem.Enabled = false;
             this.kartsToolStripMenuItem.Name = "kartsToolStripMenuItem";
             this.kartsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kartsToolStripMenuItem.Text = "Karts";

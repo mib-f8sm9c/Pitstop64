@@ -1,4 +1,4 @@
-﻿namespace MK64Pitstop.Modules.Textures.SubControls
+﻿namespace Pitstop64.Modules.Textures.SubControls
 {
     partial class TKMKViewControl
     {
@@ -30,9 +30,11 @@
         {
             this.btnReplaceWith = new System.Windows.Forms.Button();
             this.pnlTools = new System.Windows.Forms.Panel();
+            this.lblSize = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.lblSize = new System.Windows.Forms.Label();
+            this.lblEncoding = new System.Windows.Forms.Label();
+            this.lblFormat = new System.Windows.Forms.Label();
             this.pnlTools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +51,8 @@
             // 
             // pnlTools
             // 
+            this.pnlTools.Controls.Add(this.lblFormat);
+            this.pnlTools.Controls.Add(this.lblEncoding);
             this.pnlTools.Controls.Add(this.lblSize);
             this.pnlTools.Controls.Add(this.lblName);
             this.pnlTools.Controls.Add(this.btnReplaceWith);
@@ -57,6 +61,16 @@
             this.pnlTools.Name = "pnlTools";
             this.pnlTools.Size = new System.Drawing.Size(427, 108);
             this.pnlTools.TabIndex = 3;
+            // 
+            // lblSize
+            // 
+            this.lblSize.AutoSize = true;
+            this.lblSize.Location = new System.Drawing.Point(16, 41);
+            this.lblSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(35, 17);
+            this.lblSize.TabIndex = 4;
+            this.lblSize.Text = "Size";
             // 
             // lblName
             // 
@@ -70,17 +84,27 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "Image files|*.bmp, *.png";
+            this.openFileDialog.Filter = "Image files|*.bmp; *.png";
             // 
-            // lblSize
+            // lblEncoding
             // 
-            this.lblSize.AutoSize = true;
-            this.lblSize.Location = new System.Drawing.Point(16, 41);
-            this.lblSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(35, 17);
-            this.lblSize.TabIndex = 4;
-            this.lblSize.Text = "Size";
+            this.lblEncoding.AutoSize = true;
+            this.lblEncoding.Location = new System.Drawing.Point(119, 41);
+            this.lblEncoding.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEncoding.Name = "lblEncoding";
+            this.lblEncoding.Size = new System.Drawing.Size(122, 17);
+            this.lblEncoding.TabIndex = 12;
+            this.lblEncoding.Text = "TKMK00 Encoded";
+            // 
+            // lblFormat
+            // 
+            this.lblFormat.AutoSize = true;
+            this.lblFormat.Location = new System.Drawing.Point(16, 69);
+            this.lblFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFormat.Name = "lblFormat";
+            this.lblFormat.Size = new System.Drawing.Size(47, 17);
+            this.lblFormat.TabIndex = 13;
+            this.lblFormat.Text = "RGBA";
             // 
             // TKMKViewControl
             // 
@@ -104,6 +128,8 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Label lblSize;
+        private System.Windows.Forms.Label lblEncoding;
+        private System.Windows.Forms.Label lblFormat;
 
 
     }

@@ -122,8 +122,8 @@ namespace Pitstop64.Data.Karts
             }
 
             XElement namePlate = xml.Element(NAME_PLATE);
-            byte[] namePlateData = Convert.FromBase64String(namePlate.Value);
-            ushort namePlateAlpha = ushort.Parse(namePlate.Attribute(NAME_PLATE_ALPHA).Value);
+            //byte[] namePlateData = Convert.FromBase64String(namePlate.Value);
+            //ushort namePlateAlpha = ushort.Parse(namePlate.Attribute(NAME_PLATE_ALPHA).Value);
 
             KartNamePlate = new MK64Image(namePlate.Elements().First());
 
@@ -148,7 +148,7 @@ namespace Pitstop64.Data.Karts
 
             xml.Add(new XAttribute(NAME, KartName));
             xml.Add(new XAttribute(ORIGINAL, OriginalKart));
-            xml.Add(KartImages.GetAsXml());
+            xml.Add(KartImages.GetAsXml(formatForExternalSave));
             XElement xmlAnimations = new XElement(ANIMATIONS);
             foreach (KartAnimationSeries anim in KartAnimations)
             {
@@ -168,7 +168,7 @@ namespace Pitstop64.Data.Karts
             XElement xmlPortraits = new XElement(PORTRAITS);
             foreach (MK64Image image in KartPortraits)
             {
-                xmlPortraits.Add(image.GetAsXML());
+                xmlPortraits.Add(image.GetAsXML(formatForExternalSave));
             }
             xml.Add(xmlPortraits);
 
@@ -177,7 +177,7 @@ namespace Pitstop64.Data.Karts
             //KartNamePlate.FileOffset = -1;
 
             XElement xmlNamePlate = new XElement(NAME_PLATE);
-            xmlNamePlate.Add(KartNamePlate.GetAsXML());
+            xmlNamePlate.Add(KartNamePlate.GetAsXML(formatForExternalSave));
             xml.Add(xmlNamePlate);
 
             //KartNamePlate.FileOffset = namePlateOffset;
@@ -190,7 +190,7 @@ namespace Pitstop64.Data.Karts
                 {
                     foreach(XAttribute at in xel.Attributes())
                     {
-                        if (at.Name == OFFSET)
+                        if (at.Name == OFFSET || at.Name == N64DataElement.FILEOFFSET || at.Name == MK64Image.TEXTURE_OFFSET || at.Name == MK64Image.PALETTE_OFFSET)
                             at.Value = "-1";
                     }
                 }
@@ -241,6 +241,7 @@ namespace Pitstop64.Data.Karts
                             XElement kartXML = kart.GetAsXML(true);
 
                             s.PutNextEntry(kart.KartName);
+
                             byte[] bytes = Encoding.ASCII.GetBytes(kartXML.ToString());
                             s.Write(bytes, 0, bytes.Length);
                         }
@@ -333,9 +334,10 @@ namespace Pitstop64.Data.Karts
             {
                 string name = image.Attribute(IMAGE_NAME).Value.ToString();
                 List<MK64Image> mkImages = new List<MK64Image>();
-                foreach (XElement innerImage in image.Elements())
+                XElement innerImages = image.Element(IMAGES);
+                foreach (XElement innerImage in innerImages.Elements())
                 {
-                    mkImages.Add(new MK64Image(innerImage));
+                    mkImages.Add(new MK64Image(innerImage, ImagePalette));
                 }
                 KartImage kartImage = new KartImage(mkImages);
 
@@ -358,7 +360,7 @@ namespace Pitstop64.Data.Karts
             ImagePalette = null;
         }
 
-        public XElement GetAsXml()
+        public XElement GetAsXml(bool formatForExternalSave)
         {
             XElement xml = new XElement(KART_IMAGE_POOL); //Can derive actual type from name with N64DataElementFactory
 
@@ -377,7 +379,7 @@ namespace Pitstop64.Data.Karts
                 XElement xmlF3DEXImages = new XElement(IMAGES);
                 foreach (MK64Image image in Images[key].Images)
                 {
-                    xmlF3DEXImages.Add(image.GetAsXML());
+                    xmlF3DEXImages.Add(image.GetAsXML(formatForExternalSave));
                 }
                 xmlImage.Add(xmlF3DEXImages);
 

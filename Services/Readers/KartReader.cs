@@ -10,7 +10,7 @@ using Pitstop64.Services.Hub;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Pitstop64.Data;
 using Cereal64.Common.DataElements.Encoding;
-using MK64Pitstop.Data.Textures;
+using Pitstop64.Data.Textures;
 
 namespace Pitstop64.Services.Readers
 {

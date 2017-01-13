@@ -31,9 +31,9 @@ namespace Pitstop64.Modules
                 case Modules.Info:
                     newModule = new Info.RomInfoModule();
                     break;
-                case Modules.Tracks:
-                    newModule = new Tracks.TrackModule();
-                    break;
+                //case Modules.Tracks:
+                //    newModule = new Tracks.TrackModule();
+                //    break;
                 case Modules.Karts:
                     newModule = new Karts.KartModule();
                     break;

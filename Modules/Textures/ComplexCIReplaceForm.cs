@@ -6,14 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using System.IO;
 using Cereal64.Common.DataElements.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils.Encoding;
 
-namespace MK64Pitstop.Modules.Textures
+namespace Pitstop64.Modules.Textures
 {
     public partial class ComplexCIReplaceForm : Form
     {

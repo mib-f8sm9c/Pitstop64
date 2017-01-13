@@ -135,7 +135,7 @@ namespace Pitstop64.Services.Readers
 
             TextureReader.ReadRom(worker, rawData, results);
 
-            //KartReader.ReadRom(worker, rawData, results);
+            KartReader.ReadRom(worker, rawData, results);
 
             args.Result = results;
         }
@@ -150,7 +150,7 @@ namespace Pitstop64.Services.Readers
             else
             {
                 ReadingFinished(true);
-        }
+            }
         }
 
         private static void FinishedApplyResults(object sender, RunWorkerCompletedEventArgs args)
@@ -159,6 +159,7 @@ namespace Pitstop64.Services.Readers
 
             if (!args.Cancelled && args.Error == null)
             {
+                //Need an invoke here?
                 MessageBox.Show("Rom successfully loaded!");
 
                 ReadingFinished(false);
@@ -203,12 +204,12 @@ namespace Pitstop64.Services.Readers
                 KartReader.ApplyResults(results.KartResults);
             }
 
-            if (results.TrackResults != null)
-            {
-                ProgressService.SetMessage("Splicing track data into Rom object");
-                TrackReader.ApplyResults(results.TrackResults);
-            }
-
+          //  if (results.TrackResults != null)
+          //  {
+          //      ProgressService.SetMessage("Splicing track data into Rom object");
+                //TrackReader.ApplyResults(results.TrackResults);
+        //    }
+        
             if (results.TextBank != null)
             {
                 ProgressService.SetMessage("Splicing text data into Rom object");
@@ -233,7 +234,7 @@ namespace Pitstop64.Services.Readers
     {
         public List<N64DataElement> NewElements;
         public KartReaderResults KartResults;
-        public TrackReaderResults TrackResults;
+        //public TrackReaderResults TrackResults;
         public TextureReaderResults TextureResults;
         public TextBank TextBank;
 

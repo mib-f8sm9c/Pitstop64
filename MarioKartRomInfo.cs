@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data.Textures;
+using Pitstop64.Data.Textures;
 
 namespace Pitstop64
 {

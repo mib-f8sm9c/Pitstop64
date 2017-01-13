@@ -7,7 +7,7 @@
 //using Cereal64.Common.Utils;
 //using Cereal64.Common.Rom;
 
-//namespace MK64Pitstop.Data
+//namespace Pitstop64.Data
 //{
 //    //NOT USED, CAN DELETE!
 

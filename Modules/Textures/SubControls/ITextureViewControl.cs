@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using System.Windows.Forms;
 
-namespace MK64Pitstop.Modules.Textures.SubControls
+namespace Pitstop64.Modules.Textures.SubControls
 {
     public interface ITextureViewControl
     {

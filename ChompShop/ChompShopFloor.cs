@@ -127,8 +127,16 @@ namespace ChompShop
                 ReferenceKart = LoadedReferenceKart;
             else if (File.Exists(REF_KART_FILE))
             {
-                List<KartInfo> karts = KartInfo.LoadFromFile(REF_KART_FILE);
-                if (karts.Count == 0)
+                List<KartInfo> karts = null;
+                try
+                {
+                    karts = KartInfo.LoadFromFile(REF_KART_FILE);
+                }
+                catch
+                {
+                }
+
+                if (karts == null || karts.Count == 0)
                     LoadedReferenceKart = null;
                 else
                     LoadedReferenceKart = new KartWrapper(karts[0]);

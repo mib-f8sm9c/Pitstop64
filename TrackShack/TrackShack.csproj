@@ -102,7 +102,7 @@
       <Project>{E523D0E4-0133-4A52-B143-7DB3C2653A63}</Project>
       <Name>VisObj64</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MK64Pitstop.csproj">
+    <ProjectReference Include="..\Pitstop64.csproj">
       <Project>{296A38B1-BCF0-403C-B57D-D1A44F9BD7E7}</Project>
       <Name>MK64Pitstop</Name>
     </ProjectReference>

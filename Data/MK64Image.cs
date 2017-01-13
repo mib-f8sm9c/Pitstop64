@@ -10,19 +10,19 @@ using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 using Cereal64.Common.DataElements.Encoding;
 
-namespace MK64Pitstop.Data
+namespace Pitstop64.Data
 {
     public class MK64Image : IXMLSerializable
     {
         private const string MK64IMAGE = "MK64Image";
 
-        private const string TEXTURE_OFFSET = "TextureOffset";
+        public const string TEXTURE_OFFSET = "TextureOffset";
         private const string TEXTURE_BLOCK_OFFSET = "TextureBlockOffset";
         private const string TEXTURE_ENCODING = "TextureEncoding";
 
         private const string PALETTES = "Palettes";
         private const string PALETTE = "Palette";
-        private const string PALETTE_OFFSET = "PaletteOffset";
+        public const string PALETTE_OFFSET = "PaletteOffset";
         private const string PALETTE_BLOCK_OFFSET = "PaletteBlockOffset";
         private const string PALETTE_ENCODING = "PaletteEncoding";
         private const string PALETTE_COLOR_COUNT = "PaletteColorCount";
@@ -160,6 +160,67 @@ namespace MK64Pitstop.Data
             TKMK00
         }
 
+        //Constructors to add a new image in without needing an offset (NO MIO0 ENCODING FOR THIS YET)
+        public MK64Image(F3DEXImage image, string name, bool encodeTextureInMIO0 = false)
+        {
+            TextureOffset = -1;
+            TextureEncoding = (encodeTextureInMIO0 ? MK64ImageEncoding.MIO0 : MK64ImageEncoding.Raw);
+            TextureBlockOffset = 0;
+
+            PaletteOffset = image.BasePalettes.Select<Palette, int>(p => p.FileOffset).ToList();
+            PaletteEncoding = Enumerable.Repeat(MK64ImageEncoding.Raw, image.BasePalettes.Count).ToList();
+            PaletteBlockOffset = Enumerable.Repeat((int)0, image.BasePalettes.Count).ToList();
+            PaletteColorCount = image.BasePalettes.Select<Palette, int>(p => p.Colors.Length).ToList();
+            PaletteColorOffset = Enumerable.Repeat((int)0, image.BasePalettes.Count).ToList();
+
+            TKMKLength = 0;
+            TKMKAlphaColor = 0;
+
+            Format = image.Texture.Format;
+            PixelSize = image.Texture.PixelSize;
+            Width = image.Texture.Width;
+            Height = image.Texture.Height;
+            IsOriginalImage = false;
+
+            if (string.IsNullOrWhiteSpace(name))
+                ImageName = TextureOffset.ToString("X");
+            else
+                ImageName = name;
+
+            ImageReference = image;
+            IsValidImage = image.ValidImage;
+        }
+
+        public MK64Image(TKMK00Block tkmk, string name)
+        {
+            TextureOffset = -1;
+            TextureEncoding = MK64ImageEncoding.TKMK00;
+            TextureBlockOffset = 0;
+
+            PaletteOffset = new List<int>();
+            PaletteEncoding = new List<MK64ImageEncoding>();
+            PaletteBlockOffset = new List<int>();
+            PaletteColorCount = new List<int>();
+            PaletteColorOffset = new List<int>();
+
+            TKMKLength = tkmk.RawDataSize;
+            TKMKAlphaColor = tkmk.ImageAlphaColor;
+
+            Format = Texture.ImageFormat.RGBA;
+            PixelSize = Texture.PixelInfo.Size_16b;
+            Width = tkmk.Image.Width;
+            Height = tkmk.Image.Height;
+            IsOriginalImage = false;
+
+            if (string.IsNullOrWhiteSpace(name))
+                ImageName = TextureOffset.ToString("X");
+            else
+                ImageName = name;
+
+            TKMKReference = tkmk;
+            IsValidImage = (tkmk != null);
+        }
+
         //Special constructors for the MK64ImageInfo class
         public MK64Image(MarioKartRomInfo.MK64ImageInfo info, byte[] rawFileData = null)
             : this(info.TextureOffset, (MK64ImageEncoding)Enum.Parse(typeof(MK64ImageEncoding), info.TextureEncoding), info.TextureBlockOffset,
@@ -202,7 +263,7 @@ namespace MK64Pitstop.Data
             LoadImageData(rawFileData);
         }
 
-        public MK64Image(XElement xml)
+        public MK64Image(XElement xml, Palette existingPalette = null)
         {
             TextureOffset = int.Parse(xml.Attribute(TEXTURE_OFFSET).Value.ToString());
             TextureEncoding = (MK64ImageEncoding)Enum.Parse(typeof(MK64ImageEncoding), xml.Attribute(TEXTURE_ENCODING).Value.ToString());
@@ -235,10 +296,29 @@ namespace MK64Pitstop.Data
 
             ImageName = xml.Attribute(IMAGE_NAME).Value.ToString();
 
-            LoadImageData();
+            if (xml.Element(typeof(TKMK00Block).ToString()) != null)
+            {
+                //load TKMK00 reference here
+                if(!FindExistingTKMK00())
+                    TKMKReference = new TKMK00Block(xml.Element(typeof(TKMK00Block).ToString()));
+            }
+            else if (xml.Element(F3DEXImage.F3DEXIMAGE) != null)
+            {
+                //load f3deximage reference
+                F3DEXImage newImage = new F3DEXImage(xml.Element(F3DEXImage.F3DEXIMAGE), existingPalette);
+                if (!FindExistingF3DEXImage(newImage.Texture, newImage.BasePalettes))
+                    ImageReference = newImage;
+            }
+            else
+                LoadImageData();
         }
 
         public XElement GetAsXML()
+        {
+            return GetAsXML(false);
+        }
+
+        public XElement GetAsXML(bool exportImageData, Palette existingPalette = null)
         {
             XElement xml = new XElement(MK64IMAGE);
 
@@ -269,7 +349,149 @@ namespace MK64Pitstop.Data
             xml.Add(new XAttribute(IS_ORIGINAL_IMAGE, IsOriginalImage));
             xml.Add(new XAttribute(IMAGE_NAME, ImageName));
 
+            if (exportImageData || TextureOffset == -1 || PaletteOffset.Count(p => p == -1) > 0)
+            {
+                if (TKMKReference != null)
+                    xml.Add(TKMKReference.GetAsXML(true));
+                else
+                    xml.Add(ImageReference.GetAsXML(existingPalette));
+            }
+
             return xml;
+        }
+
+        private bool FindExistingTKMK00()
+        {
+            if (RomProject.Instance.Files.Count == 0)
+                return false;
+
+            //Look for the TKMK00
+            if (TextureOffset == -1)
+                return false;
+
+            N64DataElement element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
+            if (element != null && element.FileOffset == TextureOffset && element is TKMK00Block)
+            {
+                TKMKReference = (TKMK00Block)element;
+                IsValidImage = (TKMKReference != null);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool FindExistingF3DEXImage(Texture newTexture, List<Palette> newPalettes)
+        {
+            if (RomProject.Instance.Files.Count == 0)
+                return false;
+
+            //Look for the TKMK00
+            bool changesMade = false;
+            
+            N64DataElement element;
+            Palette paletteRef = null;
+            List<Palette> paletteRefs = new List<Palette>();
+
+            if (Format == Texture.ImageFormat.CI)  //If CI format, we need to get the palette too
+            {
+                for (int i = 0; i < PaletteOffset.Count; i++)
+                {
+                    paletteRef = null;
+
+                    element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
+                    if (element != null && element.FileOffset == TextureOffset && !(element is UnknownData))
+                    {
+                        switch (PaletteEncoding[i])
+                        {
+                            case MK64ImageEncoding.Raw:
+
+                                //Needs to be a raw palette
+                                if (!(element is Palette))
+                                    break;
+
+                                paletteRef = (Palette)element;
+
+                                break;
+                            case MK64ImageEncoding.MIO0:
+
+                                //Needs to be a mio0 block
+                                if (!(element is MIO0Block))
+                                    break;
+
+                                MIO0Block block = (MIO0Block)element;
+                                //System.IO.File.WriteAllBytes("test.bin",block.DecodedData);
+
+                                //now to search inside
+                                if (block.Elements.FirstOrDefault(e => e.FileOffset == PaletteBlockOffset[i]) != null)
+                                {
+                                    N64DataElement paletteEl = block.Elements.First(e => e.FileOffset == PaletteBlockOffset[i]);
+                                    if (paletteEl is Palette)
+                                        paletteRef = (Palette)paletteEl;
+                                }
+                                break;
+                        }
+                    }
+
+                    if (paletteRef != null)
+                    {
+                        newPalettes[i] = paletteRef;
+                        changesMade = true;
+                    }
+                }
+            }
+
+            //Now texture
+            Texture textureRef = null;
+
+            element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
+            if (element != null && element.FileOffset == TextureOffset && !(element is UnknownData))
+            {
+                switch (TextureEncoding)
+                {
+                    case MK64ImageEncoding.Raw:
+
+                        //Needs to be a raw texture
+                        if (!(element is Texture))
+                            break;
+
+                        textureRef = (Texture)element;
+
+                        break;
+                    case MK64ImageEncoding.MIO0:
+
+                        //Needs to be a mio0 block
+                        if (!(element is MIO0Block))
+                            break;
+
+                        MIO0Block block = (MIO0Block)element;
+
+                        //now to search inside
+                        if (block.Elements.FirstOrDefault(e => e.FileOffset == TextureBlockOffset) != null)
+                        {
+                            N64DataElement textureEl = block.Elements.First(e => e.FileOffset == TextureBlockOffset);
+                            if (textureEl is Texture)
+                                textureRef = (Texture)textureEl;
+                        }
+                        break;
+                }
+            }
+
+            if (textureRef != null)
+            {
+                newTexture = textureRef;
+                changesMade = true;
+            }
+
+            if (changesMade)
+            {
+                ImageReference = new F3DEXImage(newTexture, newPalettes);
+                IsValidImage = ImageReference.ValidImage;
+
+                return true;
+            }
+
+            return false;
         }
 
         private void LoadImageData(byte[] rawData = null)
@@ -277,7 +499,7 @@ namespace MK64Pitstop.Data
             IsValidImage = false;
 
             //Check that the format is correct (ex. CI & palette offsets are valid)
-            int maxTextureLocation = RomProject.Instance.Files[0].FileLength - 1; //NOTE: NOT USING THIS CURRENTLY IN THE CHECK BELOW
+            int maxTextureLocation = (rawData != null ? rawData.Length - 1 : RomProject.Instance.Files[0].FileLength - 1);
 
             if(TextureOffset < 0 || TextureOffset > maxTextureLocation ||
                 (Format == Texture.ImageFormat.CI && PaletteOffset.Count == 0))

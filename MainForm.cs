@@ -197,13 +197,14 @@ namespace Pitstop64
             //        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
             //    }
             //}
-            MarioKart64ElementHub.Instance.SaveKartInfo();
+            
+            //MarioKart64ElementHub.Instance.SaveKartInfo();
+            MessageBox.Show("WHat does this do???");
+            //MarioKart64ElementHub.Instance.LoadFromXML();
 
-            MarioKart64ElementHub.Instance.LoadFromXML();
-
-            MarioKart64Reader.ReadingFinished += ReadingFinished;
-
-            MarioKart64Reader.ReadRom();
+            //Let's see if we can avoid this
+            //MarioKart64Reader.ReadingFinished += ReadingFinished;
+            //MarioKart64Reader.ReadRom();
         }
 
         private void FinishedApplyProject(object sender, RunWorkerCompletedEventArgs args)
@@ -215,11 +216,17 @@ namespace Pitstop64
                 {
                     this.Invoke((Action)(() =>
                     {
+                        ProgressService.StopDialog();
+                        MessageBox.Show("Project successfully loaded!");
+                        this.Enabled = true;
                         UpdateSelectedModule();
                     }));
                 }
                 else
                 {
+                    ProgressService.StopDialog();
+                    MessageBox.Show("Project successfully loaded!");
+                    this.Enabled = true;
                     UpdateSelectedModule();
                 }
             }
@@ -292,10 +299,10 @@ namespace Pitstop64
                 if (InvokeRequired)
                     this.Invoke((Action)(() =>
                     {
-            if (newFile)
-                MessageBox.Show("Project successfully saved!");
-                        this.Enabled = true;
-                        UpdateSelectedModule();
+                        if (newFile)
+                            MessageBox.Show("Project successfully saved!");
+                                    this.Enabled = true;
+                                    UpdateSelectedModule();
                     }));
                 else
                 {

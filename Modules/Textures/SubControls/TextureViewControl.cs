@@ -6,14 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.DataElements.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils.Encoding;
-using MK64Pitstop.Services.Hub;
+using Pitstop64.Services.Hub;
 
-namespace MK64Pitstop.Modules.Textures.SubControls
+namespace Pitstop64.Modules.Textures.SubControls
 {
     public partial class TextureViewControl : UserControl, ITextureViewControl
     {
@@ -43,6 +43,8 @@ namespace MK64Pitstop.Modules.Textures.SubControls
                 {
                     lblName.Text = string.Empty;
                     lblSize.Text = string.Empty;
+                    lblFormat.Text = string.Empty;
+                    lblEncoding.Text = string.Empty;
                     btnEditPalette.Visible = false;
 
                     btnReplaceWith.Enabled = !ImageIsSpecialCaseCI();
@@ -51,6 +53,11 @@ namespace MK64Pitstop.Modules.Textures.SubControls
                 {
                     lblName.Text = _image.ImageName;
                     lblSize.Text = string.Format("{0}x{1}", _image.Width, _image.Height);
+                    lblFormat.Text = _image.Format.ToString();
+                    if (_image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0)
+                        lblEncoding.Text = "MIO0 Encoded";
+                    else
+                        lblEncoding.Text = "No Encoding";
                     btnEditPalette.Visible = false;
                    // btnEditPalette.Visible = _image.Format == Texture.ImageFormat.CI;
                 }
@@ -88,7 +95,7 @@ namespace MK64Pitstop.Modules.Textures.SubControls
         {
             if(ImageIsSpecialCaseCI())
                 ReplaceSpecialCaseCI();
-            if (_image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0 || (_image.PaletteOffset.Count > 0 && _image.PaletteEncoding[0] == MK64Image.MK64ImageEncoding.MIO0))
+            else if (_image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0 || (_image.PaletteOffset.Count > 0 && _image.PaletteEncoding[0] == MK64Image.MK64ImageEncoding.MIO0))
                 ReplaceMIO0();
             else
                 ReplaceTexture();

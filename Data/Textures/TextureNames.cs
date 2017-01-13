@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MK64Pitstop.Data.Textures
+namespace Pitstop64.Data.Textures
 {
     public static class TextureNames
     {

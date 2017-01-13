@@ -104,6 +104,12 @@
     <Compile Include="Modules\Textures\ComplexCIReplaceForm.Designer.cs">
       <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Textures\NewMK64ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\NewMK64ImageForm.Designer.cs">
+      <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
     <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
       <SubType>UserControl</SubType>
@@ -204,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\ComplexCIReplaceForm.resx">
       <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\NewMK64ImageForm.resx">
+      <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
       <DependentUpon>TextureViewControl.cs</DependentUpon>

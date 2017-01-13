@@ -7,14 +7,14 @@ using Cereal64.Common.Rom;
 using System.Xml.Linq;
 using Cereal64.Microcodes.F3DEX.DataElements;
 
-namespace MK64Pitstop.Data.Tracks
+namespace Pitstop64.Data.Tracks
 {
     public class TrackData : RomItem
     {
         public TrackItemsBlock TrackItems { get; private set; }
         public VertexCollection Vertices { get; private set; }
         public F3DEXCommandCollection F3DCommands { get; private set; }
-        public List<TrackTextureRef> TextureReferences { get; private set; }
+        //public List<TrackTextureRef> TextureReferences { get; private set; }
 
 
         public uint VertexBank { get; private set; }
@@ -27,14 +27,14 @@ namespace MK64Pitstop.Data.Tracks
         public string TrackName { get; set; }
         public bool IsOriginalTrack { get; private set; }
 
-        public TrackData(string trackName, bool originalTrack, TrackItemsBlock items, VertexCollection verts, F3DEXCommandCollection commands, List<TrackTextureRef> textures,
+        public TrackData(string trackName, bool originalTrack, TrackItemsBlock items, VertexCollection verts, F3DEXCommandCollection commands,// List<TrackTextureRef> textures,
             uint VertexBank, uint Unknown1, uint TableSeg, uint Unknown2)
             : this(trackName, originalTrack)
         {
             TrackItems = items;
             Vertices = verts;
             F3DCommands = commands;
-            TextureReferences = textures;
+            //TextureReferences = textures;
         }
 
         public TrackData(string trackName, bool originalTrack)

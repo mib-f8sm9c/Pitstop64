@@ -293,7 +293,7 @@
             this.kartPreviewControl.Kart = null;
             this.kartPreviewControl.Location = new System.Drawing.Point(132, 186);
             this.kartPreviewControl.LockImageSize = true;
-            this.kartPreviewControl.Mode = MK64Pitstop.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
+            this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
             this.kartPreviewControl.Name = "kartPreviewControl";
             this.kartPreviewControl.OverlayImage = null;
             this.kartPreviewControl.ReferenceKart = null;

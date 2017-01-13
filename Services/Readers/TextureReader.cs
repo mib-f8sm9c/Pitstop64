@@ -5,15 +5,15 @@ using System.Text;
 using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Rom;
-using MK64Pitstop.Services.Hub;
-using MK64Pitstop.Data.Tracks;
+using Pitstop64.Services.Hub;
+using Pitstop64.Data.Tracks;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.DataElements.Encoding;
-using MK64Pitstop.Data;
+using Pitstop64.Data;
 
-namespace MK64Pitstop.Services.Readers
+namespace Pitstop64.Services.Readers
 {
     //A COUPLE OF NOTES HERE:
     // 1. The nameplates for the karts are broken. They will not load correctly currently. Either disable kart reading or fix it.
@@ -26,23 +26,11 @@ namespace MK64Pitstop.Services.Readers
         {
             TextureReaderResults results = new TextureReaderResults();
 
-            int skippedCount = 0;
+            //Here, load in the texture stuff
 
-            //Here, load in the texture stuff, add it to the 
+            ProgressService.SetMessage("Loading Textures and Palettes");
             foreach (MarioKartRomInfo.MK64ImageInfo imageInfo in MarioKartRomInfo.ImageLocations)
             {
-                //For now
-                if (imageInfo.Format == "CI" && imageInfo.PaletteCount == 0)
-                {
-                    skippedCount++;
-                    continue;
-                }
-
-                if (imageInfo.TextureOffset == 8279612)
-                {
-                    skippedCount++;
-                }
-
                 MK64Image image = new MK64Image(imageInfo, rawData);
                 if (image.IsValidImage)
                 {
@@ -54,17 +42,18 @@ namespace MK64Pitstop.Services.Readers
                 }
             }
 
-            int x = skippedCount;
-            x++;
-
+            ProgressService.SetMessage("Loading Kart Images");
             foreach (MarioKartRomInfo.MK64ImageInfo imageInfo in KartImageInfo.ImageLocations)
             {
-                break;
                 MK64Image image = new MK64Image(imageInfo, rawData);
                 if (image.IsValidImage)
                 {
                     //TO DO: USE ADDKARTIMAGE AND KEEP THEM SEPARATE FROM THE OTHER TEMPLATES
                     results.AddKartImage(image);
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
 
