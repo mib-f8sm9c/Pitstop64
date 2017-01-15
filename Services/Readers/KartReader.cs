@@ -22,7 +22,8 @@ namespace Pitstop64.Services.Readers
 
             //Portraits first
             KartPortraitTable portraits;
-            if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterFaceTableOffset))
+            N64DataElement element;
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterFaceTableOffset, out element))
             {
                 byte[] portraitBlock = new byte[MarioKartRomInfo.CharacterFaceTableLength];
                 Array.Copy(rawData, MarioKartRomInfo.CharacterFaceTableOffset, portraitBlock, 0, MarioKartRomInfo.CharacterFaceTableLength);
@@ -33,13 +34,14 @@ namespace Pitstop64.Services.Readers
             }
             else
             {
-                portraits = (KartPortraitTable)RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.CharacterFaceTableOffset);
+                portraits = (KartPortraitTable)element;
             }
 
             //Add to hub here?
 
             KartGraphicsReferenceBlock block;
-            if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location))
+            N64DataElement elBlock;
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, out elBlock))
             {
                 byte[] refBlock = new byte[KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength];
                 Array.Copy(rawData, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, refBlock, 0, KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceLength);
@@ -50,13 +52,13 @@ namespace Pitstop64.Services.Readers
             }
             else
             {
-                block = (KartGraphicsReferenceBlock)RomProject.Instance.Files[0].GetElementAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location);
+                block = (KartGraphicsReferenceBlock)elBlock;
             }
 
             //NOTE: ALL PALETTE AND TEXTURE INFORMATION WILL ALREADY BE LOADED HERE. NO NEED TO CREATE ANYTHING.
 
             //FIXED!!
-            ProgressService.SetMessage("Loading Kart Resources");
+            ProgressService.SetMessage("Organizing Kart Images");
             LoadKartGraphicDmaReferences(block, rawData, results, worker);
 
             //FIXED!!
@@ -92,17 +94,15 @@ namespace Pitstop64.Services.Readers
                         //Don't double up on duplicates
                         if (results.KartPaletteBlocks.SingleOrDefault(b => b.FileOffset == paletteOffset) == null)
                         {
-                            if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
-                                (existingPalette = RomProject.Instance.Files[0].GetElementAt(paletteOffset)) is Palette)
+                            if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset, out existingPalette) && existingPalette is Palette)
                             {
                                 List<Palette> palettes = new List<Palette>();
 
                                 int foundPaletteOffset = paletteOffset;
                                 for (int k = 0; k < KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT * 4; k++)
                                 {
-                                    if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
-                                        (existingPalette = RomProject.Instance.Files[0].GetElementAt(foundPaletteOffset)) is Palette)
-                                        palettes.Add((Palette)RomProject.Instance.Files[0].GetElementAt(foundPaletteOffset));
+                                    if (RomProject.Instance.Files[0].HasElementExactlyAt(foundPaletteOffset, out existingPalette) && existingPalette is Palette)
+                                        palettes.Add((Palette)existingPalette);
 
                                     foundPaletteOffset += 0x40 * 2;
                                 }
@@ -136,17 +136,16 @@ namespace Pitstop64.Services.Readers
                         //Don't double up on duplicates
                         if (results.KartPaletteBlocks.SingleOrDefault(b => b.FileOffset == paletteOffset) == null)
                         {
-                            if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
-                                (existingPalette = RomProject.Instance.Files[0].GetElementAt(paletteOffset)) is Palette)
+                            if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset, out existingPalette) && existingPalette is Palette)
                             {
                                 List<Palette> palettes = new List<Palette>();
+                                palettes.Add((Palette)existingPalette);
 
-                                int foundPaletteOffset = paletteOffset;
-                                for (int k = 0; k < KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT * 4; k++)
+                                int foundPaletteOffset = paletteOffset + 0x40 * 2;
+                                for (int k = 1; k < KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT * 4; k++)
                                 {
-                                    if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
-                                        (existingPalette = RomProject.Instance.Files[0].GetElementAt(foundPaletteOffset)) is Palette)
-                                        palettes.Add((Palette)RomProject.Instance.Files[0].GetElementAt(foundPaletteOffset));
+                                    if (RomProject.Instance.Files[0].HasElementExactlyAt(foundPaletteOffset, out existingPalette) && existingPalette is Palette)
+                                        palettes.Add((Palette)existingPalette);
 
                                     foundPaletteOffset += 0x40 * 2;
                                 }
@@ -182,8 +181,7 @@ namespace Pitstop64.Services.Readers
 
                     N64DataElement existingPalette;
 
-                    if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset) &&
-                        (existingPalette = RomProject.Instance.Files[0].GetElementAt(paletteOffset)) is Palette)
+                    if (RomProject.Instance.Files[0].HasElementExactlyAt(paletteOffset, out existingPalette) && existingPalette is Palette)
                     {
                         block.CharacterPaletteReferences[i].ReferenceElement = (Palette)existingPalette;
                     }
@@ -214,8 +212,7 @@ namespace Pitstop64.Services.Readers
                             block.CharacterTurnReferences[i][j].ReferenceElement = mio;
                             continue;
                         }
-                        else if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset) &&
-                            (elem = RomProject.Instance.Files[0].GetElementAt(mioOffset)) is MIO0Block)
+                        else if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset, out elem) && elem is MIO0Block)
                         {
                             mio = (MIO0Block)elem;
                             block.CharacterTurnReferences[i][j].ReferenceElement = mio;
@@ -244,8 +241,7 @@ namespace Pitstop64.Services.Readers
                             block.CharacterCrashReferences[i][j].ReferenceElement = mio;
                             continue;
                         }
-                        else if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset) &&
-                            (elem = RomProject.Instance.Files[0].GetElementAt(mioOffset)) is MIO0Block)
+                        else if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset, out elem) && elem is MIO0Block)
                         {
                             mio = (MIO0Block)elem;
                             block.CharacterCrashReferences[i][j].ReferenceElement = mio;
@@ -278,8 +274,7 @@ namespace Pitstop64.Services.Readers
                         N64DataElement existingMio;
                         MIO0Block mio;
 
-                        if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset) &&
-                            (existingMio = RomProject.Instance.Files[0].GetElementAt(mioOffset)) is MIO0Block)
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(mioOffset, out existingMio) && existingMio is MIO0Block)
                         {
                             mio = (MIO0Block)existingMio;
 

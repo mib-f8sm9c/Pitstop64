@@ -142,11 +142,12 @@ namespace Pitstop64.Services.Hub
 
             //Also the text bank is all elements, so we don't need an xml in here for it
             ProgressService.SetMessage("Loading Text Blocks");
-            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1) &&
-                RomProject.Instance.Files[0].HasElementExactlyAt(TextBankBlock.TEXT_BLOCK_START))
+            N64DataElement textRefEl, textBlockEl;
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1, out textRefEl) &&
+                RomProject.Instance.Files[0].HasElementExactlyAt(TextBankBlock.TEXT_BLOCK_START, out textBlockEl))
             {
-                TextReferenceBlock refBlock = (TextReferenceBlock)RomProject.Instance.Files[0].GetElementAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1);
-                TextBankBlock bankBlock = (TextBankBlock)RomProject.Instance.Files[0].GetElementAt(TextBankBlock.TEXT_BLOCK_START);
+                TextReferenceBlock refBlock = (TextReferenceBlock)textRefEl;
+                TextBankBlock bankBlock = (TextBankBlock)textBlockEl;
 
                 TextBank = new TextBank(bankBlock, refBlock, true);
             }
@@ -154,6 +155,7 @@ namespace Pitstop64.Services.Hub
             int offset;
             int count = 0;
             int fullCount = _loadedXml.Elements().Count();
+            N64DataElement n64Element;
 
             foreach (XElement element in _loadedXml.Elements())
             {
@@ -164,14 +166,19 @@ namespace Pitstop64.Services.Hub
                         foreach (XElement el in element.Elements())
                         {
                             offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementExactlyAt(offset))
+                            if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
                             {
                                 int paletteOffset = offset;
                                 List<Palette> palettes = new List<Palette>();
+                                palettes.Add((Palette)n64Element);
+                                paletteOffset += 0x40 * 2;
 
-                                for (int i = 0; i < 84; i++) //Make not hardcoded later
+                                for (int i = 1; i < 84; i++) //Make not hardcoded later
                                 {
-                                    palettes.Add((Palette)RomProject.Instance.Files[0].GetElementAt(paletteOffset));
+                                    if (!RomProject.Instance.Files[0].HasElementAt(paletteOffset, out n64Element))
+                                        throw new Exception();
+
+                                    palettes.Add((Palette)n64Element);
                                     paletteOffset += 0x40 * 2;
                                 }
 
@@ -184,14 +191,19 @@ namespace Pitstop64.Services.Hub
                         foreach (XElement el in element.Elements())
                         {
                             offset = int.Parse(el.Value);
-                            if (RomProject.Instance.Files[0].HasElementExactlyAt(offset))
+                            if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
                             {
                                 int paletteOffset = offset;
                                 List<Palette> palettes = new List<Palette>();
+                                palettes.Add((Palette)n64Element);
+                                paletteOffset += 0x40 * 2;
 
-                                for (int i = 0; i < 80; i++) //Make not hardcoded later
+                                for (int i = 1; i < 80; i++) //Make not hardcoded later
                                 {
-                                    palettes.Add((Palette)RomProject.Instance.Files[0].GetElementAt(paletteOffset));
+                                    if (!RomProject.Instance.Files[0].HasElementAt(paletteOffset, out n64Element))
+                                        throw new Exception();
+
+                                    palettes.Add((Palette)n64Element);
                                     paletteOffset += 0x40 * 2;
                                 }
 
@@ -202,24 +214,22 @@ namespace Pitstop64.Services.Hub
                         break;
                     case KARTS_GRAPHICS_REFERENCE_BLOCK:
                         offset = int.Parse(element.Value);
-                        if (RomProject.Instance.Files[0].HasElementAt(offset))
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
                         {
-                            N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                            if (dataElement is KartGraphicsReferenceBlock)
+                            if (n64Element is KartGraphicsReferenceBlock)
                             {
-                                KartGraphicsBlock = (KartGraphicsReferenceBlock)dataElement;
+                                KartGraphicsBlock = (KartGraphicsReferenceBlock)n64Element;
                                 //KartReader.LoadKartGraphicDmaReferences(KartGraphicsBlock);
                             }
                         }
                         break;
                     case KARTS_PORTRAITS_REFERENCE_TABLE:
                         offset = int.Parse(element.Value);
-                        if (RomProject.Instance.Files[0].HasElementAt(offset))
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
                         {
-                            N64DataElement dataElement = RomProject.Instance.Files[0].GetElementAt(offset);
-                            if (dataElement is KartPortraitTable)
+                            if (n64Element is KartPortraitTable)
                             {
-                                KartPortraitsTable = (KartPortraitTable)dataElement;
+                                KartPortraitsTable = (KartPortraitTable)n64Element;
                                 //KartReader.LoadKartPortraitDmaReferences(KartPortraitsTable);
                             }
                         }
@@ -436,7 +446,11 @@ namespace Pitstop64.Services.Hub
                         }
 
                         DmaAddress address = new DmaAddress(0x0F, mkImage.TextureOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-                        MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(mkImage.TextureOffset);
+                        N64DataElement blockEl;
+
+                        if (!RomProject.Instance.Files[0].HasElementAt(mkImage.TextureOffset, out blockEl))
+                            throw new Exception();
+                        MIO0Block block = (MIO0Block)blockEl;
                         address.ReferenceElement = block;
                         KartGraphicsBlock.CharacterTurnReferences[i][j] = address;
 
@@ -487,7 +501,10 @@ namespace Pitstop64.Services.Hub
                             RomProject.Instance.Files[0].AddElement(newBlock);
                         }
 
-                        MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(mkImage.TextureOffset);
+                        N64DataElement element;
+                        if (!RomProject.Instance.Files[0].HasElementExactlyAt(mkImage.TextureOffset, out element))
+                            throw new Exception();
+                        MIO0Block block = (MIO0Block)element;
 
                         //Save the image
                         if (block.FileOffset == -1)
@@ -520,8 +537,7 @@ namespace Pitstop64.Services.Hub
                 }
 
                 N64DataElement tkmk;
-                if (RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterNameplateReference[i]) &&
-                    (tkmk = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.CharacterNameplateReference[i])) is TKMK00Block)
+                if (RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterNameplateReference[i], out tkmk) && tkmk  is TKMK00Block)
                 {
                     TKMK00Block oldTkmk = (TKMK00Block)tkmk;
                     oldTkmk.ImageAlphaColor = kart.KartNamePlate.TKMKAlphaColor;

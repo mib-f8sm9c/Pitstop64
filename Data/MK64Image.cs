@@ -261,6 +261,7 @@ namespace Pitstop64.Data
                 ImageName = name;
 
             LoadImageData(rawFileData);
+
         }
 
         public MK64Image(XElement xml, Palette existingPalette = null)
@@ -369,8 +370,10 @@ namespace Pitstop64.Data
             if (TextureOffset == -1)
                 return false;
 
-            N64DataElement element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
-            if (element != null && element.FileOffset == TextureOffset && element is TKMK00Block)
+            N64DataElement element;
+
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextureOffset, out element) &&
+                element.FileOffset == TextureOffset && element is TKMK00Block)
             {
                 TKMKReference = (TKMK00Block)element;
                 IsValidImage = (TKMKReference != null);
@@ -399,8 +402,8 @@ namespace Pitstop64.Data
                 {
                     paletteRef = null;
 
-                    element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
-                    if (element != null && element.FileOffset == TextureOffset && !(element is UnknownData))
+                    if (RomProject.Instance.Files[0].HasElementExactlyAt(PaletteOffset[i], out element) &&
+                        element.FileOffset == TextureOffset && !(element is UnknownData))
                     {
                         switch (PaletteEncoding[i])
                         {
@@ -444,8 +447,8 @@ namespace Pitstop64.Data
             //Now texture
             Texture textureRef = null;
 
-            element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
-            if (element != null && element.FileOffset == TextureOffset && !(element is UnknownData))
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextureOffset, out element) &&
+                element.FileOffset == TextureOffset && !(element is UnknownData))
             {
                 switch (TextureEncoding)
                 {
@@ -518,8 +521,9 @@ namespace Pitstop64.Data
                 for (int i = 0; i < PaletteOffset.Count; i++)
                 {
                     paletteRef = null;
-                    element = RomProject.Instance.Files[0].GetElementAt(PaletteOffset[i]);
-                    if (element != null && element.FileOffset == PaletteOffset[i] && !(element is UnknownData))
+
+                    if (RomProject.Instance.Files[0].HasElementExactlyAt(PaletteOffset[i], out element) && 
+                        element.FileOffset == PaletteOffset[i] && !(element is UnknownData))
                     {
                         switch (PaletteEncoding[i])
                         {
@@ -579,7 +583,6 @@ namespace Pitstop64.Data
                                 Palette pal = new Palette(PaletteOffset[i], data);
                                 if (RomProject.Instance.Files[0].AddElement(pal))
                                     paletteRef = pal;
-
                                 break;
                             case MK64ImageEncoding.MIO0:
 
@@ -605,13 +608,12 @@ namespace Pitstop64.Data
                     paletteRefs.Add(paletteRef);
                 }
             }
-            
-            
+
             Texture textureRef = null;
             TKMK00Block tkmkRef = null;
 
-            element = RomProject.Instance.Files[0].GetElementAt(TextureOffset);
-            if (element != null && element.FileOffset == TextureOffset && !(element is UnknownData))
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(TextureOffset, out element) &&
+                element.FileOffset == TextureOffset && !(element is UnknownData))
             {
                 switch (TextureEncoding)
                 {

@@ -96,8 +96,10 @@ namespace Pitstop64.Services.Readers
 
             //To do: add a function to automate this pre-existing check, like
             //        bool hasExistingElement<T:N64DataElement> (offset, out T)
-            N64DataElement preExistingElement = RomProject.Instance.Files[0].GetElementAt(TextBankBlock.TEXT_BLOCK_START);
-            if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
+            N64DataElement preExistingElement;
+            
+            if (RomProject.Instance.Files[0].HasElementAt(TextBankBlock.TEXT_BLOCK_START, out preExistingElement) && 
+                preExistingElement.GetType() == typeof(UnknownData))
             {
                 byte[] bytes = new byte[TextBankBlock.TEXT_BLOCK_LENGTH];
                 Array.Copy(rawData, TextBankBlock.TEXT_BLOCK_START, bytes, 0, bytes.Length);
@@ -111,8 +113,8 @@ namespace Pitstop64.Services.Readers
                 textBankBlock = (TextBankBlock)preExistingElement;
             }
 
-            preExistingElement = RomProject.Instance.Files[0].GetElementAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1);
-            if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
+            if (RomProject.Instance.Files[0].HasElementAt(TextReferenceBlock.TEXT_REFERENCE_SECTION_1, out preExistingElement) && 
+                preExistingElement.GetType() == typeof(UnknownData))
             {
 
                 byte[] bytes = new byte[TextReferenceBlock.TEXT_REFERENCE_END - TextReferenceBlock.TEXT_REFERENCE_SECTION_1];

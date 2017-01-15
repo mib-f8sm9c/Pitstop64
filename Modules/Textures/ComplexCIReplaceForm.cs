@@ -12,6 +12,7 @@ using System.IO;
 using Cereal64.Common.DataElements.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils.Encoding;
+using Cereal64.Common.DataElements;
 
 namespace Pitstop64.Modules.Textures
 {
@@ -283,8 +284,10 @@ namespace Pitstop64.Modules.Textures
 
                 if (Images[0].PaletteEncoding[0] == MK64Image.MK64ImageEncoding.MIO0)
                 {
-                    MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(Images[0].PaletteOffset[0]);
-
+                    N64DataElement element;
+                    if (!RomProject.Instance.Files[0].HasElementExactlyAt(Images[0].PaletteOffset[0], out element))
+                        throw new Exception();
+                    MIO0Block block = (MIO0Block)element;
                     byte[] oldMIO0Data = block.DecodedData;
 
                     Array.Copy(newPaletteData, 0, oldMIO0Data, Images[0].PaletteBlockOffset[0], newPaletteData.Length);
@@ -312,7 +315,10 @@ namespace Pitstop64.Modules.Textures
 
                     if (image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0)
                     {
-                        MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(image.TextureOffset);
+                        N64DataElement element;
+                        if (!RomProject.Instance.Files[0].HasElementExactlyAt(image.TextureOffset, out element))
+                            throw new Exception();
+                        MIO0Block block = (MIO0Block)element;
 
                         byte[] MIO0Data = block.DecodedData;
 

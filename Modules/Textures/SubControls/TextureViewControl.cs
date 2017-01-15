@@ -12,6 +12,7 @@ using Cereal64.Common.DataElements.Encoding;
 using Cereal64.Common.Rom;
 using Cereal64.Common.Utils.Encoding;
 using Pitstop64.Services.Hub;
+using Cereal64.Common.DataElements;
 
 namespace Pitstop64.Modules.Textures.SubControls
 {
@@ -220,9 +221,16 @@ namespace Pitstop64.Modules.Textures.SubControls
 
                 byte[] oldMIO0RefData = null;
 
+                N64DataElement el;
+
                 if (_image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0)
                 {
-                    MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(_image.TextureOffset);
+                    if (!RomProject.Instance.Files[0].HasElementAt(_image.TextureOffset, out el))
+                    {
+                        MessageBox.Show("Error: Couldn't set image file! Could not find MIO0 block.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    MIO0Block block = (MIO0Block)el;
 
                     byte[] oldMIO0Data = block.DecodedData;
                     oldMIO0RefData = oldMIO0Data;
@@ -254,7 +262,12 @@ namespace Pitstop64.Modules.Textures.SubControls
 
                 if (_image.Format == Texture.ImageFormat.CI && _image.PaletteEncoding[0] == MK64Image.MK64ImageEncoding.MIO0)
                 {
-                    MIO0Block block = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(_image.PaletteOffset[0]);
+                    if (!RomProject.Instance.Files[0].HasElementAt(_image.TextureOffset, out el))
+                    {
+                        MessageBox.Show("Error: Couldn't set image file! Could not find MIO0 block.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    MIO0Block block = (MIO0Block)el;
 
                     byte[] oldMIO0Data = block.DecodedData;
 
@@ -274,7 +287,10 @@ namespace Pitstop64.Modules.Textures.SubControls
                         //Revert texture
                         if (_image.TextureEncoding == MK64Image.MK64ImageEncoding.MIO0)
                         {
-                            MIO0Block blockText = (MIO0Block)RomProject.Instance.Files[0].GetElementAt(_image.TextureOffset);
+                            N64DataElement element;
+                            if (!RomProject.Instance.Files[0].HasElementExactlyAt(_image.TextureOffset, out element))
+                                throw new Exception();
+                            MIO0Block blockText = (MIO0Block)element;
 
                             blockText.RawData = oldMIO0RefData;
                         }

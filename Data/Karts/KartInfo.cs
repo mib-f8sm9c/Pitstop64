@@ -313,10 +313,11 @@ namespace Pitstop64.Data.Karts
                 if (xml.Element(PALETTE).Attribute(OFFSET) != null)
                 {
                     int offset = int.Parse(xml.Element(PALETTE).Attribute(OFFSET).Value);
-
-                    if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is Palette)
+                    N64DataElement element;
+                    if (offset != -1 && RomProject.Instance.Files[0].HasElementExactlyAt(offset, out element) &&
+                        element is Palette)
                     {
-                        ImagePalette = (Palette)RomProject.Instance.Files[0].GetElementAt(offset);
+                        ImagePalette = (Palette)element;
                     }
                     else
                         ImagePalette = new Palette(-1, Convert.FromBase64String(xml.Element(PALETTE).Value));
@@ -564,7 +565,8 @@ namespace Pitstop64.Data.Karts
 
         public KartImage(List<MK64Image> images)
         {
-            Images = images;
+            Images = new List<MK64Image>();
+            Images.AddRange(images);
             if(images.Count > 0 && images[0] != null)
                 _name = images[0].ImageName;
         }
