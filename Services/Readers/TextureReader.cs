@@ -48,7 +48,6 @@ namespace Pitstop64.Services.Readers
                 MK64Image image = new MK64Image(imageInfo, rawData);
                 if (image.IsValidImage)
                 {
-                    //TO DO: USE ADDKARTIMAGE AND KEEP THEM SEPARATE FROM THE OTHER TEMPLATES
                     results.AddKartImage(image);
                 }
                 else

@@ -190,17 +190,9 @@ namespace Pitstop64
 
         private void ApplyProjectPayload(object sender, DoWorkEventArgs args)
         {
-            //foreach (RomItem item in RomProject.Instance.Items)
-            //{
-            //    if (item is KartInfo)
-            //    {
-            //        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
-            //    }
-            //}
-            
             //MarioKart64ElementHub.Instance.SaveKartInfo();
-            MessageBox.Show("WHat does this do???");
-            //MarioKart64ElementHub.Instance.LoadFromXML();
+            
+            MarioKart64ElementHub.Instance.LoadFromXML();
 
             //Let's see if we can avoid this
             //MarioKart64Reader.ReadingFinished += ReadingFinished;
