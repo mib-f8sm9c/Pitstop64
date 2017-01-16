@@ -18,10 +18,9 @@ using Pitstop64.Services.Hub;
 
 namespace Pitstop64.Modules.Courses
 {
-    public partial class CourseControl : UserControl
+    public partial class TrackControl : UserControl
     {
-
-        public CourseControl()
+        public TrackControl()
         {
             InitializeComponent();
 
@@ -30,28 +29,28 @@ namespace Pitstop64.Modules.Courses
 
         public void UpdateControl()
         {
-            cbCourse.Items.Clear();
+            cbTrack.Items.Clear();
 
-            if (RomProject.Instance.Files.Count > 0  && MarioKart64ElementHub.Instance.CourseDataBlock != null)
+            if (RomProject.Instance.Files.Count > 0  && MarioKart64ElementHub.Instance.TrackDataBlock != null)
             {
-                cbCourse.Enabled = true;
+                cbTrack.Enabled = true;
 
-                for (int i = 0; i < MarioKartRomInfo.CourseCount; i++)
+                for (int i = 0; i < MarioKartRomInfo.TrackCount; i++)
                 {
-                    //Add all the courses here. But they're going to be loaded in the Mariokart hub
-                    cbCourse.Items.Add(Enum.GetName(typeof(MarioKartRomInfo.OriginalCourses), (MarioKartRomInfo.OriginalCourses)i));
+                    //Add all the tracks here. But they're going to be loaded in the Mariokart hub
+                    cbTrack.Items.Add(Enum.GetName(typeof(MarioKartRomInfo.OriginalTracks), (MarioKartRomInfo.OriginalTracks)i));
                 }
-                cbCourse.SelectedIndex = 0;
+                cbTrack.SelectedIndex = 0;
             }
             else
             {
-                cbCourse.Enabled = false;
+                cbTrack.Enabled = false;
             }
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (cbCourse.SelectedIndex != -1)
+            if (cbTrack.SelectedIndex != -1)
             {
                 //This is still in the old format, so we'll just 
                 openGLControl.ClearGraphics();
@@ -64,7 +63,7 @@ namespace Pitstop64.Modules.Courses
         private void PortedLoadingCode()
         {
             byte[] _romData = RomProject.Instance.Files[0].GetAsBytes();
-            CourseDataReferenceEntry SelectedCourse = MarioKart64ElementHub.Instance.CourseDataBlock.entries[cbCourse.SelectedIndex];
+            TrackDataReferenceEntry SelectedTrack = MarioKart64ElementHub.Instance.TrackDataBlock.Entries[cbTrack.SelectedIndex];
 
             while (RomProject.Instance.Files.Count > 1)
             {
@@ -72,18 +71,18 @@ namespace Pitstop64.Modules.Courses
             }
 
             //Take the blocks, and export them
-            byte[] displayListBlock = new byte[SelectedCourse.DisplayListBlockEnd - SelectedCourse.DisplayListBlockStart];
-            Array.Copy(_romData, SelectedCourse.DisplayListBlockStart,
+            byte[] displayListBlock = new byte[SelectedTrack.DisplayListBlockEnd - SelectedTrack.DisplayListBlockStart];
+            Array.Copy(_romData, SelectedTrack.DisplayListBlockStart,
                 displayListBlock, 0, displayListBlock.Length);
-            int vertexEndPackedDLStartOffset = SelectedCourse.DisplayListOffset & 0x00FFFFFF;
+            int vertexEndPackedDLStartOffset = SelectedTrack.DisplayListOffset & 0x00FFFFFF;
             byte[] vertexBlock = new byte[vertexEndPackedDLStartOffset];
-            Array.Copy(_romData, SelectedCourse.VertexBlockStart,
+            Array.Copy(_romData, SelectedTrack.VertexBlockStart,
                 vertexBlock, 0, vertexBlock.Length);
-            byte[] packedBlock = new byte[(SelectedCourse.VertexBlockEnd - SelectedCourse.VertexBlockStart) - vertexEndPackedDLStartOffset];
-            Array.Copy(_romData, SelectedCourse.VertexBlockStart + vertexEndPackedDLStartOffset,
+            byte[] packedBlock = new byte[(SelectedTrack.VertexBlockEnd - SelectedTrack.VertexBlockStart) - vertexEndPackedDLStartOffset];
+            Array.Copy(_romData, SelectedTrack.VertexBlockStart + vertexEndPackedDLStartOffset,
                 packedBlock, 0, packedBlock.Length);
-            byte[] textureBlock = new byte[SelectedCourse.TextureBlockEnd - SelectedCourse.TextureBlockStart];
-            Array.Copy(_romData, SelectedCourse.TextureBlockStart,
+            byte[] textureBlock = new byte[SelectedTrack.TextureBlockEnd - SelectedTrack.TextureBlockStart];
+            Array.Copy(_romData, SelectedTrack.TextureBlockStart,
                 textureBlock, 0, textureBlock.Length);
 
             byte[] decodedDLData = Cereal64.Common.Utils.Encoding.MIO0.Decode(displayListBlock);
@@ -96,18 +95,27 @@ namespace Pitstop64.Modules.Courses
             F3DEXCommandCollection commandColl = new F3DEXCommandCollection(0x00, commands);
             byte[] commandsData = commandColl.RawData;
 
-            List<CourseTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
+            f3DEXEditor1.Commands = commandColl;
+
+            List<TrackTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
 
             byte[] textureSegData = new byte[textureSegPointers.Sum(t => t.DecompressedSize)];
             int bytePointer = 0;
+            List<string> offsets = new List<string>();
+            List<int> pointers = new List<int>();
             for (int i = 0; i < textureSegPointers.Count; i++)
             {
-                byte[] tempHolder = new byte[textureSegPointers[i].CompressedSize];
+                int mioSize = textureSegPointers[i].CompressedSize;
+                if (mioSize % 4 != 0)
+                    mioSize += 4 - (mioSize % 4);
+                byte[] tempHolder = new byte[mioSize];
                 Array.Copy(_romData, (textureSegPointers[i].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset,
-                    tempHolder, 0, textureSegPointers[i].CompressedSize);
+                    tempHolder, 0, mioSize);
                 byte[] decompressed = Cereal64.Common.Utils.Encoding.MIO0.Decode(tempHolder);
                 Array.Copy(decompressed, 0, textureSegData, bytePointer, decompressed.Length);
+                pointers.Add(bytePointer);
                 bytePointer += decompressed.Length;
+                offsets.Add(((textureSegPointers[i].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset).ToString("X"));
             }
 
             //Use the F3DEXReader here
@@ -151,7 +159,7 @@ namespace Pitstop64.Modules.Courses
             profile.AddDmaSegment(0x05, segment);
             RomProject.Instance.AddDmaProfile(profile);
 
-            F3DEXReaderPackage package = F3DEXReader.ReadF3DEXAt(RomProject.Instance.Files[2], 0x00);
+            F3DEXReaderPackage package = new F3DEXReaderPackage();// F3DEXReader.ReadF3DEXAt(RomProject.Instance.Files[2], 0x00);
             F3DEXReaderPackage newPackage = package;
             newPackage = null;
 
@@ -162,15 +170,15 @@ namespace Pitstop64.Modules.Courses
         }
 
 
-        private List<CourseTextureRef> ReadTextureBank(byte[] texturePointers)
+        private List<TrackTextureRef> ReadTextureBank(byte[] texturePointers)
         {
-            List<CourseTextureRef> output = new List<CourseTextureRef>();
+            List<TrackTextureRef> output = new List<TrackTextureRef>();
             byte[] tempArray = new byte[0x10];
 
             for (int i = 0; i < texturePointers.Length / 0x10; i++)
             {
                 Array.Copy(texturePointers, i * 0x10, tempArray, 0, 0x10);
-                CourseTextureRef refText = new CourseTextureRef(i * 0x10, tempArray);
+                TrackTextureRef refText = new TrackTextureRef(i * 0x10, tempArray);
                 if (refText.RomOffset == 0x00000000)
                     break;
 

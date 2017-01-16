@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Pitstop64.Data.Karts;
+using Cereal64.Common.Controls;
 
 namespace Pitstop64.Modules.Karts
 {
@@ -170,6 +171,8 @@ namespace Pitstop64.Modules.Karts
         {
             InitializeComponent();
 
+            _lockImageSize = true;
+
             //Debug for now
             _timer = new Timer();
             _timer.Tick += new EventHandler(_timer_Tick);
@@ -223,7 +226,8 @@ namespace Pitstop64.Modules.Karts
 
             //Just display the single frame
             KartImage selectedKartImage = _kart.KartImages.Images[_kart.KartAnimations[_animIndex].OrderedImageNames[_frameIndex]];
-            Image = selectedKartImage.Image;
+            Image = selectedKartImage.Images[0].Image;
+            ImageName = selectedKartImage.Images[0].ImageName;
 
             if(ShowReferenceKart)
                 SetReferenceImage();
@@ -256,7 +260,7 @@ namespace Pitstop64.Modules.Karts
                 refFrameIndex = refAnim.GetCrashFrameForImageIndex(_frameIndex);
 
             KartImage selectedKartImage = _referenceKart.KartImages.Images[refAnim.OrderedImageNames[refFrameIndex]];
-            OverlayImage = selectedKartImage.Image;
+            OverlayImage = selectedKartImage.Images[0].Image;
         }
 
         private void _timer_Tick(object sender, EventArgs e)

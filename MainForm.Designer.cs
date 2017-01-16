@@ -42,15 +42,15 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.romInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coursesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tracksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.texturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlCurrentView = new System.Windows.Forms.Panel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
-            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -154,7 +154,7 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.romInfoToolStripMenuItem,
-            this.coursesToolStripMenuItem,
+            this.tracksToolStripMenuItem,
             this.kartsToolStripMenuItem,
             this.texturesToolStripMenuItem,
             this.textToolStripMenuItem});
@@ -169,12 +169,13 @@
             this.romInfoToolStripMenuItem.Text = "Rom Info";
             this.romInfoToolStripMenuItem.Click += new System.EventHandler(this.romInfoToolStripMenuItem_Click);
             // 
-            // coursesToolStripMenuItem
+            // tracksToolStripMenuItem
             // 
-            this.coursesToolStripMenuItem.Name = "coursesToolStripMenuItem";
-            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.coursesToolStripMenuItem.Text = "Courses";
-            this.coursesToolStripMenuItem.Click += new System.EventHandler(this.coursesToolStripMenuItem_Click);
+            this.tracksToolStripMenuItem.Enabled = false;
+            this.tracksToolStripMenuItem.Name = "tracksToolStripMenuItem";
+            this.tracksToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tracksToolStripMenuItem.Text = "Tracks";
+            this.tracksToolStripMenuItem.Click += new System.EventHandler(this.tracksToolStripMenuItem_Click);
             // 
             // kartsToolStripMenuItem
             // 
@@ -189,6 +190,13 @@
             this.texturesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.texturesToolStripMenuItem.Text = "Textures";
             this.texturesToolStripMenuItem.Click += new System.EventHandler(this.texturesToolStripMenuItem_Click);
+            // 
+            // textToolStripMenuItem
+            // 
+            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.textToolStripMenuItem.Text = "Text";
+            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -223,13 +231,6 @@
             // 
             this.saveProjectDialog.FileName = "newProject";
             this.saveProjectDialog.Filter = "Rom Project|*.romproj";
-            // 
-            // textToolStripMenuItem
-            // 
-            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
-            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.textToolStripMenuItem.Text = "Text";
-            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -276,7 +277,7 @@
         private System.Windows.Forms.ToolStripMenuItem texturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kartsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem romInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem coursesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tracksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
     }
 }

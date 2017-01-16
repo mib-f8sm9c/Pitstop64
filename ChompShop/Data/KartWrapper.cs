@@ -141,28 +141,28 @@ namespace ChompShop.Data
             ChompShopAlerts.UpdateKartName(this);
         }
 
-        public void SetNamePlate(TKMK00Block tkmkImage)
+        public void SetNamePlate(MK64Image tkmkImage)
         {
             Kart.KartNamePlate = tkmkImage;
 
             IsModified = true;
         }
 
-        public void AddPortrait(ImageMIO0Block image)
+        public void AddPortrait(MK64Image image)
         {
             Kart.KartPortraits.Add(image);
 
             IsModified = true;
         }
 
-        public void RemovePortrait(ImageMIO0Block image)
+        public void RemovePortrait(MK64Image image)
         {
             Kart.KartPortraits.Remove(image);
 
             IsModified = true;
         }
 
-        public void InsertPortrait(int index, ImageMIO0Block image)
+        public void InsertPortrait(int index, MK64Image image)
         {
             Kart.KartPortraits.Insert(index, image);
 
@@ -171,7 +171,7 @@ namespace ChompShop.Data
 
         public void SwapPortraits(int index1, int index2)
         {
-            ImageMIO0Block temp = Kart.KartPortraits[index1];
+            MK64Image temp = Kart.KartPortraits[index1];
             Kart.KartPortraits[index1] = Kart.KartPortraits[index2];
             Kart.KartPortraits[index2] = temp;
 
@@ -252,7 +252,7 @@ namespace ChompShop.Data
         {
             //Convert to new images
             foreach (KartImage image in Kart.KartImages.Images.Values)
-                NewImages.Add(new BitmapWrapper(image.Name, image.Image));
+                NewImages.Add(new BitmapWrapper(image.Name, image.Images[0].Image));
 
             Kart.KartImages.ClearPalette();
 

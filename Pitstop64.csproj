@@ -70,23 +70,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Courses\CourseData.cs" />
-    <Compile Include="Data\Courses\CourseDataReferenceBlock.cs" />
-    <Compile Include="Data\Courses\CourseTextureRef.cs" />
+    <Compile Include="Data\MK64Image.cs" />
+    <Compile Include="Data\Textures\TextureNames.cs" />
+    <Compile Include="Data\TKMK00Block.cs" />
+    <Compile Include="Data\Tracks\TrackItemsBlock.cs" />
+    <Compile Include="Data\Tracks\TrackData.cs" />
+    <Compile Include="Data\Tracks\TrackDataReferenceBlock.cs" />
+    <Compile Include="Data\Tracks\TrackTextureRef.cs" />
     <Compile Include="Data\DmaAddressBlock.cs" />
     <Compile Include="Data\Karts\KartPaletteBlock.cs" />
     <Compile Include="Data\Karts\KartPortraitTable.cs" />
     <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
     <Compile Include="Data\Text\TextBank.cs" />
     <Compile Include="Data\Text\TextBankBlock.cs" />
-    <Compile Include="Data\Courses\CourseDataReferenceEntry.cs" />
+    <Compile Include="Data\Tracks\TrackDataReferenceEntry.cs" />
     <Compile Include="Data\ImageMIO0Block.cs" />
     <Compile Include="Data\Karts\KartGraphicsReferenceBlock.cs" />
     <Compile Include="Data\Karts\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
-    <Compile Include="Data\TKMK00Block.cs" />
+    <Compile Include="KartImageInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,13 +98,38 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
-    <Compile Include="Modules\Courses\CourseControl.cs">
+    <Compile Include="Modules\Textures\ComplexCIReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\ComplexCIReplaceForm.Designer.cs">
+      <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Textures\NewMK64ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\NewMK64ImageForm.Designer.cs">
+      <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
+    <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Modules\Courses\CourseControl.Designer.cs">
-      <DependentUpon>CourseControl.cs</DependentUpon>
+    <Compile Include="Modules\Textures\SubControls\TextureViewControl.Designer.cs">
+      <DependentUpon>TextureViewControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Courses\CourseModule.cs" />
+    <Compile Include="Modules\Textures\SubControls\TKMKViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\SubControls\TKMKViewControl.Designer.cs">
+      <DependentUpon>TKMKViewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tracks\TrackControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Tracks\TrackControl.Designer.cs">
+      <DependentUpon>TrackControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Tracks\TrackModule.cs" />
     <Compile Include="Modules\Info\RomInfoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,12 +142,6 @@
     </Compile>
     <Compile Include="Modules\Karts\KartPreviewControl.Designer.cs">
       <DependentUpon>KartPreviewControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\Karts\ImagePreviewControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Modules\Karts\ImagePreviewControl.Designer.cs">
-      <DependentUpon>ImagePreviewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Karts\NewAnimForm.cs">
       <SubType>Form</SubType>
@@ -163,7 +186,9 @@
     </Compile>
     <Compile Include="Services\Hub\KartHub.cs" />
     <Compile Include="Services\Hub\MarioKart64ElementHub.cs" />
-    <Compile Include="Services\Readers\CourseReader.cs" />
+    <Compile Include="Services\Hub\TextureHub.cs" />
+    <Compile Include="Services\Readers\TextureReader.cs" />
+    <Compile Include="Services\Readers\TrackReader.cs" />
     <Compile Include="Services\Readers\KartReader.cs" />
     <Compile Include="Services\Readers\MarioKart64Reader.cs" />
     <Compile Include="Services\ProgressDialog.cs">
@@ -173,9 +198,7 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\ProgressService.cs" />
-    <Compile Include="Services\TKMK00Encoder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Services\TKMK00.cs" />
     <Compile Include="Services\VertexPacker.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -185,17 +208,26 @@
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Courses\CourseControl.resx">
-      <DependentUpon>CourseControl.cs</DependentUpon>
+    <EmbeddedResource Include="Modules\Textures\ComplexCIReplaceForm.resx">
+      <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\NewMK64ImageForm.resx">
+      <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
+      <DependentUpon>TextureViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SubControls\TKMKViewControl.resx">
+      <DependentUpon>TKMKViewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Tracks\TrackControl.resx">
+      <DependentUpon>TrackControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Info\RomInfoControl.resx">
       <DependentUpon>RomInfoControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\KartPreviewControl.resx">
       <DependentUpon>KartPreviewControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Karts\ImagePreviewControl.resx">
-      <DependentUpon>ImagePreviewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Karts\NewAnimForm.resx">
       <DependentUpon>NewAnimForm.cs</DependentUpon>
@@ -261,6 +293,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\people-2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="KartImages.txt" />
+    <Content Include="QueuesTextures.txt" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

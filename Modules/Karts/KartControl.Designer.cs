@@ -288,10 +288,14 @@
             this.kartPreviewControl.FrameIndex = 0;
             this.kartPreviewControl.FramesPerSecond = 60;
             this.kartPreviewControl.Image = null;
+            this.kartPreviewControl.ImageSize = new System.Drawing.Size(132, 139);
+            this.kartPreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.kartPreviewControl.Kart = null;
             this.kartPreviewControl.Location = new System.Drawing.Point(132, 186);
+            this.kartPreviewControl.LockImageSize = true;
             this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
             this.kartPreviewControl.Name = "kartPreviewControl";
+            this.kartPreviewControl.OverlayImage = null;
             this.kartPreviewControl.ReferenceKart = null;
             this.kartPreviewControl.ShowReferenceKart = false;
             this.kartPreviewControl.Size = new System.Drawing.Size(174, 164);
@@ -310,6 +314,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "KartControl";
             this.Size = new System.Drawing.Size(605, 421);
+            this.VisibleChanged += new System.EventHandler(this.KartControl_VisibleChanged);
             this.pnlSharedControls.ResumeLayout(false);
             this.gbSelectedKarts.ResumeLayout(false);
             this.gbKarts.ResumeLayout(false);

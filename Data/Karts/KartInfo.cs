@@ -10,6 +10,7 @@ using Cereal64.Common.Rom;
 using Cereal64.Common.DataElements;
 using Ionic.Zip;
 using System.IO;
+using Cereal64.Common.DataElements.Encoding;
 
 namespace Pitstop64.Data.Karts
 {
@@ -30,7 +31,6 @@ namespace Pitstop64.Data.Karts
         private const string IMAGE_DATA = "data";
 
         private const string PORTRAITS = "portraits";
-        private const string PORTRAIT = "portrait";
 
         private const string NAME_PLATE = "namePlate";
         private const string NAME_PLATE_ALPHA = "alpha";
@@ -45,8 +45,8 @@ namespace Pitstop64.Data.Karts
 
         public KartImagePool KartImages { get; set; }
 
-        public List<ImageMIO0Block> KartPortraits { get; set; }
-        public TKMK00Block KartNamePlate { get; set; }
+        public List<MK64Image> KartPortraits { get; set; }
+        public MK64Image KartNamePlate { get; set; }
 
         //True if the kart is one of the original 8
         public bool OriginalKart { get; private set; }
@@ -56,7 +56,7 @@ namespace Pitstop64.Data.Karts
             KartName = kartName;
             KartImages = new KartImagePool(palette);
             KartAnimations = new List<KartAnimationSeries>();
-            KartPortraits = new List<ImageMIO0Block>();
+            KartPortraits = new List<MK64Image>();
             OriginalKart = original;
         }
 
@@ -82,8 +82,8 @@ namespace Pitstop64.Data.Karts
                 newAnim.OrderedImageNames.AddRange(anim.OrderedImageNames);
                 KartAnimations.Add(newAnim);
             }
-            KartPortraits = new List<ImageMIO0Block>();
-            foreach (ImageMIO0Block block in baseKart.KartPortraits)
+            KartPortraits = new List<MK64Image>();
+            foreach (MK64Image block in baseKart.KartPortraits)
                 KartPortraits.Add(block);
             KartNamePlate = baseKart.KartNamePlate;
             OriginalKart = false;
@@ -99,7 +99,7 @@ namespace Pitstop64.Data.Karts
             else
                 KartImages = new KartImagePool();
             KartAnimations = new List<KartAnimationSeries>();
-            KartPortraits = new List<ImageMIO0Block>();
+            KartPortraits = new List<MK64Image>();
 
             XElement animations = xml.Element(ANIMATIONS);
             foreach (XElement animation in animations.Elements())
@@ -118,33 +118,14 @@ namespace Pitstop64.Data.Karts
             XElement portraits = xml.Element(PORTRAITS);
             foreach (XElement portrait in portraits.Elements())
             {
-                int offset = int.Parse(portrait.Attribute(OFFSET).Value);
-                ImageMIO0Block block;
-                if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is ImageMIO0Block)
-                {
-                    block = (ImageMIO0Block)RomProject.Instance.Files[0].GetElementAt(offset);
-                }
-                else
-                {
-                    byte[] data = Convert.FromBase64String(portrait.Element(IMAGE_DATA).Value);
-                    block = new ImageMIO0Block(-1, data);
-                }
-
-                if (portrait.Attribute(NAME) != null)
-                {
-                    block.ImageName = portrait.Attribute(NAME).Value;
-                }
-
-                Texture newTexture = new Texture(0, block.DecodedData, Texture.ImageFormat.RGBA, Texture.PixelInfo.Size_16b, 64, 64);
-                block.DecodedN64DataElement = newTexture;
-                KartPortraits.Add(block);
+                KartPortraits.Add(new MK64Image(portrait));
             }
 
             XElement namePlate = xml.Element(NAME_PLATE);
-            byte[] namePlateData = Convert.FromBase64String(namePlate.Value);
-            ushort namePlateAlpha = ushort.Parse(namePlate.Attribute(NAME_PLATE_ALPHA).Value);
+            //byte[] namePlateData = Convert.FromBase64String(namePlate.Value);
+            //ushort namePlateAlpha = ushort.Parse(namePlate.Attribute(NAME_PLATE_ALPHA).Value);
 
-            KartNamePlate = new TKMK00Block(-1, namePlateData, namePlateAlpha);
+            KartNamePlate = new MK64Image(namePlate.Elements().First());
 
             //if (RomProject.Instance.Files[0].HasElementExactlyAt(namePlateOffset))
             //{
@@ -167,7 +148,7 @@ namespace Pitstop64.Data.Karts
 
             xml.Add(new XAttribute(NAME, KartName));
             xml.Add(new XAttribute(ORIGINAL, OriginalKart));
-            xml.Add(KartImages.GetAsXml());
+            xml.Add(KartImages.GetAsXml(formatForExternalSave));
             XElement xmlAnimations = new XElement(ANIMATIONS);
             foreach (KartAnimationSeries anim in KartAnimations)
             {
@@ -185,29 +166,21 @@ namespace Pitstop64.Data.Karts
             xml.Add(xmlAnimations);
 
             XElement xmlPortraits = new XElement(PORTRAITS);
-            foreach (ImageMIO0Block block in KartPortraits)
+            foreach (MK64Image image in KartPortraits)
             {
-                if (block.DecodedN64DataElement != null)
-                {
-                    XElement xmlPortrait = new XElement(PORTRAIT);
-                    xmlPortrait.Add(new XAttribute(OFFSET, block.FileOffset));
-                    xmlPortrait.Add(new XElement(IMAGE_DATA, Convert.ToBase64String(block.RawData)));
-                    xmlPortrait.Add(new XAttribute(NAME, block.ImageName));
-                    xmlPortraits.Add(xmlPortrait);
-                }
+                xmlPortraits.Add(image.GetAsXML(formatForExternalSave));
             }
             xml.Add(xmlPortraits);
 
             //For the nameplate we need to temporarily set the index to -1
-            int namePlateOffset = KartNamePlate.FileOffset;
-            KartNamePlate.FileOffset = -1;
+            //int namePlateOffset = KartNamePlate.FileOffset;
+            //KartNamePlate.FileOffset = -1;
 
             XElement xmlNamePlate = new XElement(NAME_PLATE);
-            xmlNamePlate.Value = Convert.ToBase64String(KartNamePlate.RawData);
-            xmlNamePlate.Add(new XAttribute(NAME_PLATE_ALPHA, KartNamePlate.ImageAlphaColor));
+            xmlNamePlate.Add(KartNamePlate.GetAsXML(formatForExternalSave));
             xml.Add(xmlNamePlate);
 
-            KartNamePlate.FileOffset = namePlateOffset;
+            //KartNamePlate.FileOffset = namePlateOffset;
 
             //If saving for Chomp Shop use or distribution, need to cull the
             // index values for all the RomElements
@@ -217,7 +190,7 @@ namespace Pitstop64.Data.Karts
                 {
                     foreach(XAttribute at in xel.Attributes())
                     {
-                        if (at.Name == OFFSET)
+                        if (at.Name == OFFSET || at.Name == N64DataElement.FILEOFFSET || at.Name == MK64Image.TEXTURE_OFFSET || at.Name == MK64Image.PALETTE_OFFSET)
                             at.Value = "-1";
                     }
                 }
@@ -268,6 +241,7 @@ namespace Pitstop64.Data.Karts
                             XElement kartXML = kart.GetAsXML(true);
 
                             s.PutNextEntry(kart.KartName);
+
                             byte[] bytes = Encoding.ASCII.GetBytes(kartXML.ToString());
                             s.Write(bytes, 0, bytes.Length);
                         }
@@ -315,8 +289,6 @@ namespace Pitstop64.Data.Karts
         private const string IMAGES = "images";
         private const string IMAGE = "image";
         private const string IMAGE_NAME = "name";
-        private const string IMAGE_DATA = "data";
-        private const string IMAGE_ANIM_PALETTES = "animPalettes";
 
         private const string PALETTE = "palette";
 
@@ -341,10 +313,11 @@ namespace Pitstop64.Data.Karts
                 if (xml.Element(PALETTE).Attribute(OFFSET) != null)
                 {
                     int offset = int.Parse(xml.Element(PALETTE).Attribute(OFFSET).Value);
-
-                    if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is Palette)
+                    N64DataElement element;
+                    if (offset != -1 && RomProject.Instance.Files[0].HasElementExactlyAt(offset, out element) &&
+                        element is Palette)
                     {
-                        ImagePalette = (Palette)RomProject.Instance.Files[0].GetElementAt(offset);
+                        ImagePalette = (Palette)element;
                     }
                     else
                         ImagePalette = new Palette(-1, Convert.FromBase64String(xml.Element(PALETTE).Value));
@@ -360,38 +333,16 @@ namespace Pitstop64.Data.Karts
             XElement images = xml.Element(IMAGES);
             foreach (XElement image in images.Elements())
             {
-                string name = image.Attribute(IMAGE_NAME).Value;
-                byte[] data = Convert.FromBase64String(image.Element(IMAGE_DATA).Value);
-
-                List<Palette> animPalettes = new List<Palette>();
-                XElement animsElement = image.Element(IMAGE_ANIM_PALETTES);
-                if (animsElement != null)
+                string name = image.Attribute(IMAGE_NAME).Value.ToString();
+                List<MK64Image> mkImages = new List<MK64Image>();
+                XElement innerImages = image.Element(IMAGES);
+                foreach (XElement innerImage in innerImages.Elements())
                 {
-                    foreach (XElement paletteXml in animsElement.Elements())
-                    {
-                        animPalettes.Add(new Palette(-1, Convert.FromBase64String(paletteXml.Value)));
-                    }
+                    mkImages.Add(new MK64Image(innerImage, ImagePalette));
                 }
+                KartImage kartImage = new KartImage(mkImages);
 
-                ImageMIO0Block block;
-                int offset = int.Parse(image.Attribute(OFFSET).Value);
-                if (offset != -1 && RomProject.Instance.Files[0].GetElementAt(offset) is ImageMIO0Block)
-                {
-                    block = (ImageMIO0Block)RomProject.Instance.Files[0].GetElementAt(offset);
-                }
-                else
-                {
-                    block = new ImageMIO0Block(name, -1, data);
-                }
-
-                Palette combinedPalette = ImagePalette;
-                if (animPalettes.Count > 0)
-                    combinedPalette = combinedPalette.Combine(animPalettes[0]);
-                Texture newTexture = new Texture(-1, block.DecodedData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, combinedPalette);
-                block.DecodedN64DataElement = newTexture;
-
-                KartImage newImage = new KartImage(block, animPalettes);
-                Images.Add(name, newImage);
+                Images.Add(name, kartImage);
             }
         }
 
@@ -410,7 +361,7 @@ namespace Pitstop64.Data.Karts
             ImagePalette = null;
         }
 
-        public XElement GetAsXml()
+        public XElement GetAsXml(bool formatForExternalSave)
         {
             XElement xml = new XElement(KART_IMAGE_POOL); //Can derive actual type from name with N64DataElementFactory
 
@@ -426,15 +377,13 @@ namespace Pitstop64.Data.Karts
             {
                 XElement xmlImage = new XElement(IMAGE);
                 xmlImage.Add(new XAttribute(IMAGE_NAME, key));
-                xmlImage.Add(new XElement(IMAGE_DATA, Convert.ToBase64String(Images[key].EncodedData.RawData)));
-                xmlImage.Add(new XAttribute(OFFSET, Images[key].EncodedData.FileOffset));
-                XElement animElement = new XElement(IMAGE_ANIM_PALETTES);
-                foreach (Palette palette in Images[key].AnimationPalettes)
+                XElement xmlF3DEXImages = new XElement(IMAGES);
+                foreach (MK64Image image in Images[key].Images)
                 {
-                    if(palette != null)
-                        animElement.Add(new XElement(PALETTE, Convert.ToBase64String(palette.RawData)));
+                    xmlF3DEXImages.Add(image.GetAsXML(formatForExternalSave));
                 }
-                xmlImage.Add(animElement);
+                xmlImage.Add(xmlF3DEXImages);
+
                 xmlImages.Add(xmlImage);
             }
             xml.Add(xmlImages);
@@ -588,12 +537,12 @@ namespace Pitstop64.Data.Karts
                 if (image.IsAnimated)
                 {
                     for (int j = 0; j < 4; j++)
-                        bytes.AddRange(image.AnimationPalettes[j].RawData);
+                        bytes.AddRange(image.Images[j].ImageReference.BasePalettes[1].RawData);
                 }
                 else
                 {
                     for (int j = 0; j < 4; j++)
-                        bytes.AddRange(image.AnimationPalettes[0].RawData);
+                        bytes.AddRange(image.Images[0].ImageReference.BasePalettes[1].RawData);
                 }
             }
 
@@ -612,56 +561,21 @@ namespace Pitstop64.Data.Karts
         public string Name { get { return _name; } }
         private string _name;
 
-        public Bitmap Image { get; private set; }
-        public ImageMIO0Block EncodedData { get; private set; }
+        public List<MK64Image> Images { get; private set; }
 
-        public List<Palette> AnimationPalettes { get; private set; } // each 64 colors
-
-        public KartImage(ImageMIO0Block block, Palette extraPalette)
-            : this(block)
+        public KartImage(List<MK64Image> images)
         {
-            if(extraPalette != null)
-                AnimationPalettes.Add(extraPalette);
-        }
-
-        public KartImage(ImageMIO0Block block, List<Palette> animPalettes)
-            : this(block)
-        {
-            AnimationPalettes.AddRange(animPalettes);
-        }
-
-        private KartImage(ImageMIO0Block block)
-        {
-            EncodedData = block;
-            if(block.DecodedN64DataElement != null)
-                Image = ((Texture)block.DecodedN64DataElement).Image;
-            _name = block.ImageName;
-            AnimationPalettes = new List<Palette>();
-        }
-
-        public ImageMIO0Block GetEncodedData(Palette palette)
-        {
-            if (EncodedData == null)
-            {
-                GenerateEncodedData(palette);
-            }
-
-            return EncodedData;
-        }
-
-        private void GenerateEncodedData(Palette palette)
-        {
-            byte[] data = TextureConversion.CI8ToBinary(Image, palette);
-            byte[] mio0Data = MIO0.Encode(data);
-            EncodedData = new ImageMIO0Block(-1, mio0Data);
-            EncodedData.ImageName = Name;
+            Images = new List<MK64Image>();
+            Images.AddRange(images);
+            if(images.Count > 0 && images[0] != null)
+                _name = images[0].ImageName;
         }
 
         public bool IsAnimated
         {
             get
             {
-                return AnimationPalettes.Count > 1;
+                return Images.Count > 1;
             }
         }
 

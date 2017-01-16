@@ -287,14 +287,25 @@ namespace ChompShop.Controls.KartControls
             if (bmp != null && Kart != null && Kart.Kart != null && Kart.Kart.KartImages.ImagePalette != null)
             {
                 //Create the new KartImage here
-                byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
-                Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
-                ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
-                block.ImageName = imageName;
-                block.DecodedN64DataElement = texture;
+                //byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette);
+                //Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64, Kart.Kart.KartImages.ImagePalette);
+               // ImageMIO0Block block = new ImageMIO0Block(-1, imgData);
+               // block.ImageName = imageName;
+               // block.DecodedN64DataElement = texture;
+                //byte[] blankPaletteData = new byte[0x40];
+                //Palette blankPalette = new Palette(-1, blankPaletteData);
+                //KartImage newImage = new KartImage(block, blankPalette);
+                //return newImage;
+                int tempPalOffset = 0;
+                byte[] imgData = TextureConversion.CI8ToBinary(bmp, Kart.Kart.KartImages.ImagePalette, ref tempPalOffset);
+                Texture texture = new Texture(-1, imgData, Texture.ImageFormat.CI, Texture.PixelInfo.Size_8b, 64, 64);
+                List<Palette> palettes = new List<Palette>();
+                palettes.Add(Kart.Kart.KartImages.ImagePalette);
                 byte[] blankPaletteData = new byte[0x40];
-                Palette blankPalette = new Palette(-1, blankPaletteData);
-                KartImage newImage = new KartImage(block, blankPalette);
+                palettes.Add(new Palette(-1, blankPaletteData));
+                F3DEXImage image = new F3DEXImage(texture, palettes);
+                MK64Image mkImg = new MK64Image(image, imageName, true);
+                KartImage newImage = new KartImage(new List<MK64Image>() { mkImg });
                 return newImage;
             }
 
@@ -368,6 +379,7 @@ namespace ChompShop.Controls.KartControls
             if (validImage)
             {
                 imagePreviewControl.Image = SelectedNewImage.Image;
+                imagePreviewControl.ImageName = SelectedNewImage.Name;
             }
             else
             {
@@ -385,7 +397,8 @@ namespace ChompShop.Controls.KartControls
             bool validKart = (SelectedKartImage != null);
             if (validKart)
             {
-                imagePreviewControl.Image = ((KartImage)lbKartImages.SelectedItem).Image;
+                imagePreviewControl.Image = ((KartImage)lbKartImages.SelectedItem).Images[0].Image;
+                imagePreviewControl.ImageName = ((KartImage)lbKartImages.SelectedItem).Images[0].ImageName;
             }
             else
             {

@@ -11,7 +11,7 @@ namespace Pitstop64.Modules
         public enum Modules
         {
             Info,
-            Courses,
+            Tracks,
             Karts,
             Textures,
             Text,
@@ -31,9 +31,9 @@ namespace Pitstop64.Modules
                 case Modules.Info:
                     newModule = new Info.RomInfoModule();
                     break;
-                case Modules.Courses:
-                    newModule = new Courses.CourseModule();
-                    break;
+                //case Modules.Tracks:
+                //    newModule = new Tracks.TrackModule();
+                //    break;
                 case Modules.Karts:
                     newModule = new Karts.KartModule();
                     break;

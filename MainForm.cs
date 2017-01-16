@@ -44,10 +44,19 @@ namespace Pitstop64
 
         private void UpdateSelectedModule()
         {
-            pnlCurrentView.Controls.Clear();
+            if (pnlCurrentView.Controls.Count > 0)
+            {
+                foreach (Control ctl in pnlCurrentView.Controls)
+                {
+                    ctl.Visible = false;
+                }
+                pnlCurrentView.Controls.Clear();
+            }
+
             IModule module = ModuleFactory.GetModule(SelectedModule);
             pnlCurrentView.Controls.Add(module.Control);
             module.Control.Dock = DockStyle.Fill;
+            module.Control.Visible = true;
             module.UpdateRomData();
         }
 
@@ -181,20 +190,13 @@ namespace Pitstop64
 
         private void ApplyProjectPayload(object sender, DoWorkEventArgs args)
         {
-            //foreach (RomItem item in RomProject.Instance.Items)
-            //{
-            //    if (item is KartInfo)
-            //    {
-            //        MarioKart64ElementHub.Instance.Karts.Add((KartInfo)item); 
-            //    }
-            //}
-            MarioKart64ElementHub.Instance.SaveKartInfo();
-
+            //MarioKart64ElementHub.Instance.SaveKartInfo();
+            
             MarioKart64ElementHub.Instance.LoadFromXML();
 
-            MarioKart64Reader.ReadingFinished += ReadingFinished;
-
-            MarioKart64Reader.ReadRom();
+            //Let's see if we can avoid this
+            //MarioKart64Reader.ReadingFinished += ReadingFinished;
+            //MarioKart64Reader.ReadRom();
         }
 
         private void FinishedApplyProject(object sender, RunWorkerCompletedEventArgs args)
@@ -206,11 +208,17 @@ namespace Pitstop64
                 {
                     this.Invoke((Action)(() =>
                     {
+                        ProgressService.StopDialog();
+                        MessageBox.Show("Project successfully loaded!");
+                        this.Enabled = true;
                         UpdateSelectedModule();
                     }));
                 }
                 else
                 {
+                    ProgressService.StopDialog();
+                    MessageBox.Show("Project successfully loaded!");
+                    this.Enabled = true;
                     UpdateSelectedModule();
                 }
             }
@@ -276,7 +284,7 @@ namespace Pitstop64
             if (!args.Cancelled && args.Error == null)
             {
                 _loadedFilePath = ((object[])args.Result)[1].ToString();
-                statusBarFile.Text = Path.GetFileNameWithoutExtension(_loadedFilePath);
+            statusBarFile.Text = Path.GetFileNameWithoutExtension(_loadedFilePath);
 
                 ProgressService.StopDialog();
 
@@ -285,8 +293,8 @@ namespace Pitstop64
                     {
                         if (newFile)
                             MessageBox.Show("Project successfully saved!");
-                        this.Enabled = true;
-                        UpdateSelectedModule();
+                                    this.Enabled = true;
+                                    UpdateSelectedModule();
                     }));
                 else
                 {
@@ -294,7 +302,7 @@ namespace Pitstop64
                         MessageBox.Show("Project successfully saved!");
                     this.Enabled = true;
                     UpdateSelectedModule();
-                }
+        }
 
             }
             else
@@ -353,12 +361,13 @@ namespace Pitstop64
 
         private void ExportRomPayload(object sender, DoWorkEventArgs args)
         {
-            //Apply changes here
-            MarioKart64ElementHub.Instance.SaveKartInfo();
+                //Apply changes here
+                MarioKart64ElementHub.Instance.SaveKartInfo();
+                MarioKart64ElementHub.Instance.SaveTrackInfo();
 
-            byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
-            if (N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
-            {
+                byte[] newRomData = RomProject.Instance.Files[0].GetAsBytes();
+                if (N64Sums.FixChecksum(newRomData)) //In the future, save this CRC to the actual project data
+                {
                 File.WriteAllBytes(((string)args.Argument), newRomData);
             }
             else
@@ -377,7 +386,7 @@ namespace Pitstop64
                 if (InvokeRequired)
                     this.Invoke((Action)(() =>
                     {
-                        MessageBox.Show("Rom successfully exported!");
+                    MessageBox.Show("Rom successfully exported!");
                         this.Enabled = true;
                         UpdateSelectedModule();
                     }));
@@ -398,7 +407,7 @@ namespace Pitstop64
                     this.Invoke((Action)(() => { this.Enabled = true; }));
                 else
                     this.Enabled = true;
-            }
+        }
         }
 
         private void CancelExportRom()
@@ -461,9 +470,9 @@ namespace Pitstop64
             SelectedModule = ModuleFactory.Modules.Karts;
         }
 
-        private void coursesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tracksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SelectedModule = ModuleFactory.Modules.Courses;
+            SelectedModule = ModuleFactory.Modules.Tracks;
         }
 
         private void romInfoToolStripMenuItem_Click(object sender, EventArgs e)

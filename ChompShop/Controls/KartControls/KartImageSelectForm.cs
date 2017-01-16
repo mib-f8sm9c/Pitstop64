@@ -78,7 +78,10 @@ namespace ChompShop.Controls.KartControls
             if (lbKartImages.SelectedIndex == -1)
                 imagePreviewControl.Image = null;
             else
-                imagePreviewControl.Image = ((KartImage)lbKartImages.Items[lbKartImages.SelectedIndex]).Image;
+            {
+                imagePreviewControl.Image = ((KartImage)lbKartImages.Items[lbKartImages.SelectedIndex]).Images[0].Image;
+                imagePreviewControl.ImageName = ((KartImage)lbKartImages.Items[lbKartImages.SelectedIndex]).Images[0].ImageName;
+            }
         }
 
         public string FilterText
@@ -101,7 +104,7 @@ namespace ChompShop.Controls.KartControls
             {
                 foreach (KartImage image in AllImages)
                 {
-                    image.Image.Save(Path.Combine(folderBrowserDialog.SelectedPath, image.Name + ".png"));
+                    image.Images[0].Image.Save(Path.Combine(folderBrowserDialog.SelectedPath, image.Name + ".png"));
                 }
             }
         }

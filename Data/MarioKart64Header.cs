@@ -6,6 +6,8 @@ using Cereal64.Common.DataElements;
 
 namespace Pitstop64.Data
 {
+    //NOT USED!!
+
     public class MarioKart64Header //: N64DataElement
     {
         public const string MarioKartHeader = "MARIOKART64";

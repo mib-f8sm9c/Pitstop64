@@ -21,23 +21,20 @@ namespace Pitstop64.Data.Karts
         public short ImageWidth { get; set; }
         public short ImageHeight { get; private set; }
 
-        public ImageMIO0Block ImageReference { get { return _image; }
+        public MK64Image ImageReference { get { return _image; }
             set 
             {
                 if (value != null)
                 {
                     _image = value;
-                    ImageOffset = value.FileOffset - MarioKartRomInfo.CharacterFaceMIO0Offset;
-                    if (value.DecodedN64DataElement != null && value.DecodedN64DataElement is Texture)
-                    {
-                        Texture texture = (Texture)value.DecodedN64DataElement;
-                        ImageWidth = (short)texture.Width;
-                        ImageHeight = (short)texture.Height;
-                    }
+
+                    ImageOffset = value.TextureOffset - MarioKartRomInfo.CharacterFaceMIO0Offset;
+                    ImageWidth = (short)value.Width;
+                    ImageHeight = (short)value.Height;
                 }
             }
         }
-        private ImageMIO0Block _image;
+        private MK64Image _image;
 
         public KartPortraitTableEntry(int fileOffset, byte[] data)
             : base(fileOffset, data)
@@ -45,17 +42,10 @@ namespace Pitstop64.Data.Karts
 
         }
 
-        public KartPortraitTableEntry(int fileOffset, ImageMIO0Block block)
+        public KartPortraitTableEntry(int fileOffset, MK64Image image)
             : base(fileOffset, null)
         {
-            ImageReference = block;
-
-            if (block.DecodedN64DataElement is Texture)
-            {
-                ImageOffset = block.FileOffset - MarioKartRomInfo.CharacterFaceMIO0Offset;
-                ImageWidth = (short)((Texture)block.DecodedN64DataElement).Width;
-                ImageHeight = (short)((Texture)block.DecodedN64DataElement).Height;
-            }
+            ImageReference = image;
         }
 
         public override byte[] RawData

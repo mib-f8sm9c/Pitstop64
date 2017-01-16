@@ -5,12 +5,12 @@ using System.Text;
 using Cereal64.Common.Utils;
 using System.Collections.ObjectModel;
 
-namespace MarioKartTestingTool
+namespace Pitstop64.Services
 {
     /// <summary>
     /// Code for encoding/decoding images in the TKMK00 format
     /// </summary>
-    public static class TKMK00Encoder
+    public static class TKMK00
     {
         /// <summary>
         /// Huffman trees have a left/right node and a value. In TKMK00, if the left or right node exists, then it's just a traversal

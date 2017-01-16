@@ -73,6 +73,20 @@ namespace Pitstop64.Modules.Karts
             System.Diagnostics.Process.Start(CHOMP_SHOP_EXEC);
         }
 
+        private void KartControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                //Enable the kart cycling
+                kartPreviewControl.Mode = KartPreviewControl.PreviewMode.Animated;
+            }
+            else
+            {
+                //Disable the kart cycling
+                kartPreviewControl.Mode = KartPreviewControl.PreviewMode.Static;
+            }
+        }
+
         #region KartInfo
 
         private void UpdateKartList()
@@ -133,7 +147,7 @@ namespace Pitstop64.Modules.Karts
             }
 
             //fill out information
-            pbPortrait.Image = ((Texture)SelectedKartInfo.KartPortraits[0].DecodedN64DataElement).Image;
+            pbPortrait.Image = SelectedKartInfo.KartPortraits[0].Image;
             kartPreviewControl.Kart = SelectedKartInfo;
             lblKartName.Text = SelectedKartInfo.KartName;
         }

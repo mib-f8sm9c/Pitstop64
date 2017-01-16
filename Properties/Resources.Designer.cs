@@ -93,6 +93,16 @@ namespace Pitstop64.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap minus {
+            get {
+                object obj = ResourceManager.GetObject("minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap people_2x {
             get {
                 object obj = ResourceManager.GetObject("people-2x", resourceCulture);
@@ -106,6 +116,16 @@ namespace Pitstop64.Properties {
         internal static System.Drawing.Bitmap people_3x {
             get {
                 object obj = ResourceManager.GetObject("people-3x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plus {
+            get {
+                object obj = ResourceManager.GetObject("plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

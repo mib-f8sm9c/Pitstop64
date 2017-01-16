@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Cereal64.Common.Rom;
+using Pitstop64.Services.Hub;
+using Cereal64.Common.DataElements;
+using Cereal64.Common.DataElements.Encoding;
+using System.IO;
 
 namespace Pitstop64.Modules.About
 {
@@ -27,6 +31,8 @@ Major thanks to QueueRAM, Shygoo and Rena";
 
         public void UpdateControl()
         {
+
         }
+
     }
 }
