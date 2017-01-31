@@ -30,17 +30,19 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTrackAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previewTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elementEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackConstructorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,55 +71,55 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // windowsToolStripMenuItem
-            // 
-            this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.trackInfoToolStripMenuItem,
-            this.previewTrackToolStripMenuItem,
-            this.elementEditorToolStripMenuItem,
-            this.trackConstructorToolStripMenuItem});
-            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 19);
-            this.windowsToolStripMenuItem.Text = "Windows";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
             // newTrackToolStripMenuItem
             // 
             this.newTrackToolStripMenuItem.Name = "newTrackToolStripMenuItem";
-            this.newTrackToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newTrackToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.newTrackToolStripMenuItem.Text = "New Track";
+            this.newTrackToolStripMenuItem.Click += new System.EventHandler(this.newTrackToolStripMenuItem_Click);
             // 
             // loadTrackToolStripMenuItem
             // 
             this.loadTrackToolStripMenuItem.Name = "loadTrackToolStripMenuItem";
             this.loadTrackToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.loadTrackToolStripMenuItem.Text = "Load Track...";
+            this.loadTrackToolStripMenuItem.Click += new System.EventHandler(this.loadTrackToolStripMenuItem_Click);
             // 
             // saveTrackToolStripMenuItem
             // 
             this.saveTrackToolStripMenuItem.Name = "saveTrackToolStripMenuItem";
             this.saveTrackToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveTrackToolStripMenuItem.Text = "Save Track";
+            this.saveTrackToolStripMenuItem.Click += new System.EventHandler(this.saveTrackToolStripMenuItem_Click);
             // 
             // saveTrackAsToolStripMenuItem
             // 
             this.saveTrackAsToolStripMenuItem.Name = "saveTrackAsToolStripMenuItem";
             this.saveTrackAsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveTrackAsToolStripMenuItem.Text = "Save Track As...";
+            this.saveTrackAsToolStripMenuItem.Click += new System.EventHandler(this.saveTrackAsToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            // 
+            // windowsToolStripMenuItem
+            // 
+            this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.previewTrackToolStripMenuItem,
+            this.trackInfoToolStripMenuItem,
+            this.elementEditorToolStripMenuItem,
+            this.trackConstructorToolStripMenuItem});
+            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
+            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 19);
+            this.windowsToolStripMenuItem.Text = "Windows";
             // 
             // trackInfoToolStripMenuItem
             // 
+            this.trackInfoToolStripMenuItem.Enabled = false;
             this.trackInfoToolStripMenuItem.Name = "trackInfoToolStripMenuItem";
             this.trackInfoToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.trackInfoToolStripMenuItem.Text = "Track Info";
@@ -127,18 +129,37 @@
             this.previewTrackToolStripMenuItem.Name = "previewTrackToolStripMenuItem";
             this.previewTrackToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.previewTrackToolStripMenuItem.Text = "Preview Track";
+            this.previewTrackToolStripMenuItem.Click += new System.EventHandler(this.previewTrackToolStripMenuItem_Click);
             // 
             // elementEditorToolStripMenuItem
             // 
+            this.elementEditorToolStripMenuItem.Enabled = false;
             this.elementEditorToolStripMenuItem.Name = "elementEditorToolStripMenuItem";
             this.elementEditorToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.elementEditorToolStripMenuItem.Text = "Element Editor";
             // 
             // trackConstructorToolStripMenuItem
             // 
+            this.trackConstructorToolStripMenuItem.Enabled = false;
             this.trackConstructorToolStripMenuItem.Name = "trackConstructorToolStripMenuItem";
             this.trackConstructorToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.trackConstructorToolStripMenuItem.Text = "Track Constructor";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 19);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "track";
+            this.saveFileDialog.Filter = "Track file|*.track|All files|*.*";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "track";
+            this.openFileDialog.Filter = "Track file|*.track|All files|*.*";
             // 
             // TrackShackForm
             // 
@@ -150,7 +171,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TrackShackForm";
             this.Text = "Track Shack";
             this.menuStrip.ResumeLayout(false);
@@ -175,6 +196,8 @@
         private System.Windows.Forms.ToolStripMenuItem previewTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem elementEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trackConstructorToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 

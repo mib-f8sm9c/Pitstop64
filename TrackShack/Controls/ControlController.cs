@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using TrackShack.Data;
+using Pitstop64.Data.Tracks;
+using TrackShack.Controls.TrackControls;
 
 namespace TrackShack.Controls
 {
@@ -27,14 +28,14 @@ namespace TrackShack.Controls
         private const uint SW_RESTORE = 0x09;
 
         private Dictionary<TrackShackWindowType, TrackShackWindow> SingleForms;
-        private Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>> TrackForms;
+        private Dictionary<TrackInfo, Dictionary<TrackShackWindowType, TrackShackWindow>> TrackForms;
 
         private TrackShackForm _parentForm;
 
         public ControlController(TrackShackForm parent)
         {
             SingleForms = new Dictionary<TrackShackWindowType, TrackShackWindow>();
-            TrackForms = new Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>>();
+            TrackForms = new Dictionary<TrackInfo, Dictionary<TrackShackWindowType, TrackShackWindow>>();
 
             _parentForm = parent;
         }
@@ -82,7 +83,7 @@ namespace TrackShack.Controls
 
         }
 
-        public void ShowTrackForm(TrackWrapper track, TrackShackWindowType type)
+        public void ShowTrackForm(TrackInfo track, TrackShackWindowType type)
         {
             TrackShackWindow form;
             if (TrackForms.ContainsKey(track))
@@ -130,14 +131,14 @@ namespace TrackShack.Controls
             return null;
         }
 
-        public TrackShackWindow GenerateTrackForm(TrackWrapper wrapper, TrackShackWindowType type)
+        public TrackShackWindow GenerateTrackForm(TrackInfo track, TrackShackWindowType type)
         {
             switch (type)
             {
                 case TrackShackWindowType.TrackInfo:
                     return null;
                 case TrackShackWindowType.Preview:
-                    return null;
+                    return new PreviewTrackForm(track);
                 case TrackShackWindowType.ElementEditor:
                     return null;
                 case TrackShackWindowType.TrackConstructor:
@@ -152,7 +153,7 @@ namespace TrackShack.Controls
             return SingleForms.ContainsKey(type);
         }
 
-        public bool KartFormIsOpen(TrackWrapper track, TrackShackWindowType type)
+        public bool TrackFormIsOpen(TrackInfo track, TrackShackWindowType type)
         {
             if (!TrackForms.ContainsKey(track))
                 return false;
@@ -160,7 +161,7 @@ namespace TrackShack.Controls
             return TrackForms[track].ContainsKey(type);
         }
 
-        public void ClearTrackForms(TrackWrapper track)
+        public void ClearTrackForms(TrackInfo track)
         {
             if (TrackForms.ContainsKey(track))
             {

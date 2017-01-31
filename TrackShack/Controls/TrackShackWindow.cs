@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
-using TrackShack.Data;
+using Pitstop64.Data.Tracks;
 
 namespace TrackShack.Controls
 {
@@ -16,14 +16,14 @@ namespace TrackShack.Controls
         {
         }
 
-        public TrackShackWindow(TrackWrapper track)
+        public TrackShackWindow(TrackInfo track)
         {
             Track = track;
 
-            TrackShackAlerts.TrackNameChanged += new TrackShackAlerts.TrackNameChangedEvent(ChompShopAlerts_TrackNameChanged);
+            TrackShackAlerts.TrackNameChanged += new TrackShackAlerts.TrackNameChangedEvent(TrackShackAlerts_TrackNameChanged);
         }
 
-        private void ChompShopAlerts_TrackNameChanged(TrackWrapper wrapper)
+        private void TrackShackAlerts_TrackNameChanged(TrackInfo wrapper)
         {
             if (Track == wrapper)
             {
@@ -34,7 +34,7 @@ namespace TrackShack.Controls
             TrackNameUpdated(wrapper);
         }
 
-        protected virtual void TrackNameUpdated(TrackWrapper wrapper)
+        protected virtual void TrackNameUpdated(TrackInfo wrapper)
         {
 
         }
@@ -56,7 +56,7 @@ namespace TrackShack.Controls
 
         public virtual TrackShackWindowType WindowType { get { throw new NotImplementedException(); } }
 
-        public TrackWrapper Track { get; protected set; }
+        public TrackInfo Track { get; protected set; }
 
         protected TrackShackForm ChompShopForm { get { return (TrackShackForm)this.MdiParent; } }
 
