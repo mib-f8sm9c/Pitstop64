@@ -12,110 +12,73 @@ using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.DataElements.Encoding;
 using Pitstop64.Data;
+using Pitstop64.Data.Tracks.Compressed;
 
 namespace Pitstop64.Services.Readers
 {
     public static class TrackReader
     {
-        //public static void ReadRom(BackgroundWorker worker, byte[] rawData, MarioKart64ReaderResults finalResults)
-        //{
-        //    TrackReaderResults results = new TrackReaderResults();
+        public static void ReadRom(BackgroundWorker worker, byte[] rawData, MarioKart64ReaderResults finalResults)
+        {
+            TrackReaderResults results = new TrackReaderResults();
 
-        //    TrackDataReferenceBlock trackBlock;
-        //    if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.TrackReferenceDataTableLocation))
-        //    {
-        //        ProgressService.SetMessage("Loading Track Resources");
-        //        byte[] refBlock = new byte[MarioKartRomInfo.TrackCount * 0x30];
-        //        Array.Copy(rawData, MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock, 0, MarioKartRomInfo.TrackCount * 0x30);
+            TrackDataReferenceBlock trackBlock;
+            N64DataElement element;
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.TrackReferenceDataTableLocation, out element))
+            {
+                ProgressService.SetMessage("Loading Track Resources");
+                byte[] refBlock = new byte[MarioKartRomInfo.TrackCount * 0x30];
+                Array.Copy(rawData, MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock, 0,
+                    MarioKartRomInfo.TrackCount * TrackDataReferenceEntry.TRACK_DATA_REFERENCE_ENTRY_SIZE);
 
-        //        trackBlock = new TrackDataReferenceBlock(MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock);
-        //        results.NewElements.Add(trackBlock);
-        //    }
-        //    else
-        //    {
-        //        trackBlock = (TrackDataReferenceBlock)RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TrackReferenceDataTableLocation);
-        //    }
+                trackBlock = new TrackDataReferenceBlock(MarioKartRomInfo.TrackReferenceDataTableLocation, refBlock);
+                results.NewElements.Add(trackBlock);
+            }
+            else
+            {
+                trackBlock = (TrackDataReferenceBlock)element;
+            }
 
-        //    results.TrackDataBlock = trackBlock;
+            results.TrackTable = trackBlock;
 
-        //    if (MarioKart64ElementHub.Instance.Tracks.Count == 0) //Has not been initialized
-        //        LoadTrackInfo(trackBlock, worker, rawData, results);
+            foreach(TrackDataReferenceEntry trackEntry in trackBlock.Entries)
+            {
+                LoadTrackInfo(trackEntry, worker, rawData, results);
+            }
 
-        //    finalResults.TrackResults = results;
-        //}
+            finalResults.TrackResults = results;
+        }
 
-        //public static void LoadTrackInfo(TrackDataReferenceBlock trackBlock, BackgroundWorker worker, byte[] rawData, TrackReaderResults results)
-        //{
-        //    //Go through each track, load it up, etc.
-        //    for (int i = 0; i < trackBlock.Entries.Length; i++)
-        //    {
-        //        //Load up the portait picture
+        public static void LoadTrackInfo(TrackDataReferenceEntry trackEntry, BackgroundWorker worker, byte[] rawData, TrackReaderResults results)
+        {
+            //Load up the name
+            string trackName = Enum.GetName(typeof(MarioKartRomInfo.OriginalTracks), Array.IndexOf(results.TrackTable.Entries, trackEntry));
 
-        //        //Need to decide how to represent images first?
+            //Load the portrait?
 
-        //        TrackDataReferenceEntry SelectedTrackRef = trackBlock.Entries[i];
+            //Now start loading up the raw data. Remember to add the MIO0 blocks, but send the actual data into the TrackData object!
 
-        //        //Load up the name
-        //        string trackName = Enum.GetName(typeof(MarioKartRomInfo.OriginalTracks), i);
+            //Only need to create the blocks and add those to the new elements!
+            //Item block
+            MIO0Block itemData = MIO0Block.ReadMIO0BlockFrom(rawData, trackEntry.DisplayListBlockStart, trackEntry.DisplayListBlockEnd - trackEntry.DisplayListBlockStart);
+            TrackItemBlock itemBlock = new TrackItemBlock(trackEntry.DisplayListBlockStart, itemData);
+            results.NewElements.Add(itemBlock);
 
-        //        //Now start loading up the raw data. Remember to add the MIO0 blocks, but send the actual data into the TrackData object!
+            //Vertex block
+            byte[] vertexDLData = new byte[trackEntry.VertexBlockEnd - trackEntry.VertexBlockStart];
+            Array.Copy(rawData, trackEntry.VertexBlockStart, vertexDLData, 0, vertexDLData.Length);
+            TrackVertexDLBlock vertexBlock = new TrackVertexDLBlock(trackEntry.VertexBlockStart, vertexDLData, trackEntry.FinalDLCommandOffset);
+            results.NewElements.Add(vertexBlock);
 
-        //        //Item block
-        //        MIO0Block itemBlock = MIO0Block.ReadMIO0BlockFrom(rawData, SelectedTrackRef.DisplayListBlockStart, SelectedTrackRef.DisplayListBlockEnd - SelectedTrackRef.DisplayListBlockStart);
-        //        results.NewElements.Add(itemBlock);
-
-        //        //Vertex block
-        //        int vertexEndPackedDLStartOffset = SelectedTrackRef.DisplayListOffset & 0x00FFFFFF;
-        //        MIO0Block vertexBlock = MIO0Block.ReadMIO0BlockFrom(rawData, SelectedTrackRef.VertexBlockStart, vertexEndPackedDLStartOffset);
-        //        results.NewElements.Add(vertexBlock);
-
-        //        //DL Block
-        //        byte[] packedBlock = new byte[(SelectedTrackRef.VertexBlockEnd - SelectedTrackRef.VertexBlockStart) - vertexEndPackedDLStartOffset];
-        //        Array.Copy(rawData, SelectedTrackRef.VertexBlockStart + vertexEndPackedDLStartOffset,
-        //            packedBlock, 0, packedBlock.Length);
-
-        //        //Texture Block
-        //        byte[] textureBlock = new byte[SelectedTrackRef.TextureBlockEnd - SelectedTrackRef.TextureBlockStart];
-        //        Array.Copy(rawData, SelectedTrackRef.TextureBlockStart,
-        //            textureBlock, 0, textureBlock.Length);
-
-        //        //Convert Items
-        //        TrackItemsBlock trackItemsBlock = new TrackItemsBlock(-1, itemBlock.DecodedData);
-
-        //        //Convert Vertices
-        //        List<Vertex> vertices = VertexPacker.BytesToVertices(vertexBlock.DecodedData.ToList());
-        //        VertexCollection vertCollection = new VertexCollection(-1, vertices); //Will the -1 hurt?
-
-        //        //Convert DL
-        //        List<F3DEXCommand> commands = F3DEXPacker.BytesToCommands(packedBlock.ToList());
-        //        F3DEXCommandCollection commandColl = new F3DEXCommandCollection(-1, commands);
-
-        //        //Convert Textures
-        //        List<TrackTextureRef> textureSegPointers = ReadTextureBank(textureBlock);
-
-        //        //Not really needed yet, this is more of the Track Viewer shit, right?
-        //        byte[] textureSegData = new byte[textureSegPointers.Sum(t => t.DecompressedSize)];
-        //        int bytePointer = 0;
-        //        List<string> offsets = new List<string>();
-        //        List<int> pointers = new List<int>();
-        //        for (int j = 0; j < textureSegPointers.Count; j++)
-        //        {
-        //            int mioSize = textureSegPointers[j].CompressedSize;
-        //            if (mioSize % 4 != 0)
-        //                mioSize += 4 - (mioSize % 4);
-        //            byte[] tempHolder = new byte[mioSize];
-        //            Array.Copy(rawData, (textureSegPointers[j].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset,
-        //                tempHolder, 0, mioSize);
-        //            byte[] decompressed = Cereal64.Common.Utils.Encoding.MIO0.Decode(tempHolder);
-        //            Array.Copy(decompressed, 0, textureSegData, bytePointer, decompressed.Length);
-        //            pointers.Add(bytePointer);
-        //            bytePointer += decompressed.Length;
-        //            offsets.Add(((textureSegPointers[j].RomOffset & 0x00FFFFFF) + MarioKartRomInfo.TextureBankOffset).ToString("X"));
-        //        }
-
-        //        //TrackData track = new TrackData(trackName, true, trackItemsBlock, vertCollection, commandColl, textureSegPointers);
-        //    }
-        //}
+            //Texture Block
+            byte[] textureData = new byte[trackEntry.TextureBlockEnd - trackEntry.TextureBlockStart];
+            Array.Copy(rawData, trackEntry.TextureBlockStart, textureData, 0, textureData.Length);
+            TrackTextureRefBlock textureBlock = new TrackTextureRefBlock(trackEntry.TextureBlockStart, textureData);
+            results.NewElements.Add(textureBlock);
+            
+            CompressedTrack track = new CompressedTrack(trackName, itemBlock, vertexBlock, textureBlock, trackEntry.VertexCount, trackEntry.Unknown2);
+            results.Tracks.Add(track);
+        }
 
         //private static List<TrackTextureRef> ReadTextureBank(byte[] texturePointers)
         //{
@@ -136,25 +99,37 @@ namespace Pitstop64.Services.Readers
         //}
 
 
-        //public static void ApplyResults(TrackReaderResults results)
-        //{
-        //    foreach (N64DataElement element in results.NewElements)
-        //        RomProject.Instance.Files[0].AddElement(element);
+        public static void ApplyResults(TrackReaderResults results)
+        {
+            MarioKart64ElementHub.Instance.TrackTable = results.TrackTable;
 
-        //    MarioKart64ElementHub.Instance.TrackDataBlock = results.TrackDataBlock;
-        //}
+            for (int i = 0; i < results.Tracks.Count; i++)
+            {
+                CompressedTrack track = results.Tracks[i];
+                //If a track by the same name doesn't exist
+                if (MarioKart64ElementHub.Instance.Tracks.SingleOrDefault(t => t.TrackName == track.TrackName) == null)
+                    MarioKart64ElementHub.Instance.Tracks.Add(track);
+
+                if (MarioKart64ElementHub.Instance.SelectedTracks[i] == null)
+                    MarioKart64ElementHub.Instance.SelectedTracks[i] = track;
+            }
+
+            foreach (N64DataElement element in results.NewElements)
+                RomProject.Instance.Files[0].AddElement(element);
+
+        }
     }
 
     public class TrackReaderResults
     {
-        //public List<N64DataElement> NewElements;
-        //public TrackDataReferenceBlock TrackDataBlock;
-        //public List<TrackData> Tracks;
+        public List<N64DataElement> NewElements;
+        public TrackDataReferenceBlock TrackTable;
+        public List<CompressedTrack> Tracks;
 
-        //public TrackReaderResults()
-        //{
-        //    NewElements = new List<N64DataElement>();
-        //    Tracks = new List<TrackData>();
-        //}
+        public TrackReaderResults()
+        {
+            NewElements = new List<N64DataElement>();
+            Tracks = new List<CompressedTrack>();
+        }
     }
 }

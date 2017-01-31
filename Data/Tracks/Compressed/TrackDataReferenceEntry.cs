@@ -6,8 +6,9 @@ using Cereal64.Common.DataElements;
 using System.ComponentModel;
 using Cereal64.Common.Utils;
 using Pitstop64;
+using Pitstop64.Data.Tracks;
 
-namespace Pitstop64.Data.Courses
+namespace Pitstop64.Data.Tracks.Compressed
 {
     [AlternateXMLNames(new string[] { "CourseDataReferenceEntry" })]
     public class TrackDataReferenceEntry : N64DataElement
@@ -59,9 +60,9 @@ namespace Pitstop64.Data.Courses
         private int _displayListOffset;
 
         [CategoryAttribute("Track Data"),
-        DescriptionAttribute("Size of the display list block")]
-        public int DisplayListSize { get { return _displayListSize; } set { _displayListSize = value; } }
-        private int _displayListSize;
+        DescriptionAttribute("Offset of the final DL Command in the list")]
+        public int FinalDLCommandOffset { get { return _finalDLCommandOffset; } set { _finalDLCommandOffset = value; } }
+        private int _finalDLCommandOffset;
 
         [CategoryAttribute("Track Data"),
         DescriptionAttribute("Segment the textures are stored in")]
@@ -95,7 +96,7 @@ namespace Pitstop64.Data.Courses
                     _segment << 24, //calculates as int
                     _vertexCount,
                     _displayListOffset,
-                    _displayListSize,
+                    _finalDLCommandOffset,
                     _textureSegment << 24, //calculates as int
                     _unknown2 << 16); //calculates as int
             }
@@ -113,16 +114,34 @@ namespace Pitstop64.Data.Courses
                 _segment = ByteHelper.ReadByte(value, 0x18);
                 _vertexCount = ByteHelper.ReadInt(value, 0x1C);
                 _displayListOffset = ByteHelper.ReadInt(value, 0x20);
-                _displayListSize = ByteHelper.ReadInt(value, 0x24);
+                _finalDLCommandOffset = ByteHelper.ReadInt(value, 0x24);
                 _textureSegment = ByteHelper.ReadByte(value, 0x28);
                 _unknown2 = ByteHelper.ReadUShort(value, 0x2C);
             }
         }
 
+        public void LoadInfoFromTrack(CompressedTrack track)
+        {
+            _displayListBlockStart = track.ItemBlock.FileOffset;
+            _displayListBlockEnd = track.ItemBlock.FileOffset + track.ItemBlock.RawDataSize;
+            _vertexBlockStart = track.VertexBlock.FileOffset;
+            _vertexBlockEnd = track.VertexBlock.FileOffset + track.VertexBlock.RawDataSize;
+            _textureBlockStart = track.TextureBlock.FileOffset;
+            _textureBlockEnd = track.TextureBlock.FileOffset + track.TextureBlock.RawDataSize;
+            _segment = 0x0F;
+            _vertexCount = track.Unknown1;
+            _displayListOffset = (0x0F000000 | track.VertexBlock.VertexData.RawDataSize);
+            _finalDLCommandOffset = track.VertexBlock.FinalDLCommand;
+            _textureSegment = 0x09;
+            _unknown2 = track.Unknown2;
+        }
+
         public override int RawDataSize
         {
-            get { return 0x30; }
+            get { return TRACK_DATA_REFERENCE_ENTRY_SIZE; }
         }
+
+        public const int TRACK_DATA_REFERENCE_ENTRY_SIZE = 0x30;
 
         public override string ToString()
         {

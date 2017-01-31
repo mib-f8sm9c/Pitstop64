@@ -146,29 +146,6 @@ namespace Pitstop64
 
         public const int CoursePreviewImageWidth = 128;
         public const int CoursePreviewImageHeight = 72;
-        public static int[] CoursePreviewImageOffsets = new int[]
-        {
-            0x007A1418,
-            0x007A4570,
-            0x007A6F94,
-            0x007AA074,
-            0x007AC720,
-            0x007B0160,
-            0x007B2568,
-            0x007B488C,
-            0x007B70AC,
-            0x007B9E20,
-            0x007BC3E8,
-            0x007BED84,
-            0x007C1590,
-            0x007C45A0,
-            0x007C6DC4,
-            0x007CA098,
-            0x007CC5C0,
-            0x007CECB0,
-            0x007D15A8,
-            0x007D548C
-        };
 
         public static int[] OriginalTrackDLOffsets = new int[] //Can use the DL end index values instead maybe?
         {

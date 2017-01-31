@@ -8,14 +8,12 @@ using Cereal64.Common.Utils;
 
 namespace Pitstop64.Data
 {
-    //BARELY USED!!
-
     public class DmaAddressBlock: N64DataElement
     {
         //Should I lock the addresses size, so it can't be too big?
         public List<DmaAddress> Addresses { get; private set; }
 
-        public DmaAddressBlock(int offset, byte[] data, int trackID)
+        public DmaAddressBlock(int offset, byte[] data)
             : base(offset, data)
         {
         }

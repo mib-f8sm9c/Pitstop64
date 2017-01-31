@@ -41,17 +41,16 @@
             this.btnKartUp = new System.Windows.Forms.Button();
             this.lbKarts = new System.Windows.Forms.ListBox();
             this.gbKarts = new System.Windows.Forms.GroupBox();
+            this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
             this.btnExportKart = new System.Windows.Forms.Button();
             this.lblKartName = new System.Windows.Forms.Label();
             this.btnImportKart = new System.Windows.Forms.Button();
             this.pnlPortrait = new System.Windows.Forms.Panel();
             this.pbPortrait = new System.Windows.Forms.PictureBox();
             this.lbAllKarts = new System.Windows.Forms.ListBox();
-            this.btnRemoveKart = new System.Windows.Forms.Button();
             this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnChompShop = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
             this.pnlSharedControls.SuspendLayout();
             this.gbSelectedKarts.SuspendLayout();
             this.gbKarts.SuspendLayout();
@@ -185,13 +184,36 @@
             this.gbKarts.Controls.Add(this.btnImportKart);
             this.gbKarts.Controls.Add(this.pnlPortrait);
             this.gbKarts.Controls.Add(this.lbAllKarts);
-            this.gbKarts.Controls.Add(this.btnRemoveKart);
             this.gbKarts.Location = new System.Drawing.Point(3, 3);
             this.gbKarts.Name = "gbKarts";
             this.gbKarts.Size = new System.Drawing.Size(309, 356);
             this.gbKarts.TabIndex = 10;
             this.gbKarts.TabStop = false;
             this.gbKarts.Text = "Karts";
+            // 
+            // kartPreviewControl
+            // 
+            this.kartPreviewControl.AnimIndex = 0;
+            this.kartPreviewControl.CycleAnimations = true;
+            this.kartPreviewControl.DisplayRefKartOption = false;
+            this.kartPreviewControl.ExportButtonVisible = true;
+            this.kartPreviewControl.FrameIndex = 0;
+            this.kartPreviewControl.FramesPerSecond = 60;
+            this.kartPreviewControl.Image = null;
+            this.kartPreviewControl.ImageName = "";
+            this.kartPreviewControl.ImageSize = new System.Drawing.Size(132, 139);
+            this.kartPreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.kartPreviewControl.Kart = null;
+            this.kartPreviewControl.Location = new System.Drawing.Point(132, 186);
+            this.kartPreviewControl.LockImageSize = true;
+            this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
+            this.kartPreviewControl.Name = "kartPreviewControl";
+            this.kartPreviewControl.OverlayImage = null;
+            this.kartPreviewControl.ReferenceKart = null;
+            this.kartPreviewControl.ShowReferenceKart = false;
+            this.kartPreviewControl.Size = new System.Drawing.Size(174, 164);
+            this.kartPreviewControl.TabIndex = 25;
+            this.kartPreviewControl.UseAnimPalettes = true;
             // 
             // btnExportKart
             // 
@@ -253,17 +275,6 @@
             this.lbAllKarts.TabIndex = 1;
             this.lbAllKarts.SelectedIndexChanged += new System.EventHandler(this.lbAllKarts_SelectedIndexChanged);
             // 
-            // btnRemoveKart
-            // 
-            this.btnRemoveKart.Location = new System.Drawing.Point(19, 303);
-            this.btnRemoveKart.Name = "btnRemoveKart";
-            this.btnRemoveKart.Size = new System.Drawing.Size(93, 33);
-            this.btnRemoveKart.TabIndex = 2;
-            this.btnRemoveKart.Text = "Remove";
-            this.btnRemoveKart.UseVisualStyleBackColor = true;
-            this.btnRemoveKart.Visible = false;
-            this.btnRemoveKart.Click += new System.EventHandler(this.btnRemoveKart_Click);
-            // 
             // openKartDialog
             // 
             this.openKartDialog.DefaultExt = "kart";
@@ -278,29 +289,6 @@
             this.btnChompShop.Text = "Launch Kart Editor...";
             this.btnChompShop.UseVisualStyleBackColor = true;
             this.btnChompShop.Click += new System.EventHandler(this.btnChompShop_Click);
-            // 
-            // kartPreviewControl
-            // 
-            this.kartPreviewControl.AnimIndex = 0;
-            this.kartPreviewControl.CycleAnimations = true;
-            this.kartPreviewControl.DisplayRefKartOption = false;
-            this.kartPreviewControl.ExportButtonVisible = true;
-            this.kartPreviewControl.FrameIndex = 0;
-            this.kartPreviewControl.FramesPerSecond = 60;
-            this.kartPreviewControl.Image = null;
-            this.kartPreviewControl.ImageSize = new System.Drawing.Size(132, 139);
-            this.kartPreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.kartPreviewControl.Kart = null;
-            this.kartPreviewControl.Location = new System.Drawing.Point(132, 186);
-            this.kartPreviewControl.LockImageSize = true;
-            this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Animated;
-            this.kartPreviewControl.Name = "kartPreviewControl";
-            this.kartPreviewControl.OverlayImage = null;
-            this.kartPreviewControl.ReferenceKart = null;
-            this.kartPreviewControl.ShowReferenceKart = false;
-            this.kartPreviewControl.Size = new System.Drawing.Size(174, 164);
-            this.kartPreviewControl.TabIndex = 25;
-            this.kartPreviewControl.UseAnimPalettes = true;
             // 
             // KartControl
             // 
@@ -346,7 +334,6 @@
         private System.Windows.Forms.Panel pnlPortrait;
         private System.Windows.Forms.PictureBox pbPortrait;
         private System.Windows.Forms.ListBox lbAllKarts;
-        private System.Windows.Forms.Button btnRemoveKart;
         private System.Windows.Forms.OpenFileDialog openKartDialog;
         private System.Windows.Forms.Button btnChompShop;
         private System.Windows.Forms.ToolTip toolTip;

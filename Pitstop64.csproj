@@ -73,23 +73,26 @@
     <Compile Include="Data\MK64Image.cs" />
     <Compile Include="Data\Textures\TextureNames.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
-    <Compile Include="Data\Tracks\TrackItemsBlock.cs" />
-    <Compile Include="Data\Tracks\TrackData.cs" />
-    <Compile Include="Data\Tracks\TrackDataReferenceBlock.cs" />
-    <Compile Include="Data\Tracks\TrackTextureRef.cs" />
+    <Compile Include="Data\Tracks\Compressed\CompressedTrack.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackItemBlock.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackTextureRefBlock.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackVertexDLBlock.cs" />
+    <Compile Include="Data\Tracks\TrackInfo.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackDataReferenceBlock.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackTextureRef.cs" />
     <Compile Include="Data\DmaAddressBlock.cs" />
     <Compile Include="Data\Karts\KartPaletteBlock.cs" />
     <Compile Include="Data\Karts\KartPortraitTable.cs" />
     <Compile Include="Data\Karts\KartPortraitTableEntry.cs" />
     <Compile Include="Data\Text\TextBank.cs" />
     <Compile Include="Data\Text\TextBankBlock.cs" />
-    <Compile Include="Data\Tracks\TrackDataReferenceEntry.cs" />
-    <Compile Include="Data\ImageMIO0Block.cs" />
+    <Compile Include="Data\Tracks\Compressed\TrackDataReferenceEntry.cs" />
     <Compile Include="Data\Karts\KartGraphicsReferenceBlock.cs" />
     <Compile Include="Data\Karts\KartInfo.cs" />
     <Compile Include="Data\MarioKart64Header.cs" />
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
+    <Compile Include="Data\Tracks\TrackItemsObject.cs" />
     <Compile Include="KartImageInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -109,6 +112,12 @@
     </Compile>
     <Compile Include="Modules\Textures\NewMK64ImageForm.Designer.cs">
       <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Textures\SelectMK64ImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Textures\SelectMK64ImageForm.Designer.cs">
+      <DependentUpon>SelectMK64ImageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Textures\SubControls\ITextureViewControl.cs" />
     <Compile Include="Modules\Textures\SubControls\TextureViewControl.cs">
@@ -213,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\NewMK64ImageForm.resx">
       <DependentUpon>NewMK64ImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Textures\SelectMK64ImageForm.resx">
+      <DependentUpon>SelectMK64ImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\SubControls\TextureViewControl.resx">
       <DependentUpon>TextureViewControl.cs</DependentUpon>

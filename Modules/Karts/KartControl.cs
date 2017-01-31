@@ -235,12 +235,6 @@ namespace Pitstop64.Modules.Karts
             }
         }
 
-        private void btnRemoveKart_Click(object sender, EventArgs e)
-        {
-            //Not done
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region SelectedKarts

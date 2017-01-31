@@ -33,5 +33,17 @@ namespace Pitstop64.Services
             return vertices;
         }
 
+        public static List<byte> VerticesToBytes(List<Vertex> vertices)
+        {
+            List<byte> data = new List<byte>();
+
+            foreach (Vertex vtx in vertices)
+            {
+                data.AddRange(ByteHelper.CombineIntoBytes(vtx.X, vtx.Y, vtx.Z, vtx.S, vtx.T, vtx.R, vtx.G, vtx.B, vtx.A));
+            }
+
+            return data;
+        }
+
     }
 }

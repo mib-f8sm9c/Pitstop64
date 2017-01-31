@@ -11,7 +11,7 @@ using System.Drawing;
 using System.ComponentModel;
 using Pitstop64.Data.Karts;
 using Pitstop64.Services.Hub;
-using Pitstop64.Data.Courses;
+using Pitstop64.Data.Tracks;
 using Pitstop64.Data.Text;
 using System.Windows.Forms;
 using Cereal64.Common.DataElements.Encoding;
@@ -55,40 +55,6 @@ namespace Pitstop64.Services.Readers
             //    return;
             //}
 
-            /*ProgressService.SetMessage("Reading TKMK00 Textures");
-
-            N64DataElement preExistingElement;
-
-            //Now read the different data bits here, if they haven't been read in yet
-            for (int i = 0; i < MarioKartRomInfo.TKMK00TextureLocations.Length; i++)
-            {
-                preExistingElement = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset);
-                if (preExistingElement != null && preExistingElement.GetType() == typeof(UnknownData))
-                {
-                    ushort alpha = MarioKartRomInfo.TKMK00TextureLocations[i].AlphaColor;
-                    int offset = MarioKartRomInfo.TKMK00TextureLocations[i].RomOffset;
-                    int length = MarioKartRomInfo.TKMK00TextureLocations[i].Length;
-
-                    TKMK00Block tkmk;
-
-                    byte[] bytes = new byte[length];
-                    Array.Copy(rawData, offset, bytes, 0, length);
-
-                    tkmk = new TKMK00Block(offset, bytes, alpha);
-
-                    if (MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.SingleOrDefault(t => t.FileOffset == tkmk.FileOffset) == null)
-                    {
-                        results.NewElements.Add(tkmk);
-                        results.OriginalTKMK00Blocks.Add(tkmk);
-                    }
-                }
-                else if (preExistingElement is TKMK00Block &&
-                    MarioKart64ElementHub.Instance.OriginalTKMK00Blocks.SingleOrDefault(t => t.FileOffset == preExistingElement.FileOffset) == null)
-                {
-                    results.OriginalTKMK00Blocks.Add((TKMK00Block)preExistingElement);
-                }
-            }
-*/
             //Text bank!
             TextBankBlock textBankBlock = null;
             TextReferenceBlock textReferenceBlock = null;
@@ -138,6 +104,8 @@ namespace Pitstop64.Services.Readers
             TextureReader.ReadRom(worker, rawData, results);
 
             KartReader.ReadRom(worker, rawData, results);
+
+            TrackReader.ReadRom(worker, rawData, results);
 
             args.Result = results;
         }
@@ -206,11 +174,11 @@ namespace Pitstop64.Services.Readers
                 KartReader.ApplyResults(results.KartResults);
             }
 
-          //  if (results.TrackResults != null)
-          //  {
-          //      ProgressService.SetMessage("Splicing track data into Rom object");
-                //TrackReader.ApplyResults(results.TrackResults);
-        //    }
+            if (results.TrackResults != null)
+            {
+                ProgressService.SetMessage("Splicing track data into Rom object");
+                TrackReader.ApplyResults(results.TrackResults);
+            }
         
             if (results.TextBank != null)
             {
@@ -228,6 +196,9 @@ namespace Pitstop64.Services.Readers
             if (!RomProject.Instance.Items.Contains(MarioKart64ElementHub.Instance))
                 RomProject.Instance.AddRomItem(MarioKart64ElementHub.Instance);
 
+            //Load track texture references here, after loading textures & tracks
+            MarioKart64ElementHub.Instance.LoadTrackTextureReferences();
+
             ProgressService.SetMessage("Finished!");
         }
     }
@@ -236,7 +207,7 @@ namespace Pitstop64.Services.Readers
     {
         public List<N64DataElement> NewElements;
         public KartReaderResults KartResults;
-        //public TrackReaderResults TrackResults;
+        public TrackReaderResults TrackResults;
         public TextureReaderResults TextureResults;
         public TextBank TextBank;
 

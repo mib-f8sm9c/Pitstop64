@@ -8,11 +8,12 @@ using Cereal64.Common.Utils.Encoding;
 using System.Xml.Linq;
 using Cereal64.Common.DataElements;
 using Pitstop64.Data.Karts;
-using Pitstop64.Data.Courses;
+using Pitstop64.Data.Tracks;
 using Pitstop64.Services.Readers;
 using Pitstop64.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.DataElements.Encoding;
+using Pitstop64.Data.Tracks.Compressed;
 
 namespace Pitstop64.Services.Hub
 {
@@ -24,8 +25,6 @@ namespace Pitstop64.Services.Hub
         private const string SELECTED_KARTS = "selectedKarts";
 
         private const string TRACKS = "tracks";
-        private const string TRACK_NAMES = "trackName";
-
         private const string SELECTED_TRACKS = "selectedTracks";
 
         private const string TRACKS_GRAPHICS_REFRENCE_BLOCK = "trackGraphicsReferenceBlock";
@@ -63,25 +62,23 @@ namespace Pitstop64.Services.Hub
         public KartInfo[] SelectedKarts { get; private set; }
         public List<KartPaletteBlock> TurnKartPaletteBlocks { get; private set; }
         public List<KartPaletteBlock> SpinKartPaletteBlocks { get; private set; }
-        //public List<TrackData> Tracks { get; private set; }
-        //public TrackData[] SelectedTracks { get; private set; }
+
+        public List<CompressedTrack> Tracks { get; private set; }
+        public CompressedTrack[] SelectedTracks { get; private set; }
 
         public TextureHub TextureHub { get; private set; }
 
-        //public TrackGraphicsReferenceBlock TrackGraphicsBlock { get; set; }
-
         public KartGraphicsReferenceBlock KartGraphicsBlock { get; set; }
         public KartPortraitTable KartPortraitsTable { get; set; }
-        public TrackDataReferenceBlock TrackDataBlock { get; set; }
+        public TrackDataReferenceBlock TrackTable { get; set; }
 
-        //NOTE: THIS GUY ISN"T GETTING SAVED OR LOADED~!!!
         public TextBank TextBank { get; set; }
 
         public int NewElementOffset { get; private set; }
 
         private XElement _loadedXml;
 
-        private const int BASE_FILE_END_OFFSET = 0xBF3C70;
+        private const int BASE_FILE_END_OFFSET = 0xBE9160;
 
         private MarioKart64ElementHub()
         {
@@ -89,8 +86,8 @@ namespace Pitstop64.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            //Tracks = new List<TrackData>();
-            //SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
+            Tracks = new List<CompressedTrack>();
+            SelectedTracks = new CompressedTrack[MarioKartRomInfo.TrackCount];
             TextureHub = new TextureHub();
             NewElementOffset = BASE_FILE_END_OFFSET;
         }
@@ -101,8 +98,8 @@ namespace Pitstop64.Services.Hub
             SelectedKarts = new KartInfo[8];
             TurnKartPaletteBlocks = new List<KartPaletteBlock>();
             SpinKartPaletteBlocks = new List<KartPaletteBlock>();
-            //Tracks = new List<TrackData>();
-            //SelectedTracks = new TrackData[MarioKartRomInfo.TrackCount];
+            Tracks = new List<CompressedTrack>();
+            SelectedTracks = new CompressedTrack[MarioKartRomInfo.TrackCount];
             TextureHub = new TextureHub();
 
             _instance = this;
@@ -137,7 +134,10 @@ namespace Pitstop64.Services.Hub
                 {
                     this.Karts.Add((KartInfo)item);
                 }
-                //else if is trackinfo
+                else if (item is CompressedTrack && Tracks.FirstOrDefault(t => t.TrackName == ((CompressedTrack)item).TrackName) == null)
+                {
+                    this.Tracks.Add((CompressedTrack)item);
+                }
             }
 
             //Also the text bank is all elements, so we don't need an xml in here for it
@@ -246,6 +246,18 @@ namespace Pitstop64.Services.Hub
                             kartIndex++;
                         }
                         break;
+                    case SELECTED_TRACKS:
+                        int trackIndex = 0;
+                        foreach (XElement selTrack in element.Elements())
+                        {
+                            CompressedTrack selectedTrack = Tracks.SingleOrDefault(k => k.TrackName == selTrack.Name);
+                            if (selectedTrack != null)
+                            {
+                                SelectedTracks[trackIndex] = selectedTrack;
+                            }
+                            trackIndex++;
+                        }
+                        break;
                     case TextureHub.TEXTURE_HUB:
                         TextureHub.LoadReferencesFromXML(element);
                         break;
@@ -274,10 +286,15 @@ namespace Pitstop64.Services.Hub
                 newElement.Add(new XElement(OFFSET, block.FileOffset.ToString()));
             xml.Add(newElement);
 
-            //And finally, the selected karts
+            //And finally, the selected karts & tracks
             newElement = new XElement(SELECTED_KARTS);
             foreach (KartInfo kart in SelectedKarts)
                 newElement.Add(new XElement(kart.KartName));
+            xml.Add(newElement);
+
+            newElement = new XElement(SELECTED_TRACKS);
+            foreach (CompressedTrack track in SelectedTracks)
+                newElement.Add(new XElement(track.TrackName));
             xml.Add(newElement);
 
             //Kart graphics reference
@@ -301,8 +318,8 @@ namespace Pitstop64.Services.Hub
             Array.Clear(SelectedKarts, 0, SelectedKarts.Length);
             TurnKartPaletteBlocks.Clear();
             SpinKartPaletteBlocks.Clear();
-            //Tracks.Clear();
-            //Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
+            Tracks.Clear();
+            Array.Clear(SelectedTracks, 0, SelectedTracks.Length);
             KartGraphicsBlock = null;
             TextureHub.ClearTextureData();
         }
@@ -546,194 +563,140 @@ namespace Pitstop64.Services.Hub
             }
         }
 
+        public void LoadTrackTextureReferences()
+        {
+            foreach (CompressedTrack track in Tracks)
+            {
+                foreach(TrackTextureRef tRef in track.TextureBlock.TextureReferences)
+                {
+                    //Try to load the image ref if it doesn't have one yet
+                    if (tRef.ImageReference == null)
+                    {
+                        //Check if an image with the file offset exists
+                        int offset = (0x00FFFFFF & tRef.RomOffset) + MarioKartRomInfo.TextureBankOffset;
+                        MK64Image img;
+                        if((img = TextureHub.Images.SingleOrDefault(i => i.TextureOffset == offset)) == null)
+                            continue;
+
+                        //Check it's MIO0 encoded, and decodes to the right size
+                        if (img.TextureEncoding != MK64Image.MK64ImageEncoding.MIO0 || img.ImageReference.Texture.RawDataSize != tRef.DecompressedSize)
+                            continue;
+
+                        //Now set the ref!
+                        tRef.ImageReference = img;
+
+                        //Interesting note: if during the saving process an MIO0 is improved in file size, the compressed size might not
+                        //   match up correctly.
+                    }
+                }
+            }
+        }
+
         public void SaveTrackInfo()
         {
-            if (TrackDataBlock == null)
+            if (TrackTable == null || SelectedTracks == null)
                 return;
 
-           // for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedTracks.Length; i++)
-          //  {
-           //     TrackData track = MarioKart64ElementHub.Instance.SelectedTracks[i];
+            for (int i = 0; i < SelectedTracks.Length; i++)
+            {
+                if (SelectedTracks[i] != null)
+                    TrackTable.Entries[i].LoadInfoFromTrack(SelectedTracks[i]);
 
-                //Save the main palette
-            //    if (kart.KartImages.ImagePalette.FileOffset == -1)
-            //    {
-            //        kart.KartImages.ImagePalette.FileOffset = NewElementOffset;
-            //        AdvanceNewElementOffset(kart.KartImages.ImagePalette);
-            //        RomProject.Instance.Files[0].AddElement(kart.KartImages.ImagePalette);
-            //    }
+                //When editing the track image/name is allowed, that will go here
+            }
+        }
 
-            //    KartGraphicsBlock.CharacterPaletteReferences[i] = new DmaAddress(0x0F, kart.KartImages.ImagePalette.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-            //    KartGraphicsBlock.CharacterPaletteReferences[i].ReferenceElement = kart.KartImages.ImagePalette;
+        public bool ConvertNewTrack(TrackInfo newTrack, bool replaceTrack = false)
+        {
+            if (newTrack.F3DCommands == null || newTrack.TextureReferences == null || newTrack.Vertices == null || newTrack.TrackItems == null ||
+                newTrack.F3DCommands.Commands.Count == 0 || newTrack.TextureReferences.Count == 0 || newTrack.Vertices.Vertices.Count == 0)
+                    return false;
 
-            //    //Save the kart palettes in BLOCKS!
-            //    //but first, assign each unique animation its own PaletteBlock, adding new ones as necessary
+            //create the itemblock, vertexblock and textureblock
+            MIO0Block iBlock = new MIO0Block(-1, MIO0.Encode(newTrack.TrackItems.Data, 0x10));
+            TrackItemBlock itemBlock = new TrackItemBlock(-1, iBlock);
 
-            //    //Backwards, so the order is preserved
-            //    for (int h = kart.KartAnimations.Count - 1; h >= 0; h--)
-            //    {
-            //        KartAnimationSeries anim = kart.KartAnimations[h];
-            //        if (anim.IsTurnAnim)
-            //        {
-            //            if (!TurnPaletteBlocks.ContainsKey(anim))
-            //            {
-            //                while (this.TurnKartPaletteBlocks.Count <= turnPaletteBlockIndex)
-            //                {
-            //                    byte[] newPaletteBlockData = new byte[0x40 * 2 * 20 * 4];
-            //                    KartPaletteBlock block = new KartPaletteBlock(this.NewElementOffset, newPaletteBlockData);
-            //                    foreach (Palette palette in block.Palettes)
-            //                        RomProject.Instance.Files[0].AddElement(palette);
-            //                    this.AdvanceNewElementOffset(block);
-            //                    this.TurnKartPaletteBlocks.Add(block);
-            //                }
+            MIO0Block vBlock = new MIO0Block(-1, MIO0.Encode(VertexPacker.VerticesToBytes(newTrack.Vertices.Vertices.ToList()).ToArray(), 0x10));
+            TrackVertexDLBlock vertexBlock = new TrackVertexDLBlock(-1, vBlock, F3DEXPacker.CommandsToBytes(newTrack.F3DCommands.Commands.ToList()).ToArray(),
+                newTrack.F3DCommands.RawDataSize - 8);
 
-            //                TurnPaletteBlocks.Add(anim, this.TurnKartPaletteBlocks[turnPaletteBlockIndex]);
-            //                turnPaletteBlockIndex++;
+            List<TrackTextureRef> textureRefs = new List<TrackTextureRef>();
+            foreach(MK64Image image in newTrack.TextureReferences)
+            {
+                if(TextureHub.Images.Count(i => i.ImageName == image.ImageName) != 0)
+                    textureRefs.Add(new TrackTextureRef(-1, image));
+                else
+                {
+                    //Add the MIO0 block for the image
+                    if(image.TextureOffset == -1)
+                    {
+                        MIO0Block imgBlock = new MIO0Block(NewElementOffset, MIO0.Encode(image.ImageReference.Texture.RawData));
+                        imgBlock.AddElement(image.ImageReference.Texture);
+                        image.TextureBlockOffset = 0;
+                        image.TextureOffset = NewElementOffset;
+                        image.ImageReference.Texture.FileOffset = 0;
+                        RomProject.Instance.Files[0].AddElement(imgBlock); //CAREFUL, WHAT IF IT DOESN'T WORK?
+                        AdvanceNewElementOffset(imgBlock);
+                    }
+                    for(int i = 0; i < image.PaletteOffset.Count; i++)
+                    {
+                        int palOff = image.PaletteOffset[i];
+                        if(palOff == -1)
+                        {
+                            if(image.PaletteEncoding[i] == MK64Image.MK64ImageEncoding.MIO0)
+                            {
+                                //Do more here in the future, but we shouldn't ever hit this point
+                            }
+                            else
+                            {
+                                image.ImageReference.BasePalettes[i].FileOffset = NewElementOffset;
+                                image.PaletteOffset[i] = NewElementOffset;
+                                RomProject.Instance.Files[0].AddElement(image.ImageReference.BasePalettes[i]); //CAREFUL, WHAT IF IT DOESN'T WORK?
+                                AdvanceNewElementOffset(image.ImageReference.BasePalettes[i]);
+                            }
+                        }
+                    }
+                    //Add in the image
+                    TextureHub.AddImage(image);
 
-            //                byte[] testingBytes = anim.GenerateKartAnimationPaletteData(
-            //                    kart.KartImages, true);
+                    //Now add it to the list
+                    textureRefs.Add(new TrackTextureRef(-1, image));
+                }
+            }
+            List<DmaAddress> dlRefs = new List<DmaAddress>(newTrack.CommandReferences);
 
-            //                TurnPaletteBlocks[anim].RawData = testingBytes;
-            //            }
-            //        }
+            TrackTextureRefBlock textureBlock = new TrackTextureRefBlock(-1, textureRefs, dlRefs);
 
-            //        if (anim.IsSpinAnim)
-            //        {
-            //            if (!SpinPaletteBlocks.ContainsKey(anim))
-            //            {
-            //                while (this.SpinKartPaletteBlocks.Count <= spinPaletteBlockIndex)
-            //                {
-            //                    byte[] newPaletteBlockData = new byte[0x40 * 2 * 20 * 4];
-            //                    KartPaletteBlock block = new KartPaletteBlock(this.NewElementOffset, newPaletteBlockData);
-            //                    foreach (Palette palette in block.Palettes)
-            //                        RomProject.Instance.Files[0].AddElement(palette);
-            //                    this.AdvanceNewElementOffset(block);
-            //                    this.SpinKartPaletteBlocks.Add(block);
-            //                }
+            //Add the blocks to data
+            itemBlock.FileOffset = NewElementOffset;
+            RomProject.Instance.Files[0].AddElement(itemBlock);
+            AdvanceNewElementOffset(itemBlock);
 
-            //                SpinPaletteBlocks.Add(anim, this.SpinKartPaletteBlocks[spinPaletteBlockIndex]);
-            //                spinPaletteBlockIndex++;
+            vertexBlock.FileOffset = NewElementOffset;
+            RomProject.Instance.Files[0].AddElement(vertexBlock);
+            AdvanceNewElementOffset(vertexBlock);
 
-            //                SpinPaletteBlocks[anim].RawData = anim.GenerateKartAnimationPaletteData(
-            //                    kart.KartImages, false);
-            //            }
-            //        }
-            //    }
+            textureBlock.FileOffset = NewElementOffset;
+            RomProject.Instance.Files[0].AddElement(textureBlock);
+            AdvanceNewElementOffset(textureBlock);
 
-            //    List<int> setAnimPaletteBlock = new List<int>();
+            //Finally create the track
+            CompressedTrack ct = new CompressedTrack(newTrack.TrackName, itemBlock, vertexBlock, textureBlock,
+                (int)newTrack.Unknown1, newTrack.Unknown2);
 
-            //    for (int j = 0; j < KartGraphicsBlock.CharacterTurnReferences[i].Length; j++)
-            //    {
-            //        int animFlag;
-            //        int frameIndex; //Theres a function for this in KartReader?
-            //        bool isTurnAnim = true;
+            if (replaceTrack)
+            {
+                //If an already existing track has the same name, replace it!
+                int index = Tracks.FindIndex(t => t.TrackName == ct.TrackName);
+                if (index == -1)
+                    Tracks.Add(ct);
+                else
+                    Tracks[index] = ct;
+            }
+            else
+                Tracks.Add(ct);
 
-            //        if (j < KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT)
-            //        {
-            //            animFlag = (int)Math.Round(Math.Pow(2, j / KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT));
-            //            frameIndex = j - (j / KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT;
-
-            //            //The last 14 values of the turn animation are from the spin one, actually
-            //            if (frameIndex >= KartGraphicsReferenceBlock.HALF_TURN_REF_COUNT)
-            //            {
-            //                animFlag <<= 9; //Make it spin anim, not turn anim
-            //                frameIndex -= 15;
-            //                isTurnAnim = false; //Don't do palette block stuff for this one
-            //            }
-            //        }
-            //        else
-            //        {
-            //            animFlag = (int)Math.Round(Math.Pow(2, (j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT + KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT));
-            //            frameIndex = j - (KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT * KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT) - ((j - KartGraphicsReferenceBlock.ANIMATION_ANGLE_COUNT * KartGraphicsReferenceBlock.FULL_TURN_REF_COUNT) / KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT) * KartGraphicsReferenceBlock.FULL_SPIN_REF_COUNT;
-            //            isTurnAnim = false;
-            //        }
-
-            //        KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & animFlag) != 0);
-            //        if (anim != null)
-            //        {
-            //            //Need to replace animIndex with GetIndexfor(animIndex), but we need a better spin/turn/crash test
-            //            string imageName;
-            //            if (anim.IsTurnAnim)
-            //                imageName = anim.OrderedImageNames[anim.GetImageIndexForTurnFrame(frameIndex)];
-            //            else //if (anim.IsSpinAnim)
-            //                imageName = anim.OrderedImageNames[anim.GetImageIndexForSpinFrame(frameIndex)];
-
-            //            ImageMIO0Block block = kart.KartImages.Images[imageName].GetEncodedData(kart.KartImages.ImagePalette);
-
-            //            //Save the image
-            //            if (block.FileOffset == -1)
-            //            {
-            //                block.FileOffset = NewElementOffset;
-            //                AdvanceNewElementOffset(block);
-            //                RomProject.Instance.Files[0].AddElement(block);
-            //            }
-
-            //            DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-            //            address.ReferenceElement = block;
-            //            KartGraphicsBlock.CharacterTurnReferences[i][j] = address;
-
-            //            int animIndex;
-            //            if (animFlag == 0)
-            //                animIndex = 0;
-            //            else
-            //                animIndex = (int)Math.Round(Math.Log(animFlag, 2));
-
-            //            //inverse the animation index
-            //            if (animIndex < 9)
-            //                animIndex = 8 - animIndex;
-            //            else
-            //                animIndex = (8 - (animIndex - 9)) + 9;
-
-            //            if (!setAnimPaletteBlock.Contains(animIndex))
-            //            {
-            //                if (isTurnAnim)
-            //                {
-            //                    KartGraphicsBlock.WheelPaletteReferences[i][animIndex] = new DmaAddress(0x0F, TurnPaletteBlocks[anim].FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-            //                }
-            //                else
-            //                {
-            //                    KartGraphicsBlock.WheelPaletteReferences[i][animIndex] = new DmaAddress(0x0F, SpinPaletteBlocks[anim].FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-            //                }
-            //                setAnimPaletteBlock.Add(animIndex);
-            //            }
-            //        }
-            //    }
-
-            //    for (int j = 0; j < KartGraphicsBlock.CharacterCrashReferences[i].Length; j++)
-            //    {
-            //        KartAnimationSeries anim = kart.KartAnimations.FirstOrDefault(f => (f.KartAnimationType & (int)KartAnimationSeries.KartAnimationTypeFlag.Crash) != 0);
-            //        if (anim != null)
-            //        {
-            //            ImageMIO0Block block = kart.KartImages.Images[anim.OrderedImageNames[anim.GetImageIndexForCrashFrame(j)]].GetEncodedData(kart.KartImages.ImagePalette);
-            //            DmaAddress address = new DmaAddress(0x0F, block.FileOffset - KartGraphicsReferenceBlock.DMA_SEGMENT_OFFSET);
-            //            address.ReferenceElement = block;
-            //            KartGraphicsBlock.CharacterCrashReferences[i][j] = address;
-            //        }
-            //    }
-
-            //    for (int j = 0; j < kart.KartPortraits.Count; j++)
-            //    {
-            //        if (kart.KartPortraits[j].FileOffset == -1)
-            //        {
-            //            kart.KartPortraits[j].FileOffset = MarioKart64ElementHub.Instance.NewElementOffset;
-            //            MarioKart64ElementHub.Instance.AdvanceNewElementOffset(kart.KartPortraits[j]);
-            //            RomProject.Instance.Files[0].AddElement(kart.KartPortraits[j]);
-            //        }
-
-            //        KartPortraitTableEntry entry = new KartPortraitTableEntry(kart.KartPortraits[j].FileOffset, kart.KartPortraits[j]);
-            //        KartPortraitsTable.Entries[i][j] = entry;
-            //    }
-
-            //    N64DataElement tkmk;
-            //    if (RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.CharacterNameplateReference[i]) &&
-            //        (tkmk = RomProject.Instance.Files[0].GetElementAt(MarioKartRomInfo.CharacterNameplateReference[i])) is TKMK00Block)
-            //    {
-            //        TKMK00Block oldTkmk = (TKMK00Block)tkmk;
-            //        oldTkmk.ImageAlphaColor = kart.KartNamePlate.ImageAlphaColor;
-            //        oldTkmk.SetImage(kart.KartNamePlate.Image);
-            //    }
-
-            //}
+            return true;
         }
 
         public override string GetXMLPath()

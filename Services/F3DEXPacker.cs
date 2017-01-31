@@ -25,6 +25,8 @@ namespace Pitstop64.Services
             uint tempUInt, outputUInt1, outputUInt2;
             byte commandByte, paramByte1, paramByte2, paramByte3;
 
+            bool hitEndOfFile = true;
+
             while (currentIndex < bytes.Count)
             {
                 commandByte = bytes[currentIndex];
@@ -51,6 +53,13 @@ namespace Pitstop64.Services
                     case 0x12:
                     case 0x13:
                     case 0x14:
+                        if(commandByte == 0x00 && hitEndOfFile)
+                        {
+                            commands.Add(F3DEXCommandFactory.ReadCommand(commands.Count * 8,
+                            new byte[] { 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+                            break;
+                        }
+
                         commands.Add(F3DEXCommandFactory.ReadCommand(commands.Count * 8,
                             new byte[] { 0xBC, 0x00, 0x00, 0x02, 0x80, 0x00, 0x00, 0x40 }));
                         tempUInt = 0x09000000 | (uint)(commandByte * 0x18);
@@ -89,6 +98,12 @@ namespace Pitstop64.Services
                     case 0x1F:
                     case 0x2C:
                         //Set Texture info
+                        if (commandByte == 0x1B)
+                        {
+                            commandByte++;
+                            commandByte--;
+                        }
+
                         currentIndex++;
                         paramByte1 = bytes[currentIndex];
                         currentIndex++;
@@ -230,9 +245,11 @@ namespace Pitstop64.Services
                     case 0x2E: //no notes
                     case 0x2F: //no notes
                     case 0x30: //no notes
+                        break;
                     case 0x31: //no op
                     case 0x32: //no op
-
+                        commands.Add(F3DEXCommandFactory.ReadCommand(commands.Count * 8,
+                            new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
                         break;
                     case 0x33:
                     case 0x34:
@@ -335,6 +352,9 @@ namespace Pitstop64.Services
                         break;
                     case 0xFF:
                         //EOF
+                        commands.Add(F3DEXCommandFactory.ReadCommand(commands.Count * 8,
+                            new byte[] { 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
+                        hitEndOfFile = true;
                         break;
                 }
 
@@ -349,12 +369,262 @@ namespace Pitstop64.Services
             List<Byte> bytes = new List<byte>();
 
             int currentCommandIndex = 0;
+            
+            byte param1 = 0, param2 = 0;
+
+            bool hitEndOfFile = false;
 
             while (currentCommandIndex < commands.Count)
             {
-                switch (commands[currentCommandIndex].CommandID)
+                if (bytes.Count == 1446)
                 {
-                    //Implement this please : )
+                    param1++;
+                    param1--;
+                }
+                F3DEXCommand currentCommand = commands[currentCommandIndex];
+                switch (currentCommand.CommandID)
+                {
+                    case F3DEXCommandID.F3DEX_G_NOOP:
+                        bytes.Add(0x31);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_VTX:
+                        //if 28, that's it. Otherwise need 2 more bytes
+                        F3DEX_G_Vtx vtxCommand = (F3DEX_G_Vtx)currentCommand;
+                        if (vtxCommand.TargetBufferIndex == 0x4)
+                        {
+                            bytes.Add(0x28);
+                            break;
+                        }
+
+                        bytes.Add((byte)(vtxCommand.VertexCount + 0x32));
+                        bytes.Add((byte)((vtxCommand.VertexSourceAddress.GetAsUInt() & 0xFF0) >> 4));
+                        bytes.Add((byte)((vtxCommand.VertexSourceAddress.GetAsUInt() & 0xFF000) >> 12));
+
+                        break;
+                    case F3DEXCommandID.F3DEX_G_DL:
+                        bytes.Add(0x2B);
+                        //Get the address as 2 bytes
+                        uint combinedBytes = (uint)((((F3DEX_G_DL)currentCommand).DLAddress.Offset & 0x00FFFFFF) >> 3);
+                        bytes.Add((byte)(combinedBytes & 0x000000FF));
+                        bytes.Add((byte)((combinedBytes & 0x0000FF00) >> 8));
+                        break;
+                    case F3DEXCommandID.F3DEX_G_MK64_ENDDL:
+                        bytes.Add(0x2A);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_TRI2:
+                        //NOTE: THIS MAY BE BROKEN, PLEASE EVALUATE
+                        F3DEX_G_Tri2 tri2Command = (F3DEX_G_Tri2)currentCommand;
+
+                        //5 bytes in total, one command, 4 for triangle data
+                        bytes.Add(0x58);
+
+                        param1 = 0;
+                        param2 = 0;
+                        param1 |= tri2Command.Vertex3;
+                        param1 |= (byte)((tri2Command.Vertex2 & 0x7) << 5);
+                        param2 |= (byte)(tri2Command.Vertex2 >> 3);
+                        param2 |= (byte)(tri2Command.Vertex1 << 2);
+
+                        bytes.Add(param1);
+                        bytes.Add(param2);
+
+                        param1 = 0;
+                        param2 = 0;
+                        param1 |= tri2Command.Vertex6;
+                        param1 |= (byte)((tri2Command.Vertex5 & 0x7) << 5);
+                        param2 |= (byte)(tri2Command.Vertex5 >> 3);
+                        param2 |= (byte)(tri2Command.Vertex4 << 2);
+
+                        bytes.Add(param1);
+                        bytes.Add(param2);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_CLEARGEOMETRYMODE:
+                        bytes.Add(0x57);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_SETGEOMETRYMODE:
+                        bytes.Add(0x56);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_SETOTHERMODE_L:
+                        F3DEX_G_SetOtherMode_L lCommand = (F3DEX_G_SetOtherMode_L)currentCommand;
+
+                        if (lCommand.Data == (uint)0x00552078)
+                            bytes.Add(0x18);
+                        else if (lCommand.Data == (uint)0x00553078)
+                            bytes.Add(0x19);
+                        else if (lCommand.Data == (uint)0x00442D58)
+                            bytes.Add(0x54);
+                        else if (lCommand.Data == (uint)0x00404D4D)
+                            bytes.Add(0x55);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_TEXTURE:
+                        F3DEX_G_Texture textureCommand = (F3DEX_G_Texture)currentCommand;
+                        if (textureCommand.ScaleS == 1 && textureCommand.ScaleT == 1)
+                            bytes.Add(0x27);
+                        else
+                            bytes.Add(0x26);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_MOVEWORD:
+                        //We need 3 more commands here
+                        if (commands.Count < currentCommandIndex + 3 ||
+                            !(commands[currentCommandIndex + 1] is F3DEX_G_MoveMem) ||
+                            !(commands[currentCommandIndex + 2] is F3DEX_G_MoveMem))
+                            break;
+
+                        F3DEX_G_MoveMem command = (F3DEX_G_MoveMem)commands[currentCommandIndex + 1];
+                        bytes.Add((byte)((command.MemAddress & 0x0000FFFF) / 0x18)); //should be 0x0 -> 0x14
+                        
+                        currentCommandIndex += 2;
+                        break;
+                    case F3DEXCommandID.F3DEX_G_CULLDL:
+                        bytes.Add(0x2D);
+                        break;
+                    case F3DEXCommandID.F3DEX_G_TRI1:
+                        //NOTE: THIS MAY BE BROKEN, PLEASE EVALUATE
+                        F3DEX_G_Tri1 tri1Command = (F3DEX_G_Tri1)currentCommand;
+
+                        //3 bytes in total, one command, 2 for triangle data
+                        bytes.Add(0x29);
+
+                        param1 = 0;
+                        param2 = 0;
+                        param1 |= tri1Command.Vertex3;
+                        param1 |= (byte)((tri1Command.Vertex2 & 0x7) << 5);
+                        param2 |= (byte)(tri1Command.Vertex2 >> 3);
+                        param2 |= (byte)(tri1Command.Vertex1 << 2);
+
+                        bytes.Add(param1);
+                        bytes.Add(param2);
+
+                        break;
+                    case F3DEXCommandID.F3DEX_G_RDPTILESYNC:
+                        //3 bytes, 3 commands
+                        if (commands.Count < currentCommandIndex + 3 ||
+                            !(commands[currentCommandIndex + 1] is F3DEX_G_SetTile) ||
+                            !(commands[currentCommandIndex + 2] is F3DEX_G_SetTileSize))
+                            break;
+
+                        F3DEX_G_SetTile setTileCommand = (F3DEX_G_SetTile)commands[currentCommandIndex + 1];
+                        F3DEX_G_SetTileSize setTileSizeCommand = (F3DEX_G_SetTileSize)commands[currentCommandIndex + 2];
+
+                        if (setTileCommand.TMem == 0x100)
+                            bytes.Add(0x2C);
+                        else
+                        {
+                            byte commandByte;
+
+                            bool bigImgFlag1 = (setTileSizeCommand.LRT.RawValue == 0xFC);
+                            bool bigImgFlag2 = (setTileSizeCommand.LRS.RawValue == 0xFC);
+                            bool is0ImgFlag = ((setTileCommand.Line & 0xC0) == 0x0);
+                            if (!bigImgFlag1 && !bigImgFlag2)
+                                commandByte = 0;
+                            else if (!bigImgFlag1 && bigImgFlag2)
+                                commandByte = 1;
+                            else
+                                commandByte = 2;
+                            if (!is0ImgFlag)
+                                commandByte += 3;
+                            commandByte += 0x1A;
+
+                            bytes.Add(commandByte);
+                        }
+
+                        byte byte1 = 0, byte2 = 0;
+
+                        byte1 = (byte)(((setTileCommand.MaskS) << 4) |
+                            (((setTileCommand.ShiftT & 0x3) << 2) | (int)setTileCommand.CMSWrap | (int)setTileCommand.CMSMirror));
+
+                        byte2 = (byte)(((setTileCommand.MaskT & 0xF) << 4) | 
+                            (((setTileCommand.Palette & 0x3) << 2) | (int)setTileCommand.CMTWrap | (int)setTileCommand.CMTMirror));
+
+                        bytes.Add(byte1);
+                        bytes.Add(byte2);
+
+                        currentCommandIndex += 2;
+                        break;
+                    case F3DEXCommandID.F3DEX_G_SETCOMBINE:
+                        F3DEX_G_SetCombine combineCommand = (F3DEX_G_SetCombine)currentCommand;
+                        if (combineCommand.a0 == 0x1)
+                        {
+                            if (combineCommand.Aa0 == 0x1)
+                            {
+                                bytes.Add(0x15);
+                            }
+                            else //if (combineCommand.Aa0 == 0x7)
+                            {
+                                bytes.Add(0x16);
+                            }
+                        }
+                        else //if (combineCommand.a0 == 0xF)
+                        {
+                            if (combineCommand.d0 == 0x0)
+                            {
+                                bytes.Add(0x53);
+                            }
+                            else //if (combineCommand.d0 == 0x4)
+                            {
+                                bytes.Add(0x17);
+                            }
+                        }
+                        break;
+                    case F3DEXCommandID.F3DEX_G_SETTIMG:
+                        //5 commands, 4 bytes
+                        if (commands.Count < currentCommandIndex + 5 ||
+                            !(commands[currentCommandIndex + 1] is F3DEX_G_RDPTileSync) ||
+                            !(commands[currentCommandIndex + 2] is F3DEX_G_SetTile) ||
+                            !(commands[currentCommandIndex + 3] is F3DEX_G_RDPLoadSync) ||
+                            !(commands[currentCommandIndex + 4] is F3DEX_G_LoadBlock))
+                            break;
+
+                        F3DEX_G_SetTImg timgCommand = (F3DEX_G_SetTImg)currentCommand;
+                        F3DEX_G_RDPTileSync tileSyncCommand = (F3DEX_G_RDPTileSync)commands[currentCommandIndex + 1];
+                        F3DEX_G_SetTile setTileCommand2 = (F3DEX_G_SetTile)commands[currentCommandIndex + 2];
+                        F3DEX_G_RDPLoadSync rdpLoadCommand = (F3DEX_G_RDPLoadSync)commands[currentCommandIndex + 3];
+                        F3DEX_G_LoadBlock loadBlockCommand = (F3DEX_G_LoadBlock)commands[currentCommandIndex + 4];
+
+                        byte bytte1 = 0, bytte2 = 0, byte3 = 0, byte4 = 0;
+
+                        bool is0Type = (timgCommand.Width == 1);
+                        if (loadBlockCommand.Texels == 0x400) //20 * 20, either 0 or 3
+                        {
+                            bytte1 = 0;
+                        }
+                        else
+                        {
+                            if (loadBlockCommand.DXT.RawValue == 0x80)
+                            {
+                                bytte1 = 1;
+                            }
+                            else //if (loadBlockCommand.DXT.RawValue == 0x100)
+                            {
+                                bytte1 = 2;
+                            }
+                        }
+                        if(!is0Type)
+                            bytte1 += 3;
+                        bytte1 += 0x20;
+                        bytte2 = (byte)((timgCommand.ImageAddress.GetAsUInt() & 0x00FFFFFF) >> 0xB);
+                        byte3 = 0x0; //unused?
+                        byte4 = (byte)(((setTileCommand2.Tile & 0xF) << 4) | (((setTileCommand2.Palette & 0x3) << 2) | (int)setTileCommand2.CMTWrap | (int)setTileCommand2.CMTMirror));
+
+                        bytes.Add(bytte1);
+                        bytes.Add(bytte2);
+                        bytes.Add(byte3);
+                        bytes.Add(byte4);
+
+                        currentCommandIndex += 4;
+                        break;
+                    case F3DEXCommandID.F3DEX_G_ENDDL:
+                        //EOF
+                        if (hitEndOfFile)
+                        {
+                            bytes.Add(0x00);
+                            break;
+                        }
+
+                        bytes.Add(0xFF);
+                        hitEndOfFile = true;
+                        break;
+
                 }
 
                 currentCommandIndex++;

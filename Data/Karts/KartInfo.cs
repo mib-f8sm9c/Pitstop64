@@ -209,7 +209,6 @@ namespace Pitstop64.Data.Karts
             return "Karts/" + KartName;
         }
 
-
         public static void SaveKarts(string fileName, IList<KartInfo> karts)
         {
             //Here save all kart information to an external file

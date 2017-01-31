@@ -6,7 +6,7 @@ using Cereal64.Common.DataElements;
 using Cereal64.Common.Utils;
 using System.Xml.Linq;
 
-namespace Pitstop64.Data.Courses
+namespace Pitstop64.Data.Tracks.Compressed
 {
     [AlternateXMLNames(new string[] { "CourseDataReferenceBlock" })]
     public class TrackDataReferenceBlock: N64DataElement
