@@ -15,6 +15,7 @@ namespace ChompShop.Controls
         ExportKarts,
         ReferenceKart,
         KartName,
+        KartStats,
         KartPortraits,
         KartImages,
         KartAnimations
@@ -139,6 +140,8 @@ namespace ChompShop.Controls
             {
                 case ChompShopWindowType.KartName:
                     return new KartInfoForm(wrapper);
+                case ChompShopWindowType.KartStats:
+                    return new KartStatsForm(wrapper);
                 case ChompShopWindowType.KartPortraits:
                     return new KartPortraitsForm(wrapper);
                 case ChompShopWindowType.KartImages:

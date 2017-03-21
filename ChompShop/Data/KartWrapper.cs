@@ -148,6 +148,20 @@ namespace ChompShop.Data
             IsModified = true;
         }
 
+        public void SetMiniIcon(MK64Image image)
+        {
+            Kart.KartMiniIcon = image;
+
+            IsModified = true;
+        }
+
+        public void SetMiniPortrait(MK64Image image)
+        {
+            Kart.KartMiniPortrait = image;
+
+            IsModified = true;
+        }
+
         public void AddPortrait(MK64Image image)
         {
             Kart.KartPortraits.Add(image);

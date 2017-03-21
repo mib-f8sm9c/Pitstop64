@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using Pitstop64.Data.Tracks;
 using TrackShack.Controls;
+using TrackShack.Data;
 
 namespace TrackShack
 {
@@ -37,7 +38,7 @@ namespace TrackShack
         {
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                TrackShackFloor.CurrentTrack = TrackInfo.LoadFromFile(openFileDialog.FileName);
+                TrackShackFloor.CurrentTrack = new TrackWrapper(TrackInfo.LoadFromFile(openFileDialog.FileName));
                 TrackShackFloor.CurrentTrackPath = openFileDialog.FileName;
             }
         }
@@ -62,7 +63,7 @@ namespace TrackShack
                 TrackShackFloor.CurrentTrackPath = saveFileDialog.FileName;
             }
 
-            TrackInfo.SaveTrackInfo(TrackShackFloor.CurrentTrackPath, TrackShackFloor.CurrentTrack);
+            TrackInfo.SaveTrackInfo(TrackShackFloor.CurrentTrackPath, TrackShackFloor.CurrentTrack.Track);
             return true;
         }
 

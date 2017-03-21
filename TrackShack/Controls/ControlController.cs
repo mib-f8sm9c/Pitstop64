@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Pitstop64.Data.Tracks;
 using TrackShack.Controls.TrackControls;
+using TrackShack.Data;
 
 namespace TrackShack.Controls
 {
@@ -28,14 +29,14 @@ namespace TrackShack.Controls
         private const uint SW_RESTORE = 0x09;
 
         private Dictionary<TrackShackWindowType, TrackShackWindow> SingleForms;
-        private Dictionary<TrackInfo, Dictionary<TrackShackWindowType, TrackShackWindow>> TrackForms;
+        private Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>> TrackForms;
 
         private TrackShackForm _parentForm;
 
         public ControlController(TrackShackForm parent)
         {
             SingleForms = new Dictionary<TrackShackWindowType, TrackShackWindow>();
-            TrackForms = new Dictionary<TrackInfo, Dictionary<TrackShackWindowType, TrackShackWindow>>();
+            TrackForms = new Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>>();
 
             _parentForm = parent;
         }
@@ -83,7 +84,7 @@ namespace TrackShack.Controls
 
         }
 
-        public void ShowTrackForm(TrackInfo track, TrackShackWindowType type)
+        public void ShowTrackForm(TrackWrapper track, TrackShackWindowType type)
         {
             TrackShackWindow form;
             if (TrackForms.ContainsKey(track))
@@ -131,7 +132,7 @@ namespace TrackShack.Controls
             return null;
         }
 
-        public TrackShackWindow GenerateTrackForm(TrackInfo track, TrackShackWindowType type)
+        public TrackShackWindow GenerateTrackForm(TrackWrapper track, TrackShackWindowType type)
         {
             switch (type)
             {
@@ -153,7 +154,7 @@ namespace TrackShack.Controls
             return SingleForms.ContainsKey(type);
         }
 
-        public bool TrackFormIsOpen(TrackInfo track, TrackShackWindowType type)
+        public bool TrackFormIsOpen(TrackWrapper track, TrackShackWindowType type)
         {
             if (!TrackForms.ContainsKey(track))
                 return false;
@@ -161,7 +162,7 @@ namespace TrackShack.Controls
             return TrackForms[track].ContainsKey(type);
         }
 
-        public void ClearTrackForms(TrackInfo track)
+        public void ClearTrackForms(TrackWrapper track)
         {
             if (TrackForms.ContainsKey(track))
             {

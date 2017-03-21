@@ -341,6 +341,9 @@ namespace Pitstop64.Modules.Tracks
                     lbTrackImages.Items.Add(tRef);
                 }
             }
+
+            btnTopSky.BackColor = SelectedTextureTrack.TopSkyColor;
+            btnBottomSky.BackColor = SelectedTextureTrack.BottomSkyColor;
         }
 
         private void lbTrackImages_SelectedIndexChanged(object sender, EventArgs e)
@@ -420,6 +423,26 @@ namespace Pitstop64.Modules.Tracks
                 File.WriteAllBytes(Path.Combine("Tracks", SelectedTrack.TrackName, string.Format("{0}-v-pre.bin", SelectedTrack.TrackName)), SelectedTrack.VertexBlock.VertexData.DecodedData);
                 File.WriteAllBytes(Path.Combine("Tracks", SelectedTrack.TrackName, string.Format("{0}-v-post.bin", SelectedTrack.TrackName)),
                     VertexPacker.VerticesToBytes(VertexPacker.BytesToVertices(SelectedTrack.VertexBlock.VertexData.DecodedData.ToList())).ToArray());
+            }
+        }
+
+        private void btnTopSky_Click(object sender, EventArgs e)
+        {
+            colorDialog.Color = SelectedTrack.TopSkyColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                SelectedTrack.TopSkyColor = colorDialog.Color;
+                btnTopSky.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void btnBottomSky_Click(object sender, EventArgs e)
+        {
+            colorDialog.Color = SelectedTrack.BottomSkyColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                SelectedTrack.BottomSkyColor = colorDialog.Color;
+                btnBottomSky.BackColor = colorDialog.Color;
             }
         }
 

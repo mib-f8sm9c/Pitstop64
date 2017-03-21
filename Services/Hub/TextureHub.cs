@@ -159,6 +159,16 @@ namespace Pitstop64.Services.Hub
             return true;
         }
 
+        public MK64Image FindImage(string imageName)
+        {
+            foreach (MK64Image image in _images)
+            {
+                if (image.ImageName == imageName)
+                    return image;
+            }
+            return null;
+        }
+
         public bool RemoveImage(MK64Image image)
         {
             //Check that it exists
@@ -239,6 +249,7 @@ namespace Pitstop64.Services.Hub
 
             return true;
         }
+
     }
 
 }

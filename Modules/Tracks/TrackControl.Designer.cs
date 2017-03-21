@@ -57,6 +57,11 @@
             this.lbTrackImages = new System.Windows.Forms.ListBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnTopSky = new System.Windows.Forms.Button();
+            this.btnBottomSky = new System.Windows.Forms.Button();
+            this.lblTopSky = new System.Windows.Forms.Label();
+            this.lblBottomSky = new System.Windows.Forms.Label();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.pnlSharedControls.SuspendLayout();
             this.gbSelectedTracks.SuspendLayout();
             this.gbTracks.SuspendLayout();
@@ -293,6 +298,7 @@
             // 
             // btnReplaceImage
             // 
+            this.btnReplaceImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReplaceImage.Location = new System.Drawing.Point(128, 300);
             this.btnReplaceImage.Name = "btnReplaceImage";
             this.btnReplaceImage.Size = new System.Drawing.Size(246, 35);
@@ -314,7 +320,7 @@
             this.imagePreviewControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.imagePreviewControl.ExportButtonVisible = false;
+            this.imagePreviewControl.ExportButtonVisible = true;
             this.imagePreviewControl.Image = null;
             this.imagePreviewControl.ImageName = "";
             this.imagePreviewControl.ImageSize = new System.Drawing.Size(342, 268);
@@ -329,6 +335,10 @@
             // 
             // pnlImageSelect
             // 
+            this.pnlImageSelect.Controls.Add(this.lblBottomSky);
+            this.pnlImageSelect.Controls.Add(this.lblTopSky);
+            this.pnlImageSelect.Controls.Add(this.btnBottomSky);
+            this.pnlImageSelect.Controls.Add(this.btnTopSky);
             this.pnlImageSelect.Controls.Add(this.lblTracksHeader);
             this.pnlImageSelect.Controls.Add(this.cbTrackList2);
             this.pnlImageSelect.Controls.Add(this.lbTrackImages);
@@ -370,7 +380,7 @@
             this.lbTrackImages.Name = "lbTrackImages";
             this.lbTrackImages.ScrollAlwaysVisible = true;
             this.lbTrackImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbTrackImages.Size = new System.Drawing.Size(167, 244);
+            this.lbTrackImages.Size = new System.Drawing.Size(167, 196);
             this.lbTrackImages.TabIndex = 26;
             this.lbTrackImages.SelectedIndexChanged += new System.EventHandler(this.lbTrackImages_SelectedIndexChanged);
             // 
@@ -382,6 +392,44 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             this.openFileDialog.Filter = "Track file|*.track";
+            // 
+            // btnTopSky
+            // 
+            this.btnTopSky.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTopSky.Location = new System.Drawing.Point(144, 268);
+            this.btnTopSky.Name = "btnTopSky";
+            this.btnTopSky.Size = new System.Drawing.Size(30, 26);
+            this.btnTopSky.TabIndex = 28;
+            this.btnTopSky.UseVisualStyleBackColor = true;
+            this.btnTopSky.Click += new System.EventHandler(this.btnTopSky_Click);
+            // 
+            // btnBottomSky
+            // 
+            this.btnBottomSky.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBottomSky.Location = new System.Drawing.Point(144, 304);
+            this.btnBottomSky.Name = "btnBottomSky";
+            this.btnBottomSky.Size = new System.Drawing.Size(30, 26);
+            this.btnBottomSky.TabIndex = 29;
+            this.btnBottomSky.UseVisualStyleBackColor = true;
+            this.btnBottomSky.Click += new System.EventHandler(this.btnBottomSky_Click);
+            // 
+            // lblTopSky
+            // 
+            this.lblTopSky.AutoSize = true;
+            this.lblTopSky.Location = new System.Drawing.Point(15, 273);
+            this.lblTopSky.Name = "lblTopSky";
+            this.lblTopSky.Size = new System.Drawing.Size(97, 17);
+            this.lblTopSky.TabIndex = 30;
+            this.lblTopSky.Text = "Top Sky Color";
+            // 
+            // lblBottomSky
+            // 
+            this.lblBottomSky.AutoSize = true;
+            this.lblBottomSky.Location = new System.Drawing.Point(15, 309);
+            this.lblBottomSky.Name = "lblBottomSky";
+            this.lblBottomSky.Size = new System.Drawing.Size(116, 17);
+            this.lblBottomSky.TabIndex = 31;
+            this.lblBottomSky.Text = "Bottom Sky Color";
             // 
             // TrackControl
             // 
@@ -439,6 +487,11 @@
         private System.Windows.Forms.Button btnDebugExport;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button btnTopSky;
+        private System.Windows.Forms.Button btnBottomSky;
+        private System.Windows.Forms.Label lblBottomSky;
+        private System.Windows.Forms.Label lblTopSky;
+        private System.Windows.Forms.ColorDialog colorDialog;
 
 
 

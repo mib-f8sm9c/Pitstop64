@@ -76,6 +76,12 @@
       <DependentUpon>ChompShopForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Controls\KartControls\KartStatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\KartControls\KartStatsForm.Designer.cs">
+      <DependentUpon>KartStatsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ReferenceKartForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ChompShopWindow.resx">
       <DependentUpon>ChompShopWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KartControls\KartStatsForm.resx">
+      <DependentUpon>KartStatsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ReferenceKartForm.resx">
       <DependentUpon>ReferenceKartForm.cs</DependentUpon>
@@ -266,6 +275,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\data-transfer-download-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spreadsheet-3x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bolt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

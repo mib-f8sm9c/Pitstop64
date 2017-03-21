@@ -1441,11 +1441,24 @@ namespace Pitstop64
         public static int TextureBankOffset { get { return 0x641F70; } } //Ends 966260?
         public static int KartTexturePaletteBank { get { return 0x145470; } }
 
+        public static int SkyTableOffset { get { return 0x1220E0; } }
+
         public static int CharacterFaceTableOffset { get { return 0x12FCA8; } }
         public static int CharacterFaceTableLength { get { return 0x1540; } }
 
         public static int CharacterFaceMIO0Offset { get { return 0x729A30; } }
         public static int TKMK00Block { get { return 0x7FA3C0; } }
+
+        //Unused
+        public static int KartOrderTable { get { return 0xF37AC; } }
+        public static int TrackOrderTable { get { return 0xF37B4; } }
+        public static int TrackPathTable1 { get { return 0xDD380; } }
+        public static int TrackPathTable2 { get { return 0xDD4D0; } }
+
+        //ff0bc - table with 20 entries - same as levels!
+        //DD64C - table with 20 floats - matches with levels
+        //DE5D0 - another table that matches the level layouts
+        //E3104 - Series of tables either 0xA0 long or 0x40 long, all floats
 
 #endif
 

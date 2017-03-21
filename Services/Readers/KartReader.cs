@@ -39,6 +39,54 @@ namespace Pitstop64.Services.Readers
 
             //Add to hub here?
 
+            //Scale, Weight & Info table here
+            KartScaleTable scaleTable;
+            KartWeightTable weightTable;
+            KartInformationBlock infoTable;
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartScaleTable.DefaultKartScaleBlockLocation, out element))
+            {
+                byte[] scaleBlock = new byte[0x20];
+                Array.Copy(rawData, KartScaleTable.DefaultKartScaleBlockLocation, scaleBlock, 0, scaleBlock.Length);
+
+                scaleTable = new KartScaleTable(KartScaleTable.DefaultKartScaleBlockLocation, scaleBlock);
+
+                results.NewElements.Add(scaleTable);
+            }
+            else
+            {
+                scaleTable = (KartScaleTable)element;
+            }
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartWeightTable.DefaultKartWeightBlockLocation, out element))
+            {
+                byte[] weightBlock = new byte[0x20];
+                Array.Copy(rawData, KartWeightTable.DefaultKartWeightBlockLocation, weightBlock, 0, weightBlock.Length);
+
+                weightTable = new KartWeightTable(KartWeightTable.DefaultKartWeightBlockLocation, weightBlock);
+
+                results.NewElements.Add(weightTable);
+            }
+            else
+            {
+                weightTable = (KartWeightTable)element;
+            }
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartInformationBlock.DefaultKartInformationBlock0Location, out element))
+            {
+                byte[] infoBlock = new byte[KartInformationBlock.DefaultKartInformationBlock0End - KartInformationBlock.DefaultKartInformationBlock0Location];
+                Array.Copy(rawData, KartInformationBlock.DefaultKartInformationBlock0Location, infoBlock, 0, infoBlock.Length);
+
+                infoTable = new KartInformationBlock(KartInformationBlock.DefaultKartInformationBlock0Location, infoBlock);
+
+                results.NewElements.Add(infoTable);
+            }
+            else
+            {
+                infoTable = (KartInformationBlock)element;
+            }
+
+            results.KartScaleTable = scaleTable;
+            results.KartWeightTable = weightTable;
+            results.KartInfoBlock = infoTable;
+
             KartGraphicsReferenceBlock block;
             N64DataElement elBlock;
             if (!RomProject.Instance.Files[0].HasElementExactlyAt(KartGraphicsReferenceBlock.DefaultKartGraphicsReferenceBlock0Location, out elBlock))
@@ -484,11 +532,32 @@ namespace Pitstop64.Services.Readers
                 //Find the tkmk block in either the new images or in the hub
                 MK64Image img;
                 if ((img = MarioKart64ElementHub.Instance.TextureHub.Images.SingleOrDefault(im => im.ImageName == TextureNames.PORTAIT_NAME_ARRAY[i])) != null)
-                    newKart.KartNamePlate = img;
+                    newKart.KartNamePlate = img.Duplicate();
                 else if ((img = textureResults.NewImages.SingleOrDefault(im => im.ImageName == TextureNames.PORTAIT_NAME_ARRAY[i])) != null)
-                    newKart.KartNamePlate = img;
+                    newKart.KartNamePlate = img.Duplicate();
                 else
                     throw new Exception();
+
+                //MiniKartIcon
+                if ((img = MarioKart64ElementHub.Instance.TextureHub.Images.SingleOrDefault(im => im.ImageName == TextureNames.MINIMAP_KART_NAME_ARRAY[i])) != null)
+                    newKart.KartMiniIcon = img.Duplicate();
+                else if ((img = textureResults.NewImages.SingleOrDefault(im => im.ImageName == TextureNames.MINIMAP_KART_NAME_ARRAY[i])) != null)
+                    newKart.KartMiniIcon = img.Duplicate();
+                else
+                    throw new Exception();
+
+                //MiniPortrait
+                if ((img = MarioKart64ElementHub.Instance.TextureHub.Images.SingleOrDefault(im => im.ImageName == TextureNames.KART_MINI_PORTRAIT_NAME_ARRAY[i])) != null)
+                    newKart.KartMiniPortrait = img.Duplicate();
+                else if ((img = textureResults.NewImages.SingleOrDefault(im => im.ImageName == TextureNames.KART_MINI_PORTRAIT_NAME_ARRAY[i])) != null)
+                    newKart.KartMiniPortrait = img.Duplicate();
+                else
+                    throw new Exception();
+
+
+                newKart.KartStats = results.KartInfoBlock.GetKartStatsFor(i);
+                newKart.KartStats.Weight = results.KartWeightTable.KartWeights[i];
+                newKart.KartStats.Scale = results.KartScaleTable.KartScales[i];
 
                 MarioKart64ElementHub.Instance.Karts.Add(newKart);
                 MarioKart64ElementHub.Instance.SelectedKarts[i] = newKart;
@@ -499,7 +568,12 @@ namespace Pitstop64.Services.Readers
         public static void ApplyResults(KartReaderResults results)
         {
             foreach (N64DataElement element in results.NewElements)
-                RomProject.Instance.Files[0].AddElement(element);
+            {
+                if (!RomProject.Instance.Files[0].AddElement(element))
+                {
+                    throw new Exception();
+                }
+            }
 
             MarioKart64ElementHub.Instance.KartGraphicsBlock = results.KartGraphicsBlock;
             MarioKart64ElementHub.Instance.KartPortraitsTable = results.KartPortraitsTable;
@@ -516,6 +590,10 @@ namespace Pitstop64.Services.Readers
                         MarioKart64ElementHub.Instance.SpinKartPaletteBlocks.Add(block);
                 }
             }
+
+            MarioKart64ElementHub.Instance.KartWeightsTable = results.KartWeightTable;
+            MarioKart64ElementHub.Instance.KartScalingTable = results.KartScaleTable;
+            MarioKart64ElementHub.Instance.KartStatsTable = results.KartInfoBlock;
         }
 
         private static void GetAnimationFrameIndices(int imageIndex, out int animIndex, out int frameIndex, out bool isTurnAnim)
@@ -553,6 +631,10 @@ namespace Pitstop64.Services.Readers
         public KartGraphicsReferenceBlock KartGraphicsBlock;
         public KartPortraitTable KartPortraitsTable;
         public List<KartPaletteBlock> KartPaletteBlocks;
+
+        public KartScaleTable KartScaleTable;
+        public KartWeightTable KartWeightTable;
+        public KartInformationBlock KartInfoBlock;
 
         public KartReaderResults()
         {

@@ -8,6 +8,7 @@ using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.Utils;
 using Pitstop64.Services.Hub;
 using Pitstop64.Services;
+using System.Drawing;
 
 namespace Pitstop64.Data.Tracks.Compressed
 {
@@ -26,8 +27,11 @@ namespace Pitstop64.Data.Tracks.Compressed
         public int Unknown1;
         public ushort Unknown2;
 
+        public Color TopSkyColor;
+        public Color BottomSkyColor;
+
         public CompressedTrack(string trackName, TrackItemBlock itemBlock, TrackVertexDLBlock vertexBlock,
-            TrackTextureRefBlock textureBlock, int unknown1, ushort unknown2)
+            TrackTextureRefBlock textureBlock, int unknown1, ushort unknown2, Color topSkyColor, Color bottomSkyColor)
         {
             TrackName = trackName;
             ItemBlock = itemBlock;
@@ -35,12 +39,15 @@ namespace Pitstop64.Data.Tracks.Compressed
             TextureBlock = textureBlock;
             Unknown1 = unknown1;
             Unknown2 = unknown2;
+            TopSkyColor = topSkyColor;
+            BottomSkyColor = bottomSkyColor;
         }
 
         public TrackInfo GetAsExportableTrack()
         {
             //convert & export your track data here!
-            return new TrackInfo(TrackName, GetItemsObject(), GetVertices(), GetCommands(), GetImages(), GetCommandRefs(), (uint)Unknown1, Unknown2);
+            return new TrackInfo(TrackName, GetItemsObject(), GetVertices(), GetCommands(), GetImages(), GetCommandRefs(), (uint)Unknown1, Unknown2,
+                TopSkyColor, BottomSkyColor);
         }
 
         private TrackItemsObject GetItemsObject()

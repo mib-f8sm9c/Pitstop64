@@ -424,6 +424,30 @@ namespace Pitstop64.Data.Textures
             KART_8_PORTRAIT
         };
 
+        public static string[] MINIMAP_KART_NAME_ARRAY = new string[]
+        {
+            MINIMAP_KART_1,
+            MINIMAP_KART_2,
+            MINIMAP_KART_3,
+            MINIMAP_KART_4,
+            MINIMAP_KART_5,
+            MINIMAP_KART_6,
+            MINIMAP_KART_7,
+            MINIMAP_KART_8
+        };
+
+        public static string[] KART_MINI_PORTRAIT_NAME_ARRAY = new string[]
+        {
+            KART_1_MINI_PORTRAIT,
+            KART_2_MINI_PORTRAIT,
+            KART_3_MINI_PORTRAIT,
+            KART_4_MINI_PORTRAIT,
+            KART_5_MINI_PORTRAIT,
+            KART_6_MINI_PORTRAIT,
+            KART_7_MINI_PORTRAIT,
+            KART_8_MINI_PORTRAIT
+        };
+
         public static string[] COURSE_NAME_ARRAY = new string[]
         {
             COURSE_1_NAME,

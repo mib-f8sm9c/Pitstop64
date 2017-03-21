@@ -10,12 +10,14 @@ using Pitstop64.Data.Tracks;
 using Cereal64.Common.Rom;
 using Cereal64.VisObj64.Data.OpenGL.Wrappers.F3DEX;
 using Cereal64.Microcodes.F3DEX.DataElements;
+using TrackShack.Data;
+using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 
 namespace TrackShack.Controls.TrackControls
 {
     public partial class PreviewTrackForm : TrackShackWindow
     {
-        public PreviewTrackForm(TrackInfo track)
+        public PreviewTrackForm(TrackWrapper track)
             : base(track)
         {
             InitializeComponent();
@@ -28,7 +30,19 @@ namespace TrackShack.Controls.TrackControls
             TrackShackFloor.LoadCurrentTrackIntoRomProject();
 
 
-            openGLControl.GraphicsCollections.Add(VO64F3DEXReader.ReadCommands(Track.F3DCommands));
+            //Replace this with better code. Consider bringing in that one entry in the track table, it may be more important than you think
+            //Duplicated from TrackShackFloor
+            int finalDLOffset = Track.Track.F3DCommands.Commands.Count - 1;
+            while ((Track.Track.F3DCommands.Commands[finalDLOffset] is F3DEX_G_EndDL) ||
+                (Track.Track.F3DCommands.Commands[finalDLOffset] is F3DEX_G_MK64_EndDL))
+                finalDLOffset--;
+
+            //Now we have a non-end. Let's find the start of it!
+            while (!(Track.Track.F3DCommands.Commands[finalDLOffset - 1] is F3DEX_G_EndDL) &&
+                !(Track.Track.F3DCommands.Commands[finalDLOffset - 1] is F3DEX_G_MK64_EndDL))
+                finalDLOffset--;
+
+            openGLControl.GraphicsCollections.Add(VO64F3DEXReader.ReadCommands(Track.Track.F3DCommands, finalDLOffset));
            
             openGLControl.RefreshGraphics();
         }
@@ -43,7 +57,7 @@ namespace TrackShack.Controls.TrackControls
         {
             get
             {
-                return "Preview Course - " + Track.TrackName;
+                return "Preview Course - " + Track.Track.TrackName;
             }
         }
 

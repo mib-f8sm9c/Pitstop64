@@ -93,6 +93,16 @@ namespace ChompShop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bolt {
+            get {
+                object obj = ResourceManager.GetObject("bolt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap circle_check_3x {
             get {
                 object obj = ResourceManager.GetObject("circle-check-3x", resourceCulture);
@@ -216,6 +226,16 @@ namespace ChompShop.Properties {
         internal static System.Drawing.Bitmap plus {
             get {
                 object obj = ResourceManager.GetObject("plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap spreadsheet_3x {
+            get {
+                object obj = ResourceManager.GetObject("spreadsheet-3x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

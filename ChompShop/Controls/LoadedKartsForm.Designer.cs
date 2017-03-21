@@ -32,6 +32,7 @@
             this.lbKarts = new System.Windows.Forms.ListBox();
             this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnKartStats = new System.Windows.Forms.Button();
             this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -54,13 +55,31 @@
             this.lbKarts.Margin = new System.Windows.Forms.Padding(4);
             this.lbKarts.Name = "lbKarts";
             this.lbKarts.ScrollAlwaysVisible = true;
-            this.lbKarts.Size = new System.Drawing.Size(134, 164);
+            this.lbKarts.Size = new System.Drawing.Size(134, 212);
             this.lbKarts.TabIndex = 0;
             this.lbKarts.SelectedIndexChanged += new System.EventHandler(this.lbKarts_SelectedIndexChanged);
             // 
             // openKartDialog
             // 
             this.openKartDialog.Filter = "Karts|*.karts";
+            // 
+            // btnKartStats
+            // 
+            this.btnKartStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnKartStats.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnKartStats.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKartStats.Image = global::ChompShop.Properties.Resources.spreadsheet_3x;
+            this.btnKartStats.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnKartStats.Location = new System.Drawing.Point(158, 57);
+            this.btnKartStats.Margin = new System.Windows.Forms.Padding(4);
+            this.btnKartStats.Name = "btnKartStats";
+            this.btnKartStats.Size = new System.Drawing.Size(95, 40);
+            this.btnKartStats.TabIndex = 10;
+            this.btnKartStats.Text = "Kart Stats";
+            this.btnKartStats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnKartStats, "Edit Kart Name");
+            this.btnKartStats.UseVisualStyleBackColor = true;
+            this.btnKartStats.Click += new System.EventHandler(this.btnKartStats_Click);
             // 
             // btnSaveChanges
             // 
@@ -69,7 +88,7 @@
             this.btnSaveChanges.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnSaveChanges.Image = global::ChompShop.Properties.Resources.task_4x;
             this.btnSaveChanges.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveChanges.Location = new System.Drawing.Point(13, 222);
+            this.btnSaveChanges.Location = new System.Drawing.Point(13, 275);
             this.btnSaveChanges.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveChanges.Name = "btnSaveChanges";
             this.btnSaveChanges.Size = new System.Drawing.Size(95, 50);
@@ -130,7 +149,7 @@
             this.btnResetChanges.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnResetChanges.Image = global::ChompShop.Properties.Resources.action_undo_4x;
             this.btnResetChanges.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetChanges.Location = new System.Drawing.Point(158, 222);
+            this.btnResetChanges.Location = new System.Drawing.Point(158, 275);
             this.btnResetChanges.Margin = new System.Windows.Forms.Padding(4);
             this.btnResetChanges.Name = "btnResetChanges";
             this.btnResetChanges.Size = new System.Drawing.Size(95, 50);
@@ -149,7 +168,7 @@
             this.btnAnims.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnAnims.Image = global::ChompShop.Properties.Resources.video_3x;
             this.btnAnims.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAnims.Location = new System.Drawing.Point(158, 149);
+            this.btnAnims.Location = new System.Drawing.Point(158, 192);
             this.btnAnims.Margin = new System.Windows.Forms.Padding(4);
             this.btnAnims.Name = "btnAnims";
             this.btnAnims.Size = new System.Drawing.Size(95, 40);
@@ -167,7 +186,7 @@
             this.btnPortraits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPortraits.Image = global::ChompShop.Properties.Resources.image_3x;
             this.btnPortraits.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPortraits.Location = new System.Drawing.Point(158, 58);
+            this.btnPortraits.Location = new System.Drawing.Point(158, 101);
             this.btnPortraits.Margin = new System.Windows.Forms.Padding(4);
             this.btnPortraits.Name = "btnPortraits";
             this.btnPortraits.Size = new System.Drawing.Size(95, 40);
@@ -185,7 +204,7 @@
             this.btnImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.btnImages.Image = global::ChompShop.Properties.Resources.grid_three_up_3x;
             this.btnImages.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImages.Location = new System.Drawing.Point(158, 103);
+            this.btnImages.Location = new System.Drawing.Point(158, 146);
             this.btnImages.Margin = new System.Windows.Forms.Padding(4);
             this.btnImages.Name = "btnImages";
             this.btnImages.Size = new System.Drawing.Size(95, 40);
@@ -218,7 +237,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(266, 285);
+            this.ClientSize = new System.Drawing.Size(266, 338);
+            this.Controls.Add(this.btnKartStats);
             this.Controls.Add(this.btnSaveChanges);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnRemove);
@@ -251,5 +271,6 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button btnSaveChanges;
+        private System.Windows.Forms.Button btnKartStats;
     }
 }

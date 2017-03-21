@@ -125,6 +125,8 @@ namespace ChompShop.Controls.KartControls
 
             if (selected != null && Kart.Kart.KartAnimations.Contains(selected))
                 lbAnimations.SelectedItem = selected;
+            else
+                UpdateAnimationEnableds();
         }
 
         private void PopulateAnimationImages()
@@ -217,6 +219,7 @@ namespace ChompShop.Controls.KartControls
             pnlKartAnimation.Enabled = animSelected;
 
             btnAnimationsDelete.Enabled = animSelected;
+            btnDefaultAnims.Enabled = lbAnimations.Items.Count == 0;
 
             gbAnimationType.Enabled = animSelected;
         }
@@ -713,6 +716,27 @@ namespace ChompShop.Controls.KartControls
         }
 
         #endregion
+
+        private void btnDefaultAnims_Click(object sender, EventArgs e)
+        {
+            //Add in the default set of animations
+            Kart.AddNewAnimation("TurnDown25");
+            Kart.AddNewAnimation("TurnDown19");
+            Kart.AddNewAnimation("TurnDown12");
+            Kart.AddNewAnimation("TurnDown6");
+            Kart.AddNewAnimation("Turn0");
+            Kart.AddNewAnimation("TurnUp6");
+            Kart.AddNewAnimation("TurnUp12");
+            Kart.AddNewAnimation("TurnUp19");
+            Kart.AddNewAnimation("TurnUp25");
+            Kart.AddNewAnimation("SpinDown25");
+            Kart.AddNewAnimation("SpinDown12");
+            Kart.AddNewAnimation("Spin0");
+            Kart.AddNewAnimation("SpinUp12");
+            Kart.AddNewAnimation("SpinUp25");
+
+            PopulateAnimations();
+        }
 
 
     }

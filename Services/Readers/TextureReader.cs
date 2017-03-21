@@ -12,6 +12,7 @@ using Cereal64.Microcodes.F3DEX.DataElements.Commands;
 using Cereal64.Common.Utils.Encoding;
 using Cereal64.Common.DataElements.Encoding;
 using Pitstop64.Data;
+using Pitstop64.Data.Textures;
 
 namespace Pitstop64.Services.Readers
 {
@@ -56,6 +57,13 @@ namespace Pitstop64.Services.Readers
                 }
             }
 
+            N64DataElement element;
+            if (RomProject.Instance.Files[0].HasElementExactlyAt(CommonTexturesBlock.CTB_OFFSET, out element) &&
+                element is MIO0Block)
+            {
+                results.CommonTexturesBlock = new CommonTexturesBlock((MIO0Block)element);
+            }
+
             finalResults.TextureResults = results;
         }
 
@@ -66,6 +74,8 @@ namespace Pitstop64.Services.Readers
 
             foreach (MK64Image image in results.NewKartImages)
                 MarioKart64ElementHub.Instance.TextureHub.AddKartImage(image);
+
+            MarioKart64ElementHub.Instance.CommonTextureBlock = results.CommonTexturesBlock;
         }
     }
 
@@ -74,6 +84,7 @@ namespace Pitstop64.Services.Readers
         public List<MK64Image> NewImages;
         public List<MK64Image> NewKartImages;
         public Dictionary<Texture, List<MK64Image>> ImagesByTexture;
+        public CommonTexturesBlock CommonTexturesBlock;
 
         public TextureReaderResults()
         {

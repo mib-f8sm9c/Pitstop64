@@ -36,9 +36,6 @@
             this.gbSelectedKarts = new System.Windows.Forms.GroupBox();
             this.btnKartsReset = new System.Windows.Forms.Button();
             this.cbKartList = new System.Windows.Forms.ComboBox();
-            this.btnInsertKart = new System.Windows.Forms.Button();
-            this.btnKartDown = new System.Windows.Forms.Button();
-            this.btnKartUp = new System.Windows.Forms.Button();
             this.lbKarts = new System.Windows.Forms.ListBox();
             this.gbKarts = new System.Windows.Forms.GroupBox();
             this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
@@ -46,11 +43,15 @@
             this.lblKartName = new System.Windows.Forms.Label();
             this.btnImportKart = new System.Windows.Forms.Button();
             this.pnlPortrait = new System.Windows.Forms.Panel();
-            this.pbPortrait = new System.Windows.Forms.PictureBox();
             this.lbAllKarts = new System.Windows.Forms.ListBox();
             this.openKartDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnChompShop = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnInsertKart = new System.Windows.Forms.Button();
+            this.btnKartDown = new System.Windows.Forms.Button();
+            this.btnKartUp = new System.Windows.Forms.Button();
+            this.pbPortrait = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.pnlSharedControls.SuspendLayout();
             this.gbSelectedKarts.SuspendLayout();
             this.gbKarts.SuspendLayout();
@@ -131,39 +132,6 @@
             this.cbKartList.Name = "cbKartList";
             this.cbKartList.Size = new System.Drawing.Size(97, 24);
             this.cbKartList.TabIndex = 4;
-            // 
-            // btnInsertKart
-            // 
-            this.btnInsertKart.Enabled = false;
-            this.btnInsertKart.Image = global::Pitstop64.Properties.Resources.arrow_thick_left;
-            this.btnInsertKart.Location = new System.Drawing.Point(141, 114);
-            this.btnInsertKart.Name = "btnInsertKart";
-            this.btnInsertKart.Size = new System.Drawing.Size(20, 20);
-            this.btnInsertKart.TabIndex = 3;
-            this.btnInsertKart.UseVisualStyleBackColor = true;
-            this.btnInsertKart.Click += new System.EventHandler(this.btnInsertKart_Click);
-            // 
-            // btnKartDown
-            // 
-            this.btnKartDown.Enabled = false;
-            this.btnKartDown.Image = global::Pitstop64.Properties.Resources.arrow_thick_bottom;
-            this.btnKartDown.Location = new System.Drawing.Point(141, 61);
-            this.btnKartDown.Name = "btnKartDown";
-            this.btnKartDown.Size = new System.Drawing.Size(20, 20);
-            this.btnKartDown.TabIndex = 2;
-            this.btnKartDown.UseVisualStyleBackColor = true;
-            this.btnKartDown.Click += new System.EventHandler(this.btnKartDown_Click);
-            // 
-            // btnKartUp
-            // 
-            this.btnKartUp.Enabled = false;
-            this.btnKartUp.Image = global::Pitstop64.Properties.Resources.arrow_thick_top;
-            this.btnKartUp.Location = new System.Drawing.Point(141, 32);
-            this.btnKartUp.Name = "btnKartUp";
-            this.btnKartUp.Size = new System.Drawing.Size(20, 20);
-            this.btnKartUp.TabIndex = 1;
-            this.btnKartUp.UseVisualStyleBackColor = true;
-            this.btnKartUp.Click += new System.EventHandler(this.btnKartUp_Click);
             // 
             // lbKarts
             // 
@@ -253,16 +221,6 @@
             this.pnlPortrait.Size = new System.Drawing.Size(130, 130);
             this.pnlPortrait.TabIndex = 20;
             // 
-            // pbPortrait
-            // 
-            this.pbPortrait.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbPortrait.Location = new System.Drawing.Point(0, 0);
-            this.pbPortrait.Name = "pbPortrait";
-            this.pbPortrait.Size = new System.Drawing.Size(130, 130);
-            this.pbPortrait.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbPortrait.TabIndex = 0;
-            this.pbPortrait.TabStop = false;
-            // 
             // lbAllKarts
             // 
             this.lbAllKarts.FormattingEnabled = true;
@@ -282,7 +240,7 @@
             // 
             // btnChompShop
             // 
-            this.btnChompShop.Location = new System.Drawing.Point(384, 285);
+            this.btnChompShop.Location = new System.Drawing.Point(439, 280);
             this.btnChompShop.Name = "btnChompShop";
             this.btnChompShop.Size = new System.Drawing.Size(143, 54);
             this.btnChompShop.TabIndex = 12;
@@ -290,10 +248,64 @@
             this.btnChompShop.UseVisualStyleBackColor = true;
             this.btnChompShop.Click += new System.EventHandler(this.btnChompShop_Click);
             // 
+            // btnInsertKart
+            // 
+            this.btnInsertKart.Enabled = false;
+            this.btnInsertKart.Image = global::Pitstop64.Properties.Resources.arrow_thick_left;
+            this.btnInsertKart.Location = new System.Drawing.Point(141, 114);
+            this.btnInsertKart.Name = "btnInsertKart";
+            this.btnInsertKart.Size = new System.Drawing.Size(20, 20);
+            this.btnInsertKart.TabIndex = 3;
+            this.btnInsertKart.UseVisualStyleBackColor = true;
+            this.btnInsertKart.Click += new System.EventHandler(this.btnInsertKart_Click);
+            // 
+            // btnKartDown
+            // 
+            this.btnKartDown.Enabled = false;
+            this.btnKartDown.Image = global::Pitstop64.Properties.Resources.arrow_thick_bottom;
+            this.btnKartDown.Location = new System.Drawing.Point(141, 61);
+            this.btnKartDown.Name = "btnKartDown";
+            this.btnKartDown.Size = new System.Drawing.Size(20, 20);
+            this.btnKartDown.TabIndex = 2;
+            this.btnKartDown.UseVisualStyleBackColor = true;
+            this.btnKartDown.Click += new System.EventHandler(this.btnKartDown_Click);
+            // 
+            // btnKartUp
+            // 
+            this.btnKartUp.Enabled = false;
+            this.btnKartUp.Image = global::Pitstop64.Properties.Resources.arrow_thick_top;
+            this.btnKartUp.Location = new System.Drawing.Point(141, 32);
+            this.btnKartUp.Name = "btnKartUp";
+            this.btnKartUp.Size = new System.Drawing.Size(20, 20);
+            this.btnKartUp.TabIndex = 1;
+            this.btnKartUp.UseVisualStyleBackColor = true;
+            this.btnKartUp.Click += new System.EventHandler(this.btnKartUp_Click);
+            // 
+            // pbPortrait
+            // 
+            this.pbPortrait.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbPortrait.Location = new System.Drawing.Point(0, 0);
+            this.pbPortrait.Name = "pbPortrait";
+            this.pbPortrait.Size = new System.Drawing.Size(130, 130);
+            this.pbPortrait.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPortrait.TabIndex = 0;
+            this.pbPortrait.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(331, 286);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 48);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Debug Stats";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // KartControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnChompShop);
             this.Controls.Add(this.pnlSharedControls);
             this.Controls.Add(this.gbSelectedKarts);
@@ -337,5 +349,6 @@
         private System.Windows.Forms.OpenFileDialog openKartDialog;
         private System.Windows.Forms.Button btnChompShop;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button button1;
     }
 }

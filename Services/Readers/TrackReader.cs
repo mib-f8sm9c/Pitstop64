@@ -41,6 +41,22 @@ namespace Pitstop64.Services.Readers
 
             results.TrackTable = trackBlock;
 
+            TrackSkyTable skyTable;
+            if (!RomProject.Instance.Files[0].HasElementExactlyAt(MarioKartRomInfo.SkyTableOffset, out element))
+            {
+                byte[] refBlock = new byte[MarioKartRomInfo.TrackCount * 12];
+                Array.Copy(rawData, MarioKartRomInfo.SkyTableOffset, refBlock, 0, refBlock.Length);
+
+                skyTable = new TrackSkyTable(MarioKartRomInfo.SkyTableOffset, refBlock);
+                results.NewElements.Add(skyTable);
+            }
+            else
+            {
+                skyTable = (TrackSkyTable)element;
+            }
+
+            results.SkyTable = skyTable;
+
             foreach(TrackDataReferenceEntry trackEntry in trackBlock.Entries)
             {
                 LoadTrackInfo(trackEntry, worker, rawData, results);
@@ -75,8 +91,9 @@ namespace Pitstop64.Services.Readers
             Array.Copy(rawData, trackEntry.TextureBlockStart, textureData, 0, textureData.Length);
             TrackTextureRefBlock textureBlock = new TrackTextureRefBlock(trackEntry.TextureBlockStart, textureData);
             results.NewElements.Add(textureBlock);
-            
-            CompressedTrack track = new CompressedTrack(trackName, itemBlock, vertexBlock, textureBlock, trackEntry.VertexCount, trackEntry.Unknown2);
+
+            CompressedTrack track = new CompressedTrack(trackName, itemBlock, vertexBlock, textureBlock, trackEntry.VertexCount, trackEntry.Unknown2,
+                results.SkyTable.TopColors[results.Tracks.Count], results.SkyTable.BottomColors[results.Tracks.Count]);
             results.Tracks.Add(track);
         }
 
@@ -102,6 +119,7 @@ namespace Pitstop64.Services.Readers
         public static void ApplyResults(TrackReaderResults results)
         {
             MarioKart64ElementHub.Instance.TrackTable = results.TrackTable;
+            MarioKart64ElementHub.Instance.TrackSkyColorTable = results.SkyTable;
 
             for (int i = 0; i < results.Tracks.Count; i++)
             {
@@ -124,6 +142,7 @@ namespace Pitstop64.Services.Readers
     {
         public List<N64DataElement> NewElements;
         public TrackDataReferenceBlock TrackTable;
+        public TrackSkyTable SkyTable;
         public List<CompressedTrack> Tracks;
 
         public TrackReaderResults()

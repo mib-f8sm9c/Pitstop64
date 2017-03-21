@@ -32,11 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KartAnimsForm));
             this.kartPreviewControl = new Pitstop64.Modules.Karts.KartPreviewControl();
             this.pnlKartAnimation = new System.Windows.Forms.Panel();
-            this.btnAnimImageDown = new System.Windows.Forms.Button();
-            this.btnAnimImageUp = new System.Windows.Forms.Button();
-            this.btnAnimImageDuplicate = new System.Windows.Forms.Button();
-            this.btnAnimImageRemove = new System.Windows.Forms.Button();
-            this.btnAnimImageAdd = new System.Windows.Forms.Button();
             this.lbAnimImages = new System.Windows.Forms.ListBox();
             this.gbAnimationType = new System.Windows.Forms.GroupBox();
             this.gbSpin = new System.Windows.Forms.GroupBox();
@@ -61,16 +56,22 @@
             this.cbAnimTurn25 = new System.Windows.Forms.CheckBox();
             this.cbAnimCrash = new System.Windows.Forms.CheckBox();
             this.lbAnimations = new System.Windows.Forms.ListBox();
-            this.btnPlayAnims = new System.Windows.Forms.Button();
-            this.btnAnimationsDelete = new System.Windows.Forms.Button();
-            this.btnAnimationsAdd = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAnimRename = new System.Windows.Forms.Button();
             this.pnlLeftSide = new System.Windows.Forms.Panel();
             this.pnlReloadAnimations = new System.Windows.Forms.Panel();
             this.btnRecalculate = new System.Windows.Forms.Button();
             this.lblWarningText = new System.Windows.Forms.Label();
             this.lblReloadWarning = new System.Windows.Forms.Label();
+            this.btnAnimImageDown = new System.Windows.Forms.Button();
+            this.btnAnimImageUp = new System.Windows.Forms.Button();
+            this.btnAnimImageDuplicate = new System.Windows.Forms.Button();
+            this.btnAnimImageRemove = new System.Windows.Forms.Button();
+            this.btnAnimImageAdd = new System.Windows.Forms.Button();
+            this.btnDefaultAnims = new System.Windows.Forms.Button();
+            this.btnAnimRename = new System.Windows.Forms.Button();
+            this.btnPlayAnims = new System.Windows.Forms.Button();
+            this.btnAnimationsDelete = new System.Windows.Forms.Button();
+            this.btnAnimationsAdd = new System.Windows.Forms.Button();
             this.pnlKartAnimation.SuspendLayout();
             this.gbAnimationType.SuspendLayout();
             this.gbSpin.SuspendLayout();
@@ -88,10 +89,15 @@
             this.kartPreviewControl.FrameIndex = 0;
             this.kartPreviewControl.FramesPerSecond = 30;
             this.kartPreviewControl.Image = null;
+            this.kartPreviewControl.ImageName = "";
+            this.kartPreviewControl.ImageSize = new System.Drawing.Size(133, 140);
+            this.kartPreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.kartPreviewControl.Kart = null;
             this.kartPreviewControl.Location = new System.Drawing.Point(3, 4);
+            this.kartPreviewControl.LockImageSize = true;
             this.kartPreviewControl.Mode = Pitstop64.Modules.Karts.KartPreviewControl.PreviewMode.Static;
             this.kartPreviewControl.Name = "kartPreviewControl";
+            this.kartPreviewControl.OverlayImage = null;
             this.kartPreviewControl.ReferenceKart = null;
             this.kartPreviewControl.ShowReferenceKart = false;
             this.kartPreviewControl.Size = new System.Drawing.Size(175, 165);
@@ -113,67 +119,6 @@
             this.pnlKartAnimation.Name = "pnlKartAnimation";
             this.pnlKartAnimation.Size = new System.Drawing.Size(489, 309);
             this.pnlKartAnimation.TabIndex = 1;
-            // 
-            // btnAnimImageDown
-            // 
-            this.btnAnimImageDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimImageDown.Image = global::ChompShop.Properties.Resources.arrow_thick_bottom;
-            this.btnAnimImageDown.Location = new System.Drawing.Point(160, 10);
-            this.btnAnimImageDown.Name = "btnAnimImageDown";
-            this.btnAnimImageDown.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageDown.TabIndex = 5;
-            this.toolTip.SetToolTip(this.btnAnimImageDown, "Move Kart Image down");
-            this.btnAnimImageDown.UseVisualStyleBackColor = true;
-            this.btnAnimImageDown.Click += new System.EventHandler(this.btnAnimImageDown_Click);
-            // 
-            // btnAnimImageUp
-            // 
-            this.btnAnimImageUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimImageUp.Image = global::ChompShop.Properties.Resources.arrow_thick_top;
-            this.btnAnimImageUp.Location = new System.Drawing.Point(134, 10);
-            this.btnAnimImageUp.Name = "btnAnimImageUp";
-            this.btnAnimImageUp.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageUp.TabIndex = 4;
-            this.toolTip.SetToolTip(this.btnAnimImageUp, "Move Kart Image up");
-            this.btnAnimImageUp.UseVisualStyleBackColor = true;
-            this.btnAnimImageUp.Click += new System.EventHandler(this.btnAnimImageUp_Click);
-            // 
-            // btnAnimImageDuplicate
-            // 
-            this.btnAnimImageDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimImageDuplicate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btnAnimImageDuplicate.Image = global::ChompShop.Properties.Resources.clipboard;
-            this.btnAnimImageDuplicate.Location = new System.Drawing.Point(70, 10);
-            this.btnAnimImageDuplicate.Name = "btnAnimImageDuplicate";
-            this.btnAnimImageDuplicate.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageDuplicate.TabIndex = 3;
-            this.toolTip.SetToolTip(this.btnAnimImageDuplicate, "Duplicate selected Kart Image");
-            this.btnAnimImageDuplicate.UseVisualStyleBackColor = true;
-            this.btnAnimImageDuplicate.Click += new System.EventHandler(this.btnAnimImageDuplicate_Click);
-            // 
-            // btnAnimImageRemove
-            // 
-            this.btnAnimImageRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimImageRemove.Image = global::ChompShop.Properties.Resources.minus;
-            this.btnAnimImageRemove.Location = new System.Drawing.Point(44, 10);
-            this.btnAnimImageRemove.Name = "btnAnimImageRemove";
-            this.btnAnimImageRemove.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageRemove.TabIndex = 2;
-            this.toolTip.SetToolTip(this.btnAnimImageRemove, "Remove selected Kart Image from the animation");
-            this.btnAnimImageRemove.UseVisualStyleBackColor = true;
-            this.btnAnimImageRemove.Click += new System.EventHandler(this.btnAnimImageRemove_Click);
-            // 
-            // btnAnimImageAdd
-            // 
-            this.btnAnimImageAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimImageAdd.Image = global::ChompShop.Properties.Resources.plus;
-            this.btnAnimImageAdd.Location = new System.Drawing.Point(18, 10);
-            this.btnAnimImageAdd.Name = "btnAnimImageAdd";
-            this.btnAnimImageAdd.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimImageAdd.TabIndex = 1;
-            this.toolTip.SetToolTip(this.btnAnimImageAdd, "Add existing Kart Image to the animation");
-            this.btnAnimImageAdd.UseVisualStyleBackColor = true;
-            this.btnAnimImageAdd.Click += new System.EventHandler(this.btnAnimImageAdd_Click);
             // 
             // lbAnimImages
             // 
@@ -467,57 +412,9 @@
             this.lbAnimations.TabIndex = 0;
             this.lbAnimations.SelectedIndexChanged += new System.EventHandler(this.lbAnimations_SelectedIndexChanged);
             // 
-            // btnPlayAnims
-            // 
-            this.btnPlayAnims.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPlayAnims.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlayAnims.Image = global::ChompShop.Properties.Resources.play_circle;
-            this.btnPlayAnims.Location = new System.Drawing.Point(152, 158);
-            this.btnPlayAnims.Name = "btnPlayAnims";
-            this.btnPlayAnims.Size = new System.Drawing.Size(20, 20);
-            this.btnPlayAnims.TabIndex = 4;
-            this.toolTip.SetToolTip(this.btnPlayAnims, "Play all animations");
-            this.btnPlayAnims.UseVisualStyleBackColor = true;
-            this.btnPlayAnims.Click += new System.EventHandler(this.btnPlayAnims_Click);
-            // 
-            // btnAnimationsDelete
-            // 
-            this.btnAnimationsDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimationsDelete.Image = global::ChompShop.Properties.Resources.minus;
-            this.btnAnimationsDelete.Location = new System.Drawing.Point(34, 158);
-            this.btnAnimationsDelete.Name = "btnAnimationsDelete";
-            this.btnAnimationsDelete.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimationsDelete.TabIndex = 2;
-            this.toolTip.SetToolTip(this.btnAnimationsDelete, "Remove selected animation");
-            this.btnAnimationsDelete.UseVisualStyleBackColor = true;
-            this.btnAnimationsDelete.Click += new System.EventHandler(this.btnAnimationsDelete_Click);
-            // 
-            // btnAnimationsAdd
-            // 
-            this.btnAnimationsAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimationsAdd.Image = global::ChompShop.Properties.Resources.plus;
-            this.btnAnimationsAdd.Location = new System.Drawing.Point(8, 158);
-            this.btnAnimationsAdd.Name = "btnAnimationsAdd";
-            this.btnAnimationsAdd.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimationsAdd.TabIndex = 1;
-            this.toolTip.SetToolTip(this.btnAnimationsAdd, "Add new animation");
-            this.btnAnimationsAdd.UseVisualStyleBackColor = true;
-            this.btnAnimationsAdd.Click += new System.EventHandler(this.btnAnimationsAdd_Click);
-            // 
-            // btnAnimRename
-            // 
-            this.btnAnimRename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAnimRename.Image = global::ChompShop.Properties.Resources.pencil;
-            this.btnAnimRename.Location = new System.Drawing.Point(60, 158);
-            this.btnAnimRename.Name = "btnAnimRename";
-            this.btnAnimRename.Size = new System.Drawing.Size(20, 20);
-            this.btnAnimRename.TabIndex = 3;
-            this.toolTip.SetToolTip(this.btnAnimRename, "Rename selected animation");
-            this.btnAnimRename.UseVisualStyleBackColor = true;
-            this.btnAnimRename.Click += new System.EventHandler(this.btnAnimRename_Click);
-            // 
             // pnlLeftSide
             // 
+            this.pnlLeftSide.Controls.Add(this.btnDefaultAnims);
             this.pnlLeftSide.Controls.Add(this.btnAnimRename);
             this.pnlLeftSide.Controls.Add(this.btnPlayAnims);
             this.pnlLeftSide.Controls.Add(this.lbAnimations);
@@ -575,6 +472,128 @@
             this.lblReloadWarning.Size = new System.Drawing.Size(109, 29);
             this.lblReloadWarning.TabIndex = 0;
             this.lblReloadWarning.Text = "Warning";
+            // 
+            // btnAnimImageDown
+            // 
+            this.btnAnimImageDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimImageDown.Image = global::ChompShop.Properties.Resources.arrow_thick_bottom;
+            this.btnAnimImageDown.Location = new System.Drawing.Point(160, 10);
+            this.btnAnimImageDown.Name = "btnAnimImageDown";
+            this.btnAnimImageDown.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimImageDown.TabIndex = 5;
+            this.toolTip.SetToolTip(this.btnAnimImageDown, "Move Kart Image down");
+            this.btnAnimImageDown.UseVisualStyleBackColor = true;
+            this.btnAnimImageDown.Click += new System.EventHandler(this.btnAnimImageDown_Click);
+            // 
+            // btnAnimImageUp
+            // 
+            this.btnAnimImageUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimImageUp.Image = global::ChompShop.Properties.Resources.arrow_thick_top;
+            this.btnAnimImageUp.Location = new System.Drawing.Point(134, 10);
+            this.btnAnimImageUp.Name = "btnAnimImageUp";
+            this.btnAnimImageUp.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimImageUp.TabIndex = 4;
+            this.toolTip.SetToolTip(this.btnAnimImageUp, "Move Kart Image up");
+            this.btnAnimImageUp.UseVisualStyleBackColor = true;
+            this.btnAnimImageUp.Click += new System.EventHandler(this.btnAnimImageUp_Click);
+            // 
+            // btnAnimImageDuplicate
+            // 
+            this.btnAnimImageDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimImageDuplicate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnAnimImageDuplicate.Image = global::ChompShop.Properties.Resources.clipboard;
+            this.btnAnimImageDuplicate.Location = new System.Drawing.Point(70, 10);
+            this.btnAnimImageDuplicate.Name = "btnAnimImageDuplicate";
+            this.btnAnimImageDuplicate.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimImageDuplicate.TabIndex = 3;
+            this.toolTip.SetToolTip(this.btnAnimImageDuplicate, "Duplicate selected Kart Image");
+            this.btnAnimImageDuplicate.UseVisualStyleBackColor = true;
+            this.btnAnimImageDuplicate.Click += new System.EventHandler(this.btnAnimImageDuplicate_Click);
+            // 
+            // btnAnimImageRemove
+            // 
+            this.btnAnimImageRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimImageRemove.Image = global::ChompShop.Properties.Resources.minus;
+            this.btnAnimImageRemove.Location = new System.Drawing.Point(44, 10);
+            this.btnAnimImageRemove.Name = "btnAnimImageRemove";
+            this.btnAnimImageRemove.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimImageRemove.TabIndex = 2;
+            this.toolTip.SetToolTip(this.btnAnimImageRemove, "Remove selected Kart Image from the animation");
+            this.btnAnimImageRemove.UseVisualStyleBackColor = true;
+            this.btnAnimImageRemove.Click += new System.EventHandler(this.btnAnimImageRemove_Click);
+            // 
+            // btnAnimImageAdd
+            // 
+            this.btnAnimImageAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimImageAdd.Image = global::ChompShop.Properties.Resources.plus;
+            this.btnAnimImageAdd.Location = new System.Drawing.Point(18, 10);
+            this.btnAnimImageAdd.Name = "btnAnimImageAdd";
+            this.btnAnimImageAdd.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimImageAdd.TabIndex = 1;
+            this.toolTip.SetToolTip(this.btnAnimImageAdd, "Add existing Kart Image to the animation");
+            this.btnAnimImageAdd.UseVisualStyleBackColor = true;
+            this.btnAnimImageAdd.Click += new System.EventHandler(this.btnAnimImageAdd_Click);
+            // 
+            // btnDefaultAnims
+            // 
+            this.btnDefaultAnims.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDefaultAnims.Image = global::ChompShop.Properties.Resources.bolt;
+            this.btnDefaultAnims.Location = new System.Drawing.Point(86, 158);
+            this.btnDefaultAnims.Name = "btnDefaultAnims";
+            this.btnDefaultAnims.Size = new System.Drawing.Size(20, 20);
+            this.btnDefaultAnims.TabIndex = 6;
+            this.toolTip.SetToolTip(this.btnDefaultAnims, "Set Up Default Animations");
+            this.btnDefaultAnims.UseVisualStyleBackColor = true;
+            this.btnDefaultAnims.Click += new System.EventHandler(this.btnDefaultAnims_Click);
+            // 
+            // btnAnimRename
+            // 
+            this.btnAnimRename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimRename.Image = global::ChompShop.Properties.Resources.pencil;
+            this.btnAnimRename.Location = new System.Drawing.Point(60, 158);
+            this.btnAnimRename.Name = "btnAnimRename";
+            this.btnAnimRename.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimRename.TabIndex = 3;
+            this.toolTip.SetToolTip(this.btnAnimRename, "Rename selected animation");
+            this.btnAnimRename.UseVisualStyleBackColor = true;
+            this.btnAnimRename.Click += new System.EventHandler(this.btnAnimRename_Click);
+            // 
+            // btnPlayAnims
+            // 
+            this.btnPlayAnims.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlayAnims.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlayAnims.Image = global::ChompShop.Properties.Resources.play_circle;
+            this.btnPlayAnims.Location = new System.Drawing.Point(152, 158);
+            this.btnPlayAnims.Name = "btnPlayAnims";
+            this.btnPlayAnims.Size = new System.Drawing.Size(20, 20);
+            this.btnPlayAnims.TabIndex = 4;
+            this.toolTip.SetToolTip(this.btnPlayAnims, "Play all animations");
+            this.btnPlayAnims.UseVisualStyleBackColor = true;
+            this.btnPlayAnims.Click += new System.EventHandler(this.btnPlayAnims_Click);
+            // 
+            // btnAnimationsDelete
+            // 
+            this.btnAnimationsDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimationsDelete.Image = global::ChompShop.Properties.Resources.minus;
+            this.btnAnimationsDelete.Location = new System.Drawing.Point(34, 158);
+            this.btnAnimationsDelete.Name = "btnAnimationsDelete";
+            this.btnAnimationsDelete.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimationsDelete.TabIndex = 2;
+            this.toolTip.SetToolTip(this.btnAnimationsDelete, "Remove selected animation");
+            this.btnAnimationsDelete.UseVisualStyleBackColor = true;
+            this.btnAnimationsDelete.Click += new System.EventHandler(this.btnAnimationsDelete_Click);
+            // 
+            // btnAnimationsAdd
+            // 
+            this.btnAnimationsAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnimationsAdd.Image = global::ChompShop.Properties.Resources.plus;
+            this.btnAnimationsAdd.Location = new System.Drawing.Point(8, 158);
+            this.btnAnimationsAdd.Name = "btnAnimationsAdd";
+            this.btnAnimationsAdd.Size = new System.Drawing.Size(20, 20);
+            this.btnAnimationsAdd.TabIndex = 1;
+            this.toolTip.SetToolTip(this.btnAnimationsAdd, "Add new animation");
+            this.btnAnimationsAdd.UseVisualStyleBackColor = true;
+            this.btnAnimationsAdd.Click += new System.EventHandler(this.btnAnimationsAdd_Click);
             // 
             // KartAnimsForm
             // 
@@ -646,5 +665,6 @@
         private System.Windows.Forms.Button btnRecalculate;
         private System.Windows.Forms.Label lblWarningText;
         private System.Windows.Forms.Label lblReloadWarning;
+        private System.Windows.Forms.Button btnDefaultAnims;
     }
 }

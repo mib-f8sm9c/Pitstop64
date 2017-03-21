@@ -361,6 +361,36 @@ namespace Pitstop64.Data
             return xml;
         }
 
+        /// <summary>
+        /// Creates a duplicate of the image data, but it doesn't 
+        /// </summary>
+        /// <returns></returns>
+        public MK64Image Duplicate()
+        {
+            if (this.TextureEncoding == MK64ImageEncoding.TKMK00)
+            {
+                TKMK00Block newTkmk = new TKMK00Block(-1, this.TKMKReference.RawData, this.TKMKReference.ImageAlphaColor);
+                return new MK64Image(newTkmk, this.ImageName);
+            }
+            else
+            {
+                Texture texture = new Texture(-1, this.ImageReference.Texture.RawData, this.ImageReference.Texture.Format,
+                    this.ImageReference.Texture.PixelSize, this.Width, this.Height);
+                List<Palette> palettes = new List<Palette>();
+                foreach (Palette pal in this.ImageReference.BasePalettes)
+                {
+                    palettes.Add(new Palette(-1, pal.RawData));
+                }
+
+                F3DEXImage img;
+                if (palettes.Count == 0) img = new F3DEXImage(texture);
+                else if (palettes.Count == 1) img = new F3DEXImage(texture, palettes[0]);
+                else img = new F3DEXImage(texture, palettes);
+
+                return new MK64Image(img, this.ImageName);
+            }
+        }
+
         private bool FindExistingTKMK00()
         {
             if (RomProject.Instance.Files.Count == 0)

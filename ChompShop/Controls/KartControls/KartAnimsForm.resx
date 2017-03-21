@@ -123,4 +123,7 @@
   <data name="lblWarningText.Text" xml:space="preserve">
     <value>Chomp Shop has detected that one or more images used in this kart's animations have been removed, sending those animations into an unstable state. Animations for the kart must be recalculated. Please make all changes to the images before reloading the animations, to reduce the chance of unexpected results.</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

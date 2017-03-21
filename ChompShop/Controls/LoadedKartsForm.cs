@@ -77,6 +77,12 @@ namespace ChompShop.Controls
                 this.ChompShopForm.ControlController.ShowKartForm(SelectedKart, ChompShopWindowType.KartName);
         }
 
+        private void btnKartStats_Click(object sender, EventArgs e)
+        {
+            if (SelectedKart != null)
+                this.ChompShopForm.ControlController.ShowKartForm(SelectedKart, ChompShopWindowType.KartStats);
+        }
+
         private void btnPortraits_Click(object sender, EventArgs e)
         {
             if (SelectedKart != null)

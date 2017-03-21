@@ -359,6 +359,12 @@ namespace Pitstop64.Modules.Karts
 
         #endregion
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DebugKartStatEditor editor = new DebugKartStatEditor();
+            editor.ShowDialog();
+        }
+
 
     }
 }

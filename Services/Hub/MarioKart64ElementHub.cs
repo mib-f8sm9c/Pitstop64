@@ -14,6 +14,7 @@ using Pitstop64.Data.Text;
 using Cereal64.Microcodes.F3DEX.DataElements;
 using Cereal64.Common.DataElements.Encoding;
 using Pitstop64.Data.Tracks.Compressed;
+using Pitstop64.Data.Textures;
 
 namespace Pitstop64.Services.Hub
 {
@@ -26,11 +27,16 @@ namespace Pitstop64.Services.Hub
 
         private const string TRACKS = "tracks";
         private const string SELECTED_TRACKS = "selectedTracks";
-
+        
         private const string TRACKS_GRAPHICS_REFRENCE_BLOCK = "trackGraphicsReferenceBlock";
 
         private const string KARTS_GRAPHICS_REFERENCE_BLOCK = "kartGraphicsReferenceBlock";
         private const string KARTS_PORTRAITS_REFERENCE_TABLE = "kartPortraitsReferenceTable";
+        private const string KARTS_WEIGHT_TABLE = "kartWeightTable";
+        private const string KARTS_SCALE_TABLE = "kartScaleTable";
+        private const string KARTS_INFO_TABLE = "kartInfoTable";
+
+        private const string COMMON_TEXTURE_BLOCK = "commonTextureBlock";
 
         private const string TURN_PALETTE_BLOCK = "turnPaletteBlock";
         private const string SPIN_PALETTE_BLOCK = "spinPaletteBlock";
@@ -65,12 +71,17 @@ namespace Pitstop64.Services.Hub
 
         public List<CompressedTrack> Tracks { get; private set; }
         public CompressedTrack[] SelectedTracks { get; private set; }
+        public TrackSkyTable TrackSkyColorTable { get; set; }
 
         public TextureHub TextureHub { get; private set; }
 
         public KartGraphicsReferenceBlock KartGraphicsBlock { get; set; }
         public KartPortraitTable KartPortraitsTable { get; set; }
+        public KartWeightTable KartWeightsTable { get; set; }
+        public KartScaleTable KartScalingTable { get; set; }
+        public KartInformationBlock KartStatsTable { get; set; }
         public TrackDataReferenceBlock TrackTable { get; set; }
+        public CommonTexturesBlock CommonTextureBlock { get; set; }
 
         public TextBank TextBank { get; set; }
 
@@ -234,6 +245,36 @@ namespace Pitstop64.Services.Hub
                             }
                         }
                         break;
+                    case KARTS_WEIGHT_TABLE:
+                        offset = int.Parse(element.Value);
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
+                        {
+                            if (n64Element is KartWeightTable)
+                            {
+                                KartWeightsTable = (KartWeightTable)n64Element;
+                            }
+                        }
+                        break;
+                    case KARTS_SCALE_TABLE:
+                        offset = int.Parse(element.Value);
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
+                        {
+                            if (n64Element is KartScaleTable)
+                            {
+                                KartScalingTable = (KartScaleTable)n64Element;
+                            }
+                        }
+                        break;
+                    case KARTS_INFO_TABLE:
+                        offset = int.Parse(element.Value);
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
+                        {
+                            if (n64Element is KartInformationBlock)
+                            {
+                                KartStatsTable = (KartInformationBlock)n64Element;
+                            }
+                        }
+                        break;
                     case SELECTED_KARTS:
                         int kartIndex = 0;
                         foreach(XElement selKart in element.Elements())
@@ -260,6 +301,16 @@ namespace Pitstop64.Services.Hub
                         break;
                     case TextureHub.TEXTURE_HUB:
                         TextureHub.LoadReferencesFromXML(element);
+                        break;
+                    case COMMON_TEXTURE_BLOCK:
+                        offset = int.Parse(element.Value);
+                        if (RomProject.Instance.Files[0].HasElementExactlyAt(offset, out n64Element))
+                        {
+                            if (n64Element is MIO0Block)
+                            {
+                                CommonTextureBlock = new CommonTexturesBlock((MIO0Block)n64Element);
+                            }
+                        }
                         break;
                 }
                 count++;
@@ -307,6 +358,22 @@ namespace Pitstop64.Services.Hub
             newElement.Value = KartPortraitsTable.FileOffset.ToString();
             xml.Add(newElement);
 
+            newElement = new XElement(KARTS_WEIGHT_TABLE);
+            newElement.Value = KartWeightsTable.FileOffset.ToString();
+            xml.Add(newElement);
+
+            newElement = new XElement(KARTS_SCALE_TABLE);
+            newElement.Value = KartScalingTable.FileOffset.ToString();
+            xml.Add(newElement);
+
+            newElement = new XElement(KARTS_INFO_TABLE);
+            newElement.Value = KartStatsTable.FileOffset.ToString();
+            xml.Add(newElement);
+
+            newElement = new XElement(COMMON_TEXTURE_BLOCK);
+            newElement.Value = CommonTextureBlock.EncodedData.FileOffset.ToString();
+            xml.Add(newElement);
+
             xml.Add(TextureHub.GetAsXML());
 
             return xml;
@@ -336,6 +403,8 @@ namespace Pitstop64.Services.Hub
                 new Dictionary<KartAnimationSeries, KartPaletteBlock>();
             int turnPaletteBlockIndex = 0;
             int spinPaletteBlockIndex = 0;
+
+            bool miniPortraitIconErrorEncountered = false;
 
             for (int i = 0; i < MarioKart64ElementHub.Instance.SelectedKarts.Length; i++)
             {
@@ -560,7 +629,49 @@ namespace Pitstop64.Services.Hub
                     oldTkmk.ImageAlphaColor = kart.KartNamePlate.TKMKAlphaColor;
                     oldTkmk.SetImage(kart.KartNamePlate.Image);
                 }
+
+                //Set the mini portrait & icon here!
+                MK64Image mkImg;
+                if (!miniPortraitIconErrorEncountered && (mkImg = TextureHub.FindImage(TextureNames.KART_MINI_PORTRAIT_NAME_ARRAY[i])) != null &&
+                    CommonTextureBlock.SetData(mkImg.TextureBlockOffset, kart.KartMiniPortrait.ImageReference.Texture.RawData) &&
+                    CommonTextureBlock.SetData(mkImg.PaletteBlockOffset[0], kart.KartMiniPortrait.ImageReference.BasePalettes[0].RawData) &&
+                    (mkImg = TextureHub.FindImage(TextureNames.MINIMAP_KART_NAME_ARRAY[i])) != null &&
+                    CommonTextureBlock.SetData(mkImg.TextureBlockOffset, kart.KartMiniIcon.ImageReference.Texture.RawData))
+                {
+                    //Success message? or error message otherwise?
+                }
+                else
+                {
+                    miniPortraitIconErrorEncountered = true;
+                }
+
+                //Kart stats
+                KartWeightsTable.KartWeights[i] = kart.KartStats.Weight;
+                KartScalingTable.KartScales[i] = kart.KartStats.Scale;
+                KartStatsTable.SetStatsFromKart(i, kart.KartStats);
+
+                //Kart name
+                Data.Text.TextBank.TextType textIndex = (Data.Text.TextBank.TextType)(i + Data.Text.TextBank.TextType.Kart_1_2);
+                TextBank.SetText(textIndex, kart.KartName.ToUpper());
             }
+
+            if (miniPortraitIconErrorEncountered)
+            {
+                //eh?
+            }
+            else
+            {
+                //Attempt to save the data
+                if (!CommonTextureBlock.TrySave())
+                {
+                    //Ya blew it
+                }
+                else
+                {
+                    //success message?
+                }
+            }
+
         }
 
         public void LoadTrackTextureReferences()
@@ -603,6 +714,10 @@ namespace Pitstop64.Services.Hub
                     TrackTable.Entries[i].LoadInfoFromTrack(SelectedTracks[i]);
 
                 //When editing the track image/name is allowed, that will go here
+
+                //sky colors
+                TrackSkyColorTable.TopColors[i] = SelectedTracks[i].TopSkyColor;
+                TrackSkyColorTable.BottomColors[i] = SelectedTracks[i].BottomSkyColor;
             }
         }
 
@@ -682,7 +797,7 @@ namespace Pitstop64.Services.Hub
 
             //Finally create the track
             CompressedTrack ct = new CompressedTrack(newTrack.TrackName, itemBlock, vertexBlock, textureBlock,
-                (int)newTrack.Unknown1, newTrack.Unknown2);
+                (int)newTrack.Unknown1, newTrack.Unknown2, newTrack.TopColor, newTrack.BottomColor);
 
             if (replaceTrack)
             {

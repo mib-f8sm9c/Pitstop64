@@ -59,6 +59,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Data\TrackWrapper.cs" />
     <Compile Include="TrackShackAlerts.cs" />
     <Compile Include="TrackShackFloor.cs" />
     <Compile Include="TrackShackForm.cs">
@@ -115,9 +116,7 @@
       <Name>MK64Pitstop</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

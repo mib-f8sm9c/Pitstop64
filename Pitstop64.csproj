@@ -70,7 +70,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Karts\KartInformationBlock.cs" />
+    <Compile Include="Data\Karts\KartScaleTable.cs" />
+    <Compile Include="Data\Karts\KartWeightTable.cs" />
     <Compile Include="Data\MK64Image.cs" />
+    <Compile Include="Data\Textures\CommonTexturesBlock.cs" />
     <Compile Include="Data\Textures\TextureNames.cs" />
     <Compile Include="Data\TKMK00Block.cs" />
     <Compile Include="Data\Tracks\Compressed\CompressedTrack.cs" />
@@ -93,6 +97,7 @@
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
     <Compile Include="Data\Tracks\TrackItemsObject.cs" />
+    <Compile Include="Data\Tracks\TrackSkyTable.cs" />
     <Compile Include="KartImageInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -101,6 +106,18 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MarioKartRomInfo.cs" />
+    <Compile Include="Modules\Karts\DebugKartStatEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\DebugKartStatEditor.Designer.cs">
+      <DependentUpon>DebugKartStatEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Karts\KartStatsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Karts\KartStatsControl.Designer.cs">
+      <DependentUpon>KartStatsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Textures\ComplexCIReplaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\About\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\DebugKartStatEditor.resx">
+      <DependentUpon>DebugKartStatEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Karts\KartStatsControl.resx">
+      <DependentUpon>KartStatsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Textures\ComplexCIReplaceForm.resx">
       <DependentUpon>ComplexCIReplaceForm.cs</DependentUpon>
