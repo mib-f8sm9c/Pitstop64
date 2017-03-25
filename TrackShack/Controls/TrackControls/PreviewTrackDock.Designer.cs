@@ -1,13 +1,13 @@
 ﻿namespace TrackShack.Controls.TrackControls
 {
-    partial class PreviewTrackForm
+    partial class PreviewTrackDock
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,10 +20,10 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -42,15 +42,13 @@
             this.openGLControl.Size = new System.Drawing.Size(439, 290);
             this.openGLControl.TabIndex = 0;
             // 
-            // PreviewTrackForm
+            // PreviewTrackDock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 290);
             this.Controls.Add(this.openGLControl);
-            this.Name = "PreviewTrackForm";
-            this.Text = "PreviewTrackForm";
-            this.Shown += new System.EventHandler(this.PreviewTrackForm_Shown);
+            this.Name = "PreviewTrackDock";
+            this.Size = new System.Drawing.Size(153, 151);
             this.ResumeLayout(false);
 
         }

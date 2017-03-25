@@ -1,35 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.ComponentModel;
-using Pitstop64.Data.Tracks;
 using TrackShack.Data;
+using System.Windows.Forms.Integration;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace TrackShack.Controls
 {
-    [TypeDescriptionProvider(typeof(TrackShackWindowDescriptionProvider<TrackShackWindow, Form>))]
-    public class TrackShackWindow : Form
+    [TypeDescriptionProvider(typeof(TrackShackDockableWindowDescriptionProvider<TrackShackDockableWindow, UserControl>))]
+    public partial class TrackShackDockableWindow : UserControl
     {
-        public TrackShackWindow()
-            : this(null)
-        {
-        }
+        public bool IsActive { get; private set; }
 
-        public TrackShackWindow(TrackWrapper track)
-        {
-            Track = track;
+        public LayoutContent ParentLayout { get; set; }
 
+        public TrackShackDockableWindow()
+        {
             TrackShackAlerts.TrackNameChanged += new TrackShackAlerts.TrackNameChangedEvent(TrackShackAlerts_TrackNameChanged);
+            IsActive = false;
+            ParentLayout = null;
         }
-
+        
         private void TrackShackAlerts_TrackNameChanged(TrackWrapper wrapper)
         {
             if (Track == wrapper)
             {
                 //Need invoke?
-                ResetTitleText();
+                //ResetTitleText();
             }
 
             TrackNameUpdated(wrapper);
@@ -40,26 +42,30 @@ namespace TrackShack.Controls
 
         }
 
+        public void OnIsActiveChanged(object sender, EventArgs e)
+        {
+            var layout = sender as Xceed.Wpf.AvalonDock.Layout.LayoutContent;
+            if (layout != null)
+            {
+                IsActive = layout.IsActive;
+            }
+        }
+
         public virtual void InitData()
         {
             throw new NotImplementedException();
         }
 
-        protected void ResetTitleText()
-        {
-            if (Track != null)
-                this.Text = string.Format(TitleText, Track.ToString()); //Fix this eventually!!
-            else
-                this.Text = TitleText;
-        }
-
         protected virtual string TitleText { get { throw new NotImplementedException(); } }
 
-        public virtual TrackShackWindowType WindowType { get { throw new NotImplementedException(); } }
+        public virtual TrackShackDockableWindowType WindowType { get { throw new NotImplementedException(); } }
 
         public TrackWrapper Track { get; protected set; }
 
-        protected TrackShackForm ChompShopForm { get { return (TrackShackForm)this.MdiParent; } }
+        protected TrackShackForm ChompShopForm { get { return (TrackShackForm)this.ParentForm; } }
+
+        protected WindowsFormsHost GetFormsHost { get { if(_formsHost == null) _formsHost = new WindowsFormsHost() { Child = this }; return _formsHost; } }
+        private WindowsFormsHost _formsHost = null;
 
         private void InitializeComponent()
         {
@@ -69,7 +75,7 @@ namespace TrackShack.Controls
             // 
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.Name = "TrackShackWindow";
+            this.Name = "TrackShackDockableWindow";
             this.ResumeLayout(false);
 
         }
@@ -77,9 +83,9 @@ namespace TrackShack.Controls
 
     //Needed this to fix a designer bug: see 
     // http://stackoverflow.com/questions/1620847/how-can-i-get-visual-studio-2008-windows-forms-designer-to-render-a-form-that-im/2406058#2406058
-    public class TrackShackWindowDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
+    public class TrackShackDockableWindowDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
     {
-        public TrackShackWindowDescriptionProvider()
+        public TrackShackDockableWindowDescriptionProvider()
             : base(TypeDescriptor.GetProvider(typeof(TAbstract)))
         {
         }

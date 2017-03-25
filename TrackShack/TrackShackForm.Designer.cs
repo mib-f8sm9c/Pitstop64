@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.dockingManagerHost = new System.Windows.Forms.Integration.ElementHost();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,22 +36,31 @@
             this.saveTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTrackAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trackInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.previewTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.elementEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trackConstructorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objectHierarchyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
+            // dockingManagerHost
+            // 
+            this.dockingManagerHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockingManagerHost.Location = new System.Drawing.Point(0, 25);
+            this.dockingManagerHost.Name = "dockingManagerHost";
+            this.dockingManagerHost.Size = new System.Drawing.Size(997, 430);
+            this.dockingManagerHost.TabIndex = 0;
+            this.dockingManagerHost.Text = "elementHost1";
+            this.dockingManagerHost.Child = null;
+            // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.windowsToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -76,7 +86,6 @@
             this.newTrackToolStripMenuItem.Name = "newTrackToolStripMenuItem";
             this.newTrackToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.newTrackToolStripMenuItem.Text = "New Track";
-            this.newTrackToolStripMenuItem.Click += new System.EventHandler(this.newTrackToolStripMenuItem_Click);
             // 
             // loadTrackToolStripMenuItem
             // 
@@ -106,44 +115,36 @@
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.windowsToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
             // windowsToolStripMenuItem
             // 
             this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.previewTrackToolStripMenuItem,
-            this.trackInfoToolStripMenuItem,
-            this.elementEditorToolStripMenuItem,
-            this.trackConstructorToolStripMenuItem});
+            this.objectHierarchyToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 19);
+            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.windowsToolStripMenuItem.Text = "Windows";
             // 
-            // trackInfoToolStripMenuItem
+            // objectHierarchyToolStripMenuItem
             // 
-            this.trackInfoToolStripMenuItem.Enabled = false;
-            this.trackInfoToolStripMenuItem.Name = "trackInfoToolStripMenuItem";
-            this.trackInfoToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.trackInfoToolStripMenuItem.Text = "Track Info";
+            this.objectHierarchyToolStripMenuItem.Name = "objectHierarchyToolStripMenuItem";
+            this.objectHierarchyToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.objectHierarchyToolStripMenuItem.Text = "Object Hierarchy";
+            this.objectHierarchyToolStripMenuItem.Click += new System.EventHandler(this.objectHierarchyToolStripMenuItem_Click);
             // 
-            // previewTrackToolStripMenuItem
+            // toolsToolStripMenuItem
             // 
-            this.previewTrackToolStripMenuItem.Name = "previewTrackToolStripMenuItem";
-            this.previewTrackToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.previewTrackToolStripMenuItem.Text = "Preview Track";
-            this.previewTrackToolStripMenuItem.Click += new System.EventHandler(this.previewTrackToolStripMenuItem_Click);
-            // 
-            // elementEditorToolStripMenuItem
-            // 
-            this.elementEditorToolStripMenuItem.Enabled = false;
-            this.elementEditorToolStripMenuItem.Name = "elementEditorToolStripMenuItem";
-            this.elementEditorToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.elementEditorToolStripMenuItem.Text = "Element Editor";
-            // 
-            // trackConstructorToolStripMenuItem
-            // 
-            this.trackConstructorToolStripMenuItem.Enabled = false;
-            this.trackConstructorToolStripMenuItem.Name = "trackConstructorToolStripMenuItem";
-            this.trackConstructorToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.trackConstructorToolStripMenuItem.Text = "Track Constructor";
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -165,15 +166,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(997, 455);
+            this.Controls.Add(this.dockingManagerHost);
             this.Controls.Add(this.menuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.IsMdiContainer = true;
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TrackShackForm";
             this.Text = "Track Shack";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TrackShackForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -184,20 +187,20 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.Integration.ElementHost dockingManagerHost;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveTrackAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem trackInfoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem previewTrackToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem elementEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem trackConstructorToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectHierarchyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
     }
 }
 

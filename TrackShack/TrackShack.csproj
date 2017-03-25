@@ -37,8 +37,11 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\Cereal64\Common\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,16 +50,33 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\Cereal64\Common\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\TrackControls\PreviewTrackForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\TrackControls\TestControl2.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TrackControls\PreviewTrackForm.Designer.cs">
-      <DependentUpon>PreviewTrackForm.cs</DependentUpon>
+    <Compile Include="Controls\TrackControls\TestControl2.Designer.cs">
+      <DependentUpon>TestControl2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrackShackWindow.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\TrackControls\PreviewTrackDock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TrackControls\PreviewTrackDock.Designer.cs">
+      <DependentUpon>PreviewTrackDock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackControls\TestControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TrackControls\TestControl1.Designer.cs">
+      <DependentUpon>TestControl1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackShackDockableWindow.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ControlController.cs" />
     <Compile Include="Data\TrackWrapper.cs" />
@@ -70,11 +90,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\TrackControls\PreviewTrackForm.resx">
-      <DependentUpon>PreviewTrackForm.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TrackControls\TestControl2.resx">
+      <DependentUpon>TestControl2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TrackShackWindow.resx">
-      <DependentUpon>TrackShackWindow.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TrackControls\PreviewTrackDock.resx">
+      <DependentUpon>PreviewTrackDock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TrackControls\TestControl1.resx">
+      <DependentUpon>TestControl1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackShackForm.resx">
       <DependentUpon>TrackShackForm.cs</DependentUpon>
@@ -88,6 +111,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

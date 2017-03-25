@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Pitstop64.Data.Tracks;
-using Cereal64.Common.Rom;
 using Cereal64.VisObj64.Data.OpenGL.Wrappers.F3DEX;
-using Cereal64.Microcodes.F3DEX.DataElements;
-using TrackShack.Data;
 using Cereal64.Microcodes.F3DEX.DataElements.Commands;
+using TrackShack.Data;
 
 namespace TrackShack.Controls.TrackControls
 {
-    public partial class PreviewTrackForm : TrackShackWindow
+    public partial class PreviewTrackDock : TrackShackDockableWindow
     {
-        public PreviewTrackForm(TrackWrapper track)
-            : base(track)
+        public PreviewTrackDock()
         {
             InitializeComponent();
         }
+
 
         private void LoadTrack()
         {
@@ -43,13 +40,14 @@ namespace TrackShack.Controls.TrackControls
                 finalDLOffset--;
 
             openGLControl.GraphicsCollections.Add(VO64F3DEXReader.ReadCommands(Track.Track.F3DCommands, finalDLOffset));
-           
+
             openGLControl.RefreshGraphics();
         }
 
+        //THIS IS DISABLED CURRENTLY!
         private void PreviewTrackForm_Shown(object sender, EventArgs e)
         {
-            if(Track != null)
+            if (Track != null)
                 LoadTrack();
         }
 
@@ -61,13 +59,14 @@ namespace TrackShack.Controls.TrackControls
             }
         }
 
-        public override TrackShackWindowType WindowType
+        public override TrackShackDockableWindowType WindowType
         {
             get
             {
-                return TrackShackWindowType.Preview;
+                return TrackShackDockableWindowType.PreviewTrack;
             }
         }
 
+        public static string DockingContentId { get { return "trackWindow"; } }
     }
 }

@@ -10,14 +10,13 @@ using TrackShack.Data;
 
 namespace TrackShack.Controls
 {
-    public enum TrackShackWindowType
+    public enum TrackShackDockableWindowType
     {
-        Tracks,
-        Export,
-        TrackInfo,
-        Preview,
-        ElementEditor,
-        TrackConstructor
+        ObjectHierarchy,
+        Tools,
+        PreviewTrack,
+        Test1,
+        Test2
     }
 
     //Maintain the different windows being opened/closed and watch out for unsaved changes!
@@ -28,16 +27,12 @@ namespace TrackShack.Controls
         private static extern int ShowWindow(IntPtr hWnd, uint Msg);
         private const uint SW_RESTORE = 0x09;
 
-        private Dictionary<TrackShackWindowType, TrackShackWindow> SingleForms;
-        private Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>> TrackForms;
-
+        private Dictionary<TrackShackDockableWindowType, TrackShackDockableWindow> TrackShackForms;
         private TrackShackForm _parentForm;
 
         public ControlController(TrackShackForm parent)
         {
-            SingleForms = new Dictionary<TrackShackWindowType, TrackShackWindow>();
-            TrackForms = new Dictionary<TrackWrapper, Dictionary<TrackShackWindowType, TrackShackWindow>>();
-
+            TrackShackForms = new Dictionary<TrackShackDockableWindowType, TrackShackDockableWindow>();
             _parentForm = parent;
         }
 
@@ -49,130 +44,97 @@ namespace TrackShack.Controls
         private void HandleFormClosed(object sender, FormClosedEventArgs e)
         {
             //Remove from the dictionaries
-            TrackShackWindow window = (TrackShackWindow)sender;
-
-            if (window.Track == null)
-                SingleForms.Remove(window.WindowType);
-            else
-            {
-                if (TrackForms.ContainsKey(window.Track))
-                    TrackForms[window.Track].Remove(window.WindowType);
-            }
+            TrackShackDockableWindow window = (TrackShackDockableWindow)sender;
+            TrackShackForms.Remove(window.WindowType);
         }
 
-        public void ShowSingleForm(TrackShackWindowType type)
+        public TrackShackDockableWindow GetWindow(TrackShackDockableWindowType type)
         {
-            if (SingleForms.ContainsKey(type))
+            if (TrackShackForms.ContainsKey(type))
             {
-                TrackShackWindow form = SingleForms[type];
+                TrackShackDockableWindow form = TrackShackForms[type];
 
-                if (form.WindowState == FormWindowState.Minimized)
-                    ShowWindow(form.Handle, SW_RESTORE);
-
-                form.BringToFront();
+                return form;
             }
             else
             {
-                TrackShackWindow form = GenerateSingleForm(type);
+                TrackShackDockableWindow form = GenerateSingleForm(type);
 
-                SingleForms.Add(type, form);
-                form.MdiParent = _parentForm;
-                form.FormClosing += HandleFormClosing;
-                form.FormClosed += HandleFormClosed;
-                form.Show();
+                TrackShackForms.Add(type, form);
+
+                return form;
             }
 
         }
 
-        public void ShowTrackForm(TrackWrapper track, TrackShackWindowType type)
-        {
-            TrackShackWindow form;
-            if (TrackForms.ContainsKey(track))
-            {
-                if (TrackForms[track].ContainsKey(type))
-                {
-                    form = TrackForms[track][type];
-
-                    if (form.WindowState == FormWindowState.Minimized)
-                        ShowWindow(form.Handle, SW_RESTORE);
-
-                    form.BringToFront();
-
-                    return;
-                }
-                else
-                {
-                    form = GenerateTrackForm(track, type);
-                }
-            }
-            else
-            {
-                TrackForms.Add(track, new Dictionary<TrackShackWindowType, TrackShackWindow>());
-                form = GenerateTrackForm(track, type);
-            }
-
-            TrackForms[track].Add(type, form);
-            form.MdiParent = _parentForm;
-            form.FormClosing += HandleFormClosing;
-            form.FormClosed += HandleFormClosed;
-            form.Show();
-        }
-
-        public TrackShackWindow GenerateSingleForm(TrackShackWindowType type)
+        public TrackShackDockableWindow GenerateSingleForm(TrackShackDockableWindowType type)
         {
             switch (type)
             {
-                case TrackShackWindowType.Tracks:
-                    return null;
-                case TrackShackWindowType.Export:
-                    return null;
+                case TrackShackDockableWindowType.PreviewTrack:
+                    return new PreviewTrackDock();
+                case TrackShackDockableWindowType.Test1:
+                    return new TestControl1();
+                case TrackShackDockableWindowType.Test2:
+                    return new TestControl2();
                     //Settings go here
             }
 
             return null;
         }
 
-        public TrackShackWindow GenerateTrackForm(TrackWrapper track, TrackShackWindowType type)
+        public bool WindowIsOpen(TrackShackDockableWindowType type)
+        {
+            return (TrackShackForms.ContainsKey(type) && TrackShackForms[type].IsActive);
+        }
+
+        public bool IsDocumentWindow(TrackShackDockableWindowType type)
         {
             switch (type)
             {
-                case TrackShackWindowType.TrackInfo:
-                    return null;
-                case TrackShackWindowType.Preview:
-                    return new PreviewTrackForm(track);
-                case TrackShackWindowType.ElementEditor:
-                    return null;
-                case TrackShackWindowType.TrackConstructor:
-                    return null;
+                case TrackShackDockableWindowType.PreviewTrack:
+                    return true;
+                default:
+                    return false;
             }
-
-            return null;
         }
 
-        public bool SingleFormIsOpen(TrackShackWindowType type)
+        public string GetContentId(TrackShackDockableWindowType type)
         {
-            return SingleForms.ContainsKey(type);
-        }
-
-        public bool TrackFormIsOpen(TrackWrapper track, TrackShackWindowType type)
-        {
-            if (!TrackForms.ContainsKey(track))
-                return false;
-
-            return TrackForms[track].ContainsKey(type);
-        }
-
-        public void ClearTrackForms(TrackWrapper track)
-        {
-            if (TrackForms.ContainsKey(track))
+            switch (type)
             {
-                List<TrackShackWindow> forms = new List<TrackShackWindow>(TrackForms[track].Values);
-                foreach (TrackShackWindow form in forms)
-                {
-                    form.Close();
-                    TrackForms[track].Remove(form.WindowType);
-                }
+                case TrackShackDockableWindowType.PreviewTrack:
+                    return PreviewTrackDock.DockingContentId;
+                case TrackShackDockableWindowType.Test1:
+                    return TestControl1.DockingContentId;
+                case TrackShackDockableWindowType.Test2:
+                    return TestControl2.DockingContentId;
             }
+
+            return string.Empty;
+        }
+
+        public bool FindDockableTypeFromContentId(string id, out TrackShackDockableWindowType type)
+        {
+            type = TrackShackDockableWindowType.PreviewTrack;
+
+            if (id == PreviewTrackDock.DockingContentId)
+            {
+                type = TrackShackDockableWindowType.PreviewTrack;
+                return true;
+            }
+            else if (id == TestControl1.DockingContentId)
+            {
+                type = TrackShackDockableWindowType.Test1;
+                return true;
+            }
+            else if (id == TestControl2.DockingContentId)
+            {
+                type = TrackShackDockableWindowType.Test2;
+                return true;
+            }
+
+            return false;
         }
     }
 }
