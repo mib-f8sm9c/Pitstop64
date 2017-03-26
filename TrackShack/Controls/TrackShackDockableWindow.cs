@@ -28,11 +28,11 @@ namespace TrackShack.Controls
         
         private void TrackShackAlerts_TrackNameChanged(TrackWrapper wrapper)
         {
-            if (Track == wrapper)
-            {
-                //Need invoke?
-                //ResetTitleText();
-            }
+            //if (Track == wrapper)
+            //{
+            //    //Need invoke?
+            //    //ResetTitleText();
+            //}
 
             TrackNameUpdated(wrapper);
         }
@@ -59,8 +59,6 @@ namespace TrackShack.Controls
         protected virtual string TitleText { get { throw new NotImplementedException(); } }
 
         public virtual TrackShackDockableWindowType WindowType { get { throw new NotImplementedException(); } }
-
-        public TrackWrapper Track { get; protected set; }
 
         protected TrackShackForm ChompShopForm { get { return (TrackShackForm)this.ParentForm; } }
 

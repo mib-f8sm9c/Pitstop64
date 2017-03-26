@@ -47,6 +47,7 @@ namespace TrackShack
             {
                 TrackShackFloor.CurrentTrack = new TrackWrapper(TrackInfo.LoadFromFile(openFileDialog.FileName));
                 TrackShackFloor.CurrentTrackPath = openFileDialog.FileName;
+                TrackShackAlerts.NewTrack();
             }
         }
 

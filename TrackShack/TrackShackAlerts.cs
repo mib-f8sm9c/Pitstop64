@@ -19,5 +19,12 @@ namespace TrackShack
             TrackNameChanged(track);
         }
 
+        public delegate void TrackChangedEvent();
+        public static event TrackChangedEvent TrackChanged = delegate { };
+        public static void NewTrack()
+        {
+            TrackChanged();
+        }
+
     }
 }
