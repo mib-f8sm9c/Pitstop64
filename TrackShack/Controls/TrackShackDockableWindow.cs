@@ -19,11 +19,12 @@ namespace TrackShack.Controls
 
         public LayoutContent ParentLayout { get; set; }
 
-        public TrackShackDockableWindow()
+        public TrackShackDockableWindow(LayoutContent content)
         {
             TrackShackAlerts.TrackNameChanged += new TrackShackAlerts.TrackNameChangedEvent(TrackShackAlerts_TrackNameChanged);
             IsActive = false;
-            ParentLayout = null;
+            ParentLayout = content;
+            TrackNameUpdated(null);
         }
         
         private void TrackShackAlerts_TrackNameChanged(TrackWrapper wrapper)
@@ -39,7 +40,7 @@ namespace TrackShack.Controls
 
         protected virtual void TrackNameUpdated(TrackWrapper wrapper)
         {
-
+            ParentLayout.Title = TitleText;
         }
 
         public void OnIsActiveChanged(object sender, EventArgs e)

@@ -7,25 +7,27 @@ using System.Runtime.InteropServices;
 using Pitstop64.Data.Tracks;
 using TrackShack.Controls.TrackControls;
 using TrackShack.Data;
+using Xceed.Wpf.AvalonDock.Layout;
+using System.Windows.Forms.Integration;
 
 namespace TrackShack.Controls
 {
     public enum TrackShackDockableWindowType
     {
-        ObjectHierarchy,
-        Tools,
         PreviewTrack,
-        Test1,
-        Test2
+        Tools,
+        ObjectHierarchy,
+        SurfaceRendering,
+        ObjectManipulation
     }
 
     //Maintain the different windows being opened/closed and watch out for unsaved changes!
     public class ControlController
     {
-        //Code for restoring a window from being minimized
-        [DllImport("user32.dll")]
-        private static extern int ShowWindow(IntPtr hWnd, uint Msg);
-        private const uint SW_RESTORE = 0x09;
+        ////Code for restoring a window from being minimized
+        //[DllImport("user32.dll")]
+        //private static extern int ShowWindow(IntPtr hWnd, uint Msg);
+        //private const uint SW_RESTORE = 0x09;
 
         private Dictionary<TrackShackDockableWindowType, TrackShackDockableWindow> TrackShackForms;
         private TrackShackForm _parentForm;
@@ -36,19 +38,7 @@ namespace TrackShack.Controls
             _parentForm = parent;
         }
 
-        private void HandleFormClosing(object sender, FormClosingEventArgs e)
-        {
-            //Double check if there are unsaved changes?
-        }
-
-        private void HandleFormClosed(object sender, FormClosedEventArgs e)
-        {
-            //Remove from the dictionaries
-            TrackShackDockableWindow window = (TrackShackDockableWindow)sender;
-            TrackShackForms.Remove(window.WindowType);
-        }
-
-        public TrackShackDockableWindow GetWindow(TrackShackDockableWindowType type)
+        public TrackShackDockableWindow GetWindow(TrackShackDockableWindowType type, LayoutContent content = null)
         {
             if (TrackShackForms.ContainsKey(type))
             {
@@ -58,8 +48,7 @@ namespace TrackShack.Controls
             }
             else
             {
-                TrackShackDockableWindow form = GenerateSingleForm(type);
-
+                TrackShackDockableWindow form = GenerateSingleForm(type, content);
                 TrackShackForms.Add(type, form);
 
                 return form;
@@ -67,17 +56,27 @@ namespace TrackShack.Controls
 
         }
 
-        public TrackShackDockableWindow GenerateSingleForm(TrackShackDockableWindowType type)
+        private TrackShackDockableWindow GenerateSingleForm(TrackShackDockableWindowType type, LayoutContent content)
         {
+            if (content == null)
+            {
+                if(IsDocumentWindow(type))
+                    content = new LayoutDocument();
+                else
+                    content = new LayoutAnchorable();
+                content.ContentId = GetContentId(type);
+            }
+
             switch (type)
             {
                 case TrackShackDockableWindowType.PreviewTrack:
-                    return new PreviewTrackDock();
-                case TrackShackDockableWindowType.Test1:
-                    return new TestControl1();
-                case TrackShackDockableWindowType.Test2:
-                    return new TestControl2();
-                    //Settings go here
+                    return new PreviewTrackDock(content);
+                case TrackShackDockableWindowType.ObjectHierarchy:
+                    return new ObjectHierarchyControl(content);
+                case TrackShackDockableWindowType.SurfaceRendering:
+                    return new SurfaceRenderingControl(content);
+                case TrackShackDockableWindowType.ObjectManipulation:
+                    return new ObjectManipulationControl(content);
             }
 
             return null;
@@ -85,7 +84,7 @@ namespace TrackShack.Controls
 
         public bool WindowIsOpen(TrackShackDockableWindowType type)
         {
-            return (TrackShackForms.ContainsKey(type) && TrackShackForms[type].IsActive);
+            return (TrackShackForms.ContainsKey(type)/* && TrackShackForms[type].IsActive*/);
         }
 
         public bool IsDocumentWindow(TrackShackDockableWindowType type)
@@ -105,10 +104,12 @@ namespace TrackShack.Controls
             {
                 case TrackShackDockableWindowType.PreviewTrack:
                     return PreviewTrackDock.DockingContentId;
-                case TrackShackDockableWindowType.Test1:
-                    return TestControl1.DockingContentId;
-                case TrackShackDockableWindowType.Test2:
-                    return TestControl2.DockingContentId;
+                case TrackShackDockableWindowType.ObjectHierarchy:
+                    return ObjectHierarchyControl.DockingContentId;
+                case TrackShackDockableWindowType.SurfaceRendering:
+                    return SurfaceRenderingControl.DockingContentId;
+                case TrackShackDockableWindowType.ObjectManipulation:
+                    return ObjectManipulationControl.DockingContentId;
             }
 
             return string.Empty;
@@ -123,14 +124,19 @@ namespace TrackShack.Controls
                 type = TrackShackDockableWindowType.PreviewTrack;
                 return true;
             }
-            else if (id == TestControl1.DockingContentId)
+            else if (id == ObjectHierarchyControl.DockingContentId)
             {
-                type = TrackShackDockableWindowType.Test1;
+                type = TrackShackDockableWindowType.ObjectHierarchy;
                 return true;
             }
-            else if (id == TestControl2.DockingContentId)
+            else if (id == SurfaceRenderingControl.DockingContentId)
             {
-                type = TrackShackDockableWindowType.Test2;
+                type = TrackShackDockableWindowType.SurfaceRendering;
+                return true;
+            }
+            else if (id == ObjectManipulationControl.DockingContentId)
+            {
+                type = TrackShackDockableWindowType.ObjectManipulation;
                 return true;
             }
 

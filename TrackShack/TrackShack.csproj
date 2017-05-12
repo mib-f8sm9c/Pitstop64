@@ -57,11 +57,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\TrackControls\TestControl2.cs">
+    <Compile Include="Controls\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ElementF3DEXCommandsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ElementF3DEXCommandsForm.Designer.cs">
+      <DependentUpon>ElementF3DEXCommandsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackControls\ObjectManipulationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TrackControls\TestControl2.Designer.cs">
-      <DependentUpon>TestControl2.cs</DependentUpon>
+    <Compile Include="Controls\TrackControls\ObjectManipulationControl.Designer.cs">
+      <DependentUpon>ObjectManipulationControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TrackControls\PreviewTrackDock.cs">
       <SubType>UserControl</SubType>
@@ -69,19 +81,28 @@
     <Compile Include="Controls\TrackControls\PreviewTrackDock.Designer.cs">
       <DependentUpon>PreviewTrackDock.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrackControls\TestControl1.cs">
+    <Compile Include="Controls\TrackControls\SurfaceRenderingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TrackControls\TestControl1.Designer.cs">
-      <DependentUpon>TestControl1.cs</DependentUpon>
+    <Compile Include="Controls\TrackControls\SurfaceRenderingControl.Designer.cs">
+      <DependentUpon>SurfaceRenderingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackControls\ObjectHierarchyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TrackControls\ObjectHierarchyControl.Designer.cs">
+      <DependentUpon>ObjectHierarchyControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TrackShackDockableWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ControlController.cs" />
+    <Compile Include="Data\ElementSelectionGroup.cs" />
+    <Compile Include="Data\Surface.cs" />
+    <Compile Include="TrackShackFloor.cs" />
+    <Compile Include="Data\SurfaceRenderGroup.cs" />
     <Compile Include="Data\TrackWrapper.cs" />
     <Compile Include="TrackShackAlerts.cs" />
-    <Compile Include="TrackShackFloor.cs" />
     <Compile Include="TrackShackForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,14 +111,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\TrackControls\TestControl2.resx">
-      <DependentUpon>TestControl2.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ElementF3DEXCommandsForm.resx">
+      <DependentUpon>ElementF3DEXCommandsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TrackControls\ObjectManipulationControl.resx">
+      <DependentUpon>ObjectManipulationControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TrackControls\PreviewTrackDock.resx">
       <DependentUpon>PreviewTrackDock.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TrackControls\TestControl1.resx">
-      <DependentUpon>TestControl1.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TrackControls\SurfaceRenderingControl.resx">
+      <DependentUpon>SurfaceRenderingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TrackControls\ObjectHierarchyControl.resx">
+      <DependentUpon>ObjectHierarchyControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackShackForm.resx">
       <DependentUpon>TrackShackForm.cs</DependentUpon>

@@ -28,6 +28,7 @@ namespace TrackShack
         public ControlController ControlController { get { return _controlController; } }
         private ControlController _controlController;
 
+        public DockingManager DockingManager { get { return _dockingManager; } }
         private DockingManager _dockingManager = new DockingManager();
 
         public TrackShackForm()
@@ -39,29 +40,68 @@ namespace TrackShack
             //Load default track textures?
         }
 
-        public DockingManager DockingManager { get { return _dockingManager; } }
-
         private void loadTrackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 TrackShackFloor.CurrentTrack = new TrackWrapper(TrackInfo.LoadFromFile(openFileDialog.FileName));
                 TrackShackFloor.CurrentTrackPath = openFileDialog.FileName;
+                TrackShackFloor.LoadCurrentTrackIntoRomProject();
                 TrackShackAlerts.NewTrack();
             }
         }
 
         private void saveTrackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(_dockingManager);
-
-            serializer.Serialize("output.txt");
-            //SaveTrack(false);
+            //Debug code
+            //XmlLayoutSerializer serializer = new XmlLayoutSerializer(_dockingManager);
+            //serializer.Serialize("output.txt");
+            SaveTrack(false);
         }
 
         private void saveTrackAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveTrack(true);
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExitProgram();
+        }
+
+        private void objectHierarchyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewDockableWindow(TrackShackDockableWindowType.ObjectHierarchy);
+        }
+
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewDockableWindow(TrackShackDockableWindowType.SurfaceRendering);
+        }
+
+        private void objectManipulationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewDockableWindow(TrackShackDockableWindowType.ObjectManipulation);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Pop up the about window here!
+            AboutForm form = new AboutForm();
+            form.ShowDialog();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            LoadLayout();
+
+            base.OnLoad(e);
+        }
+
+        private void TrackShackForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Save the layout data here
+            SaveLayout();
         }
 
         private bool SaveTrack(bool askForPath)
@@ -78,19 +118,25 @@ namespace TrackShack
             return true;
         }
 
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitProgram()
         {
+            //Check for unsaved changes
+            if (TrackShackFloor.CurrentTrack != null && TrackShackFloor.CurrentTrack.IsModified)
+            {
+                DialogResult result = MessageBox.Show("There are unsaved changes. Do you wish to save the track?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Asterisk);
+                
+                if (result == System.Windows.Forms.DialogResult.Cancel)
+                    return;
 
-        }
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    //try to save. if fail, then return
+                    if (!SaveTrack(true))
+                        return;
+                }
+            }
 
-        private void objectHierarchyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddNewDockableWindow(TrackShackDockableWindowType.Test1);
-        }
-
-        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddNewDockableWindow(TrackShackDockableWindowType.Test2);
+            Application.Exit();
         }
 
         private void AddNewDockableWindow(TrackShackDockableWindowType type)
@@ -100,78 +146,43 @@ namespace TrackShack
                 //Select it?
                 TrackShackDockableWindow window = _controlController.GetWindow(type);
                 if (window.ParentLayout != null)
-                    window.ParentLayout.IsSelected = true;
+                {
+                    if(window.ParentLayout is LayoutAnchorable)
+                    {
+                        if (((LayoutAnchorable)window.ParentLayout).IsHidden)
+                        {
+                            ((LayoutAnchorable)window.ParentLayout).Show();
+                        }
+                    }
+
+                    if (!window.ParentLayout.IsActive)
+                        DockingManager.ActiveContent = window.ParentLayout;
+                }
             }
             else
             {
-                //Unhide it
+                //Create it
                 TrackShackDockableWindow window = _controlController.GetWindow(type);
+                ((LayoutAnchorable)window.ParentLayout).Content = new WindowsFormsHost() { Child = window };
+
                 if (window.ParentLayout != null)
                 {
                     if (window.ParentLayout is LayoutAnchorable)
                     {
-                        LayoutAnchorable anchored = ((LayoutAnchorable)window.ParentLayout);
-                        if (anchored.Parent != null)
-                            anchored.Show();
-                        else
-                        {
-                            LayoutAnchorablePaneGroup group = (LayoutAnchorablePaneGroup)
-                                _dockingManager.Layout.RootPanel.Children.FirstOrDefault(c => c is LayoutAnchorablePaneGroup);
-                            if (group != null)
-                            {
-                                //Add it back to the document pane
-                                ((LayoutAnchorablePane)group.Children[0]).Children.Add(anchored);
-                                //anchored.Hide();
-                                anchored.Show();
-                            }
-                        }
+                        ((LayoutAnchorable)window.ParentLayout).AddToLayout(DockingManager, AnchorableShowStrategy.Right);
+                        ((LayoutAnchorable)window.ParentLayout).Float();
                     }
                     else if (window.ParentLayout is LayoutDocument)
                     {
                         //THIS IS KINDA BROKEN, AVOID DOCUMENTS IF POSSIBLE
-                        window.ParentLayout.IsActive = true;
+                        //window.ParentLayout.IsActive = true;
                     }
                     else
                     {
-                        window.ParentLayout.IsActive = true;
+                        //window.ParentLayout.IsActive = true;
                     }
                 }
             }
-            //else //The old style, to automatically populate the window
-            //{
-            //    WindowsFormsHost host = new WindowsFormsHost() { Child = _controlController.GetWindow(type) };
-            //    if (_controlController.IsDocumentWindow(type))
-            //    {
-            //        LayoutDocument document = new LayoutDocument();
-            //        document.Content = host;
-            //        document.ContentId = _controlController.GetContentId(type);
-            //        LayoutDocumentPane pane = new LayoutDocumentPane(document);
-            //        ((LayoutDocumentPane)((LayoutDocumentPaneGroup)_dockingManager.Layout.RootPanel.Children[0]).Children[0]).Children.Add(document);
-            //    }
-            //    else
-            //    {
-            //        LayoutAnchorable anchorable = new LayoutAnchorable();
-            //        anchorable.Content = host;
-            //        LayoutAnchorablePane p = new LayoutAnchorablePane(anchorable);
-            //        LayoutAnchorablePaneGroup g = new LayoutAnchorablePaneGroup(p);
-
-            //        _dockingManager.Layout.RootPanel.InsertChildAt(0, g);
-            //        anchorable.Float();
-            //    }
-            //}
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            LoadLayout();
-
-            base.OnLoad(e);
-        }
-
-        private void TrackShackForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //Save the layout data here
-            SaveLayout();
         }
 
         private void LoadLayout()
@@ -183,10 +194,9 @@ namespace TrackShack
                 TrackShackDockableWindowType type;
                 if (_controlController.FindDockableTypeFromContentId(args.Model.ContentId, out type))
                 {
-                    TrackShackDockableWindow window = _controlController.GetWindow(type);
+                    TrackShackDockableWindow window = _controlController.GetWindow(type, ((LayoutContent)args.Model));
                     args.Content = new WindowsFormsHost() { Child = window };
                     args.Model.IsActiveChanged += window.OnIsActiveChanged;
-                    window.ParentLayout = ((LayoutContent)args.Model);
                 }
             };
 
@@ -221,5 +231,6 @@ namespace TrackShack
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(_dockingManager);
             serializer.Serialize(Path.Combine(specificFolder, TRACKSHACKLAYOUT));
         }
+
     }
 }
