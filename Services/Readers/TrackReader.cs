@@ -93,7 +93,8 @@ namespace Pitstop64.Services.Readers
             results.NewElements.Add(textureBlock);
 
             CompressedTrack track = new CompressedTrack(trackName, itemBlock, vertexBlock, textureBlock, trackEntry.VertexCount, trackEntry.Unknown2,
-                results.SkyTable.TopColors[results.Tracks.Count], results.SkyTable.BottomColors[results.Tracks.Count]);
+                results.SkyTable.TopColors[results.Tracks.Count], results.SkyTable.BottomColors[results.Tracks.Count],
+                TrackConstants.SurfaceTableOffsets[results.Tracks.Count], TrackConstants.RenderTableOffsets[results.Tracks.Count]);
             results.Tracks.Add(track);
         }
 

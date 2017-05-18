@@ -32,6 +32,9 @@ namespace Pitstop64.Data.Tracks
         private const string TEXTURES = "Textures";
         private const string COMMAND_REFERENCES = "CommandReferences";
 
+        private const string SURFACE_TABLE_OFFSET = "SurfaceTable";
+        private const string RENDER_TABLE_OFFSET = "RenderTable";
+
         public TrackItemsObject TrackItems { get; private set; }
         public VertexCollection Vertices { get; private set; }
         public F3DEXCommandCollection F3DCommands { get; private set; }
@@ -44,13 +47,17 @@ namespace Pitstop64.Data.Tracks
         public Color TopColor { get; private set; }
         public Color BottomColor { get; private set; }
 
+        public DmaAddress SurfaceTableOffset { get; private set; }
+        public DmaAddress RenderTableOffset { get; private set; }
+
         //EVEN THOUGH IT'S POINTLESS, INCLUDE THE OTHER VALUES TOO!!
 
         public string TrackName { get; set; }
 
         public TrackInfo(string trackName, TrackItemsObject items, VertexCollection verts,
             F3DEXCommandCollection commands, List<MK64Image> images, List<DmaAddress> commandRefs,
-            uint unknown1, ushort unknown2, Color topColor, Color bottomColor)
+            uint unknown1, ushort unknown2, Color topColor, Color bottomColor, 
+            DmaAddress surfaceTable, DmaAddress renderTable)
             : this(trackName)
         {
             TrackItems = items;
@@ -64,6 +71,9 @@ namespace Pitstop64.Data.Tracks
 
             TopColor = topColor;
             BottomColor = bottomColor;
+
+            SurfaceTableOffset = surfaceTable;
+            RenderTableOffset = renderTable;
         }
 
         public TrackInfo(string trackName)
@@ -94,6 +104,9 @@ namespace Pitstop64.Data.Tracks
 
             TopColor = baseTrack.TopColor;
             BottomColor = baseTrack.BottomColor;
+
+            SurfaceTableOffset = baseTrack.SurfaceTableOffset;
+            RenderTableOffset = baseTrack.RenderTableOffset;
         }
         
         public override XElement GetAsXML()
@@ -105,6 +118,8 @@ namespace Pitstop64.Data.Tracks
             xml.Add(new XAttribute(UNKNOWN_2, Unknown2.ToString()));
             xml.Add(new XAttribute(TOP_COLOR, TopColor.ToArgb().ToString()));
             xml.Add(new XAttribute(BOTTOM_COLOR, BottomColor.ToArgb().ToString()));
+            xml.Add(new XAttribute(SURFACE_TABLE_OFFSET, SurfaceTableOffset.GetAsUInt().ToString()));
+            xml.Add(new XAttribute(RENDER_TABLE_OFFSET, RenderTableOffset.GetAsUInt().ToString()));
 
             return xml;
         }
@@ -175,6 +190,8 @@ namespace Pitstop64.Data.Tracks
             ushort unknown2 = 0;
             Color topColor = Color.White;
             Color bottomColor = Color.White;
+            DmaAddress surfaceTable = null;
+            DmaAddress renderTable = null;
 
             using (ZipFile zip = ZipFile.Read(fileName))
             {
@@ -190,7 +207,8 @@ namespace Pitstop64.Data.Tracks
                             trackName = trackInfoEl.Attribute(TRACK_NAME).Value.ToString();
                             unknown1 = uint.Parse(trackInfoEl.Attribute(UNKNOWN_1).Value.ToString());
                             unknown2 = ushort.Parse(trackInfoEl.Attribute(UNKNOWN_2).Value.ToString());
-
+                            surfaceTable = new DmaAddress(uint.Parse(trackInfoEl.Attribute(SURFACE_TABLE_OFFSET).Value.ToString()));
+                            renderTable = new DmaAddress(uint.Parse(trackInfoEl.Attribute(RENDER_TABLE_OFFSET).Value.ToString()));
                             break;
                         case TRACK_ITEMS:
                             trackItems = new TrackItemsObject(projectStream.ToArray());
@@ -221,7 +239,8 @@ namespace Pitstop64.Data.Tracks
                 }
 
                 track = new TrackInfo(trackName, trackItems, vertices, commands,
-                     images, commandReferences, unknown1, unknown2, topColor, bottomColor);
+                     images, commandReferences, unknown1, unknown2, topColor, bottomColor,
+                     surfaceTable, renderTable);
             }
 
             return track;

@@ -33,6 +33,8 @@ namespace TrackShack.Controls.TrackControls
             TrackShackAlerts.ViewerUpdateRequired += UpdateViewer;
             TrackShackAlerts.SelectedElementsChanged += SelectedElementsChanged;
 
+            openGLControl.SelectedElementsChanged += openGLControl_SelectedElementsChanged;
+
             InitData();
         }
 
@@ -139,7 +141,6 @@ namespace TrackShack.Controls.TrackControls
         private void SelectedElementsChanged(ElementSelectionGroup elements)
         {
             openGLControl.ClearSelectedElements();
-            openGLControl.ClearSelectBox();
 
             if(elements != null)
             {
@@ -147,10 +148,8 @@ namespace TrackShack.Controls.TrackControls
                 {
                     openGLControl.SelectElement(g);
                 }
-                openGLControl.SetSelectBox(elements.MinX, elements.MinY, elements.MinZ,
-                    elements.MaxX, elements.MaxY, elements.MaxZ);
             }
-            else
+            //else
 
             ReRender();
         }
@@ -189,6 +188,16 @@ namespace TrackShack.Controls.TrackControls
         private void selectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openGLControl.MouseMode = VisObj64.Visualization.OpenGL.OpenGLControl.MouseFunction.Select;
+        }
+
+        private void openGLControl_SelectedElementsChanged(object sender, EventArgs e)
+        {
+            //Update other forms with this info
+            TrackShackAlerts.SelectedElementsChanged -= SelectedElementsChanged;
+
+            TrackShackAlerts.NewSelectedElements(new ElementSelectionGroup(openGLControl.SelectedElements.ToList()));
+
+            TrackShackAlerts.SelectedElementsChanged += SelectedElementsChanged;
         }
     }
 }

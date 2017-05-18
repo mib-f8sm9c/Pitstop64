@@ -35,36 +35,38 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flowTranslate = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlTranslateX = new System.Windows.Forms.Panel();
+            this.numTX = new Cereal64.Common.Controls.NumericSliderInput();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtTX = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.numTY = new Cereal64.Common.Controls.NumericSliderInput();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtTY = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.numTZ = new Cereal64.Common.Controls.NumericSliderInput();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtTZ = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flowScale = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlScaleX = new System.Windows.Forms.Panel();
+            this.numSX = new Cereal64.Common.Controls.NumericSliderInput();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtSX = new System.Windows.Forms.TextBox();
             this.pnlScaleY = new System.Windows.Forms.Panel();
+            this.numSY = new Cereal64.Common.Controls.NumericSliderInput();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtSY = new System.Windows.Forms.TextBox();
             this.pnlScaleZ = new System.Windows.Forms.Panel();
+            this.numSZ = new Cereal64.Common.Controls.NumericSliderInput();
             this.label12 = new System.Windows.Forms.Label();
-            this.txtSZ = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowRotate = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlRotateX = new System.Windows.Forms.Panel();
+            this.numRX = new Cereal64.Common.Controls.NumericSliderInput();
             this.label13 = new System.Windows.Forms.Label();
-            this.txtRX = new System.Windows.Forms.TextBox();
             this.pnlRotateY = new System.Windows.Forms.Panel();
+            this.numRY = new Cereal64.Common.Controls.NumericSliderInput();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtRY = new System.Windows.Forms.TextBox();
             this.pnlRotateZ = new System.Windows.Forms.Panel();
+            this.numRZ = new Cereal64.Common.Controls.NumericSliderInput();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtRZ = new System.Windows.Forms.TextBox();
+            this.pnlInfo = new System.Windows.Forms.Panel();
+            this.lblName = new System.Windows.Forms.Label();
             this.pnlBottom.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -82,15 +84,16 @@
             this.pnlRotateX.SuspendLayout();
             this.pnlRotateY.SuspendLayout();
             this.pnlRotateZ.SuspendLayout();
+            this.pnlInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnApply
             // 
             this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnApply.Enabled = false;
-            this.btnApply.Location = new System.Drawing.Point(231, 7);
+            this.btnApply.Location = new System.Drawing.Point(252, 7);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 44);
+            this.btnApply.Size = new System.Drawing.Size(68, 44);
             this.btnApply.TabIndex = 0;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -101,7 +104,7 @@
             this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.btnApply);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 106);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 146);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(392, 54);
             this.pnlBottom.TabIndex = 2;
@@ -110,9 +113,9 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(314, 7);
+            this.btnCancel.Location = new System.Drawing.Point(326, 7);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 44);
+            this.btnCancel.Size = new System.Drawing.Size(63, 44);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -124,10 +127,10 @@
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Location = new System.Drawing.Point(0, 28);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(392, 106);
+            this.tabControl.Size = new System.Drawing.Size(392, 118);
             this.tabControl.TabIndex = 8;
             // 
             // tabPage1
@@ -137,7 +140,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(384, 80);
+            this.tabPage1.Size = new System.Drawing.Size(384, 92);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Translate";
             // 
@@ -149,17 +152,28 @@
             this.flowTranslate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowTranslate.Location = new System.Drawing.Point(3, 3);
             this.flowTranslate.Name = "flowTranslate";
-            this.flowTranslate.Size = new System.Drawing.Size(378, 74);
+            this.flowTranslate.Size = new System.Drawing.Size(378, 86);
             this.flowTranslate.TabIndex = 8;
             // 
             // pnlTranslateX
             // 
+            this.pnlTranslateX.Controls.Add(this.numTX);
             this.pnlTranslateX.Controls.Add(this.label3);
-            this.pnlTranslateX.Controls.Add(this.txtTX);
             this.pnlTranslateX.Location = new System.Drawing.Point(3, 3);
             this.pnlTranslateX.Name = "pnlTranslateX";
-            this.pnlTranslateX.Size = new System.Drawing.Size(115, 54);
+            this.pnlTranslateX.Size = new System.Drawing.Size(115, 68);
             this.pnlTranslateX.TabIndex = 3;
+            // 
+            // numTX
+            // 
+            this.numTX.Decimals = 2;
+            this.numTX.Location = new System.Drawing.Point(0, 20);
+            this.numTX.Name = "numTX";
+            this.numTX.Range = 10D;
+            this.numTX.Size = new System.Drawing.Size(115, 52);
+            this.numTX.TabIndex = 6;
+            this.numTX.Ticks = 100;
+            this.numTX.Value = 0D;
             // 
             // label3
             // 
@@ -170,21 +184,25 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "X";
             // 
-            // txtTX
-            // 
-            this.txtTX.Location = new System.Drawing.Point(8, 24);
-            this.txtTX.Name = "txtTX";
-            this.txtTX.Size = new System.Drawing.Size(100, 20);
-            this.txtTX.TabIndex = 0;
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.numTY);
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.txtTY);
             this.panel1.Location = new System.Drawing.Point(124, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(115, 54);
+            this.panel1.Size = new System.Drawing.Size(115, 68);
             this.panel1.TabIndex = 6;
+            // 
+            // numTY
+            // 
+            this.numTY.Decimals = 2;
+            this.numTY.Location = new System.Drawing.Point(0, 20);
+            this.numTY.Name = "numTY";
+            this.numTY.Range = 10D;
+            this.numTY.Size = new System.Drawing.Size(115, 52);
+            this.numTY.TabIndex = 7;
+            this.numTY.Ticks = 100;
+            this.numTY.Value = 0D;
             // 
             // label10
             // 
@@ -195,21 +213,25 @@
             this.label10.TabIndex = 5;
             this.label10.Text = "Y";
             // 
-            // txtTY
-            // 
-            this.txtTY.Location = new System.Drawing.Point(8, 24);
-            this.txtTY.Name = "txtTY";
-            this.txtTY.Size = new System.Drawing.Size(100, 20);
-            this.txtTY.TabIndex = 1;
-            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.numTZ);
             this.panel2.Controls.Add(this.label11);
-            this.panel2.Controls.Add(this.txtTZ);
             this.panel2.Location = new System.Drawing.Point(245, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(115, 54);
+            this.panel2.Size = new System.Drawing.Size(115, 68);
             this.panel2.TabIndex = 7;
+            // 
+            // numTZ
+            // 
+            this.numTZ.Decimals = 2;
+            this.numTZ.Location = new System.Drawing.Point(0, 20);
+            this.numTZ.Name = "numTZ";
+            this.numTZ.Range = 10D;
+            this.numTZ.Size = new System.Drawing.Size(115, 52);
+            this.numTZ.TabIndex = 7;
+            this.numTZ.Ticks = 100;
+            this.numTZ.Value = 0D;
             // 
             // label11
             // 
@@ -219,13 +241,6 @@
             this.label11.Size = new System.Drawing.Size(14, 13);
             this.label11.TabIndex = 5;
             this.label11.Text = "Z";
-            // 
-            // txtTZ
-            // 
-            this.txtTZ.Location = new System.Drawing.Point(8, 24);
-            this.txtTZ.Name = "txtTZ";
-            this.txtTZ.Size = new System.Drawing.Size(100, 20);
-            this.txtTZ.TabIndex = 2;
             // 
             // tabPage2
             // 
@@ -251,12 +266,23 @@
             // 
             // pnlScaleX
             // 
+            this.pnlScaleX.Controls.Add(this.numSX);
             this.pnlScaleX.Controls.Add(this.label1);
-            this.pnlScaleX.Controls.Add(this.txtSX);
             this.pnlScaleX.Location = new System.Drawing.Point(3, 3);
             this.pnlScaleX.Name = "pnlScaleX";
-            this.pnlScaleX.Size = new System.Drawing.Size(115, 54);
+            this.pnlScaleX.Size = new System.Drawing.Size(115, 68);
             this.pnlScaleX.TabIndex = 3;
+            // 
+            // numSX
+            // 
+            this.numSX.Decimals = 2;
+            this.numSX.Location = new System.Drawing.Point(0, 20);
+            this.numSX.Name = "numSX";
+            this.numSX.Range = 10D;
+            this.numSX.Size = new System.Drawing.Size(115, 52);
+            this.numSX.TabIndex = 7;
+            this.numSX.Ticks = 100;
+            this.numSX.Value = 0D;
             // 
             // label1
             // 
@@ -267,21 +293,25 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "X";
             // 
-            // txtSX
-            // 
-            this.txtSX.Location = new System.Drawing.Point(8, 24);
-            this.txtSX.Name = "txtSX";
-            this.txtSX.Size = new System.Drawing.Size(100, 20);
-            this.txtSX.TabIndex = 0;
-            // 
             // pnlScaleY
             // 
+            this.pnlScaleY.Controls.Add(this.numSY);
             this.pnlScaleY.Controls.Add(this.label2);
-            this.pnlScaleY.Controls.Add(this.txtSY);
             this.pnlScaleY.Location = new System.Drawing.Point(124, 3);
             this.pnlScaleY.Name = "pnlScaleY";
-            this.pnlScaleY.Size = new System.Drawing.Size(115, 54);
+            this.pnlScaleY.Size = new System.Drawing.Size(115, 68);
             this.pnlScaleY.TabIndex = 6;
+            // 
+            // numSY
+            // 
+            this.numSY.Decimals = 2;
+            this.numSY.Location = new System.Drawing.Point(0, 20);
+            this.numSY.Name = "numSY";
+            this.numSY.Range = 10D;
+            this.numSY.Size = new System.Drawing.Size(115, 52);
+            this.numSY.TabIndex = 7;
+            this.numSY.Ticks = 100;
+            this.numSY.Value = 0D;
             // 
             // label2
             // 
@@ -292,21 +322,25 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Y";
             // 
-            // txtSY
-            // 
-            this.txtSY.Location = new System.Drawing.Point(8, 24);
-            this.txtSY.Name = "txtSY";
-            this.txtSY.Size = new System.Drawing.Size(100, 20);
-            this.txtSY.TabIndex = 1;
-            // 
             // pnlScaleZ
             // 
+            this.pnlScaleZ.Controls.Add(this.numSZ);
             this.pnlScaleZ.Controls.Add(this.label12);
-            this.pnlScaleZ.Controls.Add(this.txtSZ);
             this.pnlScaleZ.Location = new System.Drawing.Point(245, 3);
             this.pnlScaleZ.Name = "pnlScaleZ";
-            this.pnlScaleZ.Size = new System.Drawing.Size(115, 54);
+            this.pnlScaleZ.Size = new System.Drawing.Size(115, 68);
             this.pnlScaleZ.TabIndex = 7;
+            // 
+            // numSZ
+            // 
+            this.numSZ.Decimals = 2;
+            this.numSZ.Location = new System.Drawing.Point(0, 20);
+            this.numSZ.Name = "numSZ";
+            this.numSZ.Range = 10D;
+            this.numSZ.Size = new System.Drawing.Size(115, 52);
+            this.numSZ.TabIndex = 7;
+            this.numSZ.Ticks = 100;
+            this.numSZ.Value = 0D;
             // 
             // label12
             // 
@@ -316,13 +350,6 @@
             this.label12.Size = new System.Drawing.Size(14, 13);
             this.label12.TabIndex = 5;
             this.label12.Text = "Z";
-            // 
-            // txtSZ
-            // 
-            this.txtSZ.Location = new System.Drawing.Point(8, 24);
-            this.txtSZ.Name = "txtSZ";
-            this.txtSZ.Size = new System.Drawing.Size(100, 20);
-            this.txtSZ.TabIndex = 2;
             // 
             // tabPage3
             // 
@@ -348,12 +375,23 @@
             // 
             // pnlRotateX
             // 
+            this.pnlRotateX.Controls.Add(this.numRX);
             this.pnlRotateX.Controls.Add(this.label13);
-            this.pnlRotateX.Controls.Add(this.txtRX);
             this.pnlRotateX.Location = new System.Drawing.Point(3, 3);
             this.pnlRotateX.Name = "pnlRotateX";
-            this.pnlRotateX.Size = new System.Drawing.Size(115, 54);
+            this.pnlRotateX.Size = new System.Drawing.Size(115, 68);
             this.pnlRotateX.TabIndex = 3;
+            // 
+            // numRX
+            // 
+            this.numRX.Decimals = 2;
+            this.numRX.Location = new System.Drawing.Point(0, 20);
+            this.numRX.Name = "numRX";
+            this.numRX.Range = 180D;
+            this.numRX.Size = new System.Drawing.Size(115, 52);
+            this.numRX.TabIndex = 7;
+            this.numRX.Ticks = 360;
+            this.numRX.Value = 0D;
             // 
             // label13
             // 
@@ -364,21 +402,25 @@
             this.label13.TabIndex = 5;
             this.label13.Text = "X";
             // 
-            // txtRX
-            // 
-            this.txtRX.Location = new System.Drawing.Point(8, 24);
-            this.txtRX.Name = "txtRX";
-            this.txtRX.Size = new System.Drawing.Size(100, 20);
-            this.txtRX.TabIndex = 0;
-            // 
             // pnlRotateY
             // 
+            this.pnlRotateY.Controls.Add(this.numRY);
             this.pnlRotateY.Controls.Add(this.label14);
-            this.pnlRotateY.Controls.Add(this.txtRY);
             this.pnlRotateY.Location = new System.Drawing.Point(124, 3);
             this.pnlRotateY.Name = "pnlRotateY";
-            this.pnlRotateY.Size = new System.Drawing.Size(115, 54);
+            this.pnlRotateY.Size = new System.Drawing.Size(115, 68);
             this.pnlRotateY.TabIndex = 6;
+            // 
+            // numRY
+            // 
+            this.numRY.Decimals = 2;
+            this.numRY.Location = new System.Drawing.Point(0, 20);
+            this.numRY.Name = "numRY";
+            this.numRY.Range = 180D;
+            this.numRY.Size = new System.Drawing.Size(115, 52);
+            this.numRY.TabIndex = 7;
+            this.numRY.Ticks = 360;
+            this.numRY.Value = 0D;
             // 
             // label14
             // 
@@ -389,21 +431,25 @@
             this.label14.TabIndex = 5;
             this.label14.Text = "Y";
             // 
-            // txtRY
-            // 
-            this.txtRY.Location = new System.Drawing.Point(8, 24);
-            this.txtRY.Name = "txtRY";
-            this.txtRY.Size = new System.Drawing.Size(100, 20);
-            this.txtRY.TabIndex = 1;
-            // 
             // pnlRotateZ
             // 
+            this.pnlRotateZ.Controls.Add(this.numRZ);
             this.pnlRotateZ.Controls.Add(this.label15);
-            this.pnlRotateZ.Controls.Add(this.txtRZ);
             this.pnlRotateZ.Location = new System.Drawing.Point(245, 3);
             this.pnlRotateZ.Name = "pnlRotateZ";
-            this.pnlRotateZ.Size = new System.Drawing.Size(115, 54);
+            this.pnlRotateZ.Size = new System.Drawing.Size(115, 68);
             this.pnlRotateZ.TabIndex = 7;
+            // 
+            // numRZ
+            // 
+            this.numRZ.Decimals = 2;
+            this.numRZ.Location = new System.Drawing.Point(0, 20);
+            this.numRZ.Name = "numRZ";
+            this.numRZ.Range = 180D;
+            this.numRZ.Size = new System.Drawing.Size(115, 52);
+            this.numRZ.TabIndex = 7;
+            this.numRZ.Ticks = 360;
+            this.numRZ.Value = 0D;
             // 
             // label15
             // 
@@ -414,21 +460,33 @@
             this.label15.TabIndex = 5;
             this.label15.Text = "Z";
             // 
-            // txtRZ
+            // pnlInfo
             // 
-            this.txtRZ.Location = new System.Drawing.Point(8, 24);
-            this.txtRZ.Name = "txtRZ";
-            this.txtRZ.Size = new System.Drawing.Size(100, 20);
-            this.txtRZ.TabIndex = 2;
+            this.pnlInfo.Controls.Add(this.lblName);
+            this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlInfo.Location = new System.Drawing.Point(0, 0);
+            this.pnlInfo.Name = "pnlInfo";
+            this.pnlInfo.Size = new System.Drawing.Size(392, 28);
+            this.pnlInfo.TabIndex = 9;
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(21, 7);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(0, 15);
+            this.lblName.TabIndex = 0;
             // 
             // ObjectManipulationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.pnlInfo);
             this.Controls.Add(this.pnlBottom);
             this.Name = "ObjectManipulationControl";
-            this.Size = new System.Drawing.Size(392, 160);
+            this.Size = new System.Drawing.Size(392, 200);
             this.pnlBottom.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -455,6 +513,8 @@
             this.pnlRotateY.PerformLayout();
             this.pnlRotateZ.ResumeLayout(false);
             this.pnlRotateZ.PerformLayout();
+            this.pnlInfo.ResumeLayout(false);
+            this.pnlInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -467,17 +527,8 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtTZ;
-        private System.Windows.Forms.TextBox txtTY;
-        private System.Windows.Forms.TextBox txtTX;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox txtSZ;
-        private System.Windows.Forms.TextBox txtSY;
-        private System.Windows.Forms.TextBox txtSX;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TextBox txtRZ;
-        private System.Windows.Forms.TextBox txtRY;
-        private System.Windows.Forms.TextBox txtRX;
         private System.Windows.Forms.Panel pnlTranslateX;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label10;
@@ -498,5 +549,16 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel pnlRotateZ;
         private System.Windows.Forms.Label label15;
+        private Cereal64.Common.Controls.NumericSliderInput numTX;
+        private Cereal64.Common.Controls.NumericSliderInput numTY;
+        private Cereal64.Common.Controls.NumericSliderInput numTZ;
+        private Cereal64.Common.Controls.NumericSliderInput numSX;
+        private Cereal64.Common.Controls.NumericSliderInput numSY;
+        private Cereal64.Common.Controls.NumericSliderInput numSZ;
+        private Cereal64.Common.Controls.NumericSliderInput numRX;
+        private Cereal64.Common.Controls.NumericSliderInput numRY;
+        private Cereal64.Common.Controls.NumericSliderInput numRZ;
+        private System.Windows.Forms.Panel pnlInfo;
+        private System.Windows.Forms.Label lblName;
     }
 }

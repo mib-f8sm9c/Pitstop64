@@ -97,6 +97,7 @@
     <Compile Include="Data\Text\TextReferenceBlock.cs" />
     <Compile Include="Data\TextureBankRef.cs" />
     <Compile Include="Data\Tracks\TrackItemsObject.cs" />
+    <Compile Include="Data\Tracks\TrackConstants.cs" />
     <Compile Include="Data\Tracks\TrackSkyTable.cs" />
     <Compile Include="KartImageInfo.cs" />
     <Compile Include="MainForm.cs">

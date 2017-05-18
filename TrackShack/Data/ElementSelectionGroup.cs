@@ -41,14 +41,8 @@ namespace TrackShack.Data
             LoadVertices();
         }
 
-        private void LoadVertices()
+        public void CalculateMinMaxes()
         {
-            Vertices = new List<IVO64Vertex>();
-            foreach (VO64GraphicsElement el in Elements)
-            {
-                Vertices = Vertices.Union(el.Vertices).ToList();
-            }
-
             //Analyze the vertices
             MinX = float.MaxValue;
             MinY = float.MaxValue;
@@ -71,6 +65,16 @@ namespace TrackShack.Data
                 if (vertex.Z > MaxZ)
                     MaxZ = vertex.Z;
             }
+        }
+
+        private void LoadVertices()
+        {
+            Vertices = new List<IVO64Vertex>();
+            foreach (VO64GraphicsElement el in Elements)
+            {
+                Vertices = Vertices.Union(el.Vertices).ToList();
+            }
+            CalculateMinMaxes();
         }
     }
 }

@@ -797,7 +797,8 @@ namespace Pitstop64.Services.Hub
 
             //Finally create the track
             CompressedTrack ct = new CompressedTrack(newTrack.TrackName, itemBlock, vertexBlock, textureBlock,
-                (int)newTrack.Unknown1, newTrack.Unknown2, newTrack.TopColor, newTrack.BottomColor);
+                (int)newTrack.Unknown1, newTrack.Unknown2, newTrack.TopColor, newTrack.BottomColor,
+                newTrack.SurfaceTableOffset, newTrack.RenderTableOffset);
 
             if (replaceTrack)
             {

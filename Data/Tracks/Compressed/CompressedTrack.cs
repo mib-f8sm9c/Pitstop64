@@ -30,8 +30,12 @@ namespace Pitstop64.Data.Tracks.Compressed
         public Color TopSkyColor;
         public Color BottomSkyColor;
 
+        public DmaAddress SurfaceTableOffset;
+        public DmaAddress RenderTableOffset;
+
         public CompressedTrack(string trackName, TrackItemBlock itemBlock, TrackVertexDLBlock vertexBlock,
-            TrackTextureRefBlock textureBlock, int unknown1, ushort unknown2, Color topSkyColor, Color bottomSkyColor)
+            TrackTextureRefBlock textureBlock, int unknown1, ushort unknown2, Color topSkyColor, Color bottomSkyColor,
+            DmaAddress surfaceTable, DmaAddress renderTable)
         {
             TrackName = trackName;
             ItemBlock = itemBlock;
@@ -41,13 +45,15 @@ namespace Pitstop64.Data.Tracks.Compressed
             Unknown2 = unknown2;
             TopSkyColor = topSkyColor;
             BottomSkyColor = bottomSkyColor;
+            SurfaceTableOffset = surfaceTable;
+            RenderTableOffset = renderTable;
         }
 
         public TrackInfo GetAsExportableTrack()
         {
             //convert & export your track data here!
             return new TrackInfo(TrackName, GetItemsObject(), GetVertices(), GetCommands(), GetImages(), GetCommandRefs(), (uint)Unknown1, Unknown2,
-                TopSkyColor, BottomSkyColor);
+                TopSkyColor, BottomSkyColor, SurfaceTableOffset, RenderTableOffset);
         }
 
         private TrackItemsObject GetItemsObject()
