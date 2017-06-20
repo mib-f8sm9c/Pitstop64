@@ -43,6 +43,8 @@ namespace TrackShack.Controls.TrackControls
             if (TrackShackFloor.CurrentTrack != null)
                 LoadTrack();
 
+            SetMouseModeChecked();
+
             ReRender();
         }
 
@@ -180,14 +182,31 @@ namespace TrackShack.Controls.TrackControls
 
         public static string DockingContentId { get { return "trackWindow"; } }
 
+        private void SetMouseModeChecked()
+        {
+            cameraToolStripMenuItem.Checked = false;
+            selectToolStripMenuItem.Checked = false;
+            switch (openGLControl.MouseMode)
+            {
+                case VisObj64.Visualization.OpenGL.OpenGLControl.MouseFunction.Camera:
+                    cameraToolStripMenuItem.Checked = true;
+                    break;
+                case VisObj64.Visualization.OpenGL.OpenGLControl.MouseFunction.Select:
+                    selectToolStripMenuItem.Checked = true;
+                    break;
+            }
+        }
+
         private void cameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openGLControl.MouseMode = VisObj64.Visualization.OpenGL.OpenGLControl.MouseFunction.Camera;
+            SetMouseModeChecked();
         }
 
         private void selectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openGLControl.MouseMode = VisObj64.Visualization.OpenGL.OpenGLControl.MouseFunction.Select;
+            SetMouseModeChecked();
         }
 
         private void openGLControl_SelectedElementsChanged(object sender, EventArgs e)

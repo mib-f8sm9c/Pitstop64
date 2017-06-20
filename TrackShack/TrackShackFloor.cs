@@ -224,14 +224,19 @@ namespace TrackShack
 
                 if (surfaceInfo != 0)
                 {
-                    //RomProject.Instance.FindRamOffset(new DmaAddress(surfaceInfo), out innerFile, out innerOffset);
+                    SurfaceRenderGroup renderG = null;
+
+                    if (RomProject.Instance.FindRamOffset(new DmaAddress(surfaceInfo), out innerFile, out innerOffset))
+                    {
+
+                    }
                     //Need to identify the associated VO64GraphicsCollection?? but do afterwards? Not sure : (
 
                     SurfaceType type = (SurfaceType)ByteHelper.ReadByte(surfaceFileData, surfaceOffset + 4);
                     byte id = ByteHelper.ReadByte(surfaceFileData, surfaceOffset + 5);
                     short flags = ByteHelper.ReadShort(surfaceFileData, surfaceOffset + 6);
 
-                    Surfaces.Add(new Surface(null, type, id, flags));
+                    Surfaces.Add(new Surface(renderG, type, id, flags));
                 }
 
                 surfaceOffset += 8;
@@ -264,7 +269,7 @@ namespace TrackShack
 
             //Make a union of the collections, but only on collections with elements with faces
             List<VO64GraphicsCollection> uniqueCollections = new List<VO64GraphicsCollection>();
-            RenderGroupUnion = new VO64GraphicsCollection();
+            RenderGroupUnion = new VO64GraphicsCollection("All Elements");
             foreach (VO64GraphicsCollection coll in collections)
             {
                 if (!ContainsFaces(coll))

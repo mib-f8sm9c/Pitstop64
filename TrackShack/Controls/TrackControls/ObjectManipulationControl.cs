@@ -265,7 +265,7 @@ namespace TrackShack.Controls.TrackControls
             }
             //foreach (VO64GraphicsElement el in _selectedGroup.Elements)
             //    el.UpdateVertices();
-
+            
             ResetSliders();
 
             //UpdateViewer();
@@ -295,13 +295,25 @@ namespace TrackShack.Controls.TrackControls
 
             UpdateViewer();
 
+            ResetSliders(true);
+
             btnApply.Enabled = false;
             btnCancel.Enabled = false;
         }
 
-        private void ResetSliders()
+        private void ResetSliders(bool resetValues = false)
         {
             DisableSliderEvents();
+
+            if (resetValues)
+            {
+                numTX.Value = _selectedGroup.MinX;
+                numTY.Value = _selectedGroup.MinY;
+                numTZ.Value = _selectedGroup.MinZ;
+                numSX.Value = (_selectedGroup.MaxX - _selectedGroup.MinX);
+                numSY.Value = (_selectedGroup.MaxY - _selectedGroup.MinY);
+                numSZ.Value = (_selectedGroup.MaxZ - _selectedGroup.MinZ);
+            }
 
             numTX.RecenterSlider();
             numTY.RecenterSlider();
@@ -312,6 +324,10 @@ namespace TrackShack.Controls.TrackControls
             numSX.RecenterSlider();
             numSY.RecenterSlider();
             numSZ.RecenterSlider();
+
+            _lastRotX = 0.0f;
+            _lastRotY = 0.0f;
+            _lastRotZ = 0.0f;
 
             EnableSliderEvents();
         }

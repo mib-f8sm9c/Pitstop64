@@ -34,6 +34,7 @@ namespace TrackShack.Data
     public class Surface
     {
         SurfaceRenderGroup RenderGroup;
+         SurfaceElements;
 
         public SurfaceType Type;
         public byte ID;
