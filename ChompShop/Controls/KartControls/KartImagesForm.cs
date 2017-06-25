@@ -152,12 +152,12 @@ namespace ChompShop.Controls.KartControls
         }
         private void lbKartImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetKartImagesButtonState();
+            ResetButtonStates();
         }
 
         private void lbNewImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetNewImagesButtonState();
+            ResetButtonStates();
         }
 
         private void btnAdvanced_Click(object sender, EventArgs e)
@@ -195,7 +195,7 @@ namespace ChompShop.Controls.KartControls
                 Kart.NewImages.AddRange(wrappers.ToArray());
 
                 PopulateNewImagesListBox();
-                SetPaletteButtonState();
+                ResetButtonStates();
                 //Set off event for this??
             }
         }
@@ -208,7 +208,7 @@ namespace ChompShop.Controls.KartControls
                     Kart.NewImages.Remove(image);
 
                 PopulateNewImagesListBox();
-                SetPaletteButtonState();
+                ResetButtonStates();
             }
         }
 
@@ -230,7 +230,7 @@ namespace ChompShop.Controls.KartControls
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
                 {
                     ClearCurrentKartPalette();
-                    SetPaletteButtonState();
+                    ResetButtonStates();
                 }
             }
             else
@@ -239,7 +239,7 @@ namespace ChompShop.Controls.KartControls
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
                 {
                     CreateNewKartPalette();
-                    SetPaletteButtonState();
+                    ResetButtonStates();
                 }
             }
         }
@@ -540,7 +540,7 @@ namespace ChompShop.Controls.KartControls
             Kart.AddNewAnimation("Spin Down 12");
             for (int i = 0; i < 20; i++)
                 Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[10], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 209]]);
-            Kart.SetAnimationType(Kart.Kart.KartAnimations[10], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnDown12);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[10], (int)KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown12);
 
             Kart.AddNewAnimation("Spin 0");
             for (int i = 0; i < 20; i++)
@@ -551,7 +551,7 @@ namespace ChompShop.Controls.KartControls
             Kart.AddNewAnimation("Spin Up 12");
             for (int i = 0; i < 20; i++)
                 Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[12], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 249]]);
-            Kart.SetAnimationType(Kart.Kart.KartAnimations[12], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp12);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[12], (int)KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp12);
 
             Kart.AddNewAnimation("Spin Up 25");
             for (int i = 0; i < 20; i++)
