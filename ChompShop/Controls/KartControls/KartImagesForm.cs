@@ -152,12 +152,12 @@ namespace ChompShop.Controls.KartControls
         }
         private void lbKartImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetKartImagesButtonState();
+            ResetButtonStates();
         }
 
         private void lbNewImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetNewImagesButtonState();
+            ResetButtonStates();
         }
 
         private void btnAdvanced_Click(object sender, EventArgs e)
@@ -195,7 +195,7 @@ namespace ChompShop.Controls.KartControls
                 Kart.NewImages.AddRange(wrappers.ToArray());
 
                 PopulateNewImagesListBox();
-                SetPaletteButtonState();
+                ResetButtonStates();
                 //Set off event for this??
             }
         }
@@ -208,7 +208,7 @@ namespace ChompShop.Controls.KartControls
                     Kart.NewImages.Remove(image);
 
                 PopulateNewImagesListBox();
-                SetPaletteButtonState();
+                ResetButtonStates();
             }
         }
 
@@ -230,7 +230,7 @@ namespace ChompShop.Controls.KartControls
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
                 {
                     ClearCurrentKartPalette();
-                    SetPaletteButtonState();
+                    ResetButtonStates();
                 }
             }
             else
@@ -239,7 +239,7 @@ namespace ChompShop.Controls.KartControls
                     "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
                 {
                     CreateNewKartPalette();
-                    SetPaletteButtonState();
+                    ResetButtonStates();
                 }
             }
         }
@@ -366,11 +366,17 @@ namespace ChompShop.Controls.KartControls
             btnBasePaletteManip.Enabled = Kart.NewImages.Count > 0;
         }
 
+        private void SetBetaButtonState()
+        {
+            btnMassImport.Enabled = (lbNewImages.Items.Count == 321 && Kart.Kart.KartImages.ImagePalette == null);
+        }
+
         private void ResetButtonStates()
         {
             SetPaletteButtonState();
             SetNewImagesButtonState();
             SetKartImagesButtonState();
+            SetBetaButtonState();
         }
 
         private void SetNewImagesButtonState()
@@ -411,5 +417,168 @@ namespace ChompShop.Controls.KartControls
         public override ChompShopWindowType WindowType { get { return ChompShopWindowType.KartImages; } }
 
         protected override string TitleText { get { return "Kart Images - {0}"; } }
+
+        private void btnMassImport_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This will follow MRKane's blender output style. Are you ready?", "Heads Up", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                //Here, we'll load in all the images, and then automatically load in the animations.
+                BetaMassImport();
+
+                PopulateKartImagesListBox();
+                PopulateNewImagesListBox();
+                ResetButtonStates();
+            }
+        }
+
+        private void BetaMassImport()
+        {
+            //MAKE SURE TO INCLUDE A METHOD TO USE EXTRA PALETTES, AND ONE TO NOT USE THEM!
+
+            //First, make the new palette
+            PaletteMedianCutAnalyzer paletteMaker = new PaletteMedianCutAnalyzer();
+            foreach (BitmapWrapper wrapper in lbNewImages.Items)
+            {
+                for (int i = 0; i < wrapper.Image.Width; i++)
+                {
+                    for (int j = 0; j < wrapper.Image.Height; j++)
+                    {
+                        paletteMaker.AddColor(wrapper.Image.GetPixel(i, j));
+                    }
+                }
+            }
+
+            Color[] colors = paletteMaker.GetPalette(0xC0);
+            byte[] paletteData = TextureConversion.PaletteToBinary(colors);
+            Palette palette = new Palette(-1, paletteData);
+            Kart.SetMainPalette(palette);
+
+            //Convert all existing images
+            List<string> orderedKartNames = GetNewImageNames();
+            CreateAllKartImages();
+
+            BetaSetUpAnimations(orderedKartNames);
+        }
+
+        private void BetaSetUpAnimations(List<string> orderedKartNames)
+        {
+            //Clear animations
+            while (Kart.Kart.KartAnimations.Count > 0)
+                Kart.RemoveAnimation(Kart.Kart.KartAnimations[0]);
+
+            //Okay, here's where we set up the new animations & images in them.
+            //Image order:
+            //1  1-21 : -25 turn
+            //2  22-42 : -19 turn
+            //3  43-63 : -12 turn
+            //4  64-84 : -6 turn
+            //5  85-105 : 0 turn
+            //6  106-126 : 6 turn
+            //7  127-147 : 12 turn
+            //8  148-168 : 19 turn
+            //9  169-189 : 25 turn
+            //10 190-209 : -25 spin
+            //11 210-229 : -12 spin
+            //12 230-249 : 0 spin
+            //13 250-269 : 12 spin
+            //14 270-289 : 25 spin
+            //15 290-321 : crash
+
+
+            Kart.AddNewAnimation("Turn Down 25");
+            for(int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[0], i, Kart.Kart.KartImages.Images[orderedKartNames[i]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[0], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnDown25);
+
+            Kart.AddNewAnimation("Turn Down 19");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[1], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 21]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[1], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnDown19);
+
+            Kart.AddNewAnimation("Turn Down 12");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[2], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 42]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[2], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnDown12);
+
+            Kart.AddNewAnimation("Turn Down 6");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[3], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 63]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[3], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnDown6);
+
+            Kart.AddNewAnimation("Turn 0");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[4], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 84]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[4], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurn0);
+
+            Kart.AddNewAnimation("Turn Up 6");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[5], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 105]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[5], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp6);
+
+            Kart.AddNewAnimation("Turn Up 12");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[6], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 126]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[6], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp12);
+
+            Kart.AddNewAnimation("Turn Up 19");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[7], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 147]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[7], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp19);
+
+            Kart.AddNewAnimation("Turn Up 25");
+            for (int i = 0; i < 21; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[8], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 168]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[8], (int)KartAnimationSeries.KartAnimationTypeFlag.RearTurnUp25);
+
+
+            Kart.AddNewAnimation("Spin Down 25");
+            for (int i = 0; i < 20; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[9], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 189]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[9],
+                (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown25 | KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown19));
+
+            Kart.AddNewAnimation("Spin Down 12");
+            for (int i = 0; i < 20; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[10], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 209]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[10], (int)KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown12);
+
+            Kart.AddNewAnimation("Spin 0");
+            for (int i = 0; i < 20; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[11], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 229]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[11],
+                (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinDown6 | KartAnimationSeries.KartAnimationTypeFlag.FullSpin0 | KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp6));
+
+            Kart.AddNewAnimation("Spin Up 12");
+            for (int i = 0; i < 20; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[12], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 249]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[12], (int)KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp12);
+
+            Kart.AddNewAnimation("Spin Up 25");
+            for (int i = 0; i < 20; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[13], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 269]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[13],
+                (int)(KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp25 | KartAnimationSeries.KartAnimationTypeFlag.FullSpinUp19));
+
+
+            Kart.AddNewAnimation("Crash");
+            for (int i = 0; i < 32; i++)
+                Kart.AddImagetoAnimation(Kart.Kart.KartAnimations[14], i, Kart.Kart.KartImages.Images[orderedKartNames[i + 289]]);
+            Kart.SetAnimationType(Kart.Kart.KartAnimations[14], (int)KartAnimationSeries.KartAnimationTypeFlag.Crash);
+
+            //What else to do here??
+           
+
+        }
+
+        private List<string> GetNewImageNames()
+        {
+            List<string> imageNames = new List<string>(lbNewImages.Items.Count);
+
+            foreach (object bmpObj in lbNewImages.Items)
+                imageNames.Add(((BitmapWrapper)bmpObj).Name);
+            imageNames.Sort();
+
+            return imageNames;
+        }
     }
 }
