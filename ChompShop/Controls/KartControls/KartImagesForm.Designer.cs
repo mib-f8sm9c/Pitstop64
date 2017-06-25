@@ -34,7 +34,6 @@
             this.gbKartImages = new System.Windows.Forms.GroupBox();
             this.btnRemoveKartImage = new System.Windows.Forms.Button();
             this.btnEditKartImage = new System.Windows.Forms.Button();
-            this.imagePreviewControl = new Cereal64.Common.Controls.ImagePreviewControl();
             this.lbKartImages = new System.Windows.Forms.ListBox();
             this.btnAdvanced = new System.Windows.Forms.Button();
             this.gbNew = new System.Windows.Forms.GroupBox();
@@ -45,6 +44,8 @@
             this.btnBasePaletteManip = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnMassImport = new System.Windows.Forms.Button();
+            this.imagePreviewControl = new Cereal64.Common.Controls.ImagePreviewControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -109,15 +110,6 @@
             this.btnEditKartImage.Visible = false;
             this.btnEditKartImage.Click += new System.EventHandler(this.btnEditKartImage_Click);
             // 
-            // imagePreviewControl
-            // 
-            this.imagePreviewControl.ExportButtonVisible = true;
-            this.imagePreviewControl.Image = null;
-            this.imagePreviewControl.Location = new System.Drawing.Point(220, 18);
-            this.imagePreviewControl.Name = "imagePreviewControl";
-            this.imagePreviewControl.Size = new System.Drawing.Size(170, 155);
-            this.imagePreviewControl.TabIndex = 3;
-            // 
             // lbKartImages
             // 
             this.lbKartImages.FormattingEnabled = true;
@@ -147,6 +139,7 @@
             this.gbNew.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbNew.Controls.Add(this.btnMassImport);
             this.gbNew.Controls.Add(this.btnConvertNewToKart);
             this.gbNew.Controls.Add(this.btnRemoveNewImage);
             this.gbNew.Controls.Add(this.lbNewImages);
@@ -163,9 +156,9 @@
             // 
             this.btnConvertNewToKart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConvertNewToKart.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertNewToKart.Image")));
-            this.btnConvertNewToKart.Location = new System.Drawing.Point(15, 74);
+            this.btnConvertNewToKart.Location = new System.Drawing.Point(15, 31);
             this.btnConvertNewToKart.Name = "btnConvertNewToKart";
-            this.btnConvertNewToKart.Size = new System.Drawing.Size(81, 99);
+            this.btnConvertNewToKart.Size = new System.Drawing.Size(81, 77);
             this.btnConvertNewToKart.TabIndex = 3;
             this.btnConvertNewToKart.Text = "Convert to Kart Image";
             this.btnConvertNewToKart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -213,9 +206,9 @@
             // 
             this.btnBasePaletteManip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBasePaletteManip.Image = global::ChompShop.Properties.Resources.circle_check_3x;
-            this.btnBasePaletteManip.Location = new System.Drawing.Point(15, 195);
+            this.btnBasePaletteManip.Location = new System.Drawing.Point(15, 119);
             this.btnBasePaletteManip.Name = "btnBasePaletteManip";
-            this.btnBasePaletteManip.Size = new System.Drawing.Size(81, 96);
+            this.btnBasePaletteManip.Size = new System.Drawing.Size(81, 88);
             this.btnBasePaletteManip.TabIndex = 4;
             this.btnBasePaletteManip.Text = "Create New Base Palette";
             this.btnBasePaletteManip.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -226,6 +219,34 @@
             // 
             this.openFileDialog.Filter = "PNG/BMP files|*.png;*.bmp|All files|*.*";
             this.openFileDialog.Multiselect = true;
+            // 
+            // btnMassImport
+            // 
+            this.btnMassImport.Enabled = false;
+            this.btnMassImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMassImport.Image = global::ChompShop.Properties.Resources.grid_three_up_3x;
+            this.btnMassImport.Location = new System.Drawing.Point(15, 218);
+            this.btnMassImport.Name = "btnMassImport";
+            this.btnMassImport.Size = new System.Drawing.Size(81, 88);
+            this.btnMassImport.TabIndex = 5;
+            this.btnMassImport.Text = "Mass Import (BETA)";
+            this.btnMassImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMassImport.UseVisualStyleBackColor = true;
+            this.btnMassImport.Click += new System.EventHandler(this.btnMassImport_Click);
+            // 
+            // imagePreviewControl
+            // 
+            this.imagePreviewControl.ExportButtonVisible = true;
+            this.imagePreviewControl.Image = null;
+            this.imagePreviewControl.ImageName = "";
+            this.imagePreviewControl.ImageSize = new System.Drawing.Size(125, 130);
+            this.imagePreviewControl.ImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imagePreviewControl.Location = new System.Drawing.Point(220, 18);
+            this.imagePreviewControl.LockImageSize = false;
+            this.imagePreviewControl.Name = "imagePreviewControl";
+            this.imagePreviewControl.OverlayImage = null;
+            this.imagePreviewControl.Size = new System.Drawing.Size(170, 155);
+            this.imagePreviewControl.TabIndex = 3;
             // 
             // KartImagesForm
             // 
@@ -264,5 +285,6 @@
         private System.Windows.Forms.GroupBox gbNew;
         private System.Windows.Forms.GroupBox gbKartImages;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button btnMassImport;
     }
 }

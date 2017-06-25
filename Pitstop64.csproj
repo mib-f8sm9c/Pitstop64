@@ -301,7 +301,7 @@
     <None Include="Resources\minus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="KartImages.txt" />
+    <EmbeddedResource Include="KartImages.txt" />
     <Content Include="QueuesTextures.txt" />
   </ItemGroup>
   <ItemGroup>
