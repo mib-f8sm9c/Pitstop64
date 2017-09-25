@@ -488,10 +488,21 @@ namespace Pitstop64.Data.Text
             allAddresses.AddRange(ReferenceBlock.TextReferences3);
             allAddresses.AddRange(ReferenceBlock.TextReferences4);
 
+            int startInterruptOffset = TextBankBlock.TEXT_INTERRUPT_START - TextBankBlock.TEXT_BLOCK_START;
+            int endInterruptOffset = TextBankBlock.TEXT_INTERRUPT_END - TextBankBlock.TEXT_BLOCK_START;
+
             for (int i = 0; i < _textValues.Count; i++)
             {
                 string str = _textValues[i];
                 strData = System.Text.Encoding.ASCII.GetBytes(str);
+
+                //Check to see if the string with overwrite the interrupt section, and skip past it if it does
+                if ((startInterruptOffset <= offset && offset < endInterruptOffset) ||
+                    (offset <= startInterruptOffset && startInterruptOffset < offset + strData.Length + 1) ||
+                    (startInterruptOffset <= offset + strData.Length + 1 && offset + strData.Length + 1 < endInterruptOffset))
+                {
+                    offset = endInterruptOffset;
+                }
 
                 Array.Copy(strData, 0, newData, offset, strData.Length);
                 newData[offset + strData.Length] = (byte)0x00;
